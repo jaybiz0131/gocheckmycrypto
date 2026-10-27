@@ -1643,6 +1643,10 @@ def _cm_dated_canary():
         stale = board("2026-10-09", "STALEMARKER majors hold above their averages")
         _check("STALEMARKER" not in stale, fails,
                "chartmaster dated: a read two days old is still printed on the Board")
+        # SPRINT 9.9.2: on the Markets page the Board's own line leaves out a clause whose figure the page's tiles print
+        # (one fact once); the line it shows is the one computed against the page without the card
+        own = _sb.board_summary_line(pulse, _sb.board_deltas(pulse), flows,
+                                     printed=_re.sub(r'<section class="cm-card".*?</section>', "", stale, flags=_re.S))
         _check(not own or own in _re.sub(r"<[^>]+>", "", stale).replace("&amp;", "&"), fails,
                f"chartmaster dated: the stale read did not give way to the Board's own line {own!r}")
         fresh = board("2026-10-11", "FRESHMARKER majors hold above their averages")
@@ -1772,7 +1776,7 @@ def _whale_absent_canary():
                      ("view", _snap.views(_snap.build(pulse, absent_f), pulse, absent_f)[1])):
         try:
             h = _sb.render_flows(fl, "TEST")
-            i = h.find("Volatile assets, net")
+            i = h.find("Volatile assets, gross")       # SPRINT 9.9.2: the net is the sentence's; the stat is the gross
             stat = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", h[i:i + 500])) if i >= 0 else ""
             _check("waiting for" in stat and "$0" not in stat, fails,
                    f"whale: /flows from the {name} prints a zero: {stat[:120]!r}")
@@ -2067,6 +2071,7 @@ def _stamp_canary():
             fails.extend(_sprint99h_canary())
             fails.extend(_sprint991_canary(out))
             fails.extend(_sprint992_canary(out))
+            fails.extend(_where_is_news_tree(out))
             _ip = _o.path.join(out, "index.html")
             if _o.path.exists(_ip):
                 _ih = open(_ip, encoding="utf-8").read()
@@ -2588,8 +2593,9 @@ def _home_canary(index_html=None):
         return (("\u25b2 " if v > 0 else "\u25bc " if v < 0 else "") + f"{abs(v):.2f}%")
     for label, want in (("Bitcoin price", _sb._price_fmt(btc["price"])),
                         ("Bitcoin 24h", _arw(btc['chg_24h_pct'])),
-                        ("the week's low close", _h._whole(min(_cv))),
-                        ("the week's high close", _h._whole(max(_cv))),
+                        # SPRINT 9.9.2: derived figures at the asset's own price precision, the tape's (cents)
+                        ("the week's low close", _sb._price_fmt(min(_cv))),
+                        ("the week's high close", _sb._price_fmt(max(_cv))),
                         ("the Markets stamp", f"Readings below are as of {snap['stamp_et']}")):
         _check(_hx(want) in t, fails, f"home canary: the tape does not print {label} "
                                           f"from the snapshot ({want})")
@@ -2622,9 +2628,9 @@ def _home_canary(index_html=None):
         for _cls, _fig in (("h-k-hi", max(_cv)), ("h-k-lo", min(_cv))):
             _mk = _re.search(r'<span class="h-k %s[^"]*" style="left:([\d.]+)%%;top:([\d.]+)%%">'
                              r'7D [A-Z ]+ <b>([^<]+)</b>' % _cls, _c)
-            _check(bool(_mk) and _mk.group(3) == _hx(_h._whole(_fig)), fails,
+            _check(bool(_mk) and _mk.group(3) == _hx(_sb._price_fmt(_fig)), fails,
                    f"home canary: the {_cls} mark is not on the line with its figure "
-                   f"{_h._whole(_fig)}")
+                   f"{_sb._price_fmt(_fig)} (Sprint 9.9.2: at the price's precision)")
             if _mk and _pts:
                 _i = _cv.index(_fig)
                 _px, _py = [float(v) for v in _pts.group(1).split()[_i].split(",")]
@@ -3622,23 +3628,23 @@ def _below_canary(index_html=None):
     # 3. THE BRIEF CARD (Program 7, Sprint 7.1): the Brief moved above the fold into the
     # band's place. It names the edition it is, by day and slot, links it, and says when the
     # next one is due; with no current edition it still says when.
-    _bc = _re.search(r'data-block="narrative">(.*?)</section>', _h.above_fold(
-        snap, pulse, flows, deltas, wire, narr, cal, _sb.NEWS_CADENCE_LINE, ed=ed,
-        now=_BELOW_NOW), _re.S)
+    # SPRINT 9.9.2: the next slot's time prints once on the home. When the card's place holds the verdict notice (here: no
+    # read on the clock's day) the notice names it ("Next read: ..."), and the Brief card does not print it a second time.
+    _af = _h.above_fold(snap, pulse, flows, deltas, wire, narr, cal, _sb.NEWS_CADENCE_LINE, ed=ed, now=_BELOW_NOW)
+    _bc = _re.search(r'data-block="narrative">(.*?)</section>', _af, _re.S)
     _bc = _bc.group(1) if _bc else ""
+    _slot = _re.compile(r"Next (?:Brief|read:) (?:this morning|tonight|tomorrow) at \d{1,2}:\d{2} [AP]M ET")
     if ed:
         _check(_sb.esc(_h.brief_name(ed)) in _bc and f'/articles/{ed.get("slug")}.html' in _bc
-               and _re.search(r"Next Brief (this morning|tonight|tomorrow) at \d{1,2}:\d{2} [AP]M ET", _bc),
-               fails, "below canary: the Brief card does not name its edition, link it and say "
-                      "when the next Brief is due")
+               and len(_slot.findall(_re.sub(r"<[^>]+>", " ", _af))) == 1,
+               fails, "below canary: the Brief card does not name its edition, link it, or the home does not say "
+                      "when the next slot is, once")
     _check(_h.brief_name({"slug": "evening-brief-2026-10-11", "date": "2026-10-11"})
            == "EVENING BRIEF \u00b7 SUNDAY", fails,
            "below canary: the Brief card's eyebrow does not name the Brief by slot and day")
-    _b0 = _re.search(r'data-block="narrative">(.*?)</section>', _h.above_fold(
-        snap, pulse, flows, deltas, wire, narr, cal, _sb.NEWS_CADENCE_LINE, ed=None,
-        now=_BELOW_NOW), _re.S)
-    _check(bool(_b0) and "Next Brief tonight at" in _b0.group(1), fails,
-           "below canary: with no Brief the card does not say when the next one is due")
+    _a0 = _h.above_fold(snap, pulse, flows, deltas, wire, narr, cal, _sb.NEWS_CADENCE_LINE, ed=None, now=_BELOW_NOW)
+    _check(len(_re.findall(r"Next (?:Brief|read:) tonight at", _re.sub(r"<[^>]+>", " ", _a0))) == 1, fails,
+           "below canary: with no Brief the home does not say when the next slot is, once")
     _check("brief" not in order, fails,
            "below canary: the Brief prints twice, above the fold and below it")
     # 4. one piece per lane
@@ -3774,8 +3780,11 @@ def _coin_chart_canary():
     _check("data-fallback" in _one, fails,
            "K-7 canary: there is no fallback line, so a blocked fetch leaves an empty "
            "box where the chart was")
-    _check("from the last build" in _one, fails,
-           "K-7 canary: the fallback does not say it is the fallback, so a stale line "
+    # SPRINT 9.9.2: "from the last build" retires; the fallback names its own read in the house wording ("Read Oct 27, 8:17 AM
+    # ET"), so a stale line still never reads as a live one
+    _check("from the last build" not in _one
+           and _re7.search(r'class="cn-stamp">Read [A-Z][a-z]{2} \d{1,2}, \d{1,2}:\d{2} [AP]M ET<', _one), fails,
+           "K-7 canary: the fallback does not name its own read (Read <date>, <time> ET), so a stale line "
            "reads as a live one")
     return fails
 
@@ -3835,8 +3844,13 @@ def _chartmaster_charts_canary():
     return fails
 
 
-def _where_is_news_canary():
+def _where_is_news_canary(tree=None):
     """K-1: a first-time visitor can tell which thing is the news.
+
+    SPRINT 9.9.2: the checks that read pages read the tree this canary's own build wrote (`tree`), passed from the build
+    block; called without one they are skipped. They used to read site_build.PUBLISH, which outside that build is the
+    working copy's git-ignored site/publish: a stale one left by an earlier local build failed K-1 on pages no run had
+    written (9.9.1's reviewer).
 
     The nav offered "News desk", "The Record" and "The Edition"; the home page carried a
     Board brief, an Edition card, a "From the news desk" lane, a Record lane and a
@@ -3870,13 +3884,23 @@ def _where_is_news_canary():
            == ["Why it moved", "Markets", "Big movers", "Whale Watch", "Brief"], fails,
            "9.5 canary: the phone tab bar's labels are not Why it moved, Markets, Big movers, Whale Watch, Brief")
 
+    return _where_is_news_tree(tree, fails) if tree else fails
+
+
+def _where_is_news_tree(tree, fails=None):
+    """K-1 and 9.5, the half that reads pages: on the tree the canary's own build wrote, never the working copy's
+    site/publish (Sprint 9.9.2)."""
+    import site_build as _sb5
+    import re as _re5
+    fails = [] if fails is None else fails
+    _tree = tree
     # 9.5: ONE NAME PER THING. On a built tree, each destination's page carries its one name as the H1, its title tag
     # opens with it, and no eyebrow, kicker or nav entry prints a second (brand) name; all read from the one table
     # (site_build.NAMES). Skipped when no tree is built, as the checks below are.
     for _k, (_task, _brand, _href) in _sb5.NAMES.items():
         if _k in ("why", "movers"):
             continue                  # the daily answer's H1 is its search title; the movers page is checked by sprint95_test
-        _pf = os.path.join(_sb5.PUBLISH, _href.lstrip("/"))
+        _pf = os.path.join(_tree, _href.lstrip("/"))
         if not os.path.exists(_pf):
             continue
         _ph = open(_pf, encoding="utf-8", errors="ignore").read()
@@ -3892,13 +3916,13 @@ def _where_is_news_canary():
                f"9.5 canary: {_href} nav does not carry {_task}")
         _check(f"<footer" in _ph and f">{_task}</a>" in _ph.split("<footer", 1)[1] if _k in ("record", "learn", "news", "charts") else True,
                fails, f"9.5 canary: the footer does not link {_task}")
-    _bp = os.path.join(_sb5.PUBLISH, "bottom-line.html")
+    _bp = os.path.join(_tree, "bottom-line.html")
     if os.path.exists(_bp):
         _bh = open(_bp, encoding="utf-8", errors="ignore").read().split("<main", 1)[0]
         _check("The Bottom Line" not in _bh and "daily reads" not in _bh, fails,
                "6.3 canary: the Brief page chrome still calls itself The Bottom Line or the daily reads")
 
-    _pub = _sb5.PUBLISH
+    _pub = _tree
     _nh = os.path.join(_pub, "news.html")
     if os.path.exists(_nh):
         _h = open(_nh, encoding="utf-8", errors="ignore").read()

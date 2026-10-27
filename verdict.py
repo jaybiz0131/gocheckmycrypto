@@ -1366,9 +1366,16 @@ def _page(day, sym, recs, lead, vdir, wdir, tdir, dateline, share=None, record=N
     title = f"Why {name} moved: {when}"
     corr = _today_corrections(day, lead.get("slot"), tdir)
     ev = we.load(day, lead.get("slot"), wdir)
+    # SPRINT 9.9.2, THE ONE-WINDOW SWEEP (from 9.9.1's reviewer): the verdict page names its windows as /today/ and the coin
+    # pages do. The card shows as published (J-10, entry C6), its direction's window named on it; the list reads the window
+    # the grade was made on and names it beside every figure; one line between them says which is which (list_note). On
+    # /why/2026-10-25-bitcoin the card said "Since midnight ET" over a list of the 24 hours with nothing to say so.
     ev_html = (we.section_html(ev, sym, live=False, corrections=corr, graded=lead["coins"][sym].get("grade"),
-                               marks=marks(lead, sym)) if ev else "")
+                               marks=marks(lead, sym), window="rolling_24h") if ev else "")
     card = card_html(lead, sym, where="page", live=False, corrections=corr, link=False, with_section=bool(ev_html))
+    _note = list_note(lead, ev, sym) if ev_html else ""
+    if _note:
+        card += f'\n  <p class="td-stamp td-win">{_e(_note)}</p>'
     v = lead["coins"][sym]
     pub = lead.get("made_utc") or ""
     stamp = SLOT_LABEL.get(lead.get("slot"), "")

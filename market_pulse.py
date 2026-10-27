@@ -245,7 +245,9 @@ def asset_from_closes(cid, sym, dates, closes):
         "chg_24h_pct": round((last / closes[-2] - 1) * 100, 2),
         "rsi14": round(rsi14(closes), 1),
         "macd_above_signal": bool(m and m["hist"] >= 0),
-        "sma50": round(s50, 2), "sma200": round(s200, 2),
+        # SPRINT 9.9.2: the averages at the price's precision, never rounded to the cent below $100 (DOGE's 0.086658 was
+        # stored as 0.09); six decimals, as the averaged series beside them
+        "sma50": round(s50, 2 if s50 >= 100 else 6), "sma200": round(s200, 2 if s200 >= 100 else 6),
         "above_sma200": last >= s200,
         "golden_cross": s50 >= s200,
         # Ship the percentage AND the price it is measured against. Without the
@@ -262,7 +264,7 @@ def asset_from_closes(cid, sym, dates, closes):
         "spark": downsample(win, 64),
         "spark_sma50": downsample(sma50_win, 64),
         "spark_sma200": downsample(sma200_win, 64),
-        "spark_high": round(max(win), 2), "spark_low": round(min(win), 2),
+        "spark_high": round(max(win), 2 if max(win) >= 100 else 6), "spark_low": round(min(win), 2 if min(win) >= 100 else 6),
         "window": {"start": lab(d0), "end": lab(d1), "start_iso": d0, "end_iso": d1},
     }
 

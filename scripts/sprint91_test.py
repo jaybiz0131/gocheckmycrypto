@@ -142,8 +142,11 @@ def week_cases(fails):
     finally:
         sb.SNAP = _old_snap          # a test never leaves its fixture in the module the canary builds from
     head = re.search(r'<p class="cc-chg"[^>]*>(.*?)</p>', html)
-    guarded(fails, "the chart header carries the readings tile's rolling 7-day figure (+0.08%), not its own series",
-            lambda: head and head.group(1).startswith("+0.08%") and "over the last 7 days" in head.group(1))
+    # SPRINT 9.9.2, ONE FACT ONCE: the tile's figure prints once, on the tile; on its 7-day window the header names the window
+    # and takes the figure's direction (data-dir), never its own series' figure
+    guarded(fails, "the chart header names the 7-day window and takes the readings tile's direction (+0.08%: up), printing "
+                   "no figure of its own series and not the tile's a second time",
+            lambda: head and head.group(1) == "Over the last 7 days" and 'class="cc-chg" data-dir="up"' in html)
     guarded(fails, "the chart carries the figure for the script, so it does not change between loads",
             lambda: 'data-chg7="0.08"' in html)
     guarded(fails, "the Chart Master sentence with 'down 2.0% over the week' is not lifted onto the page",

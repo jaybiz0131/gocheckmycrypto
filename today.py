@@ -425,7 +425,7 @@ def _chg(v):
 
 def _core(label, price_html, chg, window="24 hours"):
     return (f'<li class="td-row"><span class="td-n">{_e(label)}</span>'
-            f'<span class="td-p">{price_html}</span>{_chg(chg)}'
+            f'<span class="td-p">{price_html}</span>{_chg(chg) if isinstance(chg, (int, float)) else ""}'
             f'<span class="td-w">{_e(window)}</span></li>')
 
 
@@ -513,6 +513,43 @@ def window_line(rec, evidence=None, graded=False):
             f'data-td-dir="{_e(rec.get("direction"))}">{_e(text)}</p>')
 
 
+def answer_sentences(answer, ev_html):
+    """SPRINT 9.9.2, ONE FACT ONCE: the stored answer's sentences the page prints. The evidence list is the record the grade
+    was made on and prints whole (J-10, entry C6), and so does the list of what was reported beside it; a sentence of the
+    answer that prints one of their figures again (an Edition lifted as the answer naming France's 31% tax, which a list
+    carries as a wire item) is withheld whole, as the home's morning card withholds one (9.9h's precedent): never reworded,
+    and never every sentence."""
+    answer = list(answer or [])
+    if not ev_html:
+        return answer
+    try:
+        import one_fact
+        kept = [x for x in answer if not one_fact.twins_between(f"<p>{_e(x)}</p>", ev_html)]
+    except Exception:                                   # fail open: the answer as stored
+        return answer
+    return kept or answer
+
+
+def _said(rec):
+    """The figures the stored answer prints (one_fact's keys). A printed correction quotes the figures it reconciles and is
+    marked so (data-quote); the lists do not yield to it."""
+    try:
+        import one_fact
+        txt = " ".join(rec.get("answer") or [])
+        return one_fact.figure_keys(f"<p>{_e(txt)}</p>")
+    except Exception:                                   # fail open: nothing is left out
+        return set()
+
+
+def _printed(html_or_text, said):
+    """True when every figure in this piece is one the answer or the correction already prints."""
+    if not said:
+        return False
+    import one_fact
+    keys = {k for k in one_fact.figure_keys(f"<p>{html_or_text}</p>") if k[0] in ("money", "pct")}
+    return bool(keys) and keys <= said
+
+
 def body_html(rec, archive_dates, here=None, evidence=None, verdict=None, clock=None):
     """The page, top to bottom: the answer, why it moved (Sprint 9.3, the verdict card, when the
     day's slot has a verdict record), what moved, what lined up with the move (Sprint 9.2, when the
@@ -522,16 +559,30 @@ def body_html(rec, archive_dates, here=None, evidence=None, verdict=None, clock=
     import site_build as sb
     import home
     btc, eth, cap = rec["btc"], rec.get("eth"), rec.get("cap")
+    # SPRINT 9.9.2, ONE FACT ONCE: the answer prints as published (J-10), and so does the page's own correction (marked as
+    # a quotation); the lists under the answer carry what it does not print, never a figure a second time. A row whose figures the answer printed goes;
+    # a row keeps the figure the answer did not print (Ether's price); a list whose first coin the answer named says so.
+    said = _said(rec)
+
+    def core_row(label, price_html, chg, window="24 hours"):
+        if price_html and _printed(price_html, said):
+            price_html = ""
+        if isinstance(chg, (int, float)) and _printed(f"{abs(chg):.2f}%", said):
+            chg = None
+        if not price_html and chg is None:
+            return ""
+        return _core(label, price_html, chg, window)
     if btc.get("chg_day") is not None:
-        core = [_core("Bitcoin", _e(home._whole(btc["price"])), btc["chg_day"], "since midnight ET")]
+        core = [core_row("Bitcoin", _e(home._whole(btc["price"])), btc["chg_day"], "since midnight ET")]
         if isinstance(btc.get("chg"), (int, float)):
-            core.append(_core("Bitcoin", "", btc["chg"], "last 24 hours"))
+            core.append(core_row("Bitcoin", "", btc["chg"], "last 24 hours"))
     else:
-        core = [_core("Bitcoin", _e(home._whole(btc["price"])), btc["chg"])]
+        core = [core_row("Bitcoin", _e(home._whole(btc["price"])), btc["chg"])]
     if eth:
-        core.append(_core("Ether", _e(home._whole(eth["price"])) if eth.get("price") else "", eth["chg"]))
+        core.append(core_row("Ether", _e(home._whole(eth["price"])) if eth.get("price") else "", eth["chg"]))
     if cap:
-        core.append(_core("Whole market", _e(sb.fmt_usd(cap["usd"])), cap["chg"]))
+        core.append(core_row("Whole market", _e(sb.fmt_usd(cap["usd"])), cap["chg"]))
+    core = [x for x in core if x]
 
     def lst(rows):
         return "".join(
@@ -539,9 +590,15 @@ def body_html(rec, archive_dates, here=None, evidence=None, verdict=None, clock=
             f'{_e(r["symbol"])}</a> <span class="td-w">{_e(r.get("name") or "")}</span></span>'
             f'{_chg(r["chg"])}<span class="td-w">24 hours</span></li>' for r in rows)
     gain, lose = rec.get("gainers") or [], rec.get("losers") or []
-    moved = (f'<ul class="td-list">{"".join(core)}</ul>'
-             + (f'<h3 class="td-h3">Biggest gains in the Top 100</h3><ul class="td-list">{lst(gain)}</ul>' if gain else "")
-             + (f'<h3 class="td-h3">Biggest losses in the Top 100</h3><ul class="td-list">{lst(lose)}</ul>' if lose else ""))
+    gain_left = [r for r in gain if not (isinstance(r.get("chg"), (int, float)) and _printed(f"{abs(r['chg']):.2f}%", said))]
+    lose_left = [r for r in lose if not (isinstance(r.get("chg"), (int, float)) and _printed(f"{abs(r['chg']):.2f}%", said))]
+    gh = "Biggest gains in the Top 100" if len(gain_left) == len(gain) else "Other big gains in the Top 100"
+    lh = "Biggest losses in the Top 100" if len(lose_left) == len(lose) else "Other big losses in the Top 100"
+    moved = ((f'<ul class="td-list">{"".join(core)}</ul>' if core else "")
+             + (f'<h3 class="td-h3">{gh}</h3><ul class="td-list">{lst(gain_left)}</ul>' if gain_left else "")
+             + (f'<h3 class="td-h3">{lh}</h3><ul class="td-list">{lst(lose_left)}</ul>' if lose_left else ""))
+    if not moved:
+        moved = '<p class="td-w">Every figure of the day is in the answer above.</p>'
     vd_html = ""
     living = here != "dated" and clock is not None
     try:
@@ -589,13 +646,18 @@ def body_html(rec, archive_dates, here=None, evidence=None, verdict=None, clock=
     reported_all = rec.get("reported") or []
     reported_left = [w for w in reported_all if not ({l.get("url") for l in w.get("links") or []} & shown)]
     rep = ""
+    import wire as _wire
     for w in reported_left:
+        # SPRINT 9.9.2: a link whose address carries no word of the item is not cited and not counted (a stored record's
+        # links are cited when the page is drawn; the record stays as stored)
+        w = _wire.cite(w)
         names = ", ".join(f'<a href="{_e(l["url"])}" rel="noopener">{_e(l["outlet"])}</a>' for l in w["links"])
         n = w["source_count"]
         rep += (f'<li class="td-rep"><span class="td-line">{_e(w["line"])}</span>'
                 f'<span class="td-w">{_e(w["time"])} &middot; {n} source{"" if n == 1 else "s"}'
                 f'{" &middot; Primary source" if w["primary"] else ""}'
-                f'{(" &middot; " + names) if names else ""}</span></li>')
+                f'{(" &middot; " + names) if names else ""}'
+                f'{(" &middot; " + _e(_wire.NOT_MATCHED)) if w.get("unmatched") else ""}</span></li>')
     reported = (f'<ol class="td-reps">{rep}</ol>' if rep else
                 '<p class="td-w">No wire item reported today has cleared the desk yet.</p>')
     reported_sec = (f'<section class="td-sec"><h2>What was reported beside it</h2>{reported}\n'
@@ -603,15 +665,18 @@ def body_html(rec, archive_dates, here=None, evidence=None, verdict=None, clock=
                     + ("The verdict above says which, if any, lines up with the move." if graded else
                        "The desk does not say one caused the other.") + '</p></section>'
                     if (rep or len(reported_left) == len(reported_all)) else "")
-    board = "".join(_board_html(r) for r in rec.get("board") or [])
+    board = "".join(b for b in (_board_html(r) for r in rec.get("board") or []) if not _printed(b, said))
     arch = "".join(f'<li><a href="/today/{d}">{_e(long_date(_dt.date.fromisoformat(d)))}</a></li>'
                    for d in archive_dates)
-    corr = "".join(f'<p class="td-corr"><b>Correction, {_e(c.get("date"))}.</b> {_e(c.get("text"))}</p>'
+    corr = "".join(f'<p class="td-corr" data-quote><b>Correction, {_e(c.get("date"))}.</b> {_e(c.get("text"))}</p>'
                    for c in rec.get("corrections") or [])
-    ans = " ".join(rec["answer"])
+    ans = " ".join(answer_sentences(rec["answer"], ev_html + rep))
     # SPRINT 9.9.1 (Review 2, failure 5): one next read per page. The living page names the next slot off the build's clock, the one
     # the verdict notice names (home.next_slot), so a slot already past is never shown as the next; a dated page keeps its record's own
     nxt = next_update(rec["slot"], clock) if (clock is not None and here != "dated") else rec["next"]
+    # SPRINT 9.9.2: the next slot's time prints once; when the card's place holds the notice, it names the next read
+    if 'class="vd vd-next"' in vd_html:
+        nxt = ""
     return f"""<main class="wrap"><section class="page td-page">
   <span class="kicker">Why it moved</span>
   <h1>{_e(rec['h1'])}</h1>
@@ -623,7 +688,7 @@ def body_html(rec, archive_dates, here=None, evidence=None, verdict=None, clock=
   {ev_html}
   {reported_sec}
   <section class="td-sec"><h2>Markets</h2><ul class="td-list">{board}</ul></section>
-  <p class="td-next">{_e(reader(nxt))}</p>
+  {f'<p class="td-next">{_e(reader(nxt))}</p>' if nxt else ''}
   <p class="td-w">How the desk's grades held up afterwards is kept on <a href="/why/record/">the verdict record</a>.</p>
   {'<p class="td-w">This is the record of its day. The latest answer is at <a href="/today/">/today/</a>.</p>' if here == "dated" else ''}
   {f'<section class="td-sec td-arch"><h2>Earlier days</h2><ul>{arch}</ul></section>' if arch else ''}

@@ -259,6 +259,34 @@ def _cut_991(h):
     return re.sub(r'(<aside class="vd[^"]*" data-vd="BTC") data-vd-basis="[^"]*"(?: data-vd-dir="[^"]*")?', r"\1", h)
 
 
+def _cut_992(h):
+    """SPRINT 9.9.2 (one fact once): what 9.9.2 changes on the home, undone so the rest can still be held to Sprint 9.5's bytes;
+    scripts/sprint992_test.py holds each change to account. The list's Ether item says it is the narrow one (data-narrow); the
+    checked story's line and note are marked as one stored read (data-read); the wire's checked row points at that story instead
+    of printing its line again; the week's closes and the 24-hour pair print at the price's precision (cents) where 9.5 printed
+    whole dollars; and the Brief card's "Next Brief" yields to the verdict notice, which names the same slot ("Next read: ...")."""
+    h = h.replace(" data-narrow", "")
+    h = re.sub(r'<div data-read>(<h3 class="h-why-h">.*?</p>)</div>', r"\1", h, flags=re.S)
+    m = re.search(r'<h3 class="h-why-h">(.*?)</h3>', h, flags=re.S)
+    if m:
+        h = h.replace("The top story, checked, above.", m.group(1))
+
+    def whole(mm):
+        v = float(mm.group(1).replace(",", ""))
+        return f"<b>${v:,.0f}</b>" if v >= 1000 else mm.group(0)
+
+    def cents_off(block):
+        return re.sub(r"<b>\$([\d,]+\.\d\d)</b>", whole, block.group(0))
+    h = re.sub(r'<p class="h-hl24"[^>]*>.*?</p>', cents_off, h, flags=re.S)
+    h = re.sub(r'<span class="h-k [^"]*"[^>]*>.*?</span>', cents_off, h, flags=re.S)
+    h = re.sub(r'aria-label="Bitcoin, \d+ daily closes, low [^"]*"',
+               lambda b: re.sub(r"\$([\d,]+\.\d\d)", lambda mm: f"${float(mm.group(1).replace(',', '')):,.0f}", b.group(0)), h)
+    n = re.search(r"Next read: (this morning|tonight|tomorrow) at (\d{1,2}:\d{2} [AP]M ET)", h)
+    if n and 'class="h-next"' not in h:
+        h = h.replace('<p class="h-today">', f'<p class="h-next">Next Brief {n.group(1)} at {n.group(2)}</p><p class="h-today">', 1)
+    return h
+
+
 def markup_cases(fails):
     print("3. the markup: the Ether line is the one thing added to the home, and it is the Board's own data")
     import home
@@ -267,7 +295,7 @@ def markup_cases(fails):
     cur = fixture_html()
     for name in ("card", "nocard"):
         base = read(os.path.join(FX, f"home-board-{name}.95.html"))
-        cut, n = _cut_wide(_mask_v(_cut_991(cur[name])))
+        cut, n = _cut_wide(_mask_v(_cut_991(_cut_992(cur[name]))))
         guarded(fails, f"home ({name}): exactly one element is marked data-wide (the Ether line)", lambda n=n: n == 1)
         guarded(fails, f"home ({name}): with it cut out the page is Sprint 9.5's, byte for byte (the 375 markup)",
                 lambda cut=cut, base=base: cut == _mask_v(base))
@@ -409,7 +437,11 @@ def tree(root):
 
 def fixture_pages(root):
     import sprint95b_fixture as f
-    f.pages(root)
+    # SPRINT 9.9.2: the pages the browser holds to 9.5's render, with 9.9.2's changes undone (_cut_992; the notice is taken out
+    # in the browser, as for 9.9.1)
+    for name, html in f.pages(None).items():
+        with open(os.path.join(root, f"home-board-{name}.html"), "w", encoding="utf-8") as fh:
+            fh.write(_cut_992(html))
 
 
 def browser(root):

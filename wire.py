@@ -177,6 +177,78 @@ def _words(text):
     return {w[:6] for w in re.findall(r"[a-z]{4,}", (text or "").lower()) if w not in _STOP}
 
 
+# ---- SPRINT 9.9.2: a source link is cited only when it is about the event ---------------------------------------------
+
+NOT_MATCHED = "source link not matched"
+# an address's own syntax, never a subject: these words say where a page sits, not what it reports
+_URL_NOISE = set("http https www com org net html htm php aspx amp utm source medium campaign rss feed partner inbound "
+                 "news article articles post posts story stories category tag index page".split())
+
+
+def _stem5(w):
+    return w[:5] if len(w) > 5 else w
+
+
+def event_words(text, common=frozenset()):
+    """The words of an event's line that can identify it: three letters or more, not a function word, not a word the
+    desk's own lines all share (`common`, measured by common_words)."""
+    return {_stem5(w) for w in re.findall(r"[a-z][a-z0-9]{2,}", (text or "").lower())
+            if w not in _STOP and _stem5(w) not in common}
+
+
+def address_words(url):
+    """The words of a link's address after its host: '/2026/10/26/uk-government-placing-cryptoassets-firms' gives uk-free
+    words (government, placing, cryptoassets, firms)."""
+    path = re.sub(r"^[a-z]+://[^/]+", "", str(url or "").lower()).split("?")[0]
+    return {_stem5(w) for w in re.findall(r"[a-z][a-z0-9]{2,}", path) if w not in _URL_NOISE and w not in _STOP}
+
+
+def common_words(lines, share=0.25, floor=8):
+    """The words (stems) the desk's own lines share so widely that they identify nothing: in at least a quarter of the
+    lines, measured on the lines given (the wire's own), and none at all under eight lines, so a thin wire does not flag
+    its whole vocabulary (CLAUDE.md: a floor measured from the corpus, not kept by hand)."""
+    lines = [x for x in lines or [] if x]
+    if len(lines) < floor:
+        return frozenset()
+    from collections import Counter
+    c = Counter()
+    for x in lines:
+        c.update({_stem5(w) for w in re.findall(r"[a-z][a-z0-9]{2,}", x.lower()) if w not in _STOP})
+    return frozenset(w for w, n in c.items() if n / len(lines) >= share)
+
+
+def link_matched(link, line, titles=(), common=frozenset()):
+    """True when the link's address carries a word of the event (its line); an address with no words at all is judged
+    by the item's page titles instead (one of them carries a word of the event). False otherwise."""
+    ev = event_words(line, common)
+    aw = address_words((link or {}).get("url"))
+    if aw:
+        return bool(aw & ev)
+    return any(event_words(t, common) & ev for t in titles or [])
+
+
+def cite(w, common=frozenset()):
+    """A wire item with only the links that are about its event: the others are left out of its links and of its count
+    of sources, and `unmatched` says how many, so the page can print NOT_MATCHED where they were (Sprint 9.9.2)."""
+    links = list((w or {}).get("links") or [])
+    if not links:
+        return w
+    keep = [l for l in links if link_matched(l, w.get("line") or "", w.get("titles") or [], common)]
+    if len(keep) == len(links):
+        return w
+    gone = len(links) - len(keep)
+    n = int(w.get("source_count") or len(links))
+    return dict(w, links=keep, unmatched=gone, source_count=max(len(keep), n - gone))
+
+
+def cite_all(doc):
+    """The wire document with every item cited by cite(), its common words measured on its own lines."""
+    if not isinstance(doc, dict) or not doc.get("items"):
+        return doc
+    common = common_words([i.get("line") or "" for i in doc["items"]])
+    return dict(doc, items=[cite(i, common) for i in doc["items"]])
+
+
 def source_check(line, texts, min_chars=MIN_SOURCE_CHARS):
     """(kept_line, cuts). `cuts` is [{"clause", "why"}] for every clause the sources do not
     support; kept_line is "" when the first clause (the subject) is cut or nothing stands.

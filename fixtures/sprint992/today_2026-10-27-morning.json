@@ -1,0 +1,114 @@
+{
+ "date_et": "2026-10-27",
+ "slot": "morning",
+ "published_utc": "2026-10-27T12:19:14Z",
+ "first_utc": "2026-10-27T12:19:14Z",
+ "direction": "flat",
+ "direction_basis": "et_day",
+ "title": "Crypto today: flat. Tuesday, October 27, 2026",
+ "h1": "Crypto today: flat. Tuesday, October 27, 2026",
+ "stamp_label": "Morning Brief, 8:19 AM ET",
+ "composed_utc": "2026-10-27T12:19:16Z",
+ "board_stamp_et": "8:17 AM ET on Oct 27",
+ "answer": [
+  "On Tuesday, October 27, Bitcoin was flat since midnight ET, at $79,839, a change of -0.15%.",
+  "Over the last 24 hours it was down 0.52%.",
+  "Ether was down 0.64% over the same 24 hours.",
+  "Among the Top 100, MORPHO gained 7.13% and QNT lost 7.84% over 24 hours."
+ ],
+ "answer_by": "template",
+ "fallback": false,
+ "btc": {
+  "price": 79839,
+  "chg": -0.52,
+  "chg_day": -0.15
+ },
+ "eth": {
+  "price": 2312.84,
+  "chg": -0.64
+ },
+ "cap": null,
+ "gainers": [
+  {
+   "symbol": "MORPHO",
+   "name": "Morpho",
+   "chg": 7.13,
+   "slug": "morpho"
+  },
+  {
+   "symbol": "XDC",
+   "name": "XDC Network",
+   "chg": 5.22,
+   "slug": "xdc"
+  },
+  {
+   "symbol": "NIGHT",
+   "name": "Midnight",
+   "chg": 5.17,
+   "slug": "night"
+  }
+ ],
+ "losers": [
+  {
+   "symbol": "QNT",
+   "name": "Quant",
+   "chg": -7.84,
+   "slug": "qnt"
+  },
+  {
+   "symbol": "SKY",
+   "name": "Sky",
+   "chg": -6.31,
+   "slug": "sky"
+  },
+  {
+   "symbol": "DOT",
+   "name": "Polkadot",
+   "chg": -3.81,
+   "slug": "dot"
+  }
+ ],
+ "reported": [],
+ "board": [
+  {
+   "key": "etf",
+   "label": "Bitcoin ETF flows",
+   "value": 110.3,
+   "window": "one trading day, 26 Oct 2026",
+   "source": "Farside Investors",
+   "stamp": "8:17 AM ET on Oct 27",
+   "directional": true
+  },
+  {
+   "key": "liq",
+   "label": "Bitcoin liquidations",
+   "longs": 82994,
+   "shorts": 486406,
+   "window": "last 2 hours",
+   "source": "OKX",
+   "stamp": "8:17 AM ET on Oct 27",
+   "directional": false
+  },
+  {
+   "key": "funding",
+   "label": "Bitcoin funding",
+   "value": 0.01,
+   "window": "current 8-hour period",
+   "source": "OKX",
+   "stamp": "8:17 AM ET on Oct 27",
+   "directional": false
+  },
+  {
+   "key": "fng",
+   "label": "Fear & Greed",
+   "value": 48,
+   "word": "Neutral",
+   "window": "today",
+   "source": "alternative.me",
+   "stamp": "8:17 AM ET on Oct 27",
+   "directional": false
+  }
+ ],
+ "next": "Next update: Evening Brief, tonight at 7:08 PM ET",
+ "corrections": []
+}

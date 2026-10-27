@@ -126,6 +126,17 @@ def build_tree():
         for p, b in saved.items():                       # put back what the build rewrote
             if os.path.exists(p) and open(p, "rb").read() != b:
                 open(p, "wb").write(b)
+        # SPRINT 9.9.2: and take out what it added: the build keeps a dated Board snapshot (site/data/snapshots/pulse-<date>.json)
+        # and a dated Chart Master copy (site/data/chartmaster/<date>.json) the first time it runs on a date, and a test build
+        # must leave the tree as it found it
+        for r, _d, files in os.walk(data):
+            for f in files:
+                p = os.path.join(r, f)
+                if p not in saved:
+                    try:
+                        os.remove(p)
+                    except OSError:
+                        pass
         keep = os.environ.get("BTC_HILO_KEEP")          # a copy of the built tree, for the screenshots
         if keep and os.path.isdir(os.path.join(tmp, "publish")):
             shutil.rmtree(keep, ignore_errors=True)

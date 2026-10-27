@@ -511,7 +511,9 @@ def timing(points, run, t, scheduled=False):
 # ---- the candidates ----------------------------------------------------------------------------
 
 def _wire_candidates(wire, start, end):
+    import wire as _wire
     out = []
+    common = _wire.common_words([i.get("line") or "" for i in (wire or {}).get("items") or []])
     for w in (wire or {}).get("items") or []:
         t = _parse_utc(w.get("reported_utc"))
         line = " ".join(str(w.get("line") or "").split())
@@ -520,6 +522,9 @@ def _wire_candidates(wire, start, end):
         ts = int(t.timestamp())
         if not (start - LEAD_MIN * 60 <= ts <= end):
             continue
+        # SPRINT 9.9.2: only the links about the event are kept and counted, so a source whose address and titles carry no
+        # word of it never counts toward the grade (verdict.stated reads source_count)
+        w = _wire.cite(w, common)
         links = [{"outlet": l.get("outlet") or "Source", "url": l.get("url")}
                  for l in (w.get("links") or []) if l.get("url")]
         sec = bool(COMMENTARY.search(line))
@@ -527,7 +532,7 @@ def _wire_candidates(wire, start, end):
                     "titles": [t for t in w.get("titles") or [] if t],
                     "event_utc": None, "event_basis": None, "scheduled": False,
                     "report_utc": _iso(ts), "source_count": int(w.get("source_count") or len(links)),
-                    "primary": bool(w.get("primary")), "links": links[:4],
+                    "primary": bool(w.get("primary")), "links": links[:4], "unmatched": int(w.get("unmatched") or 0),
                     "secondary": sec,
                     "secondary_why": "the cause it gives is commentary, not a reported event" if sec else "",
                     "wire_id": w.get("id")})
@@ -754,6 +759,17 @@ def _forexfactory(start, end, fetch, ledger, held):
     return out
 
 
+def once(why):
+    """SPRINT 9.9.2: a not-read source is listed once. A reason that lists the sources it could not read ("not read: The
+    Block (HTTP 403); The Block (HTTP 403)", two links of one outlet refused alike) names each once, in order; a stored
+    record's reason is read through this when it is drawn, and a new one is written through it."""
+    m = re.match(r"^(not read: )(.*?)((?: and more)?)$", str(why or ""), flags=re.S)
+    if not m:
+        return why
+    parts = [x for x in (y.strip() for y in m.group(2).split("; ")) if x]
+    return m.group(1) + "; ".join(dict.fromkeys(parts)) + m.group(3)
+
+
 def _source_check(wires, fetch, ledger, links_per_item=2):
     """9.1's per-line source check (wire.source_check) on each wire candidate, against its titles
     and the text of its linked reports read now. A clause its sources do not carry is cut; a line
@@ -778,6 +794,7 @@ def _source_check(wires, fetch, ledger, links_per_item=2):
         ledger.ok("Wire sources (the linked reports, for 9.1's source check)", "",
                   f"{read} report(s) read")
     if missed:
+        missed = list(dict.fromkeys(missed))
         ledger.miss("Wire sources, some linked reports", "not read: " + "; ".join(missed[:6])
                     + (" and more" if len(missed) > 6 else ""))
     return kept, cuts
@@ -1696,9 +1713,16 @@ def _section(rec, sym, live, skip, quoted=(), graded=None, marks=frozenset(), re
         line = c["line"]
         if GRADE_WORDS.search(line):
             line = f'Report, {c["links"][0]["outlet"]}' if c.get("links") else "Report"
+        # SPRINT 9.9.2: a wire item's link whose address carries no word of the event is not cited and not counted as a
+        # source; the item says "source link not matched" where it was (a stored record is cited as it is drawn)
+        import wire as _wire
+        if c.get("kind") == "wire" and not c.get("report_links"):
+            c = _wire.cite(c)
         links = c.get("report_links") or c.get("links") or []
         srcs = ", ".join(f'<a href="{_e(l["url"])}" rel="noopener">{_e(l["outlet"])}</a>'
                          for l in links if l.get("url"))
+        if c.get("unmatched"):
+            srcs = (srcs + ", " if srcs else "") + _e(_wire.NOT_MATCHED)
         meta = []
         ev = _parse_utc(c.get("event_utc"))
         if ev is not None:
@@ -1750,7 +1774,9 @@ def _section(rec, sym, live, skip, quoted=(), graded=None, marks=frozenset(), re
                    else '<span class="ev-f">no trading in the hour</span>')
         elif str(r.get("key")).startswith("liq"):
             if r.get("unread"):
-                fig = f'<span class="ev-f">not read for this hour: {_e(r["why"])}</span>'
+                # SPRINT 9.9.2 (from 9.9.1's reviewer): the venue was read, its records do not reach the hour, so the
+                # hour was not compared; "not read" was the wrong word for it
+                fig = f'<span class="ev-f">not compared for this hour: {_e(r["why"])}</span>'
             else:
                 fig = (f'<span class="ev-f">{_e(_usd(r["longs_usd"]))} longs, '
                        f'{_e(_usd(r["shorts_usd"]))} shorts</span>')
@@ -1776,14 +1802,14 @@ def _section(rec, sym, live, skip, quoted=(), graded=None, marks=frozenset(), re
         beta = (f'<p class="ev-m">{_e(name)}\'s 30-day beta to Bitcoin, from the stored daily closes: '
                 f'{mech["beta"]}.</p>' if mech.get("beta") is not None else "")
         mech_html = (f'<h3 class="td-h3">The hour the run began, {_e(day_clock(h0, w1))} to {_e(clock(h1))}</h3>'
-                     f'<ul class="td-list ev-mech">{"".join(mrows)}</ul>{pat_html}{beta}')
+                     f'<ul class="td-list ev-mech" data-window="hour">{"".join(mrows)}</ul>{pat_html}{beta}')
 
     unread = rec.get("unread") or []
     seen, names = set(), []
     for u in unread:
         if u["name"] not in seen:
             seen.add(u["name"])
-            names.append(_renamed(f'{u["name"]} ({u["why"]})'))
+            names.append(_renamed(f'{u["name"]} ({once(u["why"])})'))
     srcs_html = (f'<p class="ev-src">Not read, so not shown: {_e("; ".join(names))}.</p>' if names else "")
     day = rec.get("day") or {}
     daily = [x for x, ok in (("Farside spot ETF flows (daily; on Markets)", day.get("etf_btc")),

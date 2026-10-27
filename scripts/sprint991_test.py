@@ -586,9 +586,11 @@ def scope_tree(root):
         for dp, _d, fs in os.walk(os.path.join(root, sub)):
             pages += [os.path.join(dp, f) for f in fs if f.endswith(".html")]
     guarded(fails, "the built tree has /why/ pages to check", lambda: bool(pages))
-    guarded(fails, "no /why/ page carries data-ev-window or data-vd-basis (they are outside 9.9.1's pages)",
-            lambda: all("data-ev-window" not in open(p, encoding="utf-8", errors="replace").read()
-                        and "data-vd-basis" not in open(p, encoding="utf-8", errors="replace").read() for p in pages))
+    # SPRINT 9.9.2 (the one-window sweep, from this item's reviewer): the verdict pages now name the list's window as /today/ and
+    # the coin pages do, so the list carries data-ev-window there too; the card still carries no basis attribute (it shows as
+    # published), which is what this case keeps
+    guarded(fails, "no /why/ page's card carries data-vd-basis (the card on a verdict page shows as published)",
+            lambda: all("data-vd-basis" not in open(p, encoding="utf-8", errors="replace").read() for p in pages))
     return fails
 
 
@@ -628,11 +630,35 @@ def write_fixture_pages(root):
     return sorted(out)
 
 
+@contextlib.contextmanager
+def scratch_writers():
+    """SPRINT 9.9.2: the build's two dated writers (the Board snapshot, site/data/snapshots/pulse-<date>.json, and the Chart
+    Master copy, site/data/chartmaster/<date>.json) pointed at scratch copies while the browser half draws its pages, as the
+    canary's layer1_canary does, so nothing it calls can write one into the tree; put back in a finally."""
+    import site_build as sb
+    scratch = tempfile.mkdtemp(prefix="s991-data-")
+    saved = (sb.SNAPSHOT_DIR, sb.CM_ARCHIVE)
+    try:
+        for name, real in (("snapshots", sb.SNAPSHOT_DIR), ("chartmaster", sb.CM_ARCHIVE)):
+            if os.path.isdir(real):
+                shutil.copytree(real, os.path.join(scratch, name))
+            else:
+                os.makedirs(os.path.join(scratch, name))
+        sb.SNAPSHOT_DIR, sb.CM_ARCHIVE = os.path.join(scratch, "snapshots"), os.path.join(scratch, "chartmaster")
+        yield scratch
+    finally:
+        sb.SNAPSHOT_DIR, sb.CM_ARCHIVE = saved
+        shutil.rmtree(scratch, ignore_errors=True)
+
+
 def browser(fails):
     print("6. the home's first object at 375 and 1440, from a fixture page (Playwright)")
     tmp = tempfile.mkdtemp(prefix="s991-")
+    import site_build as sb
+    before = set(os.listdir(sb.SNAPSHOT_DIR)) if os.path.isdir(sb.SNAPSHOT_DIR) else set()
     try:
-        names = write_fixture_pages(tmp)
+        with scratch_writers():
+            names = write_fixture_pages(tmp)
         guarded(fails, "the fixture pages were written (next-read, no-read, graded)", lambda: names == ["graded", "next-read", "no-read"])
         r = subprocess.run(["node", os.path.join(HERE, "scripts", "sprint991_browser.mjs"), tmp], capture_output=True, text=True,
                            timeout=240)
@@ -644,6 +670,9 @@ def browser(fails):
         if r.returncode not in (0, 1) or not (r.stdout or "").strip():
             fails.append(f"browser half could not run (exit {r.returncode}): {(r.stderr or '')[-200:]}")
         guarded(fails, "the browser half ran every case and none failed", lambda: r.returncode == 0 and "PASS" in (r.stdout or ""))
+        after = set(os.listdir(sb.SNAPSHOT_DIR)) if os.path.isdir(sb.SNAPSHOT_DIR) else set()
+        guarded(fails, "the browser half wrote no dated snapshot into the tree (site/data/snapshots, Sprint 9.9.2)",
+                lambda: after == before)
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
 

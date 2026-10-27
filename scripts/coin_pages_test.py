@@ -52,7 +52,10 @@ def unit():
     html = cp.reading_tiles(c, 1, asset, "7:00 PM ET on Oct 12")
     import color_truth
     chk(not color_truth.contradictions(html), f"tiles: color truth {color_truth.contradictions(html)[:2]}")
-    chk(re.search(r'data-reading="coin-24h"><h3[^>]*>24 hours</h3><p class="tl-f up">\+1\.20%', html), "tiles: 24h is not green beside +1.20%")
+    # SPRINT 9.9.2: the 24-hour change prints once, on the Price tile's since line, with its own arrow and color
+    chk('data-reading="coin-24h"' not in html and re.search(
+        r'data-reading="coin-price">.*?24 hours: <span class="chg up">\u25b2 Up 1\.20%', html, re.S),
+        "tiles: 24h is not green beside +1.20% on the Price tile's since line, or prints twice")
     chk(re.search(r'data-reading="coin-7d"><h3[^>]*>7 days</h3><p class="tl-f down">-3\.40%', html), "tiles: 7d is not red beside -3.40%")
     chk(re.search(r'data-reading="coin-price"><h3[^>]*>Price</h3><p class="tl-f">', html), "tiles: the price figure is colored")
     chk('data-reading="coin-200d"' in html and 'data-reading="rsi-14"' in html, "tiles: Board coin lacks 200-day or RSI")
@@ -66,7 +69,7 @@ def unit():
     other = {"symbol": "XYZ", "name": "Xyz", "price": 1.0}
     chk(cp.chartmaster_card(other, prose, None, today, esc, fd) == "", "cm card: a card for a coin with neither read nor levels")
     lv = cp.chartmaster_card(c, {"date": "2026-10-13", "paragraphs": ["Ethereum only."]}, asset, today, esc, fd, board_day="2026-10-12")
-    chk("levels for Bitcoin, October 12" in lv, "cm card: levels not dated by the Board")
+    chk("levels for Bitcoin, read October 12" in lv, "cm card: levels not dated by the Board")      # Sprint 9.9.2: the house wording
     old = cp.chartmaster_card(c, dict(prose, date="2026-10-08"), asset, today, esc, fd)
     chk("October 8" in old and "5 days old" in old, "cm card: an old read does not say its date and age")
 

@@ -2427,7 +2427,7 @@ def render_article(item, all_items=None):
     if "Cronkite" in author:       # stored stories carry the retired desk name: render the one name
         author = esc(NAME)
     body = f"""<main class="wrap narrow">
-  <article class="article">
+  <article class="article" data-read>
     <div class="ey">{badge}{tag}{topic_chips}<span class="dateline">{fmt_when(item)}</span></div>
     <h1>{esc(item.get("title"))}</h1>
     {f'<p class="dek">{esc(item["dek"])}</p>' if item.get("dek") else ""}
@@ -2647,7 +2647,7 @@ def _brief_month_page(month, months, dateline, newest):
     rows = []
     for ed in months[month]:
         name = esc((ed.get("title") or "").split(":")[0].strip())
-        rows.append(f"""<div class="bl-hist">
+        rows.append(f"""<div class="bl-hist" data-read>
       <div class="bl-head"><span class="bl-label">{name}</span>
         <span class="dateline">{fmt_when(ed)}</span></div>
       <p class="bl-read">{esc(ed["bottom_line"])}</p>
@@ -2669,7 +2669,7 @@ def _brief_month_page(month, months, dateline, newest):
      verified reporting, never a prediction and never advice. Every Brief is kept, a month to a page.</p>
   <nav class="bl-months" aria-label="Briefs by month"><ul class="link-list">{nav}</ul></nav>
   <h2 class="bl-mh">{esc(_month_label(month))}</h2>
-  {"".join(rows) if rows else '<p class="lede">The first Brief lands soon.</p>'}
+  {('<div data-records>' + "".join(rows) + '</div>') if rows else '<p class="lede">The first Brief lands soon.</p>'}
 </section></main>"""
     ttl = name_title("brief") + ("" if month == newest else f": {_month_label(month)}")
     return shell(f"{ttl} - {NAME}", "The desk's morning and evening Brief: what happened, why it "
@@ -2824,7 +2824,7 @@ def render_news(items, dateline, pulse=None):
         if rest:
             grid = (f'<section class="sec"><div class="wrap"><div class="sec-head" id="latest">'
                     f'<h2>More from the desk</h2><span class="bar"></span></div>'
-                    f'<div class="grid">{"".join(card(i) for i in rest)}</div></div></section>')
+                    f'<div class="grid" data-records>{"".join(card(i) for i in rest)}</div></div></section>')
     else:
         lead_html = f"""<section class="lead"><div class="wrap">
     <span class="kicker">The desk is live</span>
@@ -4028,7 +4028,7 @@ def _bd_since_rows(tiles, deltas, pulse, flows):
             f'<div class="bd-since-rows">{html}</div></div>')
 
 
-def board_summary_line(pulse, deltas, flows):
+def board_summary_line(pulse, deltas, flows, printed=""):
     """C-D: a deterministic one-line read of the day, from the deltas and band
     crossings the Board already computed. NOT written by anything: it is assembled
     from numbers, in a fixed order, so the same inputs always produce the same
@@ -4056,6 +4056,14 @@ def board_summary_line(pulse, deltas, flows):
         bits.append(f"{fmt_usd(abs(vol['net_usd']))} "
                     f"{'onto' if vol['net_usd'] < 0 else 'off'} exchanges in "
                     f"{_win_phrase((flows or {}).get('window_hours', 24))}")
+    # SPRINT 9.9.2, ONE FACT ONCE: on a page whose tiles print a figure (`printed`, their HTML), the clause that repeats it
+    # is left out of the line there (the whale net on the Markets page); the line elsewhere is unchanged
+    if printed and bits:
+        try:
+            import one_fact
+            bits = [b for b in bits if not one_fact.twins_between(f"<p>{esc(b)}</p>", printed)]
+        except Exception:                                   # fail open: the whole line
+            pass
     if not bits:
         return ""
     line = bits[0][0].upper() + bits[0][1:]
@@ -4198,6 +4206,21 @@ def cadence_line(text=None):
 
 
 WIRE_JSON = os.path.join(SITE, "data", "wire.json")
+
+
+def load_wire(path=None):
+    """The stored wire with every item's links cited by wire.cite_all (Sprint 9.9.2: a link whose address and titles carry
+    no word of the event is left out and does not count as a source), or None."""
+    try:
+        doc = json.load(open(path or WIRE_JSON, encoding="utf-8"))
+    except Exception:
+        return None
+    try:
+        import wire as _wire
+        return _wire.cite_all(doc)
+    except Exception as e:                                   # fail open: the wire as stored
+        print(f"::warning::wire: the links were not cited ({type(e).__name__}: {e})")
+        return doc
 NARRATIVE_JSON = os.path.join(SITE, "data", "narrative.json")
 MORNING_JSON = os.path.join(SITE, "data", "morning.json")
 
@@ -4229,9 +4252,8 @@ def wire_block(wire=None):
     wire mark on the rest, the source and the stamp on every item, and one line under the
     list saying what a wire line is and is not. No icons, no gradients. "" with no wire."""
     if wire is None:
-        try:
-            wire = json.load(open(WIRE_JSON, encoding="utf-8"))
-        except Exception:
+        wire = load_wire()
+        if wire is None:
             return ""
     try:
         return _wire_block(wire)
@@ -4264,6 +4286,8 @@ def _wire_block(wire):
             bits.append(f'<a href="{esc(lead["url"])}" rel="noopener">'
                         f'{esc(lead.get("outlet") or "Source")}</a>')
         bits.append(f'{n} source{"" if n == 1 else "s"}')
+        if w.get("unmatched"):
+            bits.append(esc(__import__("wire").NOT_MATCHED))
         if w.get("primary"):
             bits.append('<span class="wl-primary">Primary source</span>')
         stamp = _wire_et(w.get("reported_utc")) or (wire or {}).get("ranked_et") or ""
@@ -5418,7 +5442,7 @@ def _record_lane(slug, name, lane_items, hub_slugs, page=False, pool=None):
     if rows:
         right = (f'<div class="bd-card bd-rec-more">'
                  f'<span class="bd-label">Read further in {esc(name.lower())}</span>'
-                 f'<div class="bd-rec-rows">{rows}</div>'
+                 f'<div class="bd-rec-rows" data-records>{rows}</div>'
                  f'<a class="bd-more" href="{all_href}">All {esc(name.lower())}</a></div>')
     return f'<section class="bd-rec-lane" id="{esc(slug)}">{left}{right}</section>'
 
@@ -5470,7 +5494,7 @@ def record_sections(items, home=True):
         lanes = (parts[0]
                  + f'<details class="rec-more" open><summary>Show all '
                    f'{len(parts)} lanes</summary>{"".join(parts[1:])}</details>')
-    return (f'<section class="bd-mod" aria-labelledby="bd-rec">{head}{lanes}</section>'
+    return (f'<section class="bd-mod" aria-labelledby="bd-rec" data-records>{head}{lanes}</section>'
             + (REC_MORE_JS if home else ""))
 
 
@@ -5480,7 +5504,8 @@ def record_full_index(items, shown=12):
     wall of links to a set of lane sections. This replaces the wall, it does not delete
     the links."""
     picks = evergreen_picks(items, n=40)
-    rest = picks[shown:]
+    # SPRINT 9.9.2, ONE FACT ONCE: a story the lanes above already print (claimed on this page) is not listed again here
+    rest = [i for i in picks[shown:] if i.get("slug") not in _PAGE_USED]
     if len(rest) < 6:
         return ""
     links = "".join(f'<a href="/articles/{esc(i["slug"])}.html">{esc(i.get("title") or "")}</a>'
@@ -5601,11 +5626,13 @@ def _news_jsonld(url, name, desc, rows, crumbs):
     }, separators=(",", ":")) + "</script>"
 
 
-def _news_section(lane, past=False):
+def _news_section(lane, past=False, above=frozenset()):
     rows = lane["items"]
     if not rows:
         return ""
-    shown = rows[:NEWS_PER_SECTION]
+    # SPRINT 9.9.2, ONE FACT ONCE: a story "What has happened" lists above is not listed a second time in its storyline;
+    # the lane's count and its "All N" link still cover every story in it
+    shown = [i for i in rows if f'/articles/{i.get("slug")}.html' not in above][:NEWS_PER_SECTION]
     more = ""
     if len(rows) >= NEWS_MIN_STORIES and len(rows) > len(shown):
         more = (f'<a class="bd-more" href="/news/{esc(lane["slug"])}.html">'
@@ -5617,7 +5644,9 @@ def _news_section(lane, past=False):
             f'<span class="bd-stamp">{len(rows)} stories'
             f'{", newest " + esc(newest) if newest and not past else ""}</span>'
             f'</div>{more}</div>'
-            f'<div class="nh-rows">{"".join(_news_row(i) for i in shown)}</div></section>')
+            + (f'<div class="nh-rows" data-records>{"".join(_news_row(i) for i in shown)}</div>' if shown else
+               '<p class="bd-src">Its newest stories are listed above, under What has happened.</p>')
+            + '</section>')
 
 
 def _news_latest(items, n=40):
@@ -5663,6 +5692,7 @@ def _news_latest(items, n=40):
 def render_news_hub(items, dateline, pulse=None):
     """/news.html (C4)."""
     lanes, rest, live = _news_lane_index(items)
+    above = frozenset(r["href"] for r in _wire_rows(items, None, hours=24 * 30)[:40])   # what _news_latest lists
     import datetime as _dt
     cutoff = (_build_now() - _dt.timedelta(days=NEWS_RECENT_DAYS)).strftime("%Y-%m-%dT%H:%M:%SZ")
     current = [L for L in lanes if L["items"] and (L["items"][0].get("published_utc") or "") >= cutoff]
@@ -5696,7 +5726,7 @@ def render_news_hub(items, dateline, pulse=None):
                      f'<span class="bd-eyebrow">Past storylines</span>'
                      f'<h2 class="bd-h2">Quiet for {NEWS_RECENT_DAYS} days or more</h2>'
                      f'</div></div>'
-                     + "".join(_news_section(L, past=True) for L in past) + '</section>')
+                     + "".join(_news_section(L, past=True, above=above) for L in past) + '</section>')
 
     body = f"""<main class="wrap"><section class="page">
   <h1 class="lx-h1" style="margin-bottom:6px">{esc(task_name("news"))}</h1>
@@ -5712,7 +5742,7 @@ def render_news_hub(items, dateline, pulse=None):
     <span class="bd-eyebrow">Storylines</span>
     <h2 class="bd-h2">By storyline</h2></div></div>
   <nav class="nh-jump" aria-label="Jump to a storyline">{jump}</nav>
-  {"".join(_news_section(L) for L in current)}
+  {"".join(_news_section(L, above=above) for L in current)}
   {past_html}
   {arch}
 </section></main>"""
@@ -5743,7 +5773,7 @@ def render_news_lane(lane, page, pages, dateline):
   <h1 class="lx-h1" style="margin-bottom:6px">{esc(lane["name"])}</h1>
   <p class="lx-dek">{len(lane["items"])} checked stories in this storyline.
      {f"Page {page} of {pages}." if pages > 1 else ""}</p>
-  <div class="nh-rows">{"".join(_news_row(i) for i in rows)}</div>
+  <div class="nh-rows" data-records>{"".join(_news_row(i) for i in rows)}</div>
   <div class="lx-actions">{"".join(nav)}</div>
 </section></main>"""
     return shell(f"{title} - {NAME}",
@@ -5764,7 +5794,7 @@ def render_news_month(month, rows, dateline):
   <p class="bd-stamp"><a href="/news.html">News</a> / Archive / {esc(label)}</p>
   <h1 class="lx-h1" style="margin-bottom:6px">{esc(label)}</h1>
   <p class="lx-dek">{len(rows)} checked stories published this month.</p>
-  <div class="nh-rows">{"".join(_news_row(i) for i in rows)}</div>
+  <div class="nh-rows" data-records>{"".join(_news_row(i) for i in rows)}</div>
 </section></main>"""
     return shell(f"Crypto news, {label} - {NAME}",
                  f"Every checked story the desk published in {label}.",
@@ -5798,7 +5828,7 @@ def render_home(items, flows, pulse, cm, dateline):
     # off the front page.
     edition_item = current_bottom_line(items)
     above = _home.above_fold(
-        snap, pulse, flows, deltas, _home.load_json(WIRE_JSON),
+        snap, pulse, flows, deltas, load_wire(),
         _home.load_json(NARRATIVE_JSON),
         _home.load_json(os.path.join(SITE, "data", "calendar.json")), NEWS_CADENCE_LINE,
         now=_build_now(), ed=edition_item,
@@ -5858,7 +5888,7 @@ def render_coverage_hub(slug, name, stories, items, dateline):
     body = f"""<main class="wrap"><section class="page">
     <div class="sec-head"><h1>{esc(name)}</h1><span class="bar"></span></div>
     <p class="lede">{esc(intro)}</p>
-    <div class="grid">{"".join(card(i) for i in stories)}</div>
+    <div class="grid" data-records>{"".join(card(i) for i in stories)}</div>
   </section></main>"""
     return shell(f"Full coverage: {name} - {NAME}",
                  f"Every story the desk has published on {name}, newest first.",
@@ -5899,7 +5929,7 @@ def render_archive(items, dateline):
     body = f"""<main class="wrap"><section class="sec">
     <div class="sec-head"><h1>Archive</h1><span class="bar"></span></div>
     {hub_html}
-    {inner}
+    <div data-records>{inner}</div>
   </section></main>"""
     return shell(f"Archive - {NAME}", "Every published GoCheckMyCrypto story.", "Archive", body, dateline,
                  path="/archive.html", brand="cronkite")
@@ -6626,10 +6656,10 @@ def render_flows(flows, dateline):
     # snapshot (whale_flows falls back to Blockscout when Whale Alert's feed is down)
     src_line = ('Only the very largest Ethereum ERC-20 transfers visible on the '
                 '<a href="https://eth.blockscout.com/" rel="nofollow">Blockscout</a> public '
-                'explorer ($50M and up) appear here'
+                'explorer, at the floor the sentence above names, appear here'
                 if flows.get("source") == "blockscout" else
                 'Only moves large enough for <a href="https://whale-alert.io/" '
-                'rel="nofollow">Whale Alert</a> to post publicly (roughly $50M and up) '
+                'rel="nofollow">Whale Alert</a> to post publicly, at the floor the sentence above names, '
                 'appear here')
     # deterministic 'now' anchor for move ages: the newest transfer in the window
     # Ages are measured from the reading's own instant. They were measured from the
@@ -6679,23 +6709,24 @@ def render_flows(flows, dateline):
     win_h = flows.get("window_hours", 24) or 24
     if med and net is not None:
         pace = abs(net) / (med * win_h / 168)
-        pace_html = f' &middot; about {pace:.1f}x a typical week&rsquo;s pace'
-    biggest = max(ww["moves"], key=lambda m: m.get("usd", 0), default=None)
-    big_html = ""
-    if biggest:
-        big_html = f"""<div class="stat">
-      <span class="lab">Biggest single move</span>
-      <span class="big">{esc(fmt_usd(biggest.get("usd", 0)))}</span>
-      <span class="sub">{esc(biggest.get("symbol", ""))} &rarr; {esc(venue_name(biggest.get("to", "")))}</span>
-    </div>"""
+        pace_html = f' &middot; the net at about {pace:.1f}x a typical week&rsquo;s pace'
+    # SPRINT 9.9.2: the 13-week list's newest week, when it is the 7-day net the sentence states, keeps its bar and says so
+    # instead of printing the figure a second time
+    _hist = [w for w in flows.get("history") or [] if isinstance(w.get("net_usd"), (int, float))]
+    _newest_said = ""
+    if (_hist and net is not None and win_h == 168 and fmt_usd(abs(_hist[-1]["net_usd"])) == fmt_usd(abs(net))
+            and (_hist[-1]["net_usd"] < 0) == (net < 0)):
+        _newest_said = "the 7 days above"
+    # SPRINT 9.9.2: "Biggest single move" left the stats: it is the first row of the table of moves onto (or off) exchanges
     # NO "$0" FROM AN ABSENT READING (8 October 2026): the stat says what it is waiting for.
     if net is None:
         vol_stat = ('<span class="big"><span class="mut" style="font-size:.5em">no reading'
                     f'</span></span><span class="sub">{esc(WHALE_WAITING)}</span>')
     else:
-        vol_stat = (f'<span class="big {dir_cls}">{esc(fmt_usd(abs(net)))}</span>'
-                    f'<span class="sub">net {esc(dir_word)} &middot; gross '
-                    f'{esc(fmt_usd(v.get("inflow_usd", 0)))} on / '
+        # SPRINT 9.9.2, ONE FACT ONCE: the sentence above states the net, the count and the floor (its own canary keeps
+        # them there); the stat carries what the sentence does not: the gross on and off and the pace
+        vol_stat = (f'<span class="big">{esc(fmt_usd(v.get("inflow_usd", 0)))}</span>'
+                    f'<span class="sub">gross onto exchanges &middot; '
                     f'{esc(fmt_usd(v.get("outflow_usd", 0)))} off{pace_html}</span>')
     body = ww_hero() + f"""<main class="wrap"><section class="page">
   <h1>{esc(task_name("flows"))}</h1>
@@ -6708,19 +6739,13 @@ def render_flows(flows, dateline):
 
   <div class="stats">
     <div class="stat">
-      <span class="lab">Volatile assets, net ({esc(winp)})</span>
+      <span class="lab">Volatile assets, gross ({esc(winp)})</span>
       {vol_stat}
     </div>
     <div class="stat">
       <span class="lab">Stablecoins onto exchanges</span>
       <span class="big">{_flow_big(s.get("net_buying_power_usd"), stable_flow_words)}</span>
       <span class="sub">net stablecoins {esc(stable_flow_words(s.get("net_buying_power_usd"))[1] or "")}</span>
-    </div>
-    {big_html}
-    <div class="stat">
-      <span class="lab">Exchange-size moves</span>
-      <span class="big">{ww["count"]}</span>
-      <span class="sub">$50M+ transfers in {esc(winp)}</span>
     </div>
   </div>
 
@@ -6732,7 +6757,7 @@ def render_flows(flows, dateline):
       <div class="chartcard">{flow_ledger(
           [(w.get("week_ending", ""), w.get("net_usd", 0),
             f'{w.get("moves", 0)} exchange-size moves') for w in flows.get("history", [])],
-          aria="Weekly net exchange flow, last 13 weeks", compact=True)}</div>
+          aria="Weekly net exchange flow, last 13 weeks", compact=True, newest_said=_newest_said)}</div>
       <p class="pc-note" style="margin-top:8px">Weekly net flow for volatile assets,
       newest first.</p>''' if flows.get("history") else ""}
       {f'''<div class="sec-head" style="margin-top:18px"><h2>By exchange</h2><span class="bar"></span></div>
@@ -7011,7 +7036,7 @@ def fng_gauge_svg(value):
     return "".join(parts)
 
 
-def flow_ledger(rows, aria="", compact=False):
+def flow_ledger(rows, aria="", compact=False, newest_said=""):
     """Signed flows as LEDGER ROWS instead of a bar chart: date, a horizontal bar diverging
     from a center line (green right = in/accumulation, red left = out/sell side), and the
     dollar value at full text size. SVG bar charts scale their labels below legibility on
@@ -7020,8 +7045,8 @@ def flow_ledger(rows, aria="", compact=False):
     if not rows:
         return ""
     max_abs = max((abs(v) for _, v, _ in rows), default=0) or 1
-    out = [f'<div class="ledger{" compact" if compact else ""}" role="img" aria-label="{esc(aria)}">']
-    for label, val, tip in reversed(rows):
+    out = [f'<div class="ledger{" compact" if compact else ""}" role="img" aria-label="{esc(aria)}" data-records>']
+    for k, (label, val, tip) in enumerate(reversed(rows)):
         pct = abs(val) / max_abs * 50
         side = "pos" if val >= 0 else "neg"
         style = (f"left:50%;width:{pct:.1f}%" if val >= 0 else
@@ -7030,8 +7055,9 @@ def flow_ledger(rows, aria="", compact=False):
         out.append(
             f'<div class="lrow"{tip_attr}><span class="ldate">{esc(label)}</span>'
             f'<span class="ltrack"><span class="lbar {side}" style="{style}"></span></span>'
-            f'<span class="lval {"up" if val >= 0 else "down"}">'
-            f'{"+" if val >= 0 else ""}{esc(fmt_usd(val))}</span></div>')
+            + (f'<span class="lval">{esc(newest_said)}</span></div>' if (k == 0 and newest_said) else
+               f'<span class="lval {"up" if val >= 0 else "down"}">'
+               f'{"+" if val >= 0 else ""}{esc(fmt_usd(val))}</span></div>'))
     out.append("</div>")
     return "".join(out)
 
@@ -7083,9 +7109,10 @@ def _posture_card(a, pulse=None):
         chg_html = (f'<span class="pc-chg {"up" if chg >= 0 else "down"}" '
                     f'data-live="chg:{esc(sym)}">{chg:+.2f}% (24h)</span>')
     stats = "".join(
-        f'<div><dt>{esc(lab)}</dt><dd>{esc(_price_fmt(a.get(key)))}</dd></div>'
+        f'<div><dt>{esc(lab)}</dt><dd>{esc(_price_fmt(level(a, key)))}</dd></div>'
         for lab, key in (("50-day avg", "sma50"), ("200-day avg", "sma200"),
-                         ("90-day high", "spark_high"), ("90-day low", "spark_low")))
+                         ("90-day high", "spark_high"), ("90-day low", "spark_low"))
+        if level(a, key) is not None)
     return f"""<div class="pulse-card">
   <div class="pc-head"><span class="pc-sym">{esc(sym)}<span class="live-dot"></span></span>
     <span class="pc-quote"><span class="pc-price" data-live="price:{esc(sym)}"{_price_aria(a.get("price"))}>{esc(_price_fmt(a.get("price")))}</span>{chg_html}</span></div>
@@ -7499,7 +7526,7 @@ def _no_data(cmd="python3 market_pulse.py"):
             f'site build. Generate it locally with <code>{esc(cmd)}</code>.</p></div>')
 
 
-def cm_board_card(cm, pulse, flows, deltas=None, now=None):
+def cm_board_card(cm, pulse, flows, deltas=None, now=None, printed=""):
     """PROGRAM 6, 6.1 (11 October 2026): the Chart Master's read on the Board, under its own
     date, as "Chart Master's read, <date>". It gives way to the Board's own line when the
     read is more than one day old: the read was three days old on top of today's Board after
@@ -7519,11 +7546,14 @@ def cm_board_card(cm, pulse, flows, deltas=None, now=None):
     except ValueError:
         age = None
     if read and age is not None and age <= 1:
+        _clock, _age = cm_when(cm_timed(cm), (pulse or {}).get("generated_utc") or "")
+        _bits = ([f"Read at {_clock[2:]}."] if _clock else []) + ([_age] if _age else [])
+        _when = f'<p class="pc-note cm-newer">{esc(" ".join(_bits))}</p>' if _bits else ""
         return (f'<section class="cm-card" aria-label="The chart read">'
-                f'<h2 class="cm-card-h">The chart read, {esc(fmt_short_date(day))}</h2>'
+                f'<h2 class="cm-card-h">The chart read, {esc(fmt_short_date(day))}</h2>{_when}'
                 f'<p class="cm-card-p">{esc(clamp_sentences(destyle(read), 260))}</p>'
                 f'<p class="cm-card-f"><a href="/chartmaster.html">Every read</a></p></section>')
-    own = board_summary_line(pulse, deltas if deltas is not None else board_deltas(pulse), flows)
+    own = board_summary_line(pulse, deltas if deltas is not None else board_deltas(pulse), flows, printed=printed)
     if own:
         return (f'<section class="cm-card" aria-label="Markets today">'
                 f'<h2 class="cm-card-h">Markets today</h2>'
@@ -7580,7 +7610,7 @@ def render_pulse_hub(pulse, flows, cm, dateline):
     body = f'''<main class="wrap"><section class="page">
   <h1>{esc(task_name("markets"))}</h1>
   {data_stamp(pulse, what="Markets")}
-  {cm_board_card(cm, pulse, flows, deltas)}
+  {cm_board_card(cm, pulse, flows, deltas, printed=grid)}
   {coins_mini_board()}
   {grid}
   {whale_wait}
@@ -7662,7 +7692,7 @@ def render_pulse_posture(pulse, dateline):
      closes: RSI-14, MACD 12/26/9, the 50- and 200-day averages, distance from the 12-month
      high, and 30-day realized volatility.</p>
   <p class="live-stamp">{esc(_snap_asof(pulse))}</p>
-  <div class="pulse-stack">{cards}</div>
+  <div class="pulse-stack" data-records>{cards}</div>
   <p class="pc-note" style="margin-top:8px">Solid line is price over 90 days; the dashed
   lines are the 50- and 200-day averages the trend chips refer to. Every chip is defined
   below; we publish the formulas, never a recommendation.</p>
@@ -8146,8 +8176,7 @@ def _coin_supply_rows(c):
     tot = c.get("supply_total")
     if tot and tot != sup:
         rows.append(("Total supply", f"{fmt_num(tot)} {esc(c.get('symbol') or '')}"))
-    if c.get("volume_24h"):
-        rows.append(("24-hour volume", esc(fmt_usd(c["volume_24h"]))))
+    # SPRINT 9.9.2: the 24-hour volume prints once, on its Readings tile, not again here
     if c.get("ath"):
         when = ""
         d = _utc_dt(str(c.get("ath_date") or ""))
@@ -8217,20 +8246,49 @@ COIN_CHART_FILE = os.path.join(HERE, "site", "assets", "coinchart.js")
 
 
 def _coin_wire():
-    try:
-        return json.load(open(WIRE_JSON, encoding="utf-8"))
-    except Exception:
-        return None
+    return load_wire()
 
 
 def _coin_cm():
     try:
-        return json.load(open(os.path.join(SITE, "data", "chartmaster.json"), encoding="utf-8"))
+        cm = json.load(open(os.path.join(SITE, "data", "chartmaster.json"), encoding="utf-8"))
     except Exception:
         return None
+    return cm_timed(cm)
 
 
-def render_coin_chart(c, name, cid, spark):
+def cm_timed(cm):
+    """SPRINT 9.9.2: the Chart Master card with its own read time, for its dated block ("read Oct 26, 7:14 PM ET"). A card
+    written from this sprint on carries read_utc; an earlier one is timed by its run's row in the Chart Master's ledger
+    (data/chartmaster-ledger.json, the run's "t"); without either the block names the date alone."""
+    if isinstance(cm, dict) and not cm.get("read_utc"):
+        try:
+            rows = json.load(open(os.path.join(HERE, "data", "chartmaster-ledger.json"), encoding="utf-8"))
+            ts = [r.get("t") for r in rows if isinstance(r, dict) and r.get("date") == cm.get("date") and r.get("t")]
+            if ts:
+                cm = dict(cm, read_utc=sorted(ts)[-1])
+        except Exception:                                   # fail open: the date alone
+            pass
+    return cm
+
+
+def cm_when(cm, board_utc):
+    """(' 7:14 PM ET' or '', the house age line or ''): a Chart Master read's time beside its date, and how much older it
+    is than the readings on the page ("This is 13 hours old; the readings above are newer.")."""
+    import coinpage as _cp
+    t = _utc_dt(str((cm or {}).get("read_utc") or ""))
+    clock = f", {t.astimezone(_ET).strftime('%-I:%M %p')} ET" if t else ""
+    return clock, _cp.age_words((cm or {}).get("read_utc"), board_utc, _build_now().astimezone(_ET).date(),
+                                str((cm or {}).get("date") or "")[:10])
+
+
+def level(row, key):
+    """SPRINT 9.9.2: snapshot.level, the stored average at its asset's price precision (see there)."""
+    import snapshot as _snapshot
+    return _snapshot.level(row, key)
+
+
+def render_coin_chart(c, name, cid, spark, read_utc=""):
     """The chart block: tabs for the script to wake, the build's line as the fallback, the
     readout the script fills, and the caption. The fallback is colored by ITS OWN seven days
     and prints that change, so before the script answers the color and the number already
@@ -8270,9 +8328,18 @@ def render_coin_chart(c, name, cid, spark):
         fallback = spark_svg(spark, w=980, h=150)
         if _w7:
             note += (f' 7D high close {esc(_price_fmt(_w7[1]))}, 7D low close {esc(_price_fmt(_w7[0]))}. ')
-        note += '<span class="cn-stamp">from the last build</span>'
-    chg_html = (f'<p class="cc-chg" data-dir="{up}">{esc(_cp.signed_pct(chg))} over the last 7 days</p>'
-                if chg is not None else '<p class="cc-chg" data-dir="flat"></p>')
+        # SPRINT 9.9.2: "from the last build" retires; the caption names its own read, the Board's, in the house wording
+        _rw = _cp.read_words((SNAP or {}).get("stamp_utc") or read_utc or "")
+        if _rw:
+            note += f'<span class="cn-stamp">{esc(_rw[:1].upper() + _rw[1:])}</span>'
+    # SPRINT 9.9.2, ONE FACT ONCE: on the 7-day window the header names the window and prints no figure, because the
+    # 7-day figure is the Readings tile's (Sprint 9.1 made the two equal; now it prints once); the header keeps that
+    # figure's color, and the other windows print their own series' change
+    if isinstance(_c7, (int, float)):
+        chg_html = f'<p class="cc-chg" data-dir="{up}">Over the last 7 days</p>'
+    else:
+        chg_html = (f'<p class="cc-chg" data-dir="{up}">{esc(_cp.signed_pct(chg))} over the last 7 days</p>'
+                    if chg is not None else '<p class="cc-chg" data-dir="flat"></p>')
     if isinstance(_c7, (int, float)):
         _figs += f' data-chg7="{float(_c7):.2f}"'
     return (f'<section class="cc" data-coin-chart data-coin-id="{esc(cid)}" data-range="7d"{_figs} '
@@ -8425,7 +8492,7 @@ def render_coin_page(c, pos, pulse, items, dateline, wire=None, cm=None, today=N
     if not _ZONE_IN.search(stamp):
         stamp += " ET"
 
-    chart = render_coin_chart(c, name, cid, spark) if (spark or cid) else ""
+    chart = render_coin_chart(c, name, cid, spark, read_utc=(pulse or {}).get("generated_utc") or "") if (spark or cid) else ""
 
     _board, asset = _coin_board_read(sym, pulse)
     tiles = _cp.reading_tiles(c, pos, asset, stamp)
@@ -8436,7 +8503,8 @@ def render_coin_page(c, pos, pulse, items, dateline, wire=None, cm=None, today=N
     _gen = _utc_dt((pulse or {}).get("generated_utc") or "")
     cm_html = _cp.chartmaster_card(
         c, cm, asset, today, esc, fmt_short_date, destyle=destyle, price_fmt=_price_fmt,
-        board_day=_gen.astimezone(_ET).strftime("%Y-%m-%d") if _gen else "")
+        board_day=_gen.astimezone(_ET).strftime("%Y-%m-%d") if _gen else "",
+        board_utc=(pulse or {}).get("generated_utc") or "")
 
     # PROGRAM 9, SPRINT 9.2: "What lined up with the move" for Bitcoin and Ether. A wire item it
     # lists is not listed again in the blocks below it (one fact, printed once).
@@ -8898,14 +8966,11 @@ def render_pulse_etf(pulse, dateline):
                     if cum is not None else "")
         boards += f"""<div class="sec-head" style="margin-top:26px"><h2>{esc(name)} spot ETFs</h2><span class="bar"></span></div>
   <div class="stats"><div class="stat">
-    <span class="lab">Latest day ({esc(us_date(b.get("latest_date", "")))})</span>
-    <span class="big {cls}">{esc(fmt_usd(latest * 1e6))}</span>
-    <span class="sub">net {word} the funds</span>
-  </div><div class="stat">
     <span class="lab">Since launch</span>
     <span class="big">{esc(fmt_usd(cum * 1e6)) if cum is not None else "&mdash;"}</span>
     <span class="sub">cumulative net flow</span>
   </div></div>
+  <p class="pc-note">Each trading day's net flow, the latest day ({esc(us_date(b.get("latest_date", "")))}) first: net {word} the funds.</p>
   <div class="chartcard" style="margin-top:14px">{flow_ledger(
       [(d.get("date", "")[:6], (d.get("net_usd_m") or 0) * 1e6, None) for d in b.get("recent", [])],
       aria=f"{name} ETF daily net flows")}</div>"""
@@ -9048,6 +9113,11 @@ def _cm_at_a_glance(sectioned):
             f'<ul>{"".join(rows)}</ul></div>')
 
 
+def _cm_n(v):
+    """The Chart Master table's figure: cents from $1 up, four decimals below (a row's price and averages alike)."""
+    return "" if v is None else (f"{v:,.2f}" if abs(v) >= 1 else f"{v:,.4f}")
+
+
 def render_chartmaster(read, dateline, pulse=None):
     # UX-8 (C-4): THE ORACLE CHALLENGE AND THE WIZARD'S EXAM ARE GONE. The first asked
     # the reader to call Bitcoin higher or lower by tomorrow, on a page whose own first
@@ -9109,11 +9179,10 @@ def render_chartmaster(read, dateline, pulse=None):
     if _gen:
         _bday = _gen.astimezone(_ET).strftime("%Y-%m-%d")
     _md = fmt_short_date(_rday) if _rday else ""
-    read_title = f"The chart read, {_md}" if _md else "The chart read"
-    _bst = _snap_stamp_et((pulse or {}).get("generated_utc") or "")
-    newer_note = (f'<p class="pc-note cm-newer">The boards above are newer than this read; '
-                  f'they are as of {esc(_bst)}.</p>'
-                  if _rday and _bday and _rday < _bday else "")
+    # SPRINT 9.9.2: the dated block carries its read's time and its age in the house wording
+    _clock, _age = cm_when(cm_timed(read), (pulse or {}).get("generated_utc") or "")
+    read_title = f"The chart read, {_md}{_clock}" if _md else "The chart read"
+    newer_note = (f'<p class="pc-note cm-newer">{esc(_age)}</p>' if _age else "")
     # The read is a clean text card: the wizard lives in the page-top panel (cm_hero)
     # and appears nowhere else on the page. The describe-not-predict disclaimer stays
     # in its usual spot below the prose, unobscured.
@@ -9133,22 +9202,37 @@ def render_chartmaster(read, dateline, pulse=None):
     if read.get("data_only") and read.get("levels"):
         # 12 October 2026: the last path when a read cannot be published. Levels, the 50-day
         # and 200-day lines and RSI, no prose, and it says why there is no prose.
-        def _n(v):
-            return "" if v is None else (f"{v:,.2f}" if abs(v) >= 1 else f"{v:,.4f}")
+        # SPRINT 9.9.2: the header row keeps one line at 375 ("RSI-14" broke at its hyphen at 45 px; with every column shown
+        # the table scrolls inside its own box; inline, so the locked stylesheets stay 9.5's). Every average at its row's price precision, from a value that carries it (level); a sub-dollar
+        # average the card stored only to the cent is left out and the card says so below, never printed padded
+        _coarse = []
+
+        def _avg(lv, k):
+            v = level(lv, k)
+            if v is None and isinstance(lv.get(k), (int, float)):
+                _coarse.append(str(lv.get("symbol")))
+                return '<span class="mut">not shown</span>'
+            return "" if v is None else "$" + _cm_n(v)
         _rows = "".join(
-            f'<tr><th scope="row">{esc(str(lv.get("symbol")))}</th><td>${_n(lv.get("price"))}</td>'
-            f'<td class="xs-x">${_n(lv.get("sma50"))}</td><td>${_n(lv.get("sma200"))}</td>'
+            f'<tr><th scope="row">{esc(str(lv.get("symbol")))}</th><td>${_cm_n(lv.get("price"))}</td>'
+            f'<td class="xs-x">{_avg(lv, "sma50")}</td><td>{_avg(lv, "sma200")}</td>'
             f'<td class="xs-x">{esc(str(lv.get("rsi14") if lv.get("rsi14") is not None else ""))}</td></tr>'
             for lv in read["levels"])
+        _cn = sorted(set(_coarse), key=_coarse.index)
+        _coarse_note = (f'<p class="pc-note">{esc(" and ".join(_cn))}: this card stored '
+                        f'{"its" if len(_cn) == 1 else "their"} averages rounded to the cent, coarser than '
+                        f'{"its price" if len(_cn) == 1 else "their prices"}, so they are not shown; the next card stores '
+                        f'them in full.</p>' if _cn else "")
         read_html = (f"""
   <div class="sec-head" style="margin-top:8px"><h2 class="cm-read-h">{esc(read_title)}</h2><span class="bar"></span></div>
+  {newer_note}
   <article class="pulse-card cm-read cm-datacard">
     <div class="ey"><span class="tag">the data card</span><span class="dateline">{esc(fmt_date(read.get("date")))}</span></div>
     <p class="pc-note">Today's written read did not clear the desk's checks, so this card carries the numbers only.</p>
-    {fit_toggle("fit-cm")}<div class="movetable fit-tbl" tabindex="0" role="region" aria-label="Chart data card (scrollable)"><table><thead><tr><th scope="col">Asset</th><th scope="col">Price</th>
+    {fit_toggle("fit-cm")}<div class="movetable fit-tbl" tabindex="0" role="region" aria-label="Chart data card (scrollable)"><table><thead><tr style="white-space:nowrap"><th scope="col">Asset</th><th scope="col">Price</th>
     <th scope="col" class="xs-x">50-day</th><th scope="col">200-day</th><th scope="col" class="xs-x">RSI-14</th></tr></thead>
     <tbody>{_rows}</tbody></table></div>
-    <p class="pc-note">Read from the day's <a href="/pulse.html">Markets</a>. Describe, never predict.</p>
+    {_coarse_note}<p class="pc-note">Read from the day's <a href="/pulse.html">Markets</a>. Describe, never predict.</p>
   </article>""")
 
     # C-14: the page becomes a dated archive of reads. Today's is the first entry; the
@@ -9807,7 +9891,7 @@ def _write_today(w, items, pulse, dateline):
         import today as _today
         import twins_gate as _tg
         gate = _tg.Gate(SNAP)
-        built = _today.build_pages(SNAP, pulse, _home.load_json(WIRE_JSON),
+        built = _today.build_pages(SNAP, pulse, load_wire(),
                                    current_bottom_line(items), _home.load_json(MORNING_JSON),
                                    _build_now(), gate, dateline=dateline)
         gate.save()
@@ -9892,7 +9976,7 @@ def _write_api_feeds(w, items, pulse, flows, board_tiles, coin_tiles):
         import home as _home
         ed = current_bottom_line(items)
         feeds = _af.build_all({"now": _build_now(), "snap": SNAP, "pulse": pulse, "flows": flows, "items": items,
-                               "wire": _home.load_json(WIRE_JSON), "ed": ed, "morning": _home.load_json(MORNING_JSON), "movers_rec": _movers_rec(),
+                               "wire": load_wire(), "ed": ed, "morning": _home.load_json(MORNING_JSON), "movers_rec": _movers_rec(),
                                "board_tiles": board_tiles, "coin_tiles": coin_tiles})
         for rel, obj in feeds.items():
             try:

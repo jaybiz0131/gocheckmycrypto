@@ -155,6 +155,9 @@ def tape_chart(week, fmt=None):
     ITS OWN WINDOW, ITS OWN COLOR (Jack, 12 October 2026, 3:00 PM): the line, the fill, the
     glow and the halo take the week's direction, first close to last point, never the
     24-hour change in the badge above it. A down week draws red beside a green day."""
+    if fmt is None:                                  # SPRINT 9.9.2: the asset's own price precision, the tape's
+        import site_build as _sb
+        fmt = _sb._price_fmt
     import datetime as _d
     closes = (week or {}).get("closes")
     days = []
@@ -189,7 +192,7 @@ def tape_chart(week, fmt=None):
         side = " h-k-r" if left > 70 else " h-k-l" if left < 30 else ""
         t = round(100 * y / CHART_H, 2)
         return (f'<span class="h-k {cls}{side}" style="left:{left}%;top:{t}%">'
-                f'{word} <b>{_e(_whole(vals[i]))}</b></span>')
+                f'{word} <b>{_e(fmt(vals[i]))}</b></span>')
     labels = label(hi_i, "h-k-hi", "7D HIGH CLOSE") + label(lo_i, "h-k-lo", "7D LOW CLOSE")
     dl = ""
     if days and len(days) == len(pts):
@@ -204,8 +207,8 @@ def tape_chart(week, fmt=None):
     stop = {"up": "var(--up-line)", "down": "var(--down-line)"}.get(d, "var(--ink)")
     return (f'<div class="h-chart-w"><div class="h-chart">'
             f'<svg class="h-spark {d}" viewBox="0 0 {CHART_W} {CHART_H}" role="img" '
-            f'aria-label="Bitcoin, {len(pts)} daily closes, low {_e(_whole(min(vals)))}, '
-            f'high {_e(_whole(max(vals)))}">'
+            f'aria-label="Bitcoin, {len(pts)} daily closes, low {_e(fmt(min(vals)))}, '
+            f'high {_e(fmt(max(vals)))}">'
             f'<defs><linearGradient id="h-area-g" x1="0" y1="0" x2="0" y2="1">'
             f'<stop offset="0" style="stop-color:{stop};stop-opacity:.28"/>'
             f'<stop offset="1" style="stop-color:{stop};stop-opacity:0"/></linearGradient>'
@@ -238,6 +241,10 @@ def _coin_tile(name, price_html, chg, gid=None, unchecked=False):
         ch = ('<span class="h-ac unchecked" title="The reported 24-hour change disagreed with '
               'Bitcoin, Ether and the Top 100, so the desk does not print it">unchecked</span>')
     tile_attr = f' data-tile="{gid}"' if gid else ""
+    # SPRINT 9.9.2: from 1280 the stylesheet hides Ether's item here and the tape's Ether line shows instead (9.5b), so the
+    # item says it is the narrow one and the whole-site check reads Ether's price once at each width
+    if gid == "ethereum":
+        tile_attr += " data-narrow"
     return (f'<li class="h-coin {d or "flat"}"{tile_attr}>'
             f'<span class="h-as">{_e(name)}</span>{price_html}{ch}</li>')
 
@@ -324,8 +331,9 @@ def bitcoin_card(snap):
     # one the coin page's 1D chart prints, and absent (not guessed) when the snapshot lacks it.
     hl24 = ""
     if isinstance(btc.get("high_24h"), (int, float)) and isinstance(btc.get("low_24h"), (int, float)):
-        hl24 = (f'<p class="h-hl24" data-hl24>24h high <b>{_e(_whole(btc["high_24h"]))}</b>'
-                f' \u00b7 low <b>{_e(_whole(btc["low_24h"]))}</b></p>')
+        # SPRINT 9.9.2: derived figures at the asset's own price precision, the tape's (cents), not whole dollars
+        hl24 = (f'<p class="h-hl24" data-hl24>24h high <b>{_e(sb._price_fmt(btc["high_24h"]))}</b>'
+                f' \u00b7 low <b>{_e(sb._price_fmt(btc["low_24h"]))}</b></p>')
     alts = []
     for sym, name, gid in TAPE_ALTS:
         c = snapshot.coin(snap, sym)
@@ -463,7 +471,19 @@ def _cites(html_text, date_et):
         return html_text
 
 
-def narrative_band(narr, snap, ed=None, now=None, morning=None):
+def morning_sentences(sentences, rest):
+    """SPRINT 9.9.2, ONE FACT ONCE: the stored morning sentences the home's card prints. A sentence that carries a figure the
+    home prints elsewhere (a tile's ETF flow, the Fear and Greed gauge, a wire line's amount) is withheld whole, as 9.9h
+    withholds a sentence the copy law refuses (the part is not the whole); every sentence kept prints exactly as stored and
+    the read prints whole on its own page (J-10). `rest` is the HTML of the rest of the home; a sentence goes when the
+    whole-site check would pair one of its figures with one printed there (one_fact.twins_between)."""
+    if not rest:
+        return list(sentences or [])
+    import one_fact
+    return [x for x in (sentences or []) if not one_fact.twins_between(f"<p>{_e(x)}</p>", rest)]
+
+
+def narrative_band(narr, snap, ed=None, now=None, morning=None, printed=None, show_next=True):
     """THE BRIEF CARD (Program 7, Sprint 7.1; the morning edition, Sprint 7.2): the edition by
     name and day, its headline, the narrative sentence (never quoting a change), and when the
     next Brief is due. In the morning the card holds the morning read when it ran; when it did
@@ -473,19 +493,26 @@ def narrative_band(narr, snap, ed=None, now=None, morning=None):
     if m:
         eye = f'<p class="h-eye">{_e(brief_name(m))}</p>'
         head = f'<h2 class="h-bt">{_e(m.get("headline"))}</h2>'
-        body = f'<p class="h-nline">{_cites(_e(" ".join(m.get("sentences") or [])), m.get("date_et"))}</p>'
+        try:
+            kept = morning_sentences(m.get("sentences"), printed)
+        except Exception as e:                       # fail open: the sentences as stored
+            print(f"::warning::home: the morning card's figures were not compared ({type(e).__name__}: {e})")
+            kept = list(m.get("sentences") or [])
+        body = (f'<p class="h-nline">{_cites(_e(" ".join(kept)), m.get("date_et"))}</p>' if kept else "")
         line = (m.get("line") or "").strip()
+        if line and kept is not m.get("sentences") and printed and not morning_sentences([line], printed):
+            line = ""
         body += f'<p class="h-nline h-nsum">{_e(line)}</p>' if line else ""
         stamp = f'Written {_e(m.get("published_et") or "")}.'
         return _block("narrative", eye + head + body
                       + f'<p class="h-nsmall">{stamp}</p>'
-                      + f'<p class="h-next">{_e(next_brief(m, now))}</p>' + TODAY_LINK, cls="h-band")
+                      + (f'<p class="h-next">{_e(next_brief(m, now))}</p>' if show_next else "") + TODAY_LINK, cls="h-band")
     eye = f'<p class="h-eye">{_e(brief_name(ed))}</p>'
     head = (f'<h2 class="h-bt"><a href="/articles/{_e(ed.get("slug"))}.html">'
             f'{_e(_brief_title(ed))}</a></h2>' if ed else "")
     last = last_brief_note(ed, now)
     last_html = f'<p class="h-nsmall h-nlast">{_e(last)}</p>' if last else ""
-    nxt = f'<p class="h-next">{_e(next_brief(ed, now))}</p>'
+    nxt = f'<p class="h-next">{_e(next_brief(ed, now))}</p>' if show_next else ""
     line, _r, replaced = band_line(narr, snap)
     if replaced:
         narr = dict(narr, readings=_r, written_et=snap.get("stamp_et") or "")
@@ -564,6 +591,14 @@ def _wire_items(wire):
     return [w for w in ((wire or {}).get("items") or []) if w.get("line")]
 
 
+def why_item(wire):
+    """The wire item "Top story, checked" prints, or None when it prints none."""
+    note = (wire or {}).get("checked") or {}
+    if wire is None or not note:
+        return None
+    return {w.get("id"): w for w in _wire_items(wire)}.get(note.get("id"))
+
+
 def why(wire, now=None):
     note = (wire or {}).get("checked") or {}
     items = {w.get("id"): w for w in _wire_items(wire)}
@@ -578,15 +613,19 @@ def why(wire, now=None):
     reads = (f'<p class="h-reads">Related data: {_e(_reading(w["board_reading"]))}</p>'
              if w.get("board_reading") else "")
     link = (f' <a href="{_e(src)}" rel="noopener">The source</a>' if src else "")
+    # SPRINT 9.9.2: the line and the checked note are one stored read of one story (its headline and what it says), printed
+    # as stored; a figure the two share is the read's own (data-read)
     return _block("why", f'<p><span class="badge verified">{_e(note.get("badge"))}</span></p>'
-                         f'<h3 class="h-why-h">{_e(w["line"])}</h3>'
+                         f'<div data-read><h3 class="h-why-h">{_e(w["line"])}</h3>'
                          f'<p class="h-why-p">{_e(note.get("says"))} '
-                         f'{_e(note.get("unconfirmed"))}{link}</p>{reads}',
+                         f'{_e(note.get("unconfirmed"))}{link}</p></div>{reads}',
                   "Top story, checked")
 
 
-def wire_top(wire, cadence, now=None):
+def wire_top(wire, cadence, now=None, why_shown=None):
     import wire as _w
+    if why_shown is None:
+        why_shown = bool(why_item(wire))
     head = f'<p class="h-cad">{_e(cadence)}</p>' if cadence else ""
     if wire is None:
         return _block("wire", head + f'<p class="h-wait">The day\'s wire arrives with the '
@@ -606,12 +645,17 @@ def wire_top(wire, cadence, now=None):
         if w.get("board_reading"):
             bits.append(f'Related data: {_e(_reading(w["board_reading"]))}')
         bits.append(f'{n} source{"" if n == 1 else "s"}')
+        if w.get("unmatched"):
+            bits.append(_e(_w.NOT_MATCHED))
         if w.get("primary"):
             bits.append('<span class="h-prim">Primary source</span>')
         if lead.get("url"):
             bits.append(f'<a href="{_e(lead["url"])}" rel="noopener">'
                         f'{_e(lead.get("outlet") or "Source")}</a>')
-        rows.append(f'<li class="h-wi">{mark}<span class="h-wl">{_e(w["line"])}</span>'
+        # SPRINT 9.9.2, ONE FACT ONCE: the checked item keeps its place in the re-count order (October 7: never pinned), and
+        # its line, printed in full under "Top story, checked" above, is not printed a second time here
+        line = "The top story, checked, above." if checked and why_shown else _e(w["line"])
+        rows.append(f'<li class="h-wi">{mark}<span class="h-wl">{line}</span>'
                     f'<span class="h-wmeta">{" &middot; ".join(bits)}</span></li>')
     what = (wire or {}).get("what_a_wire_line_is") or _w.WHAT_A_WIRE_LINE_IS
     body = (f'<ol class="h-wire">{"".join(rows)}</ol>' if rows else
@@ -1157,13 +1201,13 @@ def above_fold(snap, pulse, flows, deltas, wire, narr, cal, cadence, now=None, e
     day on the ET day, the cap reached) nothing stands in for it: no empty slot, no invented card. The first
     object is then the tape's one line, and the Brief card, the desk's own read of the day, follows it at once."""
     blocks = {
-        "tape": tape(snap), "narrative": narrative_band(narr, snap, ed, now, morning),
+        "tape": tape(snap), "narrative": "",
         "since": since(pulse, deltas, bitcoin_card(snap)), "why": why(wire, now),
         "wire": wire_top(wire, cadence, now), "money": money(snap, pulse, flows, deltas),
         "mood": mood(snap, pulse, deltas), "movers": movers(snap),
         "today": today(cal, now), "mine": mine(),
     }
-    card, graded = "", False
+    card, graded, kind = "", False, None
     try:
         import verdict as _verdict
         kind = ((verdict or {}).get("coins") or {}).get("BTC", {}).get("kind")
@@ -1179,6 +1223,12 @@ def above_fold(snap, pulse, flows, deltas, wire, narr, cal, cadence, now=None, e
         graded = kind in ("graded", "next_read", "no_read")
     except Exception:                                # fail open: the home without a card
         card, graded = "", False
+    # SPRINT 9.9.2, ONE FACT ONCE: the Brief card is drawn last, against what the rest of the home prints. Its stored morning
+    # sentences that repeat a figure printed elsewhere are withheld (morning_sentences), and its "Next Brief" line yields to
+    # the verdict notice, which prints the same slot's time ("Next read: ...") when the card's place holds it.
+    printed = card + "".join(v for k, v in blocks.items() if k != "narrative")
+    blocks["narrative"] = narrative_band(narr, snap, ed, now, morning, printed=printed,
+                                         show_next=kind not in ("next_read", "no_read") or not card)
     if graded:
         left = card + "".join(blocks[k] for k in LEFT)
     else:

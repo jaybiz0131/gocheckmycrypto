@@ -50,11 +50,11 @@ def _wire(day="2026-10-14"):
             "items": [
                 {"id": "w1", "line": "Regulators in Seoul blocked 27 exchange websites.",
                  "reported_utc": f"{day}T13:03:00Z", "source_count": 2, "primary": False,
-                 "links": [{"outlet": "Decrypt", "url": "https://decrypt.co/a"},
-                           {"outlet": "The Block", "url": "https://theblock.co/b"}]},
+                 "links": [{"outlet": "Decrypt", "url": "https://decrypt.co/seoul-blocks-27-exchange-websites"},
+                           {"outlet": "The Block", "url": "https://www.theblock.co/post/seoul-regulators-block-exchange-websites"}]},
                 {"id": "w2", "line": "A hot CPI print sent Bitcoin lower because rate-hike odds climbed.",
                  "reported_utc": f"{day}T12:33:00Z", "source_count": 1, "primary": False,
-                 "links": [{"outlet": "CoinDesk", "url": "https://coindesk.com/c"}]},
+                 "links": [{"outlet": "CoinDesk", "url": "https://www.coindesk.com/markets/2026/10/14/hot-cpi-print-sends-bitcoin-lower"}]},
                 {"id": "w3", "line": "An item from another day.", "reported_utc": "2026-10-10T13:00:00Z",
                  "source_count": 1, "links": [{"outlet": "X", "url": "https://x.com/y"}]}]}
 

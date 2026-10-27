@@ -349,7 +349,11 @@
 
   function setChg(s) {
     if (!chgEl) return;
-    chgEl.textContent = pct(s.chg) + ' over ' + ({ '1d': 'the last 24 hours', '7d': 'the last 7 days', '1m': 'the last month', '1y': 'the last year' }[s.r]);
+    /* SPRINT 9.9.2, ONE FACT ONCE: on 7D the figure is the Readings tile's, printed there; the header names the window
+       and keeps the figure's color. Every other window prints its own series' change. */
+    var c7h = parseFloat(wrap.getAttribute('data-chg7'));
+    chgEl.textContent = (s.r === '7d' && isFinite(c7h)) ? 'Over the last 7 days'
+      : pct(s.chg) + ' over ' + ({ '1d': 'the last 24 hours', '7d': 'the last 7 days', '1m': 'the last month', '1y': 'the last year' }[s.r]);
     chgEl.setAttribute('data-dir', s.dir);
   }
   /* where each average really starts, under the 1Y chart only, and only when it starts after the window's first day */

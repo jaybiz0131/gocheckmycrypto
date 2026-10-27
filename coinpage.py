@@ -121,9 +121,12 @@ def reading_tiles(c, pos, asset, stamp, source="CoinGecko"):
     if price:
         add("coin-price", sb._price_fmt(price), window="Spot, US dollars",
             since=_since("24 hours", c24) or "24 hours: not reported", since_change=c24)
-    if c24 is not None:
+    # SPRINT 9.9.2, ONE FACT ONCE: the 24-hour change prints once, on the Price tile's since line. Its own tile printed it a
+    # second time, and that tile's since line printed the 7-day change the 7-day tile prints, so the tile is gone; with no
+    # price to carry the line, the 24-hour tile stands in.
+    if c24 is not None and not price:
         add("coin-24h", signed_pct(c24), window="Rolling 24 hours", direction=_dir(c24),
-            since=_since("7 days", c7) or "7 days: not reported", since_change=c7)
+            since="7 days: on the next reading" if c7 is not None else "7 days: not reported")
     if c7 is not None:
         add("coin-7d", signed_pct(c7), window="Rolling 7 days", direction=_dir(c7),
             since=_since("30 days", c30) or "30 days: not reported", since_change=c30)
@@ -134,7 +137,7 @@ def reading_tiles(c, pos, asset, stamp, source="CoinGecko"):
         share = f"{vol / mcap * 100:.1f}% of market cap" if mcap else "Traded in the last 24 hours"
         add("coin-volume", sb.fmt_usd(vol), window="Last 24 hours", since=share)
     if asset:
-        sma200 = asset.get("sma200")
+        sma200 = sb.level(asset, "sma200")
         if isinstance(sma200, (int, float)) and sma200 and price:
             dist = (price - sma200) / sma200 * 100
             add("coin-200d", signed_pct(dist, 1), window="Price against its 200-day average",
@@ -218,64 +221,120 @@ def has_week_figure(sentence):
     return bool(_WEEK_FIGURE.search(sentence or ""))
 
 
+def read_words(utc, fmt_date=None, day=""):
+    """'read Oct 26, 7:14 PM ET': a dated block's own read, in the house wording (Sprint 9.9.2). Without a time, the date
+    alone ('read Oct 26')."""
+    import site_build as sb
+    t = sb._utc_dt(str(utc or "")) if utc else None
+    if t is not None:
+        et = t.astimezone(sb._ET)
+        return f"read {et.strftime('%b')} {et.day}, {et.strftime('%-I:%M %p')} ET"
+    return f"read {fmt_date(day)}" if (fmt_date and day) else ""
+
+
+def age_words(read_utc, board_utc, today=None, day=""):
+    """'This is 13 hours old; the readings above are newer.': the house line, measured from the block's read to the
+    readings it sits under (the page's own Board time); in days from 48 hours, or from the dates alone when the read has
+    no time. '' when the block is not older than the readings by an hour."""
+    import site_build as sb
+    r, b = sb._utc_dt(str(read_utc or "")), sb._utc_dt(str(board_utc or ""))
+    if r is not None and b is not None:
+        h = (b - r).total_seconds() / 3600
+        if h < 1:
+            return ""
+        n, unit = (int(h), "hour") if h < 48 else (int(h // 24), "day")
+    else:
+        try:
+            n, unit = (today - _dt.date.fromisoformat(day)).days, "day"
+        except (TypeError, ValueError):
+            return ""
+        if n < 1:
+            return ""
+    return f"This is {n} {unit}{'' if n == 1 else 's'} old; the readings above are newer."
+
+
 def chartmaster_card(c, cm, asset, today, esc, fmt_date, destyle=lambda t: t,
-                     price_fmt=str, board_day=""):
-    """The Chart Master card for one coin, always under a date.
+                     price_fmt=str, board_day="", board_utc=""):
+    """The Chart Master card for one coin, always under its read's date and time and its age.
 
     1. The coin's own read when the night's read names it: its sentences, in the order the
        read gave them, and no others, under the read's date.
-    2. The levels card otherwise: price, 50-day, 200-day and RSI. When the night published
+    2. The levels card otherwise: the levels the page does not already print. When the night published
        the data-only card (7.2's last path) the row is the Chart Master's own for that coin
        and wears the read's date; when the night published prose that does not name the coin,
        the levels are the Board's and wear the Board's date, because that is where they came
        from.
     3. Nothing for a coin with neither, because nothing is invented.
 
-    A read older than one day says how old it is above its text and is never presented as
-    today's."""
+    SPRINT 9.9.2, ONE FACT ONCE: the page's Readings print the price, the 200-day line and RSI from the newest Board, so the
+    levels card prints only what they do not (the 50-day average): one 200-day value and one RSI per page. The block names
+    its read in the house wording ("Chart levels for Bitcoin, read Oct 26, 7:14 PM ET") and says how much older it is than
+    the readings above it ("This is 13 hours old; the readings above are newer."); "from the last build" is retired. A
+    stored average rounded to the cent beside a sub-dollar price is not printed as if it had the price's precision: it is
+    left out and the card says so (one_fact.precision_findings is the check)."""
+    import site_build as sb
     cm = cm or {}
     rday = str(cm.get("date") or "")[:10]
     name = c.get("name") or c.get("symbol") or ""
     sents = [x for x in coin_sentences(c, cm) if not has_week_figure(x)]
-    row, day = None, rday
+    row, day, rutc = None, rday, cm.get("read_utc") or ""
     if not sents:
         sym = (c.get("symbol") or "").upper()
         if cm.get("data_only"):
             row = next((r for r in (cm.get("levels") or [])
                         if str(r.get("symbol") or "").upper() == sym), None)
         elif asset:
-            row, day = asset, str(board_day or "")[:10]
+            row, day, rutc = asset, str(board_day or "")[:10], board_utc
     elif not rday:
         return ""
     if not sents and not row:
         return ""
     try:
-        age = (today - _dt.date.fromisoformat(day)).days
+        _dt.date.fromisoformat(day)
     except ValueError:
         return ""
-    stale = (f'<p class="cn-cm-old">This is {age} days old; the readings above are newer.</p>'
-             if age > 1 else "")
+    when = read_words(rutc, fmt_date, day)
+    age = age_words(rutc, board_utc, today, day)
+    stale = f'<p class="cn-cm-old">{esc(age)}</p>' if age else ""
     if sents:
         body = " ".join(esc(destyle(s)) for s in sents[:3])
         return (f'<section class="cn-cm" aria-label="The chart read on {esc(name)}">'
-                f'<h2 class="cn-h">The chart read on {esc(name)}, {esc(fmt_date(day))}</h2>'
-                f'{stale}<p class="cn-cm-p">{body}</p>'
+                f'<h2 class="cn-h">The chart read on {esc(name)}, {esc(when)}</h2>'
+                f'{stale}<p class="cn-cm-p" data-read>{body}</p>'
                 f'<p class="cn-cm-f"><a href="/chartmaster.html">The whole read</a></p></section>')
-    rows = []
+    # what the page's Readings already print, from the newest Board: not printed a second time here
+    on_page = set()
+    if c.get("price"):
+        on_page.add("price")
+        if asset and isinstance(sb.level(asset, "sma200"), (int, float)):
+            on_page.add("sma200")
+    if asset and isinstance(asset.get("rsi14"), (int, float)):
+        on_page.add("rsi14")
+    rows, coarse = [], []
     for k, lab in (("price", "Price"), ("sma50", "50-day average"), ("sma200", "200-day average")):
-        if isinstance(row.get(k), (int, float)):
-            rows.append((lab, price_fmt(row[k])))
-    if isinstance(row.get("rsi14"), (int, float)):
+        if k in on_page or not isinstance(row.get(k), (int, float)):
+            continue
+        v = sb.level(row, k) if k != "price" else row[k]
+        if v is None:
+            coarse.append(lab)
+            continue
+        rows.append((lab, price_fmt(v)))
+    if "rsi14" not in on_page and isinstance(row.get("rsi14"), (int, float)):
         rows.append(("RSI (14)", f'{row["rsi14"]:.0f}'))
-    if not rows:
+    if not rows and not coarse:
         return ""
     cells = "".join(f'<div class="cn-lv"><span class="lab">{esc(k)}</span>'
                     f'<span class="cn-lvv">{esc(v)}</span></div>' for k, v in rows)
+    note = (f'<p class="cn-cm-p">The {esc(" and ".join(x.lower() for x in coarse))} this read stored for {esc(name)} '
+            f'{"is" if len(coarse) == 1 else "are"} rounded to the cent, coarser than its price, so '
+            f'{"it is" if len(coarse) == 1 else "they are"} not shown; the next read stores '
+            f'{"it" if len(coarse) == 1 else "them"} in full.</p>' if coarse else "")
     return (f'<section class="cn-cm" aria-label="Chart levels for {esc(name)}">'
-            f'<h2 class="cn-h">Chart levels for {esc(name)}, {esc(fmt_date(day))}</h2>'
+            f'<h2 class="cn-h">Chart levels for {esc(name)}, {esc(when)}</h2>'
             f'{stale}<p class="cn-cm-p">The latest read does not name {esc(name)}. '
-            f'These are its levels.</p><div class="cn-lvs">{cells}</div>'
-            f'<p class="cn-cm-f"><a href="/chartmaster.html">The whole read</a></p></section>')
+            f'{"These are its levels the readings above do not carry." if rows else ""}</p>'
+            + (f'<div class="cn-lvs" data-row>{cells}</div>' if rows else "") + note
+            + '<p class="cn-cm-f"><a href="/chartmaster.html">The whole read</a></p></section>')
 
 
 # ---- the coin's stories ---------------------------------------------------------------------
@@ -414,6 +473,9 @@ def stories_html(hits, esc, stamp_et):
             for l in links if l.get("url"))
         n = len(links) if links else int(w.get("source_count") or 0)
         bits = [f'{n} source{"" if n == 1 else "s"}' + (f': {srcs}' if srcs else "")]
+        if w.get("unmatched"):
+            import wire as _wire
+            bits.append(esc(_wire.NOT_MATCHED))
         if w.get("primary"):
             bits.append('<span class="wl-primary">Primary source</span>')
         st = stamp_et(w.get("reported_utc"))

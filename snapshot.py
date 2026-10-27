@@ -584,3 +584,23 @@ if __name__ == "__main__":
     print(json.dumps({k: v for k, v in s.items() if k != "fields"}, indent=1))
     for k, v in s["fields"].items():
         print(f"  {k:17s} {v['read_utc']}  {v['source']}")
+
+
+def level(row, key):
+    """SPRINT 9.9.2: a stored average or 90-day level at its asset's price precision, or None when it cannot be had.
+    market_pulse stored these rounded to the cent until this sprint, so DOGE's 200-day average of $0.086658 read 0.09 and
+    printed as $0.09000 beside a price of $0.07711 (and its distance from the price read -14.3% instead of -11.0%). An
+    average's full value is the last point of the record's own averaged series (spark_sma50 and spark_sma200 end at the
+    newest close, to six decimals), taken only when it rounds to the stored figure, which proves it is that figure. A
+    sub-dollar level stored to the cent with no such series is None: it is left out, never padded."""
+    v = (row or {}).get(key)
+    if not isinstance(v, (int, float)):
+        return None
+    px = (row or {}).get("price")
+    if not isinstance(px, (int, float)) or px >= 1 or round(v, 2) != v or v == 0:
+        return v
+    ser = (row or {}).get("spark_" + key) if key in ("sma50", "sma200") else None
+    last = ser[-1] if ser else None
+    if isinstance(last, (int, float)) and round(last, 2) == round(v, 2):
+        return float(last)
+    return None

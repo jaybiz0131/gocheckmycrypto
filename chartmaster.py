@@ -684,7 +684,10 @@ def data_card(data=None):
     flows = _load("flows.json")
     import snapshot as _snapshot
     pulse, _f = _snapshot.views(_snapshot.build(pulse, flows), pulse, flows)
-    rows = [{k: a.get(k) for k in ("symbol", "price", "sma50", "sma200", "rsi14")}
+    # SPRINT 9.9.2: each average at its price's precision (snapshot.level), so the card the site prints never pads a
+    # rounding; one that cannot be had is stored as it was, and the page leaves it out
+    rows = [dict({k: a.get(k) for k in ("symbol", "price", "sma50", "sma200", "rsi14")},
+                 **{k: _snapshot.level(a, k) for k in ("sma50", "sma200") if _snapshot.level(a, k) is not None})
             for a in (pulse or {}).get("assets") or []]
     if not rows:
         raise ValueError("no pulse snapshot for the data card")
@@ -796,6 +799,8 @@ def run():
         obj, path, tripped, detail = publish_path(cand[0], e, data)
     out = {
         "date": data["data_date"],
+        # SPRINT 9.9.2: when the levels were read (the Board's own time), for the card's dated block on the coin pages
+        "read_utc": str((_load("pulse.json") or {}).get("generated_utc") or ""),
         "generated_by": "chartmaster.py (auto, from the live boards)",
         "mode": client.mode,
         "path": path,

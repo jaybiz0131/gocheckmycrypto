@@ -136,7 +136,9 @@ try {
     const exp = { "1d": "up", "7d": isFinite(c7) ? (c7 > 0 ? "up" : "down") : "down", "1m": "down", "1y": "up" };
     const bad = Object.entries(exp).filter(([r, d]) => !seen[r] || seen[r].dir !== d || seen[r].chgDir !== d
       || !(seen[r].cls || "").includes(d)
-      || (d === "down" ? !/^[-−]/.test(seen[r].chg || "") : !/^\+/.test(seen[r].chg || "")));
+      // SPRINT 9.9.2: on 7D the 7-day figure is the Readings tile's, printed once there; the header names the window only
+      || (r === "7d" && isFinite(c7) ? seen[r].chg !== "Over the last 7 days"
+          : (d === "down" ? !/^[-−]/.test(seen[r].chg || "") : !/^\+/.test(seen[r].chg || ""))));
     check("chart-own-window: line and printed change take the window's own direction, recolored per tab",
       !bad.length, JSON.stringify(seen).slice(0, 400));
     const pair = exp["7d"] !== exp["1d"] ? ["1d", "7d"] : ["1d", "1m"];

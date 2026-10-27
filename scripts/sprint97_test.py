@@ -826,7 +826,10 @@ def tree(root, expect_pages=False, with_browser=False):
     if br and br["data"].get("url"):
         t = norm(page(br["data"]["url"].lstrip("/") if br["data"]["url"] != "/" else "index.html"))
         guarded(fails, "brief: the title and the lead sentence are on the page the feed names (the home for a Morning Brief, the article for an Evening one)",
-                lambda: norm(br["data"]["title"]) in t and (norm((br["data"]["sentences"] or [br["data"]["bottom_line"] or ""])[0])[:60] in t))
+                # SPRINT 9.9.2: the home withholds a stored sentence whose figure it prints elsewhere (one fact once); the feed keeps
+                # the read whole, so the page carries the title and at least one of the feed's sentences, each exactly as stored
+                lambda: norm(br["data"]["title"]) in t and any(norm(x)[:60] in t for x in (br["data"]["sentences"]
+                                                                                           or [br["data"]["bottom_line"] or ""])))
     mv = allf.get("movers")
     if mv:
         t = page("pulse/movers.html")

@@ -277,7 +277,7 @@ def render_front(desk, items, day, all_days, canonical_path="/news.html"):
     <span class="ed-kicker">{esc(_brief_name(ed))}</span>
     <span class="ed-stamp">{esc(_utc_stamp(ed))}</span>
   </div>
-  <div class="ed-brief-cols">{_cites(ed, "".join(f"<p>{p}</p>" for p in (ed.get("body") or [])))}</div>
+  <div class="ed-brief-cols" data-read>{_cites(ed, "".join(f"<p>{p}</p>" for p in (ed.get("body") or [])))}</div>
   <div class="ed-brief-cites">In this brief: {cites}</div>
 </section>"""
 
@@ -291,8 +291,11 @@ def render_front(desk, items, day, all_days, canonical_path="/news.html"):
     prev_links = " &middot; ".join(
         f'<a href="/edition/{d}.html">{d}</a>' for d in all_days[:14] if d != day)
 
+    # SPRINT 9.9.2: an issue prints the day's stored stories and its stored Brief as published, and nothing of the site's
+    # own (no reading, no board figure): the issue is one stored read (data-read), so a figure the Brief repeats from a
+    # story on the same sheet is the issue's, never reworded (J-10)
     return f"""<style>{CSS}</style>
-<main class="ed-sheet">
+<main class="ed-sheet" data-read>
 {head}
 <div class="ed-front">
 {lead_html}
