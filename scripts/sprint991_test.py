@@ -687,6 +687,16 @@ def review2_cases(fails):
             and 'data-ev-window="et_day"' in section_of(h2) and not notice_texts(h2))
     guarded(fails, "the SYNTHETIC probe on the Bitcoin page: the same outcome as /today/ (the three pages cannot grade apart)",
             lambda: coin_probe(fails, ev, v, rec))
+    # the named fallback: when the cut cannot be made, the list reads the 24 hours and the notice names the 24 hours, not a window nothing reads
+    with Draw() as d:
+        ev = copy.deepcopy(d.ev)
+        ev["coins"]["BTC"]["series"]["points"] = [p for p in ev["coins"]["BTC"]["series"]["points"] if p[0] >= 1792987200 + 3600]
+        h = d.today(evidence=ev)
+        guarded(fails, "SYNTHETIC fallback (the series does not reach midnight): the list reads the 24 hours and the notice names those "
+                       "24 hours and no window the page does not read",
+                lambda: 'data-ev-window="rolling_24h"' in section_of(h) and len(notice_texts(h)) == 1
+                and "did not grade the move over the last 24 hours (it is " in notice_texts(h)[0]
+                and "since midnight ET" not in notice_texts(h)[0])
     print("   failure 4: a thing left out is said (the second sources are not read for the cut window)")
     with Draw() as d:
         for name, pg in (("/today/", d.today()), ("/coins/btc", d.coin("BTC")), ("/coins/eth", d.coin("ETH"))):
@@ -844,7 +854,7 @@ def _every_notice_full(path):
     h = open(path, encoding="utf-8", errors="replace").read()
     for m in re.finditer(r'<p class="vd-plain vd-next"[^>]*>(.*?)</p>', h, flags=re.S):
         t = visible(m.group(1))
-        if not ("Next read: " in t and (": the window flipped since the run" in t or ": no read yet today" in t)):
+        if not ("Next read: " in t and (": the last read did not grade the move " in t or ": no read yet today" in t)):
             return False
     return True
 

@@ -8,7 +8,7 @@ week/movers canary: snapshot 34362 bytes against 60000
 narrative: the Edition's line did not hold ('Bitcoin will likely rebound as ETF inflows build.'); the clause table writes it
 narrative: the Edition's line did not hold ('Bitcoin fell. Regulators were busy.'); the clause table writes it
 narrative: Bitcoin is drifting lower while spot ETFs saw inflows; the news is mostly regulation. (table, 7:10 PM ET on Oct 7)
-build stamp canary: built a throwaway tree in stamp-canary-0ykcw0l_ (54 entries); the build's own log is captured, not this job's
+build stamp canary: built a throwaway tree in stamp-canary-f2e7v0ns (54 entries); the build's own log is captured, not this job's
 beacon canary: 838 of 838 built pages carry exactly one beacon
 A. the direction word follows the sign: a down, an up and a flat fixture day
   ok   BTC -2.03% reads down: 'Why is crypto down today? Wednesday, October 14, 2026'
@@ -1044,7 +1044,7 @@ static: 100 coin pages read
   ok   J-8(b): on the coin placement the card's place prints "Verdict at the next read", with no badge and no grade word
   ok   J-8(b): on the page placement the card's place prints "Verdict at the next read", with no badge and no grade word
   ok   J-8(b): no marks, no verdict URL, and the model is never asked for it
-11. the built tree /tmp/stamp-canary-0ykcw0l_/publish
+11. the built tree /tmp/stamp-canary-f2e7v0ns/publish
   ok   NO URL REMOVED OR CHANGED: all 70 pages main built (the structural set) are still built ()
   ok   the new pages are additions: /corrections.html is built, and the older Brief months are /bottom-line/<YYYY-MM>.html
   ok   /today/ stays canonical: its canonical link is /today, and every page's nav links /today/
@@ -1143,7 +1143,7 @@ static: 100 coin pages read
   ok   site.css: the J-11 rule 2 block is there once and is the named text, character for character (a third rule inside it, or a changed one, is red)
   ok   rule 1 by width: the live stamp (#tapeLive's p.h-live) has min-height 54.45px (three lines of its 18.15px) at 375 and 520, and none at 521
   ok   rule 2 by width: the nav wraps at 700, 768, 900 and 1019, and not at 699 or 1020 (the tab bar below 700 is untouched)
-5. the built tree /tmp/stamp-canary-0ykcw0l_/publish
+5. the built tree /tmp/stamp-canary-f2e7v0ns/publish
   ok   the built home links site.css and system.css, versioned
   ok   the built site.css is the source's: .wrap is 1080 at 1279 and about 1400 at 1440 (read from the built file)
   ok   the built home has exactly one Ether line (the Board has an Ether price)
@@ -1316,7 +1316,7 @@ static: 100 coin pages read
   ok   the default window is 3
   ok   SYNTHETIC: a day card whose line carries a figure its verdict records and page do not print (2.5%) is refused
   ok   SYNTHETIC: a graded day-card sentence with a figure the day's verdict page lacks (9.99%) makes no day card
-10. the built tree /tmp/stamp-canary-0ykcw0l_/publish
+10. the built tree /tmp/stamp-canary-f2e7v0ns/publish
   ok   the build wrote /why/ pages (6)
   ok   /why/2026-10-15-bitcoin: og:image is its own square image and the file is in the tree at 1080 by 1080
   ok   /why/2026-10-16-celestia: og:image is its own square image and the file is in the tree at 1080 by 1080
@@ -1358,7 +1358,7 @@ static: 100 coin pages read
   ok   every committed table carries its own as-of stamp
   ok   refusing sources: the committed file is left byte for byte as it was
   ok   refusing sources: the ETF page built from the committed file is marked stale
-  ok   ...and carries the committed table's own as-of (8:02 PM ET, Oct 26, 2026)
+  ok   ...and carries the committed table's own as-of (9:24 PM ET, Oct 26, 2026)
 6. the stale line is in the house form
   ok   the label is closed as its own sentence, <b>Stale data.</b>, as the Board's stamp does
   ok   the line reads as sentences: capitalized, each closed with a period, and ends on the as-of date
@@ -1376,7 +1376,7 @@ static: 100 coin pages read
   ok   living_tables.py has no em dash
   ok   this script has no em dash
   ok   no URL list entry was removed: the three tables are still in the structural baseline
-9. the built tree /tmp/stamp-canary-0ykcw0l_/publish
+9. the built tree /tmp/stamp-canary-f2e7v0ns/publish
   ok   tables/etf-flows-by-issuer.html: the committed file holds this table, so the page is never 'Not read yet'
   ok   tables/etf-flows-by-issuer.html is built and in the sitemap
   ok   tables/etf-flows-by-issuer.html says what it is: a fresh as-of line, a stale mark, or Not read yet
@@ -1409,7 +1409,7 @@ static: 100 coin pages read
   ok   data/coins-mini.json is written without an `if _cm_payload:` guard
   ok   the mini-board file is an empty list, not nothing, when the Top 100 is empty
   ok   this script and the build have no em dash
-5. the built tree /tmp/stamp-canary-0ykcw0l_/publish
+5. the built tree /tmp/stamp-canary-f2e7v0ns/publish
   ok   wire.html is built
   ok   wire.html lists entries, or says plainly that none fall in the window with a stale stamp
   ok   data/coins-mini.json is built
@@ -1565,7 +1565,7 @@ static: 100 coin pages read
   ok   worker/live-prices.mjs: exists, no dash, US spelling of the house words
   ok   worker/live-prices.test.mjs: exists, no dash, US spelling of the house words
   ok   scripts/sprint97_browser.mjs: exists, no dash, US spelling of the house words
-15. the built tree /tmp/stamp-canary-0ykcw0l_/publish
+15. the built tree /tmp/stamp-canary-f2e7v0ns/publish
   ok   /api/v1/index.json exists and parses
   ok   /api/v1/top100.json exists and parses
   ok   /api/v1/markets.json exists and parses
@@ -1745,7 +1745,7 @@ R1. awaiting only while a later read can still come: the same ET day, the Evenin
   ok   every Bitcoin /why/ page links the record (4)
   ok   every Big movers /why/ page links the record (5)
   ok   the sitemap's priority list names /why/record/ (read in the tree cases too)
-9. the built tree /tmp/stamp-canary-0ykcw0l_/publish
+9. the built tree /tmp/stamp-canary-f2e7v0ns/publish
   ok   why/record/index.html is built
   ok   api/v1/why/record.json is built in 9.7's shape
   ok   the api index lists it
@@ -1818,7 +1818,7 @@ R1. awaiting only while a later read can still come: the same ET day, the Evenin
   ok   home: the notice says no read yet today and the next read's time, in one line
   ok   /coins/btc: the notice says no read yet today and the next read's time, in one line
   ok   home with no verdict record at all: the same notice
-  ok   the Ether page draws no notice for a verdict the desk never grades for Ether without Bitcoin's
+  ok   the Ether page says the same as the Bitcoin page when no read has run today (Review 2, failure 6)
   ok   a flat day's record, dated today, draws no card and no notice (nothing was missed)
   ok   after the evening slot the notice names tomorrow's read (the Brief card's own function)
 3. /today/, the home and the Bitcoin page agree on direction and window, on a day where the day and the 24 hours disagree
@@ -1873,7 +1873,7 @@ R1. awaiting only while a later read can still come: the same ET day, the Evenin
   ok   every figure of the fallback names the 24 hours (run, shares)
   ok   the fallback's window line on /today/ names the fallback and the reason, so the page never hides two windows
   ok   the cut must run the way the page's direction reads: the same day read as down falls back and says so
-  ok   a graded verdict whose stored run is not the day's run: the list falls back to the 24 hours the grade was made on
+  ok   a graded verdict whose stored run is not the day's run: the list stays on the ET day (Review 2: the card falls to the notice instead, verdict.page_view), and the section does not move to another window to save a card
 9. Review 1, failure 3: the time of the next read is the build's on a living page, and the same on the home, /today/ and the coin page
   ok   premise: the build is at 7:38 PM ET, after the 7:08 PM slot, and the living page is the morning record
   ok   the living /today/ names tomorrow's read, not the 7:08 PM slot that has passed
@@ -1892,6 +1892,45 @@ R1. awaiting only while a later read can still come: the same ET day, the Evenin
   ok   the evidence section called without a window is main's: 'the window' wording, no window attribute
   ok   a verdict page's card (where=page) carries no data-vd-basis or data-vd-dir (main's markup)
   ok   the home's graded card still carries them (the three pages' agreement is read from them)
+12. Review 2, failure 1: /today/2026-10-25 reads one window, the one its record states (since midnight ET)
+  ok   the premise, from the real record: the headline reads down since midnight ET and the stored verdict is a graded Unclear on the 24-hour run
+  ok   the evidence section is drawn on the ET day, not on the 24 hours as a fallback taken for another reason
+  ok   no graded card stands over a list its run does not reach: the card is the notice, not 'Checked: Unclear'
+  ok   the page names no 24-hour window anywhere (line, notice, list, chart)
+  ok   the list does not print the hour of a run that began before the window opened (Sat 11:20 PM ET)
+  ok   the notice names the window the list reads
+   failure 2: the notice's reason names a window and a fact the page itself prints, and no run the page does not draw
+  ok   home: the notice reads the ruled-out run no more, and says what the last read did not grade
+  ok   home: the notice does not say a window flipped since 'the run' (no run is drawn beside it)
+  ok   /today/: the notice reads the ruled-out run no more, and says what the last read did not grade
+  ok   /today/: the notice does not say a window flipped since 'the run' (no run is drawn beside it)
+  ok   /today/2026-10-26: the notice reads the ruled-out run no more, and says what the last read did not grade
+  ok   /today/2026-10-26: the notice does not say a window flipped since 'the run' (no run is drawn beside it)
+  ok   /coins/btc: the notice reads the ruled-out run no more, and says what the last read did not grade
+  ok   /coins/btc: the notice does not say a window flipped since 'the run' (no run is drawn beside it)
+  ok   /today/: the window the notice names is the one the list below it reads
+  ok   /coins/btc: the window the notice names is the one the list below it reads
+   failure 3 (SYNTHETIC probe): the card and the list never grade apart
+  ok   SYNTHETIC premise: stored share 50.0 (passes by share), the cut's 33.3 (no pass), the same run, graded on the stored run
+  ok   SYNTHETIC: the card does not say a passing event while the list prints a figure under the bar for it
+  ok   SYNTHETIC: the list is the ET day's (33% of the rise since midnight ET), beside a notice, not beside a grade
+  ok   SYNTHETIC control: an event within the hour before the run passes in both windows: the graded card stands over the cut
+  ok   the SYNTHETIC probe on the Bitcoin page: the same outcome as /today/ (the three pages cannot grade apart)
+  ok   SYNTHETIC fallback (the series does not reach midnight): the list reads the 24 hours and the notice names those 24 hours and no window the page does not read
+   failure 4: a thing left out is said (the second sources are not read for the cut window)
+  ok   /today/: the section says the second sources (OKX, Binance, Kraken) are not read for this window
+  ok   /coins/btc: the section says the second sources (OKX, Binance, Kraken) are not read for this window
+  ok   /coins/eth: the section says the second sources (OKX, Binance, Kraken) are not read for this window
+  ok   SYNTHETIC fallback (the series does not reach midnight): the 24 hours keep the second sources' agreement
+   failure 5: one next read per page, none already past
+  ok   the living /today/ prints one next-read time, tomorrow's (the card and the footer agree, none is tonight's 7:08 PM)
+  ok   the home prints the same one time
+  ok   a dated page keeps its own record's one time, card and footer alike
+   failure 6: the coin pages agree, and no day-bound line stands as current past its day (SYNTHETIC clock: 6:00 AM ET the next day)
+  ok   /coins/btc says no read yet today
+  ok   /coins/eth says the same, not yesterday's 'Ether moved with Bitcoin since midnight ET' as if it were today's
+  ok   the two coin pages carry the same next-read time and no day-bound sentence of the stored record
+  ok   inside the day the Ether page keeps its own plain line (the rule applies past the day only)
 7. the tree this build wrote: the home's first object
   ok   the built home exists
   ok   the built home's first object below the masthead is a verdict card (a graded card or the notice), and the tape is the block after it
