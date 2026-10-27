@@ -1,0 +1,10 @@
+Sprint 9.9.2, red first: K-1 on main's code (origin/main b8e9afe) with a stale ignored site/publish/news.html planted in the copy (a news front a local build left on an earlier day). Main's _where_is_news_canary reads site_build.PUBLISH and fails on it; the branch reads the tree its own build wrote.
+K-1 on main with a stale ignored site/publish: 8 failure(s)
+  FAIL 9.5 canary: /news.html H1 is [], the name is 'News'
+  FAIL 9.5 canary: /news.html title tag does not open with 'News - '
+  FAIL 9.5 canary: /news.html nav does not carry News
+  FAIL 9.5 canary: the footer does not link News
+  FAIL K-1 canary: the news front does not lead with what happened; it opens on a taxonomy
+  FAIL K-1 canary: the storyline library is gone from the news front
+  FAIL K-1 canary: the news front's chronological half has 0 row(s)
+  FAIL K-1 canary: the Wire is not linked from the news front, and it is not in the nav either, so it is unreachable

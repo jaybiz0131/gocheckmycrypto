@@ -1,0 +1,62 @@
+Sprint 9.9.2, red first: python3 verify_pipeline.py canary on main's code (origin/main b8e9afe, git archive, no .git) with this branch's verify_pipeline.py, fact_sweep.py, test script and fixtures (the files of b2b0768). Each new or restated canary check is red on the old text: sprint 9.9.2 (the sweep of main's built tree, and each fix case), K-7 (the fallback names its read; main prints 'from the last build'), the two below-canary checks (the next slot's time once on the home; main prints it twice), data contract 3 (the Board's line prints no figure its tiles print; main's quotes them). The conflict canary and the two build stamp reds are the copy having no .git, not the code. Written Tue Oct 27 2026, 07:42 AM EDT.
+2084:  FAIL the sweep finds no figure printed twice and no derived figure off its row's precision (484 finding(s))
+2109:::error::canary: K-7 canary: the fallback does not name its own read in the house wording (Read Oct 26, 7:12 PM ET), so a stale line reads as a live one
+2110:::error::canary: below canary: the Brief card does not name its edition, link it and say when the next Brief is due (once on the page)
+2111:::error::canary: below canary: with no Brief the home does not say when the next one is due (once on the page)
+2112:::error::canary: conflict canary: git ls-files failed (Command '['git', 'ls-files']' returned non-zero exit status 128.), so nothing was scanned
+2113:::error::canary: data contract: the Brief's lead line does not read the Board's whale window from the snapshot, or prints a figure its tiles print (9.9.2, one fact once): 'Bitcoin up 3.3% since yesterday, ETF flows in their 2nd day of outflows, and $7.00B onto exchanges in 2 days.'
+2114:::error::canary: build stamp canary: the build cannot name its own commit ('unknown'); every live read would then assert against 'unknown' and pass
+2115:::error::canary: sprint 9.9.2: /coins/btc: the sweep finds nothing on the page (every fact once) [coins/btc.html at 375: 0.70% printed twice ('24 hours: ▼ Down 0.70%' and '-0.70%'); coins/btc.html at 375: -2.56% printed twice ('-2.56% over the last 7 days' and '7 days: ▼ Down 2.56%'); coins/btc.ht]
+2116:::error::canary: sprint 9.9.2: /coins/doge: the sweep finds nothing on the page (every fact once) [coins/doge.html at 375: 0.12% printed twice ('24 hours: ▼ Down 0.12%' and '-0.12%'); coins/doge.html at 375: -2.87% printed twice ('-2.87% over the last 7 days' and '7 days: ▼ Down 2.87%'); coins/doge]
+2117:::error::canary: sprint 9.9.2: /coins/ada: the sweep finds nothing on the page (every fact once) [coins/ada.html at 375: 0.20% printed twice ('24 hours: ▼ Down 0.20%' and '-0.20%'); coins/ada.html at 375: -5.74% printed twice ('-5.74% over the last 7 days' and '7 days: ▼ Down 5.74%'); coins/ada.ht]
+2118:::error::canary: sprint 9.9.2: /coins/usdt: the sweep finds nothing on the page (every fact once) [coins/usdt.html at 375: $47.15B printed twice ('$47.15B' and '24-hour volume $47.15B'); coins/usdt.html at 375: prints 'from the last build' (retired: a block names its own read)]
+2119:::error::canary: sprint 9.9.2: the price tile carries its rolling 24-hour change beside it, and the since line is the 30 days
+2120:::error::canary: sprint 9.9.2: no separate 24-hour or 7-day tile (the chart's header is the page's one 7-day figure)
+2121:::error::canary: sprint 9.9.2: the 24-hour volume prints once (the tile), not again in Supply and trade
+2122:::error::canary: sprint 9.9.2: one 200-day value on the page
+2123:::error::canary: sprint 9.9.2: the levels card is headed in the house wording with its read's own time (the ledger's, 7:14 PM ET)
+2124:::error::canary: sprint 9.9.2: the levels card prints only the 50-day average, which the readings do not
+2125:::error::canary: sprint 9.9.2: 'from the last build' retires; the chart's caption names its read: 'Read Oct 26, 7:12 PM ET.'
+2126:::error::canary: sprint 9.9.2: DOGE's averages are the desk's own figures at its price's precision ($0.08674, $0.08699), not $0.09000
+2127:::error::canary: sprint 9.9.2: and its distance from the 200-day is measured against that figure (-11.2%), not against 0.09
+2128:::error::canary: sprint 9.9.2: _week_extremes: a pair that prints as one figure is one figure [AttributeError: module 'site_build' has no attribute '_week_extremes']
+2129:::error::canary: sprint 9.9.2: _price_fmt_as: an average at its price's decimals (DOGE 5, ADA 4, BTC 2) [AttributeError: module 'site_build' has no attribute '_price_fmt_as']
+2130:::error::canary: sprint 9.9.2: group coin could not run [TypeError: chartmaster_card() got an unexpected keyword argument 'stamp']
+2131:::error::canary: sprint 9.9.2: history.precise_assets does not exist
+2132:::error::canary: sprint 9.9.2: the stored closes give DOGE 0.086993 and 0.086738, each rounding back to the stored 0.09 (the same figure)
+2133:::error::canary: sprint 9.9.2: SYNTHETIC: a stored figure the closes do not give is printed as stored (0.05 does not round from 0.0867) [AttributeError: module 'history' has no attribute 'precise_average']
+2134:::error::canary: sprint 9.9.2: the Chart Master record's levels for DOGE and ADA read again from the closes, at their price's precision
+2135:::error::canary: sprint 9.9.2: SYNTHETIC closes: market_pulse now stores a sub-$100 average past two decimals (held at six)
+2136:::error::canary: sprint 9.9.2: DOGE and ADA averages at four decimals like their prices, and the desk's figures ($0.0870, $0.0867; $0.2302, $0.2107)
+2137:::error::canary: sprint 9.9.2: the RSI-14 header holds one line (it does not wrap at its hyphen; measured at 375 by the browser half)
+2138:::error::canary: sprint 9.9.2: the read's heading carries its own read's time (the ledger's 7:14 PM ET)
+2139:::error::canary: sprint 9.9.2: the Chart Master page: the sweep finds nothing [chartmaster.html at 375: 'The chart read, Oct 26' carries a date with no read time (the house wording: 'Chart levels, read Oct 25, 8:17 PM ET')]
+2140:::error::canary: sprint 9.9.2: the dated /today/2026-10-26: the sweep finds nothing [today/2026-10-26.html at 375: $79,754, printed twice ('On Monday, October 26, Bitcoin was flat since midnight ET, at $79,754, a change of +0.12%. Over the last 24 ho' and 'Bitcoin $79,754 ▲ 0.12% sinc]
+2141:::error::canary: sprint 9.9.2: What moved does not repeat the answer's figures: Bitcoin's 0.70% and $79,754 print once, Ether's 1.32% once
+2142:::error::canary: sprint 9.9.2: the movers the answer names (XDC, ZRO) are not listed again; the rest are, under 'More of'
+2143:::error::canary: sprint 9.9.2: the home prints the next slot's time once: in the notice, not again on the Brief card
+2144:::error::canary: sprint 9.9.2: SYNTHETIC: a top-20 mover that is also past 5% prints once, in the list; the line names only the others
+2145:::error::canary: sprint 9.9.2: the living /today/ prints it once too: the notice carries it and the footer line does not repeat it
+2146:::error::canary: sprint 9.9.2: /flows: the sweep finds nothing [flows.html at 375: -$1.59B printed twice ('None in the last 24 hours, so this board reads a wider window. 68 transfers of $50M or more touched an exchang' and 'Volatile assets, net (7 days) $1.59B net]
+2147:::error::canary: sprint 9.9.2: the line states the net; the stat states the gross; no 'Biggest single move' stat over the table that lists it
+2148:::error::canary: sprint 9.9.2: the Board's own line names directions and windows and prints no figure its tiles print
+2149:::error::canary: sprint 9.9.2: /pulse.html: the sweep finds nothing [pulse.html at 375: $1.59B printed twice ('Bitcoin up 0.0% since yesterday, ETF flows in their 2nd day of outflows, and $1.59B onto exchanges in 7 days.' and '-$1.59B')]
+2150:::error::canary: sprint 9.9.2: group markets could not run [TypeError: flow_ledger() got an unexpected keyword argument 'said']
+2151:::error::canary: sprint 9.9.2: that link does not carry a word of the event: unmatched [AttributeError: module 'why_evidence' has no attribute 'unmatched_links']
+2152:::error::canary: sprint 9.9.2: its other links carry the event's words and stay cited [AttributeError: module 'why_evidence' has no attribute 'unmatched_links']
+2153:::error::canary: sprint 9.9.2: the unmatched source does not count toward the grade (verdict.stated counts the matched ones)
+2154:::error::canary: sprint 9.9.2: the desk's common words never carry a match alone ('bitcoin', 'crypto', 'etf' are in the measured floor) [AttributeError: module 'why_evidence' has no attribute 'common_words']
+2155:::error::canary: sprint 9.9.2: the item prints 'source link not matched' in that link's place, and links the others
+2156:::error::canary: sprint 9.9.2: SYNTHETIC: a link whose address names the event is matched [AttributeError: module 'why_evidence' has no attribute 'link_matched']
+2157:::error::canary: sprint 9.9.2: a source not read is listed once, counted [AttributeError: module 'why_evidence' has no attribute 'once_each']
+2158:::error::canary: sprint 9.9.2: the stored 25 October record's 'The Block (HTTP 403); The Block (HTTP 403)' prints once
+2159:::error::canary: sprint 9.9.2: 'not read for this hour' reads 'not compared for this window' (entry 2026-10-26-C6)
+2160:::error::canary: sprint 9.9.2: the run's ends that are the chart's high and low are named, not printed again
+2161:::error::canary: sprint 9.9.2: an unchanged reading prints once ('7.5%, unchanged in the hour'), never 'X to X'
+2162:::error::canary: sprint 9.9.2: the 25 October section: the sweep finds nothing [why/2026-10-25-bitcoin.html at 375: $80,946 printed twice ('The largest run in the 24 hours: ▼ 1.11% from $80,946 at Sat 11:20 PM ET to $80,047 at 5:20 AM ET. I]
+2163:::error::canary: sprint 9.9.2: the article prints the outlet's name, never the raw entry
+2164:::error::canary: sprint 9.9.2: the sweep finds no figure printed twice and no derived figure off its row's precision (484 finding(s))
+2165:::error::canary: below canary: the Brief card does not name its edition, link it and say when the next Brief is due (once on the page)
+2166:::error::canary: below canary: with no Brief the home does not say when the next one is due (once on the page)
+2167:::error::canary: build stamp canary: /stamp.txt says the build could not name its commit
+2169:LAYER 1 CANARY: FAIL (59 problem(s)) -> promotion BLOCKED (exit 1)

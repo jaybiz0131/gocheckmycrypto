@@ -1,0 +1,118 @@
+Sprint 9.9.2, red first: scripts/sprint992_test.py --production on main's code (origin/main b8e9afe, git archive) with only this branch's fact_sweep.py, verify_pipeline.py, test script, browser script and fixtures copied in (the files of b2b0768). The sweep's own cases (group 1) and the production cases (group 2) pass there; every fix case fails, each named. Written Tue Oct 27 2026, 07:42 AM EDT.
+1. the sweep reads what a page prints, at 375 and at 1440, through the site's own stylesheets
+  ok   the wide and narrow chart twins print once at each width (system.css hides one): no finding
+  ok   the tape's Ether line (1280 and up) and the list's Ether row (hidden at 1280 and up) are one printing at each width
+  ok   the same price in two blocks of one page is a finding (the check can fail)
+  ok   two rows of a table, two subjects at one price ($1.00 for two stablecoins), are not a finding
+  ok   a screen-reader-only copy and an SVG tooltip are not printed
+  ok   an axis's evenly spaced ticks are the chart's scale, not facts
+  ok   the sign is part of the fact: +2.0% and 'down 2.0%' are two facts
+  ok   and '-0.26%' with '24 hours: Down 0.26%' is one fact twice
+  ok   the window is part of the fact: 0.60% over 24 hours and 0.60% in the hour the run began are two facts
+  ok   the finer printing rounded to the coarser is one figure ($79,771 and $79,771.00)
+  ok   a coarse headline figure never pairs with a price ($100 million beside $99.86)
+  ok   a stored story's words are a writer's, read as prose (a headline restating its body's figure)
+  ok   a link to a stored story is that story's headline, read as prose
+  ok   label: a named reading printed twice for one subject (two 200-day values on a coin page)
+  ok   label: RSI read across a tile's label and its figure in the next block
+  ok   precision: one table row printing its dollar figures at two precisions is a finding
+  ok   precision: a coin page's average at decimals its price does not print at is a finding
+  ok   next: the next slot's time printed twice is a finding
+  ok   stamp: 'from the last build' is a finding, and so is 'Chart levels for X, Oct 26' with no read time
+  ok   the house wording passes: 'Chart levels, read Oct 26, 7:14 PM ET'
+  ok   padded precision: an average printed past two decimals that the desk's series does not give is a finding
+3. the coin pages: each change, the volume, the 200-day and RSI printed once; the levels card dated by its read
+  FAIL /coins/btc: the sweep finds nothing on the page (every fact once) [coins/btc.html at 375: 0.70% printed twice ('24 hours: ▼ Down 0.70%' and '-0.70%'); coins/btc.html at 375: -2.56% printed twice ('-2.56% over the last 7 days' and '7 days: ▼ Down 2.56%'); coins/btc.ht]
+  FAIL /coins/doge: the sweep finds nothing on the page (every fact once) [coins/doge.html at 375: 0.12% printed twice ('24 hours: ▼ Down 0.12%' and '-0.12%'); coins/doge.html at 375: -2.87% printed twice ('-2.87% over the last 7 days' and '7 days: ▼ Down 2.87%'); coins/doge]
+  FAIL /coins/ada: the sweep finds nothing on the page (every fact once) [coins/ada.html at 375: 0.20% printed twice ('24 hours: ▼ Down 0.20%' and '-0.20%'); coins/ada.html at 375: -5.74% printed twice ('-5.74% over the last 7 days' and '7 days: ▼ Down 5.74%'); coins/ada.ht]
+  FAIL /coins/usdt: the sweep finds nothing on the page (every fact once) [coins/usdt.html at 375: $47.15B printed twice ('$47.15B' and '24-hour volume $47.15B'); coins/usdt.html at 375: prints 'from the last build' (retired: a block names its own read)]
+  FAIL the price tile carries its rolling 24-hour change beside it, and the since line is the 30 days
+  FAIL no separate 24-hour or 7-day tile (the chart's header is the page's one 7-day figure)
+  FAIL the 24-hour volume prints once (the tile), not again in Supply and trade
+  FAIL one 200-day value on the page
+  FAIL the levels card is headed in the house wording with its read's own time (the ledger's, 7:14 PM ET)
+  FAIL the levels card prints only the 50-day average, which the readings do not
+  FAIL 'from the last build' retires; the chart's caption names its read: 'Read Oct 26, 7:12 PM ET.'
+  FAIL DOGE's averages are the desk's own figures at its price's precision ($0.08674, $0.08699), not $0.09000
+  FAIL and its distance from the 200-day is measured against that figure (-11.2%), not against 0.09
+  ok   a stablecoin whose 7D low close prints as its price says so once ('the price is at its 7D low close') or prints a figure the price does not
+  FAIL _week_extremes: a pair that prints as one figure is one figure [AttributeError: module 'site_build' has no attribute '_week_extremes']
+  FAIL _price_fmt_as: an average at its price's decimals (DOGE 5, ADA 4, BTC 2) [AttributeError: module 'site_build' has no attribute '_price_fmt_as']
+  FAIL group coin could not run [TypeError: chartmaster_card() got an unexpected keyword argument 'stamp']
+4. every derived figure at its asset's own price precision, one precision across a row
+  FAIL history.precise_assets does not exist (module 'history' has no attribute 'precise_assets')
+  ok   premise, from the stored record: DOGE's averages are stored as 0.09 and ADA's as 0.23 and 0.21 (two decimals)
+  FAIL the stored closes give DOGE 0.086993 and 0.086738, each rounding back to the stored 0.09 (the same figure)
+  ok   BTC, ETH, SOL and BNB are untouched (their stored two decimals are their price's precision)
+  ok   the record is read, never written (the stored file is byte for byte as before)
+  FAIL SYNTHETIC: a stored figure the closes do not give is printed as stored (0.05 does not round from 0.0867) [AttributeError: module 'history' has no attribute 'precise_average']
+  FAIL the Chart Master record's levels for DOGE and ADA read again from the closes, at their price's precision
+  FAIL SYNTHETIC closes: market_pulse now stores a sub-$100 average past two decimals (held at six)
+  ok   the Chart Master table: every row prints its price and averages at one precision
+  FAIL DOGE and ADA averages at four decimals like their prices, and the desk's figures ($0.0870, $0.0867; $0.2302, $0.2107)
+  FAIL the RSI-14 header holds one line (it does not wrap at its hyphen; measured at 375 by the browser half)
+  FAIL the read's heading carries its own read's time (the ledger's 7:14 PM ET)
+  FAIL the Chart Master page: the sweep finds nothing [chartmaster.html at 375: 'The chart read, Oct 26' carries a date with no read time (the house wording: 'Chart levels, read Oct 25, 8:17 PM ET')]
+5. /today/ and the home: the answer's figures are not listed again; the next slot's time once
+  FAIL the dated /today/2026-10-26: the sweep finds nothing [today/2026-10-26.html at 375: $79,754, printed twice ('On Monday, October 26, Bitcoin was flat since midnight ET, at $79,754, a change of +0.12%. Over the last 24 ho' and 'Bitcoin $79,754 ▲ 0.12% sinc]
+  ok   the stored answer stands word for word
+  FAIL What moved does not repeat the answer's figures: Bitcoin's 0.70% and $79,754 print once, Ether's 1.32% once
+  FAIL the movers the answer names (XDC, ZRO) are not listed again; the rest are, under 'More of'
+  ok   the stored record is read, never written
+  FAIL the home prints the next slot's time once: in the notice, not again on the Brief card
+  FAIL SYNTHETIC: a top-20 mover that is also past 5% prints once, in the list; the line names only the others
+  FAIL the living /today/ prints it once too: the notice carries it and the footer line does not repeat it
+  ok   SYNTHETIC: a page with no notice (the stored record's own day) keeps its footer's next update
+6. Whale Watch and Markets: the net, the gross, the biggest move, the latest ETF day and the pills printed once
+  FAIL /flows: the sweep finds nothing [flows.html at 375: -$1.59B printed twice ('None in the last 24 hours, so this board reads a wider window. 68 transfers of $50M or more touched an exchang' and 'Volatile assets, net (7 days) $1.59B net]
+  FAIL the line states the net; the stat states the gross; no 'Biggest single move' stat over the table that lists it
+  FAIL the Board's own line names directions and windows and prints no figure its tiles print
+  FAIL /pulse.html: the sweep finds nothing [pulse.html at 375: $1.59B printed twice ('Bitcoin up 0.0% since yesterday, ETF flows in their 2nd day of outflows, and $1.59B onto exchanges in 7 days.' and '-$1.59B')]
+  FAIL group markets could not run [TypeError: flow_ledger() got an unexpected keyword argument 'said']
+7. the evidence: the run's ends, unchanged readings, unread sources and unmatched links, each once; one window per /why/ page
+  ok   premise, from the stored record: a UK banks item cites a Daily Hodl address about a Louisiana impersonation scam
+  FAIL that link does not carry a word of the event: unmatched [AttributeError: module 'why_evidence' has no attribute 'unmatched_links']
+  FAIL its other links carry the event's words and stay cited [AttributeError: module 'why_evidence' has no attribute 'unmatched_links']
+  FAIL the unmatched source does not count toward the grade (verdict.stated counts the matched ones)
+  FAIL the desk's common words never carry a match alone ('bitcoin', 'crypto', 'etf' are in the measured floor) [AttributeError: module 'why_evidence' has no attribute 'common_words']
+  FAIL the item prints 'source link not matched' in that link's place, and links the others
+  FAIL SYNTHETIC: a link whose address names the event is matched [AttributeError: module 'why_evidence' has no attribute 'link_matched']
+  FAIL a source not read is listed once, counted [AttributeError: module 'why_evidence' has no attribute 'once_each']
+  FAIL the stored 25 October record's 'The Block (HTTP 403); The Block (HTTP 403)' prints once
+  FAIL 'not read for this hour' reads 'not compared for this window' (entry 2026-10-26-C6)
+  FAIL the run's ends that are the chart's high and low are named, not printed again
+  FAIL an unchanged reading prints once ('7.5%, unchanged in the hour'), never 'X to X'
+  FAIL the 25 October section: the sweep finds nothing [why/2026-10-25-bitcoin.html at 375: $80,946 printed twice ('The largest run in the 24 hours: ▼ 1.11% from $80,946 at Sat 11:20 PM ET to $80,047 at 5:20 AM ET. I]
+9. a stale ignored site/publish cannot fail the canary's K-1 check
+  ok   with site_build.PUBLISH a stale tree, K-1 reports nothing from it (its tree half reads the canary's own tree)
+  ok   the tree half reads the tree it is handed, not site_build.PUBLISH (handed an empty tree, it reports nothing while PUBLISH is the stale one)
+  ok   and the tree half still fails on a bad tree handed to it (the check is the same check)
+10. found by the sweep: an article printed a raw dict as 'Also reported by'
+  ok   premise, from the stored story: its also_reported_by holds {outlet, headline} entries
+  FAIL the article prints the outlet's name, never the raw entry
+2. today's production copy (deploy f9de9c2, read October 27, 5:18 AM ET): the check is red on it, finding by finding
+  ok   the fixture is production's deploy f9de9c2 (its /stamp.txt), and every page's build-commit names it
+  ok   production index.html: next finding 'the next slot's time 'this morning at 8:15 AM ET' printed 2 times'
+  ok   production coins/btc.html: label finding 'the 200-day average printed 2 times'
+  ok   production coins/btc.html: label finding 'RSI printed 2 times'
+  ok   production coins/btc.html: twice finding '-2.49% printed twice'
+  ok   production coins/btc.html: twice finding '$26.98B printed twice'
+  ok   production coins/btc.html: stamp finding 'from the last build'
+  ok   production coins/btc.html: stamp finding ''Chart levels for Bitcoin, Oct 26' carries a date with no read time'
+  ok   production coins/doge.html: precision finding 'DOGE the 200-day average printed $0.09000'
+  ok   production coins/ada.html: precision finding 'ADA the 50-day average printed $0.2300'
+  ok   production chartmaster.html: precision finding 'DOGE the 200-day average printed $0.0900 at 4 decimals'
+  ok   production chartmaster.html: stamp finding ''The chart read, Oct 26' carries a date with no read time'
+  ok   production today/index.html: twice finding '-0.23% printed twice'
+  ok   production today/index.html: next finding 'printed 2 times'
+  ok   production pulse/posture.html: twice finding '$79,771.00 printed twice'
+  ok   production pulse/etf.html: twice finding '$110.3M printed twice'
+  ok   production pulse/stablecoins.html: twice finding '$301.54B printed twice'
+  ok   production pulse.html: twice finding '$1.59B printed twice'
+  ok   production flows.html: twice finding '$663.7M printed twice'
+  ok   production why/2026-10-25-bitcoin.html: twice finding '$80,946 printed twice'
+  ok   production why/2026-10-25-bitcoin.html: twice finding '7.5% printed twice'
+  INFO the production fixture's 16 page(s) hold 81 finding(s)
+  ok   the production fixture is red: findings on every one of its pages but the two that print each fact once already
+
+SPRINT 9.9.2: FAIL (49 failure(s))

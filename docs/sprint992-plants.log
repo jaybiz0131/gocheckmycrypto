@@ -1,0 +1,131 @@
+Sprint 9.9.2, U-9: each guarded thing broken on purpose in a throwaway copy of the tree, scripts/sprint992_test.py --production run, the same copy run again with the break undone from the saved text. Fresh copy per plant. Tue Oct 27 2026, 12:27 PM UTC
+PLANT 1 sweep: the width model reads no stylesheet (every element printed at every width) (fact_sweep.py): exit 1, 3 red; restored: exit 0, 0 red
+      FAIL the wide and narrow chart twins print once at each width (system.css hides one): no finding
+      FAIL the tape's Ether line (1280 and up) and the list's Ether row (hidden at 1280 and up) are one printing at each width
+      FAIL the Chart Master page: the sweep finds nothing [chartmaster.html at 375: $3.53B printed twice ('$3.53B' and '$3.53B'); chartmaster.html at 375: $3.06B printed twice ('$3.06B' and '$3.06B'); chartmaster.html a]
+PLANT 2 sweep: two rows are no longer two subjects (fact_sweep.py): exit 1, 3 red; restored: exit 0, 0 red
+      FAIL two rows of a table, two subjects at one price ($1.00 for two stablecoins), are not a finding
+      FAIL /flows: the sweep finds nothing [flows.html at 375: $499.8M printed twice ('$499.8M' and '$499.8M'); flows.html at 375: $175.3M printed twice ('$175.3M' and '$175.3M'); flows.html at 375: $98.3M printed twice ('$98.
+      FAIL the 25 October section: the sweep finds nothing [why/2026-10-25-bitcoin.html at 375: 100% printed twice ('1 UK banks received 10,000 complaints in three months over crypto purchase restrictions, conflicting wi]
+PLANT 3 sweep: the sign is not part of the fact (fact_sweep.py): exit 1, 1 red; restored: exit 0, 0 red
+      FAIL the sign is part of the fact: +2.0% and 'down 2.0%' are two facts
+PLANT 4 sweep: the window is not part of the fact (fact_sweep.py): exit 1, 1 red; restored: exit 0, 0 red
+      FAIL the window is part of the fact: 0.60% over 24 hours and 0.60% in the hour the run began are two facts
+PLANT 5 sweep: stored writing is read as data (PROSE empty) (fact_sweep.py): exit 1, 1 red; restored: exit 0, 0 red
+      FAIL a link to a stored story is that story's headline, read as prose
+PLANT 6 sweep: the label check never reports (fact_sweep.py): exit 1, 4 red; restored: exit 0, 0 red
+      FAIL label: a named reading printed twice for one subject (two 200-day values on a coin page)
+      FAIL label: RSI read across a tile's label and its figure in the next block
+      FAIL production coins/btc.html: label finding 'the 200-day average printed 2 times'
+      FAIL production coins/btc.html: label finding 'RSI printed 2 times'
+PLANT 7 sweep: the row precision check never reports (fact_sweep.py): exit 1, 1 red; restored: exit 0, 0 red
+      FAIL precision: one table row printing its dollar figures at two precisions is a finding
+PLANT 8 sweep: a padded average is not judged (fact_sweep.py): exit 1, 4 red; restored: exit 0, 0 red
+      FAIL padded precision: an average printed past two decimals that the desk's series does not give is a finding
+      FAIL production coins/doge.html: precision finding 'DOGE the 200-day average printed $0.09000'
+      FAIL production coins/ada.html: precision finding 'ADA the 50-day average printed $0.2300'
+      FAIL production chartmaster.html: precision finding 'DOGE the 200-day average printed $0.0900 at 4 decimals'
+PLANT 9 sweep: the next slot's time is never counted (fact_sweep.py): exit 1, 3 red; restored: exit 0, 0 red
+      FAIL next: the next slot's time printed twice is a finding
+      FAIL production index.html: next finding 'the next slot's time 'this morning at 8:15 AM ET' printed 2 times'
+      FAIL production today/index.html: next finding 'printed 2 times'
+PLANT 10 sweep: 'from the last build' passes (fact_sweep.py): exit 1, 2 red; restored: exit 0, 0 red
+      FAIL stamp: 'from the last build' is a finding, and so is 'Chart levels for X, Oct 26' with no read time
+      FAIL production coins/btc.html: stamp finding 'from the last build'
+PLANT 11 sweep: an axis tick is a fact again (fact_sweep.py): exit 1, 1 red; restored: exit 0, 0 red
+      FAIL an axis's evenly spaced ticks are the chart's scale, not facts
+PLANT 12 coin page: the price tile's since line repeats the 24 hours again (coinpage.py): exit 1, 4 red; restored: exit 0, 0 red
+      FAIL /coins/btc: the sweep finds nothing on the page (every fact once) [coins/btc.html at 375: 0.70% printed twice ('$79,754.00 ▼ 0.70%' and '24 hours: ▼ Down 0.70%')]
+      FAIL /coins/doge: the sweep finds nothing on the page (every fact once) [coins/doge.html at 375: 0.12% printed twice ('$0.07702 ▼ 0.12%' and '24 hours: ▼ Down 0.12%')]
+      FAIL /coins/ada: the sweep finds nothing on the page (every fact once) [coins/ada.html at 375: 0.20% printed twice ('$0.2043 ▼ 0.20%' and '24 hours: ▼ Down 0.20%')]
+      FAIL the price tile carries its rolling 24-hour change beside it, and the since line is the 30 days
+PLANT 13 coin page: the 7-day tile comes back (coinpage.py): exit 1, 4 red; restored: exit 0, 0 red
+      FAIL /coins/btc: the sweep finds nothing on the page (every fact once) [coins/btc.html at 375: -2.56% printed twice ('-2.56% over the last 7 days' and '-2.56%')]
+      FAIL /coins/doge: the sweep finds nothing on the page (every fact once) [coins/doge.html at 375: -2.87% printed twice ('-2.87% over the last 7 days' and '-2.87%')]
+      FAIL /coins/ada: the sweep finds nothing on the page (every fact once) [coins/ada.html at 375: -5.74% printed twice ('-5.74% over the last 7 days' and '-5.74%')]
+      FAIL no separate 24-hour or 7-day tile (the chart's header is the page's one 7-day figure)
+PLANT 14 coin page: the levels card prints the levels the readings print (coinpage.py): exit 1, 5 red; restored: exit 0, 0 red
+      FAIL /coins/btc: the sweep finds nothing on the page (every fact once) [coins/btc.html at 375: $79,754.00 printed twice ('$79,754.00 ▼ 0.70%' and 'Price $79,754.00'); coins/btc.html at 375: $72,988.58 printed twice ('200
+      FAIL /coins/doge: the sweep finds nothing on the page (every fact once) [coins/doge.html at 375: $0.07702 printed twice ('$0.07702 ▼ 0.12%' and 'Price $0.07702'); coins/doge.html at 375: $0.08674 printed twice ('200-day 
+      FAIL /coins/ada: the sweep finds nothing on the page (every fact once) [coins/ada.html at 375: $0.2043 printed twice ('$0.2043 ▼ 0.20%' and 'Price $0.2043'); coins/ada.html at 375: $0.2107 printed twice ('200-day line $0
+      FAIL one 200-day value on the page
+      ... and 1 more
+PLANT 15 coin page: the levels card is headed by its date alone (coinpage.py): exit 1, 5 red; restored: exit 0, 0 red
+      FAIL /coins/btc: the sweep finds nothing on the page (every fact once) [coins/btc.html at 375: 'Chart levels for Bitcoin, Oct 26' carries a date with no read time (the house wording: 'Chart levels, read Oct 25, 8:17 PM E
+      FAIL /coins/doge: the sweep finds nothing on the page (every fact once) [coins/doge.html at 375: 'Chart levels for Dogecoin, Oct 26' carries a date with no read time (the house wording: 'Chart levels, read Oct 25, 8:17 P
+      FAIL /coins/ada: the sweep finds nothing on the page (every fact once) [coins/ada.html at 375: 'Chart levels for Cardano, Oct 26' carries a date with no read time (the house wording: 'Chart levels, read Oct 25, 8:17 PM E
+      FAIL the levels card is headed in the house wording with its read's own time (the ledger's, 7:14 PM ET)
+      ... and 1 more
+PLANT 16 coin page: Supply and trade prints the volume again (site_build.py): exit 1, 5 red; restored: exit 0, 0 red
+      FAIL /coins/btc: the sweep finds nothing on the page (every fact once) [coins/btc.html at 375: $29.12B printed twice ('$29.12B' and '24-hour volume $29.12B')]
+      FAIL /coins/doge: the sweep finds nothing on the page (every fact once) [coins/doge.html at 375: $445.0M printed twice ('$445.0M' and '24-hour volume $445.0M')]
+      FAIL /coins/ada: the sweep finds nothing on the page (every fact once) [coins/ada.html at 375: $235.0M printed twice ('$235.0M' and '24-hour volume $235.0M')]
+      FAIL /coins/usdt: the sweep finds nothing on the page (every fact once) [coins/usdt.html at 375: $47.15B printed twice ('$47.15B' and '24-hour volume $47.15B')]
+      ... and 1 more
+PLANT 17 coin page: the caption says 'from the last build' again (site_build.py): exit 1, 5 red; restored: exit 0, 0 red
+      FAIL /coins/btc: the sweep finds nothing on the page (every fact once) [coins/btc.html at 375: prints 'from the last build' (retired: a block names its own read)]
+      FAIL /coins/doge: the sweep finds nothing on the page (every fact once) [coins/doge.html at 375: prints 'from the last build' (retired: a block names its own read)]
+      FAIL /coins/ada: the sweep finds nothing on the page (every fact once) [coins/ada.html at 375: prints 'from the last build' (retired: a block names its own read)]
+      FAIL /coins/usdt: the sweep finds nothing on the page (every fact once) [coins/usdt.html at 375: prints 'from the last build' (retired: a block names its own read)]
+      ... and 1 more
+PLANT 18 an average is printed at its own decimals, not its price's (site_build.py): exit 1, 1 red; restored: exit 0, 0 red
+      FAIL SYNTHETIC: an average just over $0.10 beside a price just under prints at the price's five decimals ($0.10030), not its own four
+PLANT 19 the build prints the stored two-decimal averages as stored (site_build.py): exit 1, 2 red; restored: exit 0, 0 red
+      FAIL DOGE's averages are the desk's own figures at its price's precision ($0.08674, $0.08699), not $0.09000
+      FAIL and its distance from the 200-day is measured against that figure (-11.2%), not against 0.09
+PLANT 20 history: a re-read average is taken without rounding back to the stored figure (history.py): exit 1, 1 red; restored: exit 0, 0 red
+      FAIL SYNTHETIC: a stored figure the closes do not give is printed as stored (0.05 does not round from 0.0867)
+PLANT 21 market_pulse: averages stored at two decimals again (market_pulse.py): exit 1, 1 red; restored: exit 0, 0 red
+      FAIL SYNTHETIC closes: market_pulse now stores a sub-$100 average past two decimals (held at six)
+PLANT 22 Chart Master table: an average at its own precision, not its row's (site_build.py): exit 1, 1 red; restored: exit 0, 0 red
+      FAIL SYNTHETIC: a table row whose price is over $1 and whose averages are under prints all three at two decimals
+PLANT 23 Chart Master table: the RSI-14 header loses its no-wrap class (site_build.py): exit 1, 1 red; restored: exit 0, 0 red
+      FAIL the RSI-14 header holds one line (it does not wrap at its hyphen; measured at 375 by the browser half)
+PLANT 24 Chart Master page: the read is headed by its date alone (site_build.py): exit 1, 2 red; restored: exit 0, 0 red
+      FAIL the read's heading carries its own read's time (the ledger's 7:14 PM ET)
+      FAIL the Chart Master page: the sweep finds nothing [chartmaster.html at 375: 'The chart read, Oct 26' carries a date with no read time (the house wording: 'Chart levels, read Oct 25, 8:17 PM ET')]
+PLANT 25 today: What moved lists the answer's figures again (today.py): exit 1, 3 red; restored: exit 0, 0 red
+      FAIL the dated /today/2026-10-26: the sweep finds nothing [today/2026-10-26.html at 375: $79,754, printed twice ('On Monday, October 26, Bitcoin was flat since midnight ET, at $79,754, a change of +0.12%. Over the last 2
+      FAIL What moved does not repeat the answer's figures: Bitcoin's 0.70% and $79,754 print once, Ether's 1.32% once
+      FAIL the movers the answer names (XDC, ZRO) are not listed again; the rest are, under 'More of'
+PLANT 26 home: the Brief card repeats the notice's next time (home.py): exit 1, 1 red; restored: exit 0, 0 red
+      FAIL the home prints the next slot's time once: in the notice, not again on the Brief card
+PLANT 27 today: the footer repeats the notice's next time (today.py): exit 1, 1 red; restored: exit 0, 0 red
+      FAIL the living /today/ prints it once too: the notice carries it and the footer line does not repeat it
+PLANT 28 home: a top-20 mover past 5% is named again in the line under the list (home.py): exit 1, 1 red; restored: exit 0, 0 red
+      FAIL SYNTHETIC: a top-20 mover that is also past 5% prints once, in the list; the line names only the others
+PLANT 29 flows: the stat prints the net the line states (site_build.py): exit 1, 2 red; restored: exit 0, 0 red
+      FAIL /flows: the sweep finds nothing [flows.html at 375: -$1.59B printed twice ('None in the last 24 hours, so this board reads a wider window. 68 transfers of $50M or more touched an exchang' and 'Volatile assets, gross
+      FAIL the line states the net; the stat states the gross; no 'Biggest single move' stat over the table that lists it
+PLANT 30 flows: the 'Biggest single move' stat comes back (site_build.py): exit 1, 1 red; restored: exit 0, 0 red
+      FAIL the line states the net; the stat states the gross; no 'Biggest single move' stat over the table that lists it
+PLANT 31 ledger: the newest week reprints the line's net (site_build.py): exit 1, 2 red; restored: exit 0, 0 red
+      FAIL /flows: the sweep finds nothing [flows.html at 375: -$1.59B printed twice ('None in the last 24 hours, so this board reads a wider window. 68 transfers of $50M or more touched an exchang' and 'Oct 26 -$1.59B')]
+      FAIL the ledger's newest week, the same seven days the line above states, says so instead of reprinting it
+PLANT 32 the Board's line quotes the whale figure again (site_build.py): exit 1, 2 red; restored: exit 0, 0 red
+      FAIL the Board's own line names directions and windows and prints no figure its tiles print
+      FAIL /pulse.html: the sweep finds nothing [pulse.html at 375: $1.59B printed twice ('Bitcoin flat since yesterday, ETF flows in their 2nd day of outflows, and $1.59B onto exchanges over 7 days.' and '-$1.59B')]
+PLANT 33 evidence: the run's ends print their prices again (why_evidence.py): exit 1, 2 red; restored: exit 0, 0 red
+      FAIL the run's ends that are the chart's high and low are named, not printed again
+      FAIL the 25 October section: the sweep finds nothing [why/2026-10-25-bitcoin.html at 375: $80,946 printed twice ("The largest run in the 24 hours: ▼ 1.11% from $80,946 at Sat 11:20 PM ET to the chart's low at 5:20 ]
+PLANT 34 evidence: an unchanged reading prints as 'X to X' (why_evidence.py): exit 1, 2 red; restored: exit 0, 0 red
+      FAIL an unchanged reading prints once ('7.5%, unchanged in the hour'), never 'X to X'
+      FAIL the 25 October section: the sweep finds nothing [why/2026-10-25-bitcoin.html at 375: 7.5% printed twice ('Kalshi: Fed rate above 4.00% after the October 28 meeting, yes price (bid-ask mid of hourly candles), 1]
+PLANT 35 evidence: a stored unread list prints its repeats (why_evidence.py): exit 1, 1 red; restored: exit 0, 0 red
+      FAIL the stored 25 October record's 'The Block (HTTP 403); The Block (HTTP 403)' prints once
+PLANT 36 evidence: the uncompared reading says 'not read for this hour' again (why_evidence.py): exit 1, 1 red; restored: exit 0, 0 red
+      FAIL 'not read for this hour' reads 'not compared for this window' (entry 2026-10-26-C6)
+PLANT 37 evidence: every link is matched (why_evidence.py): exit 1, 3 red; restored: exit 0, 0 red
+      FAIL that link does not carry a word of the event: unmatched
+      FAIL the unmatched source does not count toward the grade (verdict.stated counts the matched ones)
+      FAIL the item prints 'source link not matched' in that link's place, and links the others
+PLANT 38 evidence: the common-word floor is empty (a shallow key matches) (why_evidence.py): exit 1, 1 red; restored: exit 0, 0 red
+      FAIL the desk's common words never carry a match alone ('bitcoin', 'crypto', 'etf' are in the measured floor)
+PLANT 39 verdict: an unmatched source counts toward the grade (verdict.py): exit 1, 1 red; restored: exit 0, 0 red
+      FAIL the unmatched source does not count toward the grade (verdict.stated counts the matched ones)
+PLANT 40 K-1: the tree half reads site_build.PUBLISH again (verify_pipeline.py): exit 1, 1 red; restored: exit 0, 0 red
+      FAIL the tree half reads the tree it is handed, not site_build.PUBLISH (handed an empty tree, it reports nothing while PUBLISH is the stale one)
+PLANT 41 article: an {outlet, headline} entry prints raw again (site_build.py): exit 1, 1 red; restored: exit 0, 0 red
+      FAIL the article prints the outlet's name, never the raw entry
+PLANT 42 fixture: the production copy's stamp is altered (it must be deploy f9de9c2 byte for byte) (fixtures/sprint992/production-f9de9c2/stamp.txt): exit 1, 1 red; restored: exit 0, 0 red
+      FAIL the fixture is production's deploy f9de9c2 (its /stamp.txt), and every page's build-commit names it
