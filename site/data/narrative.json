@@ -1,11 +1,11 @@
 {
- "line": "Bitcoin holds steady as outflows persist and security breaches combine with regulatory friction in major markets.",
+ "line": "Bitcoin drifted lower on modest selling pressure, as whale flows reversed to move assets onto exchanges; the day brought no fresh news to drive conviction.",
  "by": "edition",
- "written_utc": "2026-10-26T12:18:52Z",
- "written_et": "8:18 AM ET on Oct 26",
+ "written_utc": "2026-10-26T23:14:51Z",
+ "written_et": "7:14 PM ET on Oct 26",
  "readings": {
-  "stamp_utc": "2026-10-26T12:17:13Z",
-  "btc_24h_pct": -0.15,
+  "stamp_utc": "2026-10-26T23:12:50Z",
+  "btc_24h_pct": -0.7,
   "etf_net_usd_m": -137.9,
   "etf_date": "23 Oct 2026",
   "fear_greed": 50,
@@ -13,19 +13,19 @@
   "funding_8h_pct": 0.01,
   "funding_band": "warm"
  },
- "small_line": "Written from Bitcoin -0.15% on the day, spot ETF net -137.9M USD (Oct 23, 2026), Fear & Greed 50 (neutral), funding +0.0100% per 8h (warm)",
+ "small_line": "Written from Bitcoin -0.70% on the day, spot ETF net -137.9M USD (Oct 23, 2026), Fear & Greed 50 (neutral), funding +0.0100% per 8h (warm)",
  "wire_top3": [
   {
-   "id": "c002",
-   "line": "CoinDCX lost $16M from retired wallets after CEO Sumit Gupta had denied breach reports as a false alarm."
-  },
-  {
-   "id": "c001",
-   "line": "UK banks received 10,000 complaints in three months over crypto purchase restrictions, conflicting with the nation's crypto hub aspirations."
-  },
-  {
    "id": "c004",
-   "line": "Crypto longs lost $404M in four hours as bitcoin dipped below $80K; spot ETFs saw $773M in outflows after three days of inflows."
+   "line": "South Korea delays crypto gains tax to 2029, tying implementation to US integration of OECD's international digital-asset tax framework."
+  },
+  {
+   "id": "c003",
+   "line": "OCC urges US community banks to become stablecoin issuers as new federal licensing requirements approach in 2027."
+  },
+  {
+   "id": "c002",
+   "line": "NBA signed CFTC MOU and named Kalshi and Polymarket preferred prediction-market exchanges with official league data and safeguards."
   }
  ],
  "crossed": []

@@ -1,0 +1,55 @@
+{
+ "id": "week-ahead-2026-10-26",
+ "slug": "week-ahead-2026-10-26",
+ "kind": "brief",
+ "date": "2026-10-26",
+ "published_utc": "2026-10-26T23:15:35Z",
+ "category": "week ahead",
+ "rank": -1,
+ "author": "GoCheckMyCrypto",
+ "title": "The Week Ahead: FOMC meeting begins (October 27-28); FOMC meeting concludes; Bitcoin difficulty adjustment, estimated +5.37%, 584 blocks to go",
+ "dek": "What is on the calendar for the week of October 26: scheduled events only, no predictions.",
+ "key_fact": "Tuesday, October 27: FOMC meeting begins (October 27-28).",
+ "body": [
+  "This is the week's known calendar: scheduled dates only, published in advance by the institutions involved. What happens at them is the week's news; this story only tells you when to watch.",
+  "Tuesday, October 27: FOMC meeting begins (October 27-28).",
+  "Wednesday, October 28: FOMC meeting concludes.",
+  "Thursday, October 29: Bitcoin difficulty adjustment, estimated +5.37%, 584 blocks to go.",
+  "Thursday, October 29: PCE: Personal Income and Outlays.",
+  "Thursday, October 29: GDP: Gross Domestic Product.",
+  "Friday, October 30: Deribit Bitcoin monthly options expiry, open interest 136,030 BTC.",
+  "Friday, October 30: Deribit Ether monthly options expiry, open interest 324,788 ETH."
+ ],
+ "bottom_line": "",
+ "human_take": "",
+ "sources": [
+  {
+   "url": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+   "name": "Federal Reserve Board, Meeting calendars and information"
+  },
+  {
+   "url": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+   "name": "Federal Reserve Board, Meeting calendars and information"
+  },
+  {
+   "url": "https://mempool.space/api/v1/difficulty-adjustment",
+   "name": "mempool.space"
+  },
+  {
+   "url": "https://fred.stlouisfed.org/releases/calendar?rid=54",
+   "name": "FRED release dates"
+  },
+  {
+   "url": "https://fred.stlouisfed.org/releases/calendar?rid=53",
+   "name": "FRED release dates"
+  },
+  {
+   "url": "https://www.deribit.com/api/v2/public/get_book_summary_by_currency?currency=BTC&kind=option",
+   "name": "Deribit public API"
+  },
+  {
+   "url": "https://www.deribit.com/api/v2/public/get_book_summary_by_currency?currency=ETH&kind=option",
+   "name": "Deribit public API"
+  }
+ ]
+}
