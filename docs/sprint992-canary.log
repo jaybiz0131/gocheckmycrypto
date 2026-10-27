@@ -1,4 +1,4 @@
-Sprint 9.9.2 canary, branch sprint-9-9-2 at 7882c1c, python3 3.12.3, Tue Oct 27 2026, 08:33 AM EDT; load 0.43 0.87 1.06
+Sprint 9.9.2 canary, branch sprint-9-9-2 at 0ff3769 (code at 14d1935), python3 3.12.3, Tue Oct 27 2026, 08:59 AM EDT; load at start 0.66 1.25 1.13
 narrative: the Edition's line did not hold ('Bitcoin drifted up 0.79 percent on the day; the news is quiet.'); the clause table writes it
 board: wrote opening snapshot pulse-2026-10-27.json
 chartmaster crash canary, its own planted crash, expected: chartmaster: model calls 0, 0 tokens, $0.0000 this stage, refused
@@ -9,7 +9,7 @@ week/movers canary: snapshot 34362 bytes against 60000
 narrative: the Edition's line did not hold ('Bitcoin will likely rebound as ETF inflows build.'); the clause table writes it
 narrative: the Edition's line did not hold ('Bitcoin fell. Regulators were busy.'); the clause table writes it
 narrative: Bitcoin is drifting lower while spot ETFs saw inflows; the news is mostly regulation. (table, 7:10 PM ET on Oct 7)
-build stamp canary: built a throwaway tree in stamp-canary-p60lfhqq (54 entries); the build's own log is captured, not this job's
+build stamp canary: built a throwaway tree in stamp-canary-sr2stcqe (54 entries); the build's own log is captured, not this job's
 beacon canary: 842 of 842 built pages carry exactly one beacon
 A. the direction word follows the sign: a down, an up and a flat fixture day
   ok   BTC -2.03% reads down: 'Why is crypto down today? Wednesday, October 14, 2026'
@@ -1045,7 +1045,7 @@ static: 100 coin pages read
   ok   J-8(b): on the coin placement the card's place prints "Verdict at the next read", with no badge and no grade word
   ok   J-8(b): on the page placement the card's place prints "Verdict at the next read", with no badge and no grade word
   ok   J-8(b): no marks, no verdict URL, and the model is never asked for it
-11. the built tree /tmp/stamp-canary-p60lfhqq/publish
+11. the built tree /tmp/stamp-canary-sr2stcqe/publish
   ok   NO URL REMOVED OR CHANGED: all 70 pages main built (the structural set) are still built ()
   ok   the new pages are additions: /corrections.html is built, and the older Brief months are /bottom-line/<YYYY-MM>.html
   ok   /today/ stays canonical: its canonical link is /today, and every page's nav links /today/
@@ -1144,7 +1144,7 @@ static: 100 coin pages read
   ok   site.css: the J-11 rule 2 block is there once and is the named text, character for character (a third rule inside it, or a changed one, is red)
   ok   rule 1 by width: the live stamp (#tapeLive's p.h-live) has min-height 54.45px (three lines of its 18.15px) at 375 and 520, and none at 521
   ok   rule 2 by width: the nav wraps at 700, 768, 900 and 1019, and not at 699 or 1020 (the tab bar below 700 is untouched)
-5. the built tree /tmp/stamp-canary-p60lfhqq/publish
+5. the built tree /tmp/stamp-canary-sr2stcqe/publish
   ok   the built home links site.css and system.css, versioned
   ok   the built site.css is the source's: .wrap is 1080 at 1279 and about 1400 at 1440 (read from the built file)
   ok   the built home has exactly one Ether line (the Board has an Ether price)
@@ -1317,7 +1317,7 @@ static: 100 coin pages read
   ok   the default window is 3
   ok   SYNTHETIC: a day card whose line carries a figure its verdict records and page do not print (2.5%) is refused
   ok   SYNTHETIC: a graded day-card sentence with a figure the day's verdict page lacks (9.99%) makes no day card
-10. the built tree /tmp/stamp-canary-p60lfhqq/publish
+10. the built tree /tmp/stamp-canary-sr2stcqe/publish
   ok   the build wrote /why/ pages (6)
   ok   /why/2026-10-15-bitcoin: og:image is its own square image and the file is in the tree at 1080 by 1080
   ok   /why/2026-10-16-celestia: og:image is its own square image and the file is in the tree at 1080 by 1080
@@ -1359,7 +1359,7 @@ static: 100 coin pages read
   ok   every committed table carries its own as-of stamp
   ok   refusing sources: the committed file is left byte for byte as it was
   ok   refusing sources: the ETF page built from the committed file is marked stale
-  ok   ...and carries the committed table's own as-of (8:33 AM ET, Oct 27, 2026)
+  ok   ...and carries the committed table's own as-of (8:59 AM ET, Oct 27, 2026)
 6. the stale line is in the house form
   ok   the label is closed as its own sentence, <b>Stale data.</b>, as the Board's stamp does
   ok   the line reads as sentences: capitalized, each closed with a period, and ends on the as-of date
@@ -1377,7 +1377,7 @@ static: 100 coin pages read
   ok   living_tables.py has no em dash
   ok   this script has no em dash
   ok   no URL list entry was removed: the three tables are still in the structural baseline
-9. the built tree /tmp/stamp-canary-p60lfhqq/publish
+9. the built tree /tmp/stamp-canary-sr2stcqe/publish
   ok   tables/etf-flows-by-issuer.html: the committed file holds this table, so the page is never 'Not read yet'
   ok   tables/etf-flows-by-issuer.html is built and in the sitemap
   ok   tables/etf-flows-by-issuer.html says what it is: a fresh as-of line, a stale mark, or Not read yet
@@ -1410,7 +1410,7 @@ static: 100 coin pages read
   ok   data/coins-mini.json is written without an `if _cm_payload:` guard
   ok   the mini-board file is an empty list, not nothing, when the Top 100 is empty
   ok   this script and the build have no em dash
-5. the built tree /tmp/stamp-canary-p60lfhqq/publish
+5. the built tree /tmp/stamp-canary-sr2stcqe/publish
   ok   wire.html is built
   ok   wire.html lists entries, or says plainly that none fall in the window with a stale stamp
   ok   data/coins-mini.json is built
@@ -1566,7 +1566,7 @@ static: 100 coin pages read
   ok   worker/live-prices.mjs: exists, no dash, US spelling of the house words
   ok   worker/live-prices.test.mjs: exists, no dash, US spelling of the house words
   ok   scripts/sprint97_browser.mjs: exists, no dash, US spelling of the house words
-15. the built tree /tmp/stamp-canary-p60lfhqq/publish
+15. the built tree /tmp/stamp-canary-sr2stcqe/publish
   ok   /api/v1/index.json exists and parses
   ok   /api/v1/top100.json exists and parses
   ok   /api/v1/markets.json exists and parses
@@ -1746,7 +1746,7 @@ R1. awaiting only while a later read can still come: the same ET day, the Evenin
   ok   every Bitcoin /why/ page links the record (4)
   ok   every Big movers /why/ page links the record (5)
   ok   the sitemap's priority list names /why/record/ (read in the tree cases too)
-9. the built tree /tmp/stamp-canary-p60lfhqq/publish
+9. the built tree /tmp/stamp-canary-sr2stcqe/publish
   ok   why/record/index.html is built
   ok   api/v1/why/record.json is built in 9.7's shape
   ok   the api index lists it
@@ -1964,6 +1964,11 @@ R1. awaiting only while a later read can still come: the same ET day, the Evenin
   ok   the sign is part of the fact: +2.0% and 'down 2.0%' are two facts
   ok   and '-0.26%' with '24 hours: Down 0.26%' is one fact twice
   ok   the window is part of the fact: 0.60% over 24 hours and 0.60% in the hour the run began are two facts
+  ok   a tile states its figure's window on its window line: XRP's +0.65% over 7 days (the chart) and its price badge +0.65% over 24 hours (the morning of October 27) are two facts
+  ok   two reading tiles are two readings: 1.7% of market cap and +1.7% against the 200-day
+  ok   and a tile that repeats another tile's figure in the same window is still a finding
+  ok   rows by class (a ledger's lrow): two weeks at -$1.04B are two weeks
+  ok   a grid of tiles named tl-row is not a row: a sentence and a tile in two grids still pair
   ok   the finer printing rounded to the coarser is one figure ($79,771 and $79,771.00)
   ok   a coarse headline figure never pairs with a price ($100 million beside $99.86)
   ok   a stored story's words are a writer's, read as prose (a headline restating its body's figure)
@@ -2081,4 +2086,4 @@ publish: approved+publishable 0, skipped 1 (all target sends are dry-run in v1 u
 ::warning::editor: output contract violated (attempt 2: editor: model output was not parseable JSON (first 200 chars: 'y')); retrying on claude-sonnet-5
 LAYER 1 CANARY: PASS -> pipeline wired, shill/dedupe belts work, offline replay end-to-end produces a DRAFT-tagged review queue, and every fail-closed gate holds.
 exit=0
-load at end 1.51 1.18 1.13
+load at end 1.26 1.24 1.14
