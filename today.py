@@ -482,7 +482,7 @@ def schema(rec, url):
                                "width": 512, "height": 512}}}]}, ensure_ascii=False)
 
 
-def window_line(rec, evidence=None):
+def window_line(rec, evidence=None, graded=False):
     """THE WINDOWS OF THE PAGE, EACH NAMED (the strategist's ruling of October 19; Sprint 9.9.1, round 4 under the ruling of October 26,
     entry 2026-10-26-C6). The headline's direction is the ET day's (since midnight ET), with the rolling 24 hours only as the named
     fallback, as the record states it. The chart and the evidence list read the window the grade was made on, the evidence record's
@@ -502,8 +502,12 @@ def window_line(rec, evidence=None):
         import why_evidence as _we
         wend = _we._parse_utc((evidence.get("window") or {}).get("end_utc"))
         to = _we.clock(int(wend.timestamp())) if wend else ""
-        text += (f" The chart and the list below read the 24 hours to {to}, the window the grade was made on"
-                 + (", the same window." if basis == "rolling_24h" else "."))
+        # round 5: "the window the grade was made on" only where the stored record holds a grade; elsewhere only the list's window is named
+        if graded:
+            text += (f" The chart and the list below read the 24 hours to {to}, the window the grade was made on"
+                     + (", the same window." if basis == "rolling_24h" else "."))
+        else:
+            text += f" The chart and the list below read the 24 hours to {to}."
     # the stamp's own style (mono, muted), drawn close under it; no stylesheet rule of its own
     return (f'<p class="td-stamp td-win" style="margin-top:-8px" data-td-basis="{_e(basis)}" '
             f'data-td-dir="{_e(rec.get("direction"))}">{_e(text)}</p>')
@@ -612,7 +616,7 @@ def body_html(rec, archive_dates, here=None, evidence=None, verdict=None, clock=
   <span class="kicker">Why it moved</span>
   <h1>{_e(rec['h1'])}</h1>
   <p class="td-stamp">{_e(reader(rec['stamp_label']))}</p>
-  {window_line(rec, evidence if ev_html else None)}
+  {window_line(rec, evidence if ev_html else None, bool(graded))}
   <section class="td-answer" aria-label="The answer"><p>{_e(ans)}</p></section>
   {corr}
 {vd_slot}  <section class="td-sec"><h2>What moved</h2>{moved}</section>

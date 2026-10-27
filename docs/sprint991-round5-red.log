@@ -1,0 +1,22 @@
+14. Round 5: the page claims a grade only where the stored record holds one; elsewhere it names only the list's window
+  FAIL flat record, living /today/: no claim that a grade was made, and the list's window is named
+  FAIL flat record, dated /today/: no claim that a grade was made, and the list's window is named
+  ok   flat record, /coins/btc: no claim that a grade was made, and the list's window is named
+  FAIL no_verdict record, living /today/: no claim that a grade was made, and the list's window is named
+  FAIL no_verdict record, dated /today/: no claim that a grade was made, and the list's window is named
+  ok   no_verdict record, /coins/btc: no claim that a grade was made, and the list's window is named
+  FAIL next_read record, living /today/: no claim that a grade was made, and the list's window is named
+  FAIL next_read record, dated /today/: no claim that a grade was made, and the list's window is named
+  ok   next_read record, /coins/btc: no claim that a grade was made, and the list's window is named
+  FAIL withheld record, living /today/: no claim that a grade was made, and the list's window is named
+  FAIL withheld record, dated /today/: no claim that a grade was made, and the list's window is named
+  FAIL withheld record, /coins/btc: no claim that a grade was made, and the list's window is named
+  FAIL none record, living /today/: no claim that a grade was made, and the list's window is named
+  FAIL none record, dated /today/: no claim that a grade was made, and the list's window is named
+  ok   none record, /coins/btc: no claim that a grade was made, and the list's window is named
+  FAIL withheld on the coin page: the page names the card's window and the list's window, and claims no grade
+  FAIL withheld on /today/: the line names the list's window and no grade
+  ok   a graded record (the stored 25 October Unclear) keeps the claim: the grade was made on that window
+  ok   a graded card beside its list on the coin page keeps the note, with the grade claim
+
+SPRINT 9.9.1: FAIL (13 failure(s))

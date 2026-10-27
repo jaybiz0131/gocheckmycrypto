@@ -1176,8 +1176,9 @@ def list_note(vrec, ev, sym):
             return ""
         wend = _we()._parse_utc(((ev or {}).get("window") or {}).get("end_utc"))
         to = _we().clock(int(wend.timestamp())) if wend else ""
-        return (f"The card above reads its direction {WINDOW_WORDS[v['basis']]}; this chart and list read the 24 hours to {to}, "
-                f"the window the grade was made on.")
+        # a withheld card holds no grade, so the page names only the list's window (round 5)
+        tail = ", the window the grade was made on." if v.get("kind") == "graded" else "."
+        return (f"The card above reads its direction {WINDOW_WORDS[v['basis']]}; this chart and list read the 24 hours to {to}{tail}")
     except Exception:                                            # noqa: BLE001
         return ""
 

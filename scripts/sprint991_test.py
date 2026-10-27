@@ -176,8 +176,8 @@ def today_cases(fails):
         line = visible(m.group(1)) if m else ""
         guarded(fails, "the window line says the direction is read since midnight ET",
                 lambda: "since midnight ET" in line)
-        guarded(fails, "the window line names the list's window (the 24 hours the grade was made on) beside the direction's, with no figure of its own",
-                lambda: "the 24 hours to 8:17 AM ET, the window the grade was made on" in line and "went down" not in line
+        guarded(fails, "the window line names the list's window (the 24 hours; the record holds no grade, so none is claimed) beside the direction's, with no figure of its own",
+                lambda: "the 24 hours to 8:17 AM ET." in line and "the grade was made on" not in line and "went down" not in line
                 and not re.search(r"\d\.\d\d%", line))
         guarded(fails, "the window line sits under the stamp and above the answer",
                 lambda: h.index('class="td-stamp"') < h.index('class="td-stamp td-win"') < h.index('class="td-answer"'))
@@ -662,14 +662,16 @@ def tree(root):
     # the canary's fixture build reads a verdict record of the 15 October, never today's: so its home carries the no-read notice
     guarded(fails, "the built home's first object below the masthead is a verdict card (a graded card or the notice), "
                    "and the tape is the block after it",
-            lambda: fb and fb[0][0] == "aside" and "vd" in fb[0][1].split() and fb[1] == ("section", "h-b h-tape"))
+            lambda: fb and ((fb[0][0] == "aside" and "vd" in fb[0][1].split() and fb[1] == ("section", "h-b h-tape"))
+                            # a flat day (a record dated today that grades nothing) draws no card: the tape leads and no card follows
+                            or (fb[0] == ("section", "h-b h-tape") and 'data-vd="BTC"' not in h)))
     n = notice_texts(h)
     guarded(fails, "when the built home carries the notice, it is one line with a reason and a time of the next read",
             lambda: len(n) <= 1 and all(NEXT_READ + ": " in x and "Next read: " in x and x.endswith(".") for x in n))
     cp = os.path.join(root, "coins", "btc.html")
     c = open(cp, encoding="utf-8").read() if os.path.exists(cp) else ""
     guarded(fails, "the built Bitcoin page carries the verdict card or the notice, as the home does (the build hands the page its clock)",
-            lambda: re.search(r'<aside class="vd[^"]*" data-vd="BTC"', c) is not None)
+            lambda: re.search(r'<aside class="vd[^"]*" data-vd="BTC"', c) is not None or 'data-vd="BTC"' not in h)
     # ROUND 4: the dated page of a graded day shows the stored verdict as published, with its own window and its /why/ link
     dp = os.path.join(root, "today", "2026-10-25.html")
     d = open(dp, encoding="utf-8").read() if os.path.exists(dp) else ""
@@ -844,7 +846,7 @@ def round4_cases(fails):
         t = d.today(clock=NOW_MORNING)
         line = visible(re.search(r'<p class="td-stamp td-win".*?</p>', t, flags=re.S).group(0))
         guarded(fails, "/today/: the window line names the direction's window and the list's window, once each",
-                lambda: "since midnight ET" in line and "24 hours to 8:17 AM ET" in line and "the window the grade was made on" in line)
+                lambda: "since midnight ET" in line and "24 hours to 8:17 AM ET" in line and "the grade was made on" not in line)
     # a graded card beside its list (the probe): the card keeps its published window; the page names the list's
     ev, v, rec, g = probe(event_utc="2026-10-26T09:40:00Z")
     with Draw() as d:
@@ -858,12 +860,53 @@ def round4_cases(fails):
                 lambda: "Checked:" in visible(ht) and not notice_texts(ht))
 
 
+# ---- 14. ROUND 5 (October 27, 2026, review 4 FAIL at cdb4b05): "the window the grade was made on" only where a grade exists ----------------
+
+def round5_cases(fails):
+    import today
+    print("14. Round 5: the page claims a grade only where the stored record holds one; elsewhere it names only the list's window")
+    GRADE_CLAIM = "the window the grade was made on"
+    with Draw() as d:
+        kinds = {}
+        for k in ("flat", "no_verdict", "next_read", "withheld"):
+            v = copy.deepcopy(d.v)
+            b = v["coins"]["BTC"]
+            b.update(kind=k, grade=None)
+            if k in ("flat", "no_verdict"):
+                b.update(line=[], text=[], reasons=["no grade fits"])
+            if k == "withheld":
+                b.update(basis="et_day", window_words="since midnight ET", line=[], text=[])
+            kinds[k] = v
+        kinds["none"] = None
+        for k, v in kinds.items():
+            for name, h in (("living /today/", d.today(verdict=v, clock=NOW_MORNING)),
+                            ("dated /today/", d.today(verdict=v, here="dated")),
+                            ("/coins/btc", d.coin("BTC", verdict=v))):
+                guarded(fails, f"{k} record, {name}: no claim that a grade was made, and the list's window is named",
+                        lambda h=h: GRADE_CLAIM not in visible(h) and "the 24 hours to 8:17 AM ET" in visible(h))
+        w = kinds["withheld"]
+        guarded(fails, "withheld on the coin page: the page names the card's window and the list's window, and claims no grade",
+                lambda: "this chart and list read the 24 hours to 8:17 AM ET" in visible(d.coin("BTC", verdict=w))
+                and GRADE_CLAIM not in visible(d.coin("BTC", verdict=w)))
+        guarded(fails, "withheld on /today/: the line names the list's window and no grade",
+                lambda: "read the 24 hours to 8:17 AM ET." in visible(re.search(r'<p class="td-stamp td-win".*?</p>', d.today(verdict=w, here="dated"), flags=re.S).group(0)))
+    rec25 = json.load(open(os.path.join(FX25, "today.json"), encoding="utf-8"))
+    ev25 = json.load(open(os.path.join(FX25, "why.json"), encoding="utf-8"))
+    v25 = json.load(open(os.path.join(FX25, "verdict.json"), encoding="utf-8"))
+    guarded(fails, "a graded record (the stored 25 October Unclear) keeps the claim: the grade was made on that window",
+            lambda: GRADE_CLAIM in visible(today.body_html(rec25, [], "dated", evidence=ev25, verdict=v25)))
+    ev, v, rec, g = probe(event_utc="2026-10-26T09:40:00Z")
+    with Draw() as d:
+        guarded(fails, "a graded card beside its list on the coin page keeps the note, with the grade claim",
+                lambda: GRADE_CLAIM in visible(d.coin("BTC", verdict=v, evidence=ev)))
+
+
 def unit(only=()):
     fails = []
     for name, fn in (("today", today_cases), ("notice", notice_cases), ("agree", agree_cases), ("front", front_cases),
                      ("unchanged", unchanged_cases), ("nextread", nextread_cases),
                      ("unsourced", unsourced_cases), ("scope", scope_cases), ("review2", review2_cases),
-                     ("round4", round4_cases)):
+                     ("round4", round4_cases), ("round5", round5_cases)):
         if only and name not in only:
             continue
         group(fails, name, fn)
