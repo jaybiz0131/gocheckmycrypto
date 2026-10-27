@@ -128,5 +128,17 @@
   ],
   "detail": "the rest still fails whole: chartmaster: missing/oversized headline",
   "t": "2026-10-26T23:14:51Z"
+ },
+ {
+  "date": "2026-10-27",
+  "path": "cut",
+  "tripped": [
+   "belt: chartmaster: unscoped bitcoin price direction while the windows disagree (day 1.35%, week -2.25%, mo",
+   "belt: chartmaster: funding is stated without naming the venue (OKX); one exchange's funding is not the mar",
+   "belt: chartmaster: an open-interest figure names no venue in its own sentence ('Open interest on Bitcoin s",
+   "belt: chartmaster: unscoped whale flow direction while the board reports onto exchanges over the last 7 da"
+  ],
+  "detail": "dropped 6 sentence(s): On the day, majors posted modest gains: Bitcoin up 1.4%, Ethereum up 1.9%, Solan | Bitcoin funding runs at 0.01% per 8-hour period, annualizing to 11.0%, a level t | Open intere",
+  "t": "2026-10-27T23:15:51Z"
  }
 ]

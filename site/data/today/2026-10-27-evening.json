@@ -1,0 +1,195 @@
+{
+ "date_et": "2026-10-27",
+ "slot": "evening",
+ "published_utc": "2026-10-27T23:15:51Z",
+ "first_utc": "2026-10-27T23:15:51Z",
+ "direction": "up",
+ "direction_basis": "et_day",
+ "title": "Why is crypto up today? Tuesday, October 27, 2026",
+ "h1": "Why is crypto up today? Tuesday, October 27, 2026",
+ "stamp_label": "Evening Brief, 7:15 PM ET",
+ "composed_utc": "2026-10-27T23:16:22Z",
+ "board_stamp_et": "7:13 PM ET on Oct 27",
+ "answer": [
+  "On Tuesday, October 27, Bitcoin was up 1.06% since midnight ET, to $80,809.",
+  "Over the last 24 hours it was up 1.35%.",
+  "Ether was up 1.87% over the same 24 hours.",
+  "Among the Top 100, M gained 12.06% and SKY lost 3.91% over 24 hours."
+ ],
+ "answer_by": "template",
+ "fallback": false,
+ "btc": {
+  "price": 80809,
+  "chg": 1.35,
+  "chg_day": 1.06
+ },
+ "eth": {
+  "price": 2347.92,
+  "chg": 1.87
+ },
+ "cap": null,
+ "gainers": [
+  {
+   "symbol": "M",
+   "name": "MemeCore",
+   "chg": 12.06,
+   "slug": "m"
+  },
+  {
+   "symbol": "ZEC",
+   "name": "Zcash",
+   "chg": 8.31,
+   "slug": "zec"
+  },
+  {
+   "symbol": "PEPE",
+   "name": "Pepe",
+   "chg": 7.49,
+   "slug": "pepe"
+  }
+ ],
+ "losers": [
+  {
+   "symbol": "SKY",
+   "name": "Sky",
+   "chg": -3.91,
+   "slug": "sky"
+  },
+  {
+   "symbol": "CAKE",
+   "name": "PancakeSwap",
+   "chg": -2.03,
+   "slug": "cake"
+  },
+  {
+   "symbol": "PYTH",
+   "name": "Pyth Network",
+   "chg": -1.29,
+   "slug": "pyth"
+  }
+ ],
+ "reported": [
+  {
+   "line": "CFTC sued Utah to block state enforcement against prediction markets, asserting federal agency jurisdiction over a sector states are now targeting.",
+   "time": "8:58 AM ET",
+   "source_count": 3,
+   "primary": true,
+   "links": [
+    {
+     "outlet": "CFTC Press Releases",
+     "url": "https://www.cftc.gov/PressRoom/PressReleases/9315-26"
+    },
+    {
+     "outlet": "The Defiant",
+     "url": "https://thedefiant.io/news/regulation/cftc-sues-utah-to-block-prediction-market-enforcement"
+    },
+    {
+     "outlet": "cointelegraph.com",
+     "url": "https://cointelegraph.com/news/cftc-lawsuit-utah-action-prediction-markets"
+    },
+    {
+     "outlet": "Cointelegraph",
+     "url": "https://cointelegraph.com/news/cftc-lawsuit-utah-action-prediction-markets?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound"
+    }
+   ]
+  },
+  {
+   "line": "Intel, Oracle, IBM, and 23 other firms have now filed objections to OKX-ICE's tokenized stock trading venue, challenging the SEC's new framework.",
+   "time": "2:13 PM ET",
+   "source_count": 3,
+   "primary": false,
+   "links": [
+    {
+     "outlet": "CoinDesk",
+     "url": "https://www.coindesk.com/business/2026/10/27/intel-oracle-ibm-join-growing-list-of-firms-objecting-to-okx-ice-tokenized-stock-plans"
+    },
+    {
+     "outlet": "Decrypt",
+     "url": "https://decrypt.co/381998/intel-oracle-ibm-join-objections-okx-ice-tokenized-stock-total-26"
+    },
+    {
+     "outlet": "cointelegraph.com",
+     "url": "https://cointelegraph.com/news/intel-ibm-oracle-ionq-object-okx-ice-tokenized-stocks"
+    },
+    {
+     "outlet": "Cointelegraph",
+     "url": "https://cointelegraph.com/news/intel-ibm-oracle-ionq-object-okx-ice-tokenized-stocks?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound"
+    }
+   ]
+  },
+  {
+   "line": "Brazilian firms and traders fled to USDT and Bitcoin as BRL crashed on election day, driving stablecoin volume up 800% and BTC volume 865% on local exchanges.",
+   "time": "12:59 PM ET",
+   "source_count": 1,
+   "primary": false,
+   "links": [
+    {
+     "outlet": "CoinDesk",
+     "url": "https://www.coindesk.com/business/2026/10/27/brazilian-companies-turned-to-stablecoins-on-election-day-to-dodge-a-currency-crash"
+    }
+   ]
+  },
+  {
+   "line": "Bitcoin miner Luxor raised $16 million from CMT Digital, Canaan, and MicroBT to expand AI compute trading, hardware, and derivatives.",
+   "time": "9:01 AM ET",
+   "source_count": 3,
+   "primary": false,
+   "links": [
+    {
+     "outlet": "Decrypt",
+     "url": "https://decrypt.co/381847/bitcoin-mining-firm-luxor-raises-16-million-ai-compute"
+    },
+    {
+     "outlet": "Bitcoin Magazine",
+     "url": "https://bitcoinmagazine.com/news/bitcoin-mining-firm-luxor-16-million"
+    },
+    {
+     "outlet": "The Block",
+     "url": "https://www.theblock.co/news/deals/2026-10-27-bitcoin-mining-ai-luxor-technology-funding-431858"
+    }
+   ]
+  }
+ ],
+ "board": [
+  {
+   "key": "etf",
+   "label": "Bitcoin ETF flows",
+   "value": 110.3,
+   "window": "one trading day, 26 Oct 2026",
+   "source": "Farside Investors",
+   "stamp": "7:13 PM ET on Oct 27",
+   "directional": true
+  },
+  {
+   "key": "liq",
+   "label": "Bitcoin liquidations",
+   "longs": 0,
+   "shorts": 1064182,
+   "window": "last 2 hours",
+   "source": "OKX",
+   "stamp": "7:13 PM ET on Oct 27",
+   "directional": false
+  },
+  {
+   "key": "funding",
+   "label": "Bitcoin funding",
+   "value": 0.01,
+   "window": "current 8-hour period",
+   "source": "OKX",
+   "stamp": "7:13 PM ET on Oct 27",
+   "directional": false
+  },
+  {
+   "key": "fng",
+   "label": "Fear & Greed",
+   "value": 48,
+   "word": "Neutral",
+   "window": "today",
+   "source": "alternative.me",
+   "stamp": "7:13 PM ET on Oct 27",
+   "directional": false
+  }
+ ],
+ "next": "Next update: Morning Brief, tomorrow at 8:15 AM ET",
+ "corrections": []
+}

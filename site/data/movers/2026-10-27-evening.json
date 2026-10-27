@@ -1,0 +1,97 @@
+{
+ "what": "Big movers, checked: the gate on the Board's top 100 (AUDIT.md 3.1 and 3.2), and for each coin past it the evidence by 9.2's rules with the coin's own candidates. Measured by code.",
+ "window": {
+  "start_utc": "2026-10-26T23:13:49Z",
+  "end_utc": "2026-10-27T23:13:49Z",
+  "hours": 24
+ },
+ "made_utc": "2026-10-27T23:17:03Z",
+ "gate": {
+  "rule": {
+   "version": "2026-10-19",
+   "source": "AUDIT.md section 3.1, the row 'Any top-100 coin', and section 3.2",
+   "move_min_pct": 10.0,
+   "vol_multiple_min": 2.5,
+   "excess_min_pts": 6.0,
+   "history_days": 30,
+   "per_slot": 8,
+   "per_day": 10
+  },
+  "board_utc": "2026-10-27T23:13:49Z",
+  "before_day": "2026-10-26",
+  "btc_24h_pct": 1.35,
+  "passed": [],
+  "over_cap": [],
+  "failed": [
+   {
+    "sym": "GRASS",
+    "name": "Grass",
+    "gecko_id": "grass",
+    "rank": 107,
+    "pos": 83,
+    "move_pct": 12.07,
+    "vol_pct": 9.61,
+    "multiple": 1.26,
+    "beta": 2.861,
+    "btc_pct": 1.35,
+    "predicted_pct": 3.86,
+    "excess_pts": 8.21,
+    "legs": {
+     "move": true,
+     "multiple": false,
+     "excess": true
+    },
+    "pass": false,
+    "history": {
+     "from": "2026-09-25",
+     "through": "2026-10-25"
+    }
+   },
+   {
+    "sym": "M",
+    "name": "MemeCore",
+    "gecko_id": "memecore",
+    "rank": 43,
+    "pos": 36,
+    "move_pct": 12.06,
+    "vol_pct": 4.98,
+    "multiple": 2.42,
+    "beta": -1.239,
+    "btc_pct": 1.35,
+    "predicted_pct": -1.67,
+    "excess_pts": 13.73,
+    "legs": {
+     "move": true,
+     "multiple": false,
+     "excess": true
+    },
+    "pass": false,
+    "history": {
+     "from": "2026-09-25",
+     "through": "2026-10-25"
+    }
+   }
+  ],
+  "left_out": [],
+  "own_card": [],
+  "log": [
+   "movers: gate fail GRASS +12.07%: 1.26x its 30-day daily volatility of 9.61% (needs 2.5x)",
+   "movers: gate fail M +12.06%: 2.42x its 30-day daily volatility of 4.98% (needs 2.5x)",
+   "movers: no top-100 coin passed the gate (7 measured, 0 left out for history)"
+  ],
+  "crash": {
+   "day": false,
+   "why": [],
+   "btc_pct": 1.35,
+   "market_pct": 1.38,
+   "past_move": 2,
+   "measured_past_move": 2,
+   "with_market": 0
+  },
+  "used_today": 0
+ },
+ "coins": {},
+ "shared": {},
+ "date_et": "2026-10-27",
+ "slot": "evening"
+}

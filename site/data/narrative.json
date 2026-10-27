@@ -1,11 +1,11 @@
 {
- "line": "Bitcoin retreats while policymakers in Seoul, Washington and Ottawa draft rules for stablecoins and digital-asset taxation.",
+ "line": "Bitcoin drifting higher on neutral sentiment and warm funding, as whales accumulate on-exchange and stablecoins exit venues ahead of the FOMC conclusion tomorrow.",
  "by": "edition",
- "written_utc": "2026-10-27T12:19:14Z",
- "written_et": "8:19 AM ET on Oct 27",
+ "written_utc": "2026-10-27T23:15:51Z",
+ "written_et": "7:15 PM ET on Oct 27",
  "readings": {
-  "stamp_utc": "2026-10-27T12:17:33Z",
-  "btc_24h_pct": -0.52,
+  "stamp_utc": "2026-10-27T23:13:49Z",
+  "btc_24h_pct": 1.35,
   "etf_net_usd_m": 110.3,
   "etf_date": "26 Oct 2026",
   "fear_greed": 48,
@@ -13,19 +13,19 @@
   "funding_8h_pct": 0.01,
   "funding_band": "warm"
  },
- "small_line": "Written from Bitcoin -0.52% on the day, spot ETF net +110.3M USD (Oct 26, 2026), Fear & Greed 48 (neutral), funding +0.0100% per 8h (warm)",
+ "small_line": "Written from Bitcoin +1.35% on the day, spot ETF net +110.3M USD (Oct 26, 2026), Fear & Greed 48 (neutral), funding +0.0100% per 8h (warm)",
  "wire_top3": [
   {
-   "id": "c004",
-   "line": "South Korea delays crypto gains tax to 2029, tying implementation to US integration of OECD's international digital-asset tax framework."
-  },
-  {
-   "id": "c003",
-   "line": "OCC urges US community banks to become stablecoin issuers as new federal licensing requirements approach in 2027."
+   "id": "c023",
+   "line": "Ripple won OCC approval to operate a national trust bank backing its $2.6 billion RLUSD stablecoin, separating issuance from custody under federal oversight."
   },
   {
    "id": "c002",
-   "line": "NBA signed CFTC MOU and named Kalshi and Polymarket preferred prediction-market exchanges with official league data and safeguards."
+   "line": "CFTC sued Utah to block state enforcement against prediction markets, asserting federal agency jurisdiction over a sector states are now targeting."
+  },
+  {
+   "id": "c006",
+   "line": "Intel, Oracle, IBM, and 23 other firms have now filed objections to OKX-ICE's tokenized stock trading venue, challenging the SEC's new framework."
   }
  ],
  "crossed": []
