@@ -1640,9 +1640,10 @@ def resolve_window(rec, sym, window=None, want_dir=None, graded=None):
     24 hours, unnamed; every page outside this item). window "rolling_24h": the stored record, the window named. window
     "et_day": the record cut to the ET day of the window's end, or the stored record with basis "rolling_24h" and `why` (the
     reason the cut is not honest) when the stored prices cannot be cut: they do not reach midnight ET, the cut runs the other
-    way from the page's direction (`want_dir`), the cut finds no run, or a graded verdict was made on a run the cut does not find
-    (the card and the list must not grade apart). `run_same`: the cut's largest run is the stored one, so the stored readings of
-    its hour (open interest, liquidations, funding, the patterns) belong to it."""
+    way from the page's direction (`want_dir`), or the cut finds no run. `run_same`: the cut's largest run is the stored one, so the
+    stored readings of its hour (open interest, liquidations, funding, the patterns) belong to it. `graded` is accepted and not
+    read: whether a graded card may stand over this cut is verdict.page_view's to decide (Review 2: the card falls to the notice
+    when the cut does not reproduce it), so the list is never moved to another window to save a card."""
     if window is None:
         return {"basis": None, "rec": rec, "run_same": True, "why": None}
     if window != "et_day":
@@ -1667,8 +1668,6 @@ def resolve_window(rec, sym, window=None, want_dir=None, graded=None):
         return fallback("the stored prices since midnight ET hold no run")
     old = coin.get("run")
     same = _same_run(run, old)
-    if graded and not same:
-        return fallback("the verdict is graded on the stored 24-hour run, which is not the run of the day since midnight ET")
     since = mid - LEAD_MIN * 60
     by_c = {c["id"]: c for c in (rec.get("candidates") or [])}
     tests, keep = [], set()
@@ -1682,9 +1681,13 @@ def resolve_window(rec, sym, window=None, want_dir=None, graded=None):
     view = dict(rec)
     view["window"] = dict(rec.get("window") or {}, start_utc=_iso(mid), hours=round((w1 - mid) / 3600.0, 2))
     view["candidates"] = [c for c in rec.get("candidates") or [] if c["id"] in keep]
-    # the second sources' gap is a figure over the 24 hours and cannot be recut: it is not drawn on a cut page
+    # the second sources' gap is a figure over the whole record and cannot be recut: it is not drawn on a cut page, and the page says
+    # so (`seconds_unread`, the names of the sources it is not read for): a thing left out is said
+    others = coin.get("seconds") or ([coin["second"]] if coin.get("second") else [])
+    unread = [m.group(1) for m in (re.match(r"(\S+)", str(o.get("source") or "")) for o in others) if m]
     view["coins"] = dict(rec["coins"], **{sym: dict(
-        coin, series=dict(coin["series"], points=[list(x) for x in cut]), run=run, tests=tests, second=None, seconds=[])})
+        coin, series=dict(coin["series"], points=[list(x) for x in cut]), run=run, tests=tests, second=None, seconds=[],
+        seconds_unread=unread)})
     return {"basis": "et_day", "rec": view, "run_same": same, "why": None}
 
 
@@ -1736,7 +1739,10 @@ def _section(rec, sym, live, skip, quoted=(), graded=None, marks=frozenset(), re
         src += (f'; beside it, {_e(o["source"])} '
                 + ("agrees within 0.1 point" if o["gap_pts"] <= 0.1
                    else f'differs by {o["gap_pts"]:.2f} points over the window'))
-    head = (f'<p class="ev-win"{asof}>{_e(name)}, {_e(win)}. Prices: {src}.</p>')
+    left = [str(x) for x in coin.get("seconds_unread") or []]
+    said = (f' The second price sources, {_e(", ".join(left[:-1]) + " and " + left[-1] if len(left) > 1 else left[0])}, '
+            f'are not read for this window.') if left else ""
+    head = (f'<p class="ev-win"{asof}>{_e(name)}, {_e(win)}. Prices: {src}.{said}</p>')
     runp = ""
     if run:
         runp = (f'<p class="ev-run-l">The largest run {_e(wname) if wname else "in the window"}: {_chg(run["pct"])} from '

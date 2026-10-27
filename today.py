@@ -543,6 +543,15 @@ def body_html(rec, archive_dates, here=None, evidence=None, verdict=None, clock=
     moved = (f'<ul class="td-list">{"".join(core)}</ul>'
              + (f'<h3 class="td-h3">Biggest gains in the Top 100</h3><ul class="td-list">{lst(gain)}</ul>' if gain else "")
              + (f'<h3 class="td-h3">Biggest losses in the Top 100</h3><ul class="td-list">{lst(lose)}</ul>' if lose else ""))
+    # SPRINT 9.9.1 (Review 1): the chart and the list read the window the headline reads (the ET day, the 24 hours only as the named
+    # fallback), cut from the stored prices; a record that states no window reads the 24 hours, named. (Review 2) The card is the
+    # stored verdict as that window may show it: a graded card stands only over a cut that reproduces its run and its timing
+    # results, and otherwise the ruled "Verdict at the next read" stands in its place (verdict.page_view).
+    _win = rec.get("direction_basis") if rec.get("direction_basis") in ("et_day", "rolling_24h") else "rolling_24h"
+    _dir = rec.get("direction") if rec.get("direction") in ("up", "down") else None
+    if verdict and evidence:
+        import verdict as _vview
+        verdict = _vview.page_view(verdict, evidence, "BTC", _win, _dir)
     # a graded verdict on this page: the evidence and the reported note say so, never deny a cause
     graded = (((verdict or {}).get("coins") or {}).get("BTC") or {}).get("grade")
     ev_html, shown, res = "", set(), None
@@ -553,11 +562,7 @@ def body_html(rec, archive_dates, here=None, evidence=None, verdict=None, clock=
             if verdict:
                 import verdict as _vmod
                 _marks = _vmod.marks(verdict, "BTC")
-            # SPRINT 9.9.1 (Review 1): the chart and the list read the window the headline reads (the ET day, the 24 hours only as
-            # the named fallback), cut from the stored prices; a record that states no window reads the 24 hours, named
-            _win = rec.get("direction_basis") if rec.get("direction_basis") in ("et_day", "rolling_24h") else "rolling_24h"
-            _dir = rec.get("direction") if rec.get("direction") in ("up", "down") else None
-            res = why_evidence.resolve_window(evidence, "BTC", _win, _dir, graded)
+            res = why_evidence.resolve_window(evidence, "BTC", _win, _dir)
             ev_html = why_evidence.section_html(evidence, "BTC", live=(here != "dated"), corrections=rec.get("corrections"),
                                                 graded=graded, marks=_marks, window=_win, want_dir=_dir)
             shown = why_evidence.wire_urls_shown(evidence, "BTC", _win, _dir, graded) if ev_html else set()
@@ -602,6 +607,9 @@ def body_html(rec, archive_dates, here=None, evidence=None, verdict=None, clock=
     corr = "".join(f'<p class="td-corr"><b>Correction, {_e(c.get("date"))}.</b> {_e(c.get("text"))}</p>'
                    for c in rec.get("corrections") or [])
     ans = " ".join(rec["answer"])
+    # SPRINT 9.9.1 (Review 2, failure 5): one next read per page. The living page names the next slot off the build's clock, the one
+    # the verdict notice names (home.next_slot), so a slot already past is never shown as the next; a dated page keeps its record's own
+    nxt = next_update(rec["slot"], clock) if (clock is not None and here != "dated") else rec["next"]
     return f"""<main class="wrap"><section class="page td-page">
   <span class="kicker">Why it moved</span>
   <h1>{_e(rec['h1'])}</h1>
@@ -613,7 +621,7 @@ def body_html(rec, archive_dates, here=None, evidence=None, verdict=None, clock=
   {ev_html}
   {reported_sec}
   <section class="td-sec"><h2>Markets</h2><ul class="td-list">{board}</ul></section>
-  <p class="td-next">{_e(reader(rec['next']))}</p>
+  <p class="td-next">{_e(reader(nxt))}</p>
   <p class="td-w">How the desk's grades held up afterwards is kept on <a href="/why/record/">the verdict record</a>.</p>
   {'<p class="td-w">This is the record of its day. The latest answer is at <a href="/today/">/today/</a>.</p>' if here == "dated" else ''}
   {f'<section class="td-sec td-arch"><h2>Earlier days</h2><ul>{arch}</ul></section>' if arch else ''}

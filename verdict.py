@@ -88,10 +88,12 @@ NO_EVENT = "No reported event lines up with this move."
 READINGS_MISMATCH = "A reported event lines up in time, but the market readings do not match it."
 OTHER_WAY = "A reported event lines up in time, but the move ran the other way."
 NEXT_READ = "Verdict at the next read"
-# SPRINT 9.9.1 (the strategist's ruling on J-8 of October 20 and Review 1): the notice always prints why and the time of the next
-# read, in one line. The two reasons: the window flipped since the run, or no read yet today. The words are drawn, never stored: a
-# stored record keeps its ruled line (J-10).
-WHY_FLIPPED = "the window flipped since the run"
+# SPRINT 9.9.1 (the strategist's ruling on J-8 of October 20, Review 1 and Review 2): the notice always prints why and the time of the
+# next read, in one line. The two reasons: the last read did not grade the move in the window the page shows, or no read yet today.
+# Review 2 (failure 2): the first reason used to read "the window flipped since the run", which names a run no page draws any more;
+# it now names only the window the page shows and the way the move ran in it. The words are drawn, never stored: a stored record
+# keeps its ruled line (J-10).
+WHY_NOT_GRADED = "the last read did not grade the move"
 WHY_NO_READ = "no read yet today"
 CAP_LINE = "The desk's check of this move did not run today."
 WINDOW_WORDS = {"et_day": "since midnight ET", "rolling_24h": "over the last 24 hours"}
@@ -1092,8 +1094,8 @@ def _flip_dirs(v, vrec, sym):
     """(window direction, run direction) of a flipped record. A record written since 9.9.1 states both as fields; one
     stored before it states them in its reasons (code-written words), and the window's own move is in `day`."""
     wd, rd = v.get("window_dir"), v.get("run_dir")
-    if wd in ("up", "down") and rd in ("up", "down"):
-        return wd, rd
+    if wd in ("up", "down"):
+        return wd, (rd if rd in ("up", "down") else None)
     m = _FLIP_REASON.search(" ".join(v.get("reasons") or []))
     if m:
         return m.group(1), m.group(2)
@@ -1137,6 +1139,75 @@ def is_today(vrec, now):
     return str(vrec.get("date_et") or "") == now.astimezone(_we().ET).date().isoformat()
 
 
+# ---- the verdict as one page may show it: the card and the list never grade apart (Sprint 9.9.1, Review 2) ----------------------
+
+def _sig(r):
+    """What a timing result decides, for the grade: whether it passes, and whether it was measured at all."""
+    return (timing_pass(r), bool(r and r.get("in_window") and r.get("share_pct") is not None))
+
+
+def _reproduces(ev, res, sym):
+    """True when the page's cut of the evidence reproduces what the stored grade rests on: the cut finds the stored run, and each
+    candidate the grade weighed passes or fails the timing test in the cut as it did in the stored 24-hour run. Then a card
+    drawn from the stored grade and a list drawn from the cut cannot grade apart."""
+    if not res.get("run_same"):
+        return False
+    cands = {c["id"]: c for c in (ev or {}).get("candidates") or []}
+    stored = {t["id"]: t for t in ((ev.get("coins") or {}).get(sym) or {}).get("tests") or []}
+    for t in (((res["rec"].get("coins") or {}).get(sym)) or {}).get("tests") or []:
+        if (cands.get(t["id"]) or {}).get("secondary"):
+            continue                                    # a secondary item is not weighed by the grade
+        if _sig((stored.get(t["id"]) or {}).get("result")) != _sig(t.get("result")):
+            return False
+    return True
+
+
+def _shown_dir(res, sym):
+    pts = ((((res["rec"].get("coins") or {}).get(sym)) or {}).get("series") or {}).get("points") or []
+    if len(pts) < 2 or not pts[0][1]:
+        return None
+    mv = pts[-1][1] - pts[0][1]
+    return "up" if mv > 0 else "down" if mv < 0 else None
+
+
+def page_view(vrec, ev, sym, window=None, want_dir=None):
+    """The verdict record as a page that draws `window` ("et_day" or "rolling_24h") may show it. A graded verdict is made on the
+    stored 24-hour run; a page that draws the ET day cuts the evidence at midnight ET, and a card must not say a thing the list
+    beside it does not: the card stands only when the window it was graded in is the window the page's evidence reads and, on the
+    ET day, the cut reproduces the stored run and each candidate's pass or fail (`_reproduces`). Otherwise the page gets the
+    ruled "Verdict at the next read" (October 20, J-8 b) in its place, its reason naming only the window the page shows and the way
+    the move ran in it. Nothing stored is changed: this is a copy. `window` None reads the record's own day; a record that states
+    none, or evidence that is not this record's, is returned as it is."""
+    try:
+        v = ((vrec or {}).get("coins") or {}).get(sym)
+        if not v or v.get("kind") not in ("graded", "next_read") or not ev:
+            return vrec
+        if (ev.get("window") or {}).get("end_utc") != ((vrec.get("window") or {}).get("end_utc")):
+            return vrec
+        if window is None:
+            day = vrec.get("day") or {}
+            mv = day.get(sym)
+            if day.get("basis") not in WINDOW_WORDS or not isinstance(mv, (int, float)):
+                return vrec
+            window, want_dir = day["basis"], ("up" if mv > 0 else "down" if mv < 0 else None)
+        if window not in WINDOW_WORDS:
+            return vrec
+        res = _we().resolve_window(ev, sym, window, want_dir)
+        shown = res["basis"] or "rolling_24h"
+        stored = v.get("basis") if v.get("basis") in WINDOW_WORDS else "rolling_24h"
+        if shown == stored and (v["kind"] == "next_read" or shown != "et_day" or _reproduces(ev, res, sym)):
+            return vrec
+        wd = _shown_dir(res, sym)
+        stub = {"sym": sym, "name": v.get("name") or NAMES.get(sym, (sym, ""))[0], "kind": "next_read", "grade": None,
+                "line": [NEXT_READ], "text": [NEXT_READ], "basis": shown, "window_words": WINDOW_WORDS[shown], "window_dir": wd,
+                "reasons": [f"the stored grade rests on the {WINDOW_WORDS[stored]} reading of the stored run; this page reads the move "
+                            f"{WINDOW_WORDS[shown]}, and the card and the list must not grade apart"]}
+        return dict(vrec, coins=dict(vrec["coins"], **{sym: stub}))
+    except Exception as e:                                       # noqa: BLE001
+        print(f"::warning::verdict: the page's view of {sym} was not made ({type(e).__name__}: {e})")
+        return vrec
+
+
 # ---- the card: one shape on the home, /today/, the Bitcoin page and the verdict page ------------------------------
 
 def card_html(vrec, sym, where="today", live=False, corrections=None, link=True, with_section=False, now=None):
@@ -1167,9 +1238,9 @@ def _card(vrec, sym, where, live, corrections, link, with_section=False, now=Non
         # and no figure (Review 1: one window per page).
         wd, rd = _flip_dirs(v, vrec, sym)
         ww = v.get("window_words") or WINDOW_WORDS["rolling_24h"]
-        detail = f"the move {ww} is {wd}" if wd else ""
+        detail = f"it is {wd}" if wd else ""
         return _notice_card(sym, v.get("name") or sym, "next_read",
-                            notice_line(WHY_FLIPPED, _next_read_when(now, vrec), detail), v.get("basis"), wd)
+                            notice_line(f"{WHY_NOT_GRADED} {ww}", _next_read_when(now, vrec), detail), v.get("basis"), wd)
     if v.get("kind") not in ("graded", "withheld"):
         return ""
     name = v.get("name") or sym

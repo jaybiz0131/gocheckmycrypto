@@ -53,7 +53,8 @@ NOW_NEXT_DAY = dt.datetime(2026, 10, 27, 10, 0, tzinfo=UTC)
 NOW_LATE = dt.datetime(2026, 10, 26, 23, 38, tzinfo=UTC)
 
 NEXT_READ = "Verdict at the next read"
-FLIPPED_LINE = ("Verdict at the next read: the window flipped since the run (the move since midnight ET is up). "
+# REVIEW 2 (failure 2): the reason names the window the page shows and the way the move ran in it, and no run the page does not draw
+FLIPPED_LINE = ("Verdict at the next read: the last read did not grade the move since midnight ET (it is up). "
                 "Next read: tonight at 7:08 PM ET.")
 NO_READ_LINE = "Verdict at the next read: no read yet today. Next read: this morning at 8:15 AM ET."
 
@@ -249,8 +250,8 @@ def notice_cases(fails):
                     lambda h=h: notice_texts(h) == [NO_READ_LINE])
         guarded(fails, "home with no verdict record at all: the same notice",
                 lambda: notice_texts(d.home(verdict=None)) == [NO_READ_LINE])
-        guarded(fails, "the Ether page draws no notice for a verdict the desk never grades for Ether without Bitcoin's",
-                lambda: not notice_texts(d.coin("ETH", verdict=None)))
+        guarded(fails, "the Ether page says the same as the Bitcoin page when no read has run today (Review 2, failure 6)",
+                lambda: notice_texts(d.coin("ETH", verdict=None)) == [NO_READ_LINE])
         # a flat day is not a missing read: a record for today that grades nothing draws nothing (the 9.3 rule stays)
         flat = copy.deepcopy(d.v)
         flat["date_et"] = "2026-10-27"
@@ -490,8 +491,9 @@ def window_cases(fails):
                 lambda: 'data-ev-window="et_day"' in ok and 'data-ev-window="rolling_24h"' in bad and "run the other way" in visible(bad))
         # a graded card is graded on the stored run: a cut that finds another run falls back, so card and list never grade apart
         diff = we.section_html(d.ev, "BTC", live=True, window="et_day", want_dir="up", graded="Likely")
-        guarded(fails, "a graded verdict whose stored run is not the day's run: the list falls back to the 24 hours the grade was made on",
-                lambda: 'data-ev-window="rolling_24h"' in diff and "the verdict is graded on" in visible(diff))
+        guarded(fails, "a graded verdict whose stored run is not the day's run: the list stays on the ET day (Review 2: the card falls to the "
+                       "notice instead, verdict.page_view), and the section does not move to another window to save a card",
+                lambda: 'data-ev-window="et_day"' in diff and "the verdict is graded on" not in visible(diff))
 
 
 def nextread_cases(fails):
@@ -571,9 +573,7 @@ def scope_cases(fails):
 
 # ---- 12. Review 2 (October 26, 2026, FAIL at f3f6c7f): one window per page, the card and the list never grade apart ------------
 
-# The notice's reason names the window the page shows and the way the move ran in it, and no run the page does not draw.
-NOT_GRADED_LINE = ("Verdict at the next read: the last read did not grade the move since midnight ET (it is up). "
-                   "Next read: tonight at 7:08 PM ET.")
+NOT_GRADED_LINE = FLIPPED_LINE
 FX25 = os.path.join(HERE, "fixtures", "sprint991", "real-2026-10-25-evening")
 TIME_WORDS = re.compile(r"(?:Next read|Next update): (?:[A-Za-z ]+, )?((?:this morning|tonight|tomorrow) at \d+:\d\d [AP]M ET)")
 
