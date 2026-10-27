@@ -1,0 +1,8 @@
+Sprint 9.9.1 Review 2, failure 6: the new cases seen red on f3f6c7f (code unchanged), scripts/sprint991_test.py --only review2
+   failure 6: the coin pages agree, and no day-bound line stands as current past its day (SYNTHETIC clock: 6:00 AM ET the next day)
+  ok   /coins/btc says no read yet today
+  FAIL /coins/eth says the same, not yesterday's 'Ether moved with Bitcoin since midnight ET' as if it were today's
+  FAIL the two coin pages carry the same next-read time and no day-bound sentence of the stored record
+  ok   inside the day the Ether page keeps its own plain line (the rule applies past the day only)
+
+

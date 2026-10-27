@@ -1,0 +1,6 @@
+Sprint 9.9.1 Review 2, failure 4: the new cases seen red on f3f6c7f (code unchanged), scripts/sprint991_test.py --only review2
+   failure 4: a thing left out is said (the second sources are not read for the cut window)
+  FAIL /today/: the section says the second sources (OKX, Binance, Kraken) are not read for this window
+  FAIL /coins/btc: the section says the second sources (OKX, Binance, Kraken) are not read for this window
+  FAIL /coins/eth: the section says the second sources (OKX, Binance, Kraken) are not read for this window
+  ok   SYNTHETIC fallback (the series does not reach midnight): the 24 hours keep the second sources' agreement

@@ -482,7 +482,38 @@ def schema(rec, url):
                                "width": 512, "height": 512}}}]}, ensure_ascii=False)
 
 
-def body_html(rec, archive_dates, here=None, evidence=None, verdict=None):
+def window_line(rec, evidence=None, graded=False):
+    """THE WINDOWS OF THE PAGE, EACH NAMED (the strategist's ruling of October 19; Sprint 9.9.1, round 4 under the ruling of October 26,
+    entry 2026-10-26-C6). The headline's direction is the ET day's (since midnight ET), with the rolling 24 hours only as the named
+    fallback, as the record states it. The chart and the evidence list read the window the grade was made on, the evidence record's
+    24 hours, until sprint 9.9.3 moves the timing test, the grade and the list to the ET day together; when the page draws that
+    list (`evidence` is its record) the line says so, beside the direction's window. It prints only what the record states: a record
+    that predates `direction_basis` says it does not state its window, and a record that states the rolling 24 hours is not given a
+    reason it does not carry. No figure is printed here: every figure of the page keeps its own window beside it in its own row."""
+    stated = rec.get("direction_basis")
+    basis = stated if stated in ("et_day", "rolling_24h") else "unstated"
+    if basis == "et_day":
+        text = "The direction above is read since midnight ET."
+    elif basis == "rolling_24h":
+        text = "The direction above is read over the last 24 hours, the named fallback."
+    else:
+        text = "This record does not state which window its direction was read over."
+    if evidence:
+        import why_evidence as _we
+        wend = _we._parse_utc((evidence.get("window") or {}).get("end_utc"))
+        to = _we.clock(int(wend.timestamp())) if wend else ""
+        # round 5: "the window the grade was made on" only where the stored record holds a grade; elsewhere only the list's window is named
+        if graded:
+            text += (f" The chart and the list below read the 24 hours to {to}, the window the grade was made on"
+                     + (", the same window." if basis == "rolling_24h" else "."))
+        else:
+            text += f" The chart and the list below read the 24 hours to {to}."
+    # the stamp's own style (mono, muted), drawn close under it; no stylesheet rule of its own
+    return (f'<p class="td-stamp td-win" style="margin-top:-8px" data-td-basis="{_e(basis)}" '
+            f'data-td-dir="{_e(rec.get("direction"))}">{_e(text)}</p>')
+
+
+def body_html(rec, archive_dates, here=None, evidence=None, verdict=None, clock=None):
     """The page, top to bottom: the answer, why it moved (Sprint 9.3, the verdict card, when the
     day's slot has a verdict record), what moved, what lined up with the move (Sprint 9.2, when the
     day's slot has an evidence record), what was reported beside it, the Board, the stamp, the
@@ -511,6 +542,18 @@ def body_html(rec, archive_dates, here=None, evidence=None, verdict=None):
     moved = (f'<ul class="td-list">{"".join(core)}</ul>'
              + (f'<h3 class="td-h3">Biggest gains in the Top 100</h3><ul class="td-list">{lst(gain)}</ul>' if gain else "")
              + (f'<h3 class="td-h3">Biggest losses in the Top 100</h3><ul class="td-list">{lst(lose)}</ul>' if lose else ""))
+    vd_html = ""
+    living = here != "dated" and clock is not None
+    try:
+        import verdict as _vnr
+        # SPRINT 9.9.1 (round 4, change 5): the living page, like the home and the coin pages, prints "no read yet today" in the card's
+        # place when no read has run on the ET day of the build's clock: no verdict record, or one dated another day (the record's own
+        # date is the page's, not the read's: a record composed for today before any read has run still has no read). A dated page never
+        # does: it shows its own day as published.
+        if living and not _vnr.is_today(verdict, clock):
+            vd_html, verdict = _vnr.no_read_html(clock), None
+    except Exception as e:                          # fail open: the page as it was
+        print(f"::warning::today: the no-read notice was not drawn ({type(e).__name__}: {e})")
     # a graded verdict on this page: the evidence and the reported note say so, never deny a cause
     graded = (((verdict or {}).get("coins") or {}).get("BTC") or {}).get("grade")
     ev_html, shown = "", set()
@@ -521,18 +564,23 @@ def body_html(rec, archive_dates, here=None, evidence=None, verdict=None):
             if verdict:
                 import verdict as _vmod
                 _marks = _vmod.marks(verdict, "BTC")
-            ev_html = why_evidence.section_html(evidence, "BTC", live=(here != "dated"),
-                                                corrections=rec.get("corrections"), graded=graded, marks=_marks)
+            # SPRINT 9.9.1 (round 4): the list reads the window the grade was made on, the record's 24 hours as stored, named beside
+            # every figure; the page's other window (the headline's, a graded card's) is named in the window line
+            ev_html = why_evidence.section_html(evidence, "BTC", live=(here != "dated"), corrections=rec.get("corrections"),
+                                                graded=graded, marks=_marks, window="rolling_24h")
             shown = why_evidence.wire_urls_shown(evidence) if ev_html else set()
         except Exception as e:                      # fail open: the page as it was
             print(f"::warning::today: the evidence was not drawn ({type(e).__name__}: {e})")
             ev_html, shown = "", set()
-    vd_html = ""
     if verdict:
         try:
             import verdict as _verdict
-            vd_html = _verdict.card_html(verdict, "BTC", where="today", live=(here != "dated"),
-                                         with_section=bool(ev_html))
+            # the notice's next-read time: the build's clock on the living page (the home and the coin pages draw it from the same
+            # clock, so the three agree, and a time already past is never shown as the next read); a dated page keeps its own
+            # record's composition clock, so a day's record never changes with the clock that draws it
+            vd_html = _verdict.card_html(verdict, "BTC", where="today", live=(here != "dated"), with_section=bool(ev_html),
+                                         now=(clock if (clock is not None and here != "dated")
+                                              else _verdict._parse(rec.get("composed_utc"))))
         except Exception as e:                      # fail open: the page as it was
             print(f"::warning::today: the verdict was not drawn ({type(e).__name__}: {e})")
             vd_html = ""
@@ -561,30 +609,34 @@ def body_html(rec, archive_dates, here=None, evidence=None, verdict=None):
     corr = "".join(f'<p class="td-corr"><b>Correction, {_e(c.get("date"))}.</b> {_e(c.get("text"))}</p>'
                    for c in rec.get("corrections") or [])
     ans = " ".join(rec["answer"])
+    # SPRINT 9.9.1 (Review 2, failure 5): one next read per page. The living page names the next slot off the build's clock, the one
+    # the verdict notice names (home.next_slot), so a slot already past is never shown as the next; a dated page keeps its record's own
+    nxt = next_update(rec["slot"], clock) if (clock is not None and here != "dated") else rec["next"]
     return f"""<main class="wrap"><section class="page td-page">
   <span class="kicker">Why it moved</span>
   <h1>{_e(rec['h1'])}</h1>
   <p class="td-stamp">{_e(reader(rec['stamp_label']))}</p>
+  {window_line(rec, evidence if ev_html else None, bool(graded))}
   <section class="td-answer" aria-label="The answer"><p>{_e(ans)}</p></section>
   {corr}
 {vd_slot}  <section class="td-sec"><h2>What moved</h2>{moved}</section>
   {ev_html}
   {reported_sec}
   <section class="td-sec"><h2>Markets</h2><ul class="td-list">{board}</ul></section>
-  <p class="td-next">{_e(reader(rec['next']))}</p>
+  <p class="td-next">{_e(reader(nxt))}</p>
   <p class="td-w">How the desk's grades held up afterwards is kept on <a href="/why/record/">the verdict record</a>.</p>
   {'<p class="td-w">This is the record of its day. The latest answer is at <a href="/today/">/today/</a>.</p>' if here == "dated" else ''}
   {f'<section class="td-sec td-arch"><h2>Earlier days</h2><ul>{arch}</ul></section>' if arch else ''}
 </section></main>"""
 
 
-def render(rec, archive_dates, dated, dateline="", evidence=None, verdict=None):
+def render(rec, archive_dates, dated, dateline="", evidence=None, verdict=None, clock=None):
     """(html, path, lastmod) for one page; `dated` False renders the living /today/."""
     import site_build as sb
     path = f"/today/{rec['date_et']}.html" if dated else "/today/"
     url = sb.ORIGIN + (f"/today/{rec['date_et']}" if dated else "/today/")
     desc = " ".join(rec["answer"])[:200]
-    html = sb.shell(f"{rec['title']} - {sb.NAME}", desc, "Today", body_html(rec, archive_dates, "dated" if dated else "living", evidence, verdict), dateline,
+    html = sb.shell(f"{rec['title']} - {sb.NAME}", desc, "Today", body_html(rec, archive_dates, "dated" if dated else "living", evidence, verdict, clock), dateline,
                     path=path, og_type="article",
                     schema_extra=f'\n<script type="application/ld+json">{schema(rec, url)}</script>')
     return html, path, rec.get("published_utc")
@@ -627,7 +679,7 @@ def build_pages(snap, pulse, wire, ed, morning, now, gate, stored=None, dateline
     # today's own dated page is not an "earlier day": the living page lists only the days before it
     html, path, mod = render(living, [d for d in days if d < living["date_et"]][:ARCHIVE_N],
                              dated=False, dateline=dateline, evidence=_evidence(living, why_dir),
-                             verdict=_verdict(living, verdict_dir))
+                             verdict=_verdict(living, verdict_dir), clock=now)
     out.append(("today/index.html", html, path, mod))
     for day in days:
         # a dated page links only the days BEFORE it, so nothing a later day adds can change it

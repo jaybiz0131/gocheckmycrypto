@@ -1,0 +1,152 @@
+{
+ "date_et": "2026-10-16",
+ "slot": "evening",
+ "published_utc": "2026-10-16T23:15:20Z",
+ "first_utc": "2026-10-16T23:15:20Z",
+ "direction": "down",
+ "title": "Why is crypto down today? Friday, October 16, 2026",
+ "h1": "Why is crypto down today? Friday, October 16, 2026",
+ "stamp_label": "Evening Edition, 7:15 PM ET",
+ "composed_utc": "2026-10-16T23:16:08Z",
+ "board_stamp_et": "7:13 PM ET on Oct 16",
+ "answer": [
+  "Friday brought distributed weakness with Bitcoin down 0.61% on the day and spot Bitcoin ETF inflows cooling to $5.1 million, while the week's cumulative exchange inflows slowed to $104 million after three weeks of $2.7 billion in accumulated inflows.",
+  "Long-side leverage remains elevated across OKX, with Bitcoin long-short ratio at 1.83 to 1 and XRP at 3.68 to 1, while funding rates held warm and stable."
+ ],
+ "answer_by": "evening",
+ "fallback": false,
+ "btc": {
+  "price": 81665,
+  "chg": -0.61
+ },
+ "eth": {
+  "price": 2420.96,
+  "chg": -0.85
+ },
+ "cap": null,
+ "gainers": [
+  {
+   "symbol": "TIA",
+   "name": "Celestia",
+   "chg": 13.16,
+   "slug": "tia"
+  },
+  {
+   "symbol": "LIT",
+   "name": "Lighter",
+   "chg": 4.86,
+   "slug": "lit"
+  },
+  {
+   "symbol": "SEI",
+   "name": "Sei",
+   "chg": 3.96,
+   "slug": "sei"
+  }
+ ],
+ "losers": [
+  {
+   "symbol": "STRK",
+   "name": "Starknet",
+   "chg": -14.86,
+   "slug": "strk"
+  },
+  {
+   "symbol": "STX",
+   "name": "Stacks",
+   "chg": -8.11,
+   "slug": "stx"
+  },
+  {
+   "symbol": "VVV",
+   "name": "Venice Token",
+   "chg": -8.09,
+   "slug": "vvv"
+  }
+ ],
+ "reported": [
+  {
+   "line": "Deutsche Bank to launch Bitcoin and Ethereum custody for institutional clients within weeks, targeting Asia expansion in 2027.",
+   "time": "11:05 AM ET",
+   "source_count": 4,
+   "primary": false,
+   "links": [
+    {
+     "outlet": "The Defiant",
+     "url": "https://thedefiant.io/converge/tradfi-and-fintech/deutsche-bank-plans-crypto-custody-launch-within-weeks"
+    },
+    {
+     "outlet": "Bitcoin Magazine",
+     "url": "https://bitcoinmagazine.com/news/deutsche-bank-will-debut-bitcoin-custody"
+    },
+    {
+     "outlet": "Cointelegraph",
+     "url": "https://cointelegraph.com/news/deutsche-bank-crypto-custody-expansion-asia-2027?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound"
+    },
+    {
+     "outlet": "U.Today",
+     "url": "https://u.today/deutsche-bank-to-launch-bitcoin-and-ethereum-custody-within-weeks"
+    }
+   ]
+  },
+  {
+   "line": "Mizuho, MUFG and SMBC completed July yen stablecoin pilot covering issuance, transfer and redemption; real transactions targeted for fiscal 2026.",
+   "time": "11:04 AM ET",
+   "source_count": 1,
+   "primary": false,
+   "links": [
+    {
+     "outlet": "The Defiant",
+     "url": "https://thedefiant.io/converge/tradfi-and-fintech/mizuho-mufg-and-smbc-complete-joint-yen-stablecoin-pilot"
+    }
+   ]
+  }
+ ],
+ "board": [
+  {
+   "key": "etf",
+   "label": "Bitcoin spot ETF net",
+   "value": 5.1,
+   "window": "one trading day, 15 Oct 2026",
+   "source": "Farside Investors",
+   "stamp": "7:13 PM ET on Oct 16",
+   "directional": true
+  },
+  {
+   "key": "liq",
+   "label": "Bitcoin liquidations",
+   "longs": 235112,
+   "shorts": 227010,
+   "window": "last 5 hours",
+   "source": "OKX",
+   "stamp": "7:13 PM ET on Oct 16",
+   "directional": false
+  },
+  {
+   "key": "funding",
+   "label": "Bitcoin funding",
+   "value": 0.01,
+   "window": "current 8-hour period",
+   "source": "OKX",
+   "stamp": "7:13 PM ET on Oct 16",
+   "directional": false
+  },
+  {
+   "key": "fng",
+   "label": "Fear & Greed",
+   "value": 63,
+   "word": "Greed",
+   "window": "today",
+   "source": "alternative.me",
+   "stamp": "7:13 PM ET on Oct 16",
+   "directional": false
+  }
+ ],
+ "next": "Next update: Morning read, tomorrow at 8:15 AM ET",
+ "corrections": [
+  {
+   "date": "October 16, 2026",
+   "text": "The whole-market 24-hour change this page showed (down 3.60%) contradicted Bitcoin (down 0.61%) and Ether (down 0.85%), which together are most of the market. The desk could not reconcile it with the Top 100 and has removed it."
+  }
+ ]
+}

@@ -1,0 +1,10 @@
+9. Review 1, failure 3: the time of the next read is the build's on a living page, and the same on the home, /today/ and the coin page
+  ok   premise: the build is at 7:38 PM ET, after the 7:08 PM slot, and the living page is the morning record
+  FAIL the living /today/ names tomorrow's read, not the 7:08 PM slot that has passed
+  ok   the home names the same time
+  ok   the Bitcoin page names the same time
+  FAIL the three pages print the whole notice the same way (one fact, one value)
+  FAIL no page of the item prints a next read that is already past
+  FAIL a dated page keeps its own record's clock (the day's record never changes with the clock that draws it)
+
+SPRINT 9.9.1: FAIL (4 failure(s))

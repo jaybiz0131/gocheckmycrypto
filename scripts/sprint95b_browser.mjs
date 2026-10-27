@@ -237,7 +237,9 @@ try {
       g.l && g.rr && g.rr.l >= g.l.r - 1 && Math.abs(g.rr.t - g.l.t) <= 4, JSON.stringify({ l: g.l, rr: g.rr }));
     if (hasCard) check("the glance board at 1440: the verdict card is the first object (nothing above it, and it starts at the board's left edge)",
       g.card && g.card.t <= g.minTop + 2 && g.card.l <= g.l.l + 1, JSON.stringify({ card: g.card, minTop: g.minTop, l: g.l }));
-    else check("the glance board at 1440 with no graded card: the tape is the first object and the Brief card is not above it", g.boxes.tape && g.boxes.tape.t <= g.minTop + 2 && g.boxes.narrative && g.boxes.narrative.t >= g.boxes.tape.t, JSON.stringify(g.boxes));
+    // CHANGED BY Sprint 9.9.1 (the ruling on J-8 of October 20): with no verdict record the card's place carries the no-read notice,
+    // first, so the tape is under it and the Brief card is not above the tape
+    else check("the glance board at 1440 with no verdict record: the no-read notice is the first object, the tape is under it and the Brief card is not above the tape", g.card && g.card.t <= g.minTop + 2 && g.boxes.tape && g.boxes.tape.t >= g.card.b - 1 && g.boxes.narrative && g.boxes.narrative.t >= g.boxes.tape.t, JSON.stringify(g.boxes));
     await ctx.close();
   }
 
@@ -268,6 +270,9 @@ try {
           await route(page, { base95: which === "old" });
           await page.goto(base + (which === "old" ? `/__b95/home-board-${name}.95.html` : `/home-board-${name}.html`), { waitUntil: "load" });
           await page.evaluate(() => document.fonts.ready);
+          // SPRINT 9.9.1: the no-read notice is the one thing the card's place gains; with it taken out the page is Sprint 9.5's
+          // (scripts/sprint991_test.py holds the notice to account, as the Ether line is held by the data-wide cut above)
+          await page.evaluate(() => document.querySelectorAll("aside.vd.vd-next").forEach(e => e.remove()));
           await page.waitForTimeout(1600);
           lay.push(await page.evaluate(LAYOUT));
           shots.push(await page.screenshot({ fullPage: true, animations: "disabled" }));

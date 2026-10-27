@@ -1,0 +1,233 @@
+Sprint 9.9.1, U-9: each guarded thing broken on purpose in a throwaway copy of the tree, scripts/sprint991_test.py run, the same copy run again with the break undone. Fresh copy per plant. Tue Oct 27 2026, 02:01 AM UTC
+PLANT 1 the notice loses the time of the next read (verdict.py): exit 1, 24 red; restored: exit 0
+      FAIL home: one notice, and it reads exactly the window-flipped line with the next read's time
+      FAIL /today/: one notice, and it reads exactly the window-flipped line with the next read's time
+      FAIL /coins/btc: one notice, and it reads exactly the window-flipped line with the next read's time
+      FAIL home: the notice says no read yet today and the next read's time, in one line
+      FAIL /coins/btc: the notice says no read yet today and the next read's time, in one line
+      ... and 19 more
+PLANT 2 the notice loses its reason (the bare ruled words again) (verdict.py): exit 1, 24 red; restored: exit 0
+      FAIL home: one notice, and it reads exactly the window-flipped line with the next read's time
+      FAIL /today/: one notice, and it reads exactly the window-flipped line with the next read's time
+      FAIL /coins/btc: one notice, and it reads exactly the window-flipped line with the next read's time
+      FAIL home: the notice says no read yet today and the next read's time, in one line
+      FAIL /coins/btc: the notice says no read yet today and the next read's time, in one line
+      ... and 19 more
+PLANT 3 the no-read reason is worded differently (verdict.py): exit 1, 6 red; restored: exit 0
+      FAIL home: the notice says no read yet today and the next read's time, in one line
+      FAIL /coins/btc: the notice says no read yet today and the next read's time, in one line
+      FAIL home with no verdict record at all: the same notice
+      FAIL the Ether page says the same as the Bitcoin page when no read has run today (Review 2, failure 6)
+      FAIL /coins/btc says no read yet today
+      ... and 1 more
+PLANT 4 the not-graded reason is worded differently (verdict.py): exit 1, 14 red; restored: exit 0
+      FAIL home: one notice, and it reads exactly the window-flipped line with the next read's time
+      FAIL /today/: one notice, and it reads exactly the window-flipped line with the next read's time
+      FAIL /coins/btc: one notice, and it reads exactly the window-flipped line with the next read's time
+      FAIL after the evening slot the notice names tomorrow's read (the Brief card's own function)
+      FAIL and a record with the fields draws the same line as the stored one without them
+      ... and 9 more
+PLANT 5 the notice drops the way the move ran in the page's window (no detail) (verdict.py): exit 1, 15 red; restored: exit 0
+      FAIL home: one notice, and it reads exactly the window-flipped line with the next read's time
+      FAIL /today/: one notice, and it reads exactly the window-flipped line with the next read's time
+      FAIL /coins/btc: one notice, and it reads exactly the window-flipped line with the next read's time
+      FAIL after the evening slot the notice names tomorrow's read (the Brief card's own function)
+      FAIL and a record with the fields draws the same line as the stored one without them
+      ... and 10 more
+PLANT 6 the notice names a second window again (the 24-hour run beside the ET day), the words of Review 2 failure 2 (verdict.py): exit 1, 22 red; restored: exit 0
+      FAIL home: one notice, and it reads exactly the window-flipped line with the next read's time
+      FAIL /today/: one notice, and it reads exactly the window-flipped line with the next read's time
+      FAIL /coins/btc: one notice, and it reads exactly the window-flipped line with the next read's time
+      FAIL after the evening slot the notice names tomorrow's read (the Brief card's own function)
+      FAIL and a record with the fields draws the same line as the stored one without them
+      ... and 17 more
+PLANT 7 a verdict page's card carries the window attributes again (outside the item) (verdict.py): exit 1, 1 red; restored: exit 0
+      FAIL a verdict page's card (where=page) carries no data-vd-basis or data-vd-dir (main's markup)
+PLANT 8 the notice leaves its card (a bare paragraph again) (verdict.py): exit 1, 6 red; restored: exit 0
+      FAIL the notice stands in a card (aside.vd) with its own heading, not a bare line
+      FAIL /today/ card: names the ET day as its window and up as its direction
+      FAIL home card: names the ET day as its window and up as its direction
+      FAIL /coins/btc card: names the ET day as its window and up as its direction
+      FAIL the window-flipped notice: the first block of the left column is the card, and the tape is the next
+      ... and 1 more
+PLANT 9 the notice stops naming its window and direction (verdict.py): exit 1, 3 red; restored: exit 0
+      FAIL /today/ card: names the ET day as its window and up as its direction
+      FAIL home card: names the ET day as its window and up as its direction
+      FAIL /coins/btc card: names the ET day as its window and up as its direction
+PLANT 10 a graded card stops carrying its basis and direction (verdict.py): exit 1, 2 red; restored: exit 0
+      FAIL the graded card carries its basis and its direction
+      FAIL the home's graded card still carries them (the three pages' agreement is read from them)
+PLANT 11 the flip's record stops stating both directions as fields (verdict.py): exit 1, 1 red; restored: exit 0
+      FAIL a record written now for the flip states window_dir up and run_dir down as fields
+PLANT 12 the stored line is reworded to the drawn one (J-10) (verdict.py): exit 1, 2 red; restored: exit 0
+      FAIL its stored line is still the ruled words and nothing more (the notice is drawn, not stored)
+      FAIL grade() on the real record is the stored one (next_read, the flip's fields, the ET day basis)
+PLANT 13 the next read's time reads the wrong function (always tomorrow) (verdict.py): exit 1, 18 red; restored: exit 0
+      FAIL home: one notice, and it reads exactly the window-flipped line with the next read's time
+      FAIL /today/: one notice, and it reads exactly the window-flipped line with the next read's time
+      FAIL /coins/btc: one notice, and it reads exactly the window-flipped line with the next read's time
+      FAIL home: the notice says no read yet today and the next read's time, in one line
+      FAIL /coins/btc: the notice says no read yet today and the next read's time, in one line
+      ... and 13 more
+PLANT 14 is_today compares the wrong day (verdict.py): exit 1, 20 red; restored: exit 0
+      FAIL home: one notice, and it reads exactly the window-flipped line with the next read's time
+      FAIL /coins/btc: one notice, and it reads exactly the window-flipped line with the next read's time
+      FAIL home: the notice says no read yet today and the next read's time, in one line
+      FAIL /coins/btc: the notice says no read yet today and the next read's time, in one line
+      FAIL the Ether page says the same as the Bitcoin page when no read has run today (Review 2, failure 6)
+      ... and 15 more
+PLANT 15 home: the tape leads again when the card carries the next-read line (home.py): exit 1, 2 red; restored: exit 0
+      FAIL the window-flipped notice: the first block of the left column is the card, and the tape is the next
+      FAIL the no-read notice: the card first, the tape next
+PLANT 16 home: no read yet today is not drawn (home.py): exit 1, 2 red; restored: exit 0
+      FAIL home: the notice says no read yet today and the next read's time, in one line
+      FAIL home with no verdict record at all: the same notice
+PLANT 17 home: the notice follows the tape (card under the tape line) (home.py): exit 1, 3 red; restored: exit 0
+      FAIL the window-flipped notice: the first block of the left column is the card, and the tape is the next
+      FAIL the no-read notice: the card first, the tape next
+      FAIL a graded card (the 15 October real record) is still first, the tape next
+PLANT 18 today: the window line is not drawn (today.py): exit 1, 14 red; restored: exit 0
+      FAIL a window line stands under the headline, carrying the page's basis and direction
+      FAIL the window line says the direction is read since midnight ET
+      FAIL the window line says the chart and the list read the same window, with no figure of its own and no second window
+      FAIL the window line sits under the stamp and above the answer [ValueError: substring not found]
+      FAIL the fallback page says the direction is read over the last 24 hours, the named fallback, and claims nothing about the Board that the record does not state (Review 1, failure 4)
+      ... and 9 more
+PLANT 19 today: the window line stops naming the evidence's window (today.py): exit 1, 2 red; restored: exit 0
+      FAIL the window line says the chart and the list read the same window, with no figure of its own and no second window
+      FAIL the fallback's window line on /today/ names the fallback and the reason, so the page never hides two windows
+PLANT 20 today: the rolling fallback is given a reason the record does not state (today.py): exit 1, 2 red; restored: exit 0
+      FAIL the fallback page says the direction is read over the last 24 hours, the named fallback, and claims nothing about the Board that the record does not state (Review 1, failure 4)
+      FAIL a record that states the rolling 24 hours: the line says so and names it the fallback, with no reason the record does not give
+PLANT 21 today: an unstated window is given a claim about the Board (Review 1, failure 4) (today.py): exit 1, 4 red; restored: exit 0
+      FAIL 2026-10-15 (stored before direction_basis existed, no basis field): the line claims nothing about the Board's midnight open
+      FAIL 2026-10-15: it says the record does not state its window, and the page marks the basis as unstated
+      FAIL 2026-10-16 (stored before direction_basis existed, no basis field): the line claims nothing about the Board's midnight open
+      FAIL 2026-10-16: it says the record does not state its window, and the page marks the basis as unstated
+PLANT 22 today: the living page's notice takes the record's clock, not the build's (Review 1, failure 3) (today.py): exit 1, 4 red; restored: exit 0
+      FAIL the living /today/ names tomorrow's read, not the 7:08 PM slot that has passed
+      FAIL the three pages print the whole notice the same way (one fact, one value)
+      FAIL no page of the item prints a next read that is already past
+      FAIL the living /today/ prints one next-read time, tomorrow's (the card and the footer agree, none is tonight's 7:08 PM)
+PLANT 23 today: the living page is not handed the build's clock (today.py): exit 1, 4 red; restored: exit 0
+      FAIL the living /today/ names tomorrow's read, not the 7:08 PM slot that has passed
+      FAIL the three pages print the whole notice the same way (one fact, one value)
+      FAIL no page of the item prints a next read that is already past
+      FAIL the living /today/ prints one next-read time, tomorrow's (the card and the footer agree, none is tonight's 7:08 PM)
+PLANT 24 today: the evidence is drawn on the 24 hours again (Review 1, failure 1) (today.py): exit 1, 31 red; restored: exit 0
+      FAIL the window line says the chart and the list read the same window, with no figure of its own and no second window
+      FAIL the evidence section reads the ET day and says so in its own attribute (Review 1, failure 1)
+      FAIL the evidence's run figure carries its window's name beside it (since midnight ET), never 'the window' alone
+      FAIL /today/: one notice, and it reads exactly the window-flipped line with the next read's time
+      FAIL /today/ card: names the ET day as its window and up as its direction
+      ... and 26 more
+PLANT 25 evidence: the run figure says 'the window' again (why_evidence.py): exit 1, 4 red; restored: exit 0
+      FAIL the evidence's run figure carries its window's name beside it (since midnight ET), never 'the window' alone
+      FAIL /today/: the largest run is read since midnight ET and went up, as the headline says (up 0.77%)
+      FAIL /coins/btc: the largest run is read since midnight ET and went up, as the headline says (up 0.77%)
+      FAIL every figure of the fallback names the 24 hours (run, shares)
+PLANT 26 evidence: the section stops naming its window (why_evidence.py): exit 1, 12 red; restored: exit 0
+      FAIL the evidence section reads the ET day and says so in its own attribute (Review 1, failure 1)
+      FAIL /today/: the evidence section reads the ET day (data-ev-window et_day), not the 24 hours
+      FAIL /coins/btc: the evidence section reads the ET day (data-ev-window et_day), not the 24 hours
+      FAIL SYNTHETIC series starting after midnight ET: the section names the 24 hours as the fallback in its attribute
+      FAIL the cut must run the way the page's direction reads: the same day read as down falls back and says so
+      ... and 7 more
+PLANT 27 evidence: the ET day is not cut (the 24 hours under an ET-day headline) (why_evidence.py): exit 1, 53 red; restored: exit 0
+      FAIL the window line says the chart and the list read the same window, with no figure of its own and no second window
+      FAIL the evidence section reads the ET day and says so in its own attribute (Review 1, failure 1)
+      FAIL the evidence's run figure carries its window's name beside it (since midnight ET), never 'the window' alone
+      FAIL home: one notice, and it reads exactly the window-flipped line with the next read's time
+      FAIL /today/: one notice, and it reads exactly the window-flipped line with the next read's time
+      ... and 48 more
+PLANT 28 evidence: the cut may run the other way from the page's direction (why_evidence.py): exit 1, 1 red; restored: exit 0
+      FAIL the cut must run the way the page's direction reads: the same day read as down falls back and says so
+PLANT 29 evidence: the candidates of the day before stay in the day's list (why_evidence.py): exit 1, 4 red; restored: exit 0
+      FAIL /today/: the events of the day before are not listed in a window that opened at midnight ET
+      FAIL /coins/btc: the events of the day before are not listed in a window that opened at midnight ET
+      FAIL SYNTHETIC candidate in the ET day: the list prints it, its timing figure names the window
+      FAIL SYNTHETIC: a candidate before the window opened (a day earlier) is not listed
+PLANT 30 evidence: the stored readings of another run's hour are drawn under the day (why_evidence.py): exit 1, 3 red; restored: exit 0
+      FAIL /today/: the readings of the run's hour are not drawn for another run than the window's largest, and the page says so
+      FAIL /coins/btc: the readings of the run's hour are not drawn for another run than the window's largest, and the page says so
+      FAIL the list does not print the hour of a run that began before the window opened (Sat 11:20 PM ET)
+PLANT 31 evidence: the timing figures drop their window's name (why_evidence.py): exit 1, 3 red; restored: exit 0
+      FAIL SYNTHETIC candidate in the ET day: the list prints it, its timing figure names the window
+      FAIL every figure of the fallback names the 24 hours (run, shares)
+      FAIL SYNTHETIC: the list is the ET day's (33% of the rise since midnight ET), beside a notice, not beside a grade
+PLANT 32 evidence: the fallback does not say why (why_evidence.py): exit 1, 2 red; restored: exit 0
+      FAIL the fallback says why, from the stored prices
+      FAIL the cut must run the way the page's direction reads: the same day read as down falls back and says so
+PLANT 33 coin page: the section reads the 24 hours unnamed again (site_build.py): exit 1, 12 red; restored: exit 0
+      FAIL /today/ and /coins/btc name the same evidence window (since midnight ET to 8:17 AM ET)
+      FAIL /coins/btc: the evidence section reads the ET day (data-ev-window et_day), not the 24 hours
+      FAIL /coins/btc: the section's text names no 24-hour window at all (the headline's window is the only one)
+      FAIL /coins/btc: the largest run is read since midnight ET and went up, as the headline says (up 0.77%)
+      FAIL /coins/btc: the chart is labeled with the window it draws (since midnight ET), not the 24 hours
+      ... and 7 more
+PLANT 34 coin page: no read yet today is not drawn (site_build.py): exit 1, 5 red; restored: exit 0
+      FAIL /coins/btc: the notice says no read yet today and the next read's time, in one line
+      FAIL the Ether page says the same as the Bitcoin page when no read has run today (Review 2, failure 6)
+      FAIL /coins/btc says no read yet today
+      FAIL /coins/eth says the same, not yesterday's 'Ether moved with Bitcoin since midnight ET' as if it were today's
+      FAIL the two coin pages carry the same next-read time and no day-bound sentence of the stored record
+PLANT 35 page_view: a graded card is kept whatever the cut reads (failures 1 and 3) (verdict.py): exit 1, 8 red; restored: exit 0
+      FAIL no graded card stands over a list its run does not reach: the card is the notice, not 'Checked: Unclear'
+      FAIL the notice names the window the list reads [IndexError: list index out of range]
+      FAIL SYNTHETIC: the card does not say a passing event while the list prints a figure under the bar for it
+      FAIL SYNTHETIC: the list is the ET day's (33% of the rise since midnight ET), beside a notice, not beside a grade
+      FAIL the SYNTHETIC probe on the Bitcoin page: the same outcome as /today/ (the three pages cannot grade apart)
+      ... and 3 more
+PLANT 36 page_view: the cut need not find the stored run (failure 1) (verdict.py): exit 1, 2 red; restored: exit 0
+      FAIL no graded card stands over a list its run does not reach: the card is the notice, not 'Checked: Unclear'
+      FAIL the notice names the window the list reads [IndexError: list index out of range]
+PLANT 37 page_view: each candidate's pass or fail may change in the cut (failure 3) (verdict.py): exit 1, 5 red; restored: exit 0
+      FAIL SYNTHETIC: the card does not say a passing event while the list prints a figure under the bar for it
+      FAIL SYNTHETIC: the list is the ET day's (33% of the rise since midnight ET), beside a notice, not beside a grade
+      FAIL the SYNTHETIC probe on the Bitcoin page: the same outcome as /today/ (the three pages cannot grade apart)
+      FAIL the SYNTHETIC probe on the home: the same outcome again, the notice in the card's place and no graded card
+      FAIL the build's home is handed the evidence: given the probe it draws the notice, not the graded card
+PLANT 38 page_view: a card graded in one window may stand over a list read in another (failure 1) (verdict.py): exit 1, 8 red; restored: exit 0
+      FAIL no graded card stands over a list its run does not reach: the card is the notice, not 'Checked: Unclear'
+      FAIL the notice names the window the list reads [IndexError: list index out of range]
+      FAIL SYNTHETIC: the card does not say a passing event while the list prints a figure under the bar for it
+      FAIL SYNTHETIC: the list is the ET day's (33% of the rise since midnight ET), beside a notice, not beside a grade
+      FAIL the SYNTHETIC probe on the Bitcoin page: the same outcome as /today/ (the three pages cannot grade apart)
+      ... and 3 more
+PLANT 39 page_view: the notice's direction is not the window's (failure 2) (verdict.py): exit 1, 1 red; restored: exit 0
+      FAIL SYNTHETIC fallback (the series does not reach midnight): the list reads the 24 hours and the notice names those 24 hours and no window the page does not read
+PLANT 40 home: the card is not put through the page view (the three pages grade apart) (home.py): exit 1, 2 red; restored: exit 0
+      FAIL the SYNTHETIC probe on the home: the same outcome again, the notice in the card's place and no graded card
+      FAIL the build's home is handed the evidence: given the probe it draws the notice, not the graded card
+PLANT 41 home: the build does not hand the view its evidence (site_build.py): exit 1, 1 red; restored: exit 0
+      FAIL the build's home is handed the evidence: given the probe it draws the notice, not the graded card
+PLANT 42 coin page: the card is not put through the page view (site_build.py): exit 1, 10 red; restored: exit 0
+      FAIL group today could not run [IndentationError: expected an indented block after 'if' statement on line 8472 (site_build.py, line 8473)]
+      FAIL group notice could not run [IndentationError: expected an indented block after 'if' statement on line 8472 (site_build.py, line 8473)]
+      FAIL group agree could not run [IndentationError: expected an indented block after 'if' statement on line 8472 (site_build.py, line 8473)]
+      FAIL group front could not run [IndentationError: expected an indented block after 'if' statement on line 8472 (site_build.py, line 8473)]
+      FAIL group unchanged could not run [IndentationError: expected an indented block after 'if' statement on line 8472 (site_build.py, line 8473)]
+      ... and 5 more
+PLANT 43 coin page: the Ether page keeps yesterday's line past its day (failure 6) (site_build.py): exit 1, 3 red; restored: exit 0
+      FAIL the Ether page says the same as the Bitcoin page when no read has run today (Review 2, failure 6)
+      FAIL /coins/eth says the same, not yesterday's 'Ether moved with Bitcoin since midnight ET' as if it were today's
+      FAIL the two coin pages carry the same next-read time and no day-bound sentence of the stored record
+PLANT 44 today: the card is not put through the page view (failures 1 and 3) (today.py): exit 1, 5 red; restored: exit 0
+      FAIL no graded card stands over a list its run does not reach: the card is the notice, not 'Checked: Unclear'
+      FAIL the notice names the window the list reads [IndexError: list index out of range]
+      FAIL SYNTHETIC: the card does not say a passing event while the list prints a figure under the bar for it
+      FAIL SYNTHETIC: the list is the ET day's (33% of the rise since midnight ET), beside a notice, not beside a grade
+      FAIL SYNTHETIC fallback (the series does not reach midnight): the list reads the 24 hours and the notice names those 24 hours and no window the page does not read
+PLANT 45 today: the footer prints the stored next update, already past (failure 5) (today.py): exit 1, 1 red; restored: exit 0
+      FAIL the living /today/ prints one next-read time, tomorrow's (the card and the footer agree, none is tonight's 7:08 PM)
+PLANT 46 evidence: the second sources are dropped without a word (failure 4) (why_evidence.py): exit 1, 3 red; restored: exit 0
+      FAIL /today/: the section says the second sources (OKX, Binance, Kraken) are not read for this window
+      FAIL /coins/btc: the section says the second sources (OKX, Binance, Kraken) are not read for this window
+      FAIL /coins/eth: the section says the second sources (OKX, Binance, Kraken) are not read for this window
+PLANT 47 evidence: the line that says the second sources are not read is not drawn (failure 4) (why_evidence.py): exit 1, 3 red; restored: exit 0
+      FAIL /today/: the section says the second sources (OKX, Binance, Kraken) are not read for this window
+      FAIL /coins/btc: the section says the second sources (OKX, Binance, Kraken) are not read for this window
+      FAIL /coins/eth: the section says the second sources (OKX, Binance, Kraken) are not read for this window
+PLANT 48 fixtures: the stored verdict fixture is reworded (it must stay the stored October 26 read byte for byte) (fixtures/sprint991/real-2026-10-26-morning/verdict_2026-10-26-morning.json): exit 1, 2 red; restored: exit 0
+      FAIL the fixture is the stored October 26 verdict byte for byte
+      FAIL grade() on the real record is the stored one (next_read, the flip's fields, the ET day basis)

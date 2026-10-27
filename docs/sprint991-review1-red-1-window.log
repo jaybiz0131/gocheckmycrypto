@@ -1,0 +1,30 @@
+8. Review 1, failures 1 and 2: the chart, the list and the headline read one window, and each figure names it
+  FAIL /today/: the evidence section reads the ET day (data-ev-window et_day), not the 24 hours
+  FAIL /today/: the section's text names no 24-hour window at all (the headline's window is the only one)
+  FAIL /today/: the largest run is read since midnight ET and went up, as the headline says (up 0.77%)
+  FAIL /today/: the chart is labeled with the window it draws (since midnight ET), not the 24 hours
+  FAIL /today/: no figure is printed beside 'the window' (it would name neither window)
+  FAIL /today/: the events of the day before are not listed in a window that opened at midnight ET
+  FAIL /today/: the readings of the run's hour are not drawn for a run that began before the window, and the page says so
+  FAIL /coins/btc: the evidence section reads the ET day (data-ev-window et_day), not the 24 hours
+  FAIL /coins/btc: the section's text names no 24-hour window at all (the headline's window is the only one)
+  FAIL /coins/btc: the largest run is read since midnight ET and went up, as the headline says (up 0.77%)
+  FAIL /coins/btc: the chart is labeled with the window it draws (since midnight ET), not the 24 hours
+  FAIL /coins/btc: no figure is printed beside 'the window' (it would name neither window)
+  FAIL /coins/btc: the events of the day before are not listed in a window that opened at midnight ET
+  FAIL /coins/btc: the readings of the run's hour are not drawn for a run that began before the window, and the page says so
+  FAIL /today/: the notice names the page's window only (no 24-hour run beside the ET day)
+  FAIL the home and /coins/btc: the same, one window in the notice
+  FAIL the headline says up and the section's largest run went up: the page no longer reads up over a fall
+  ok   grade() on the real record is the stored one (next_read, the flip's fields, the ET day basis)
+  ok   drawing the pages leaves the stored evidence record as it was
+  FAIL SYNTHETIC candidate in the ET day: the list prints it, its timing figure names the window
+  FAIL SYNTHETIC: a candidate before the window opened (a day earlier) is not listed
+   the 24 hours only as the named fallback, with the window's name beside every figure
+  ok   SYNTHETIC series starting after midnight ET: the section names the 24 hours as the fallback in its attribute
+  FAIL the fallback says why, from the stored prices
+  FAIL every figure of the fallback names the 24 hours (run, shares)
+  ok   the fallback's window line on /today/ names the fallback and the reason, so the page never hides two windows
+  FAIL group window could not run [TypeError: section_html() got an unexpected keyword argument 'window']
+
+SPRINT 9.9.1: FAIL (22 failure(s))

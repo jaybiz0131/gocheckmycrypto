@@ -50,8 +50,10 @@ and the verdict is withheld: the card says the desk's check did not run today, n
 
     python3 verdict.py --write        # the run's step, after why_evidence.py; exits 0 whatever happens
 """
+import contextlib
 import datetime as _dt
 import html as _html
+import io
 import json
 import os
 import re
@@ -88,6 +90,12 @@ NO_EVENT = "No reported event lines up with this move."
 READINGS_MISMATCH = "A reported event lines up in time, but the market readings do not match it."
 OTHER_WAY = "A reported event lines up in time, but the move ran the other way."
 NEXT_READ = "Verdict at the next read"
+# SPRINT 9.9.1 (the strategist's ruling on J-8 of October 20, Review 1 and Review 2): the notice always prints why and the time of the
+# next read, in one line. The notice prints for two reasons only: the window flipped since the run (the measured run's direction against
+# the direction in the page's window; round 4 words it as the ruling of October 26, entry C6, does: "the run the last read measured went
+# down; the move since midnight ET is up"), or no read yet today. The words are drawn, never stored: a stored record keeps its ruled
+# line (J-10).
+WHY_NO_READ = "no read yet today"
 CAP_LINE = "The desk's check of this move did not run today."
 WINDOW_WORDS = {"et_day": "since midnight ET", "rolling_24h": "over the last 24 hours"}
 GRADE_WORDS = re.compile(r"\b(confirmed|likely|disputed|unclear)\b", re.I)
@@ -483,7 +491,7 @@ def grade(rec, sym, day=None):
     ddir = "down" if mv < 0 else "up"
     if ddir != run["dir"]:
         # October 20, J-8 (b): no card, and the page prints NEXT_READ where the card would stand
-        out.update(kind="next_read", line=[NEXT_READ],
+        out.update(kind="next_read", line=[NEXT_READ], window_dir=ddir, run_dir=run["dir"],
                    reasons=[f"the page's window moved {ddir} while the run the timing test measured went "
                             f"{run['dir']}: the next slot's run grades the move as it then stands"])
         return out
@@ -1078,22 +1086,119 @@ def current(vrec, board_utc, max_gap_h=18):
     return vrec
 
 
+# ---- the notice: why there is no card yet, and when the next read is ---------------------------------------------------
+
+_FLIP_REASON = re.compile(r"moved (up|down) while the run .*? went (up|down)")
+
+
+def _flip_dirs(v, vrec, sym):
+    """(window direction, run direction) of a flipped record. A record written since 9.9.1 states both as fields; one
+    stored before it states them in its reasons (code-written words), and the window's own move is in `day`."""
+    wd, rd = v.get("window_dir"), v.get("run_dir")
+    if wd in ("up", "down"):
+        return wd, (rd if rd in ("up", "down") else None)
+    m = _FLIP_REASON.search(" ".join(v.get("reasons") or []))
+    if m:
+        return m.group(1), m.group(2)
+    mv = ((vrec or {}).get("day") or {}).get(sym)
+    if isinstance(mv, (int, float)) and mv:
+        return ("up" if mv > 0 else "down"), None
+    return None, None
+
+
+def _next_read_when(now, vrec):
+    """'tonight at 7:08 PM ET': the next slot off the clock, by the one function the Brief card and the daily answer use
+    (home.next_slot). `now` is the build's on a live page; without it the record's own time stands, so a dated page and
+    a stored record never change with the clock that draws them."""
+    import home
+    t = now or _parse((vrec or {}).get("made_utc")) or _parse(((vrec or {}).get("window") or {}).get("end_utc"))
+    return home.next_slot(t)[1]
+
+
+def notice_line(why, when, detail=""):
+    """The one line: the ruled words, why, and the time of the next read."""
+    return f"{NEXT_READ}: {why}{f' ({detail})' if detail else ''}. Next read: {when}."
+
+
+def _notice_card(sym, name, kind, line, basis=None, direction=None):
+    at = (f' data-vd-basis="{_e(basis)}"' if basis else "") + (f' data-vd-dir="{_e(direction)}"' if direction else "")
+    return (f'<aside class="vd vd-next" data-vd="{_e(sym)}" data-vd-kind="{_e(kind)}"{at} aria-label="Why {_e(name)} moved">'
+            f'<h2 class="vd-h">Why {_e(name)} moved</h2>'
+            f'<p class="vd-plain vd-next" data-vd-next="{_e(kind)}">{_e(line)}</p></aside>')
+
+
+def no_read_html(now, sym="BTC"):
+    """The card's place when no read has run on the ET day of `now`: the notice, with the time of the next read."""
+    name = NAMES.get(sym, (sym, sym.lower()))[0]
+    return _notice_card(sym, name, "no_read", notice_line(WHY_NO_READ, _next_read_when(now, None)))
+
+
+def is_today(vrec, now):
+    """True when the record is the ET day of `now`'s own (its date_et)."""
+    if not vrec or now is None:
+        return False
+    return str(vrec.get("date_et") or "") == now.astimezone(_we().ET).date().isoformat()
+
+
+# ---- the verdict beside its evidence list (Sprint 9.9.1, round 4) -------------------------------------------------------------
+
+def list_view(vrec, ev, sym):
+    """The record as a coin page may show it beside its evidence list. The list reads the window the grade was made on (the stored
+    record's 24 hours); nothing graded is reworded or re-graded here. The one line that is a plain fact about two moves, Ether
+    moving with Bitcoin, is read in the list's own window when the same stored prices say so (`grade` on the record's own series, the
+    rolling 24 hours), so the Ether page's line and its list never name two windows; when the stored prices do not say it, the line
+    stays as stored. A copy: the stored record is never changed. Never raises."""
+    try:
+        v = ((vrec or {}).get("coins") or {}).get(sym)
+        if not v or v.get("kind") != "with_btc" or not ev:
+            return vrec
+        if (ev.get("window") or {}).get("end_utc") != ((vrec.get("window") or {}).get("end_utc")):
+            return vrec
+        if v.get("basis") == "rolling_24h":
+            return vrec
+        with contextlib.redirect_stdout(io.StringIO()):
+            g = grade(ev, sym)
+        if g.get("kind") != "with_btc":
+            return vrec
+        return dict(vrec, coins=dict(vrec["coins"], **{sym: dict(v, basis="rolling_24h", window_words=WINDOW_WORDS["rolling_24h"])}))
+    except Exception as e:                                       # noqa: BLE001
+        print(f"::warning::verdict: the list view of {sym} was not made ({type(e).__name__}: {e})")
+        return vrec
+
+
+def list_note(vrec, ev, sym):
+    """One plain sentence for the page that prints a graded card beside the evidence list: the card keeps the window it was published
+    in, the list reads the window the grade was made on, and the page says which is which. '' when the two are one window, or
+    the card is not a graded one (the notice names its own windows)."""
+    try:
+        v = ((vrec or {}).get("coins") or {}).get(sym) or {}
+        if v.get("kind") not in ("graded", "withheld") or v.get("basis") not in WINDOW_WORDS or v.get("basis") == "rolling_24h":
+            return ""
+        wend = _we()._parse_utc(((ev or {}).get("window") or {}).get("end_utc"))
+        to = _we().clock(int(wend.timestamp())) if wend else ""
+        # a withheld card holds no grade, so the page names only the list's window (round 5)
+        tail = ", the window the grade was made on." if v.get("kind") == "graded" else "."
+        return (f"The card above reads its direction {WINDOW_WORDS[v['basis']]}; this chart and list read the 24 hours to {to}{tail}")
+    except Exception:                                            # noqa: BLE001
+        return ""
+
+
 # ---- the card: one shape on the home, /today/, the Bitcoin page and the verdict page ------------------------------
 
-def card_html(vrec, sym, where="today", live=False, corrections=None, link=True, with_section=False):
+def card_html(vrec, sym, where="today", live=False, corrections=None, link=True, with_section=False, now=None):
     """The card for one coin, or '' (fail open). `where` is home, today, coin or page. Only a graded verdict
     draws a card, and a withheld one (the cap) draws the desk's line in its place, and a move whose page
     window ran the other way from the measured run draws "Verdict at the next read"; Ether moving with Bitcoin
     is one plain line on the Ether page. `with_section`: the page also prints the evidence list, so the card
     names the event with a pointer to its item and leaves times, figures and wording to the list."""
     try:
-        return _card(vrec, sym, where, live, corrections, link, with_section)
+        return _card(vrec, sym, where, live, corrections, link, with_section, now)
     except Exception as e:                                       # noqa: BLE001
         print(f"::warning::verdict: the card for {sym} was not drawn ({type(e).__name__}: {e})")
         return ""
 
 
-def _card(vrec, sym, where, live, corrections, link, with_section=False):
+def _card(vrec, sym, where, live, corrections, link, with_section=False, now=None):
     we = _we()
     v = ((vrec or {}).get("coins") or {}).get(sym)
     if not v:
@@ -1102,8 +1207,18 @@ def _card(vrec, sym, where, live, corrections, link, with_section=False):
         ww = v.get("window_words") or WINDOW_WORDS["rolling_24h"]
         return f'<p class="vd-plain">Ether moved with Bitcoin {_e(ww)}.</p>' if where == "coin" else ""
     if v.get("kind") == "next_read":
-        # October 20, J-8 (b): no card, and the notice stands in its place on every page that draws it
-        return f'<p class="vd-plain vd-next">{_e(NEXT_READ)}</p>'
+        # October 20, J-8 (b): no grade, and the notice stands in the card's place on every page that draws it. SPRINT 9.9.1: it
+        # says why (the window flipped since the run) and when the next read is, in one line, inside a card of its own so it is
+        # the home's first object like any verdict. It names the page's window and the way the move ran in it, and no other window
+        # and no figure (Review 1: one window per page).
+        wd, rd = _flip_dirs(v, vrec, sym)
+        ww = v.get("window_words") or WINDOW_WORDS["rolling_24h"]
+        if wd and rd:
+            why, detail = f"the run the last read measured went {rd}; the move {ww} is {wd}", ""
+        else:                                                   # a record that states only one direction says only that
+            why, detail = f"the last read did not grade the move {ww}", (f"it is {wd}" if wd else "")
+        return _notice_card(sym, v.get("name") or sym, "next_read",
+                            notice_line(why, _next_read_when(now, vrec), detail), v.get("basis"), wd)
     if v.get("kind") not in ("graded", "withheld"):
         return ""
     name = v.get("name") or sym
@@ -1151,7 +1266,12 @@ def _card(vrec, sym, where, live, corrections, link, with_section=False):
     more = ""
     if link and v.get("url") and where != "page":
         more = f'<p class="vd-more"><a href="{_e(v["url"])}">The verdict and its evidence</a></p>'
-    return (f'<aside class="vd vd-{cls}" data-vd="{_e(sym)}" aria-label="Why {_e(name)} moved">'
+    # the window and direction the card reads, for the pages of Sprint 9.9.1 only (a verdict page's card is main's markup)
+    at = ""
+    if where in ("home", "today", "coin"):
+        at = (f' data-vd-basis="{_e(v.get("basis"))}"' if v.get("basis") else "") + (
+            f' data-vd-dir="{_e(v.get("dir"))}"' if v.get("dir") in ("up", "down") else "")
+    return (f'<aside class="vd vd-{cls}" data-vd="{_e(sym)}"{at} aria-label="Why {_e(name)} moved">'
             f'<h2 class="vd-h">Why {_e(name)} moved</h2>{win}{body}{corr}{more}</aside>')
 
 

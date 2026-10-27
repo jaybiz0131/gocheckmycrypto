@@ -1,0 +1,12 @@
+Sprint 9.9.1 Review 2, failure 2: the new cases seen red on f3f6c7f (code unchanged), scripts/sprint991_test.py --only review2
+   failure 2: the notice's reason names a window and a fact the page itself prints, and no run the page does not draw
+  FAIL home: the notice reads the ruled-out run no more, and says what the last read did not grade
+  FAIL home: the notice does not say a window flipped since 'the run' (no run is drawn beside it)
+  FAIL /today/: the notice reads the ruled-out run no more, and says what the last read did not grade
+  FAIL /today/: the notice does not say a window flipped since 'the run' (no run is drawn beside it)
+  FAIL /today/2026-10-26: the notice reads the ruled-out run no more, and says what the last read did not grade
+  FAIL /today/2026-10-26: the notice does not say a window flipped since 'the run' (no run is drawn beside it)
+  FAIL /coins/btc: the notice reads the ruled-out run no more, and says what the last read did not grade
+  FAIL /coins/btc: the notice does not say a window flipped since 'the run' (no run is drawn beside it)
+  ok   /today/: the window the notice names is the one the list below it reads
+  ok   /coins/btc: the window the notice names is the one the list below it reads

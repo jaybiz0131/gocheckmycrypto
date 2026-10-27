@@ -1,0 +1,9 @@
+11. Review 1, failure 5: the /why/ pages and everything outside the item stay as main wrote them
+  FAIL the evidence section called without a window is main's: 'the window' wording, no window attribute
+  FAIL a verdict page's card (where=page) carries no data-vd-basis or data-vd-dir (main's markup)
+  ok   the home's graded card still carries them (the three pages' agreement is read from them)
+   the tree: no /why/ page carries the window attributes of this item
+  ok   the built tree has /why/ pages to check
+  FAIL no /why/ page carries data-ev-window or data-vd-basis (they are outside 9.9.1's pages)
+
+SPRINT 9.9.1: FAIL (3 failure(s))

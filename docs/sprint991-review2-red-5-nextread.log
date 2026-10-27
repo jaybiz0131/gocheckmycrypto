@@ -1,0 +1,5 @@
+Sprint 9.9.1 Review 2, failure 5: the new cases seen red on f3f6c7f (code unchanged), scripts/sprint991_test.py --only review2
+   failure 5: one next read per page, none already past
+  FAIL the living /today/ prints one next-read time, tomorrow's (the card and the footer agree, none is tonight's 7:08 PM)
+  ok   the home prints the same one time
+  ok   a dated page keeps its own record's one time, card and footer alike

@@ -1,0 +1,95 @@
+Sprint 9.9.1, U-9: each guarded thing broken on purpose in a throwaway copy of the tree, scripts/sprint991_test.py run, the same copy run again with the break undone. Fresh copy per plant. Mon Oct 26 2026, 09:46 PM UTC
+PLANT 1 the notice loses the time of the next read (verdict.py): exit 1, 10 red; restored: exit 0
+      FAIL home: one notice, and it reads exactly the window-flipped line with the next read's time
+      FAIL /today/: one notice, and it reads exactly the window-flipped line with the next read's time
+      FAIL /coins/btc: one notice, and it reads exactly the window-flipped line with the next read's time
+      FAIL home: the notice says no read yet today and the next read's time, in one line
+      FAIL /coins/btc: the notice says no read yet today and the next read's time, in one line
+      ... and 5 more
+PLANT 2 the notice loses its reason (the bare ruled words again) (verdict.py): exit 1, 10 red; restored: exit 0
+      FAIL home: one notice, and it reads exactly the window-flipped line with the next read's time
+      FAIL /today/: one notice, and it reads exactly the window-flipped line with the next read's time
+      FAIL /coins/btc: one notice, and it reads exactly the window-flipped line with the next read's time
+      FAIL home: the notice says no read yet today and the next read's time, in one line
+      FAIL /coins/btc: the notice says no read yet today and the next read's time, in one line
+      ... and 5 more
+PLANT 3 the no-read reason is worded differently (verdict.py): exit 1, 3 red; restored: exit 0
+      FAIL home: the notice says no read yet today and the next read's time, in one line
+      FAIL /coins/btc: the notice says no read yet today and the next read's time, in one line
+      FAIL home with no verdict record at all: the same notice
+PLANT 4 the flip's reason is worded differently (verdict.py): exit 1, 7 red; restored: exit 0
+      FAIL home: one notice, and it reads exactly the window-flipped line with the next read's time
+      FAIL /today/: one notice, and it reads exactly the window-flipped line with the next read's time
+      FAIL /coins/btc: one notice, and it reads exactly the window-flipped line with the next read's time
+      FAIL after the evening slot the notice names tomorrow's read (the Brief card's own function)
+      FAIL and a record with the fields draws the same line as the stored one without them
+      ... and 2 more
+PLANT 5 the flip drops its two directions (no detail in the line) (verdict.py): exit 1, 7 red; restored: exit 0
+      FAIL home: one notice, and it reads exactly the window-flipped line with the next read's time
+      FAIL /today/: one notice, and it reads exactly the window-flipped line with the next read's time
+      FAIL /coins/btc: one notice, and it reads exactly the window-flipped line with the next read's time
+      FAIL after the evening slot the notice names tomorrow's read (the Brief card's own function)
+      FAIL and a record with the fields draws the same line as the stored one without them
+      ... and 2 more
+PLANT 6 the notice leaves its card (a bare paragraph again) (verdict.py): exit 1, 6 red; restored: exit 0
+      FAIL the notice stands in a card (aside.vd) with its own heading, not a bare line
+      FAIL /today/ card: names the ET day as its window and up as its direction
+      FAIL home card: names the ET day as its window and up as its direction
+      FAIL /coins/btc card: names the ET day as its window and up as its direction
+      FAIL the window-flipped notice: the first block of the left column is the card, and the tape is the next
+      ... and 1 more
+PLANT 7 the notice stops naming its window and direction (verdict.py): exit 1, 3 red; restored: exit 0
+      FAIL /today/ card: names the ET day as its window and up as its direction
+      FAIL home card: names the ET day as its window and up as its direction
+      FAIL /coins/btc card: names the ET day as its window and up as its direction
+PLANT 8 a graded card stops carrying its basis and direction (verdict.py): exit 1, 1 red; restored: exit 0
+      FAIL the graded card carries its basis and its direction
+PLANT 9 the flip's record stops stating both directions as fields (verdict.py): exit 1, 1 red; restored: exit 0
+      FAIL a record written now for the flip states window_dir up and run_dir down as fields
+PLANT 10 the stored line is reworded to the drawn one (J-10) (verdict.py): exit 1, 1 red; restored: exit 0
+      FAIL its stored line is still the ruled words and nothing more (the notice is drawn, not stored)
+PLANT 11 the next read's time reads the wrong function (always tomorrow) (verdict.py): exit 1, 8 red; restored: exit 0
+      FAIL home: one notice, and it reads exactly the window-flipped line with the next read's time
+      FAIL /today/: one notice, and it reads exactly the window-flipped line with the next read's time
+      FAIL /coins/btc: one notice, and it reads exactly the window-flipped line with the next read's time
+      FAIL home: the notice says no read yet today and the next read's time, in one line
+      FAIL /coins/btc: the notice says no read yet today and the next read's time, in one line
+      ... and 3 more
+PLANT 12 is_today compares the wrong day (verdict.py): exit 1, 9 red; restored: exit 0
+      FAIL home: one notice, and it reads exactly the window-flipped line with the next read's time
+      FAIL /coins/btc: one notice, and it reads exactly the window-flipped line with the next read's time
+      FAIL home: the notice says no read yet today and the next read's time, in one line
+      FAIL /coins/btc: the notice says no read yet today and the next read's time, in one line
+      FAIL a flat day's record, dated today, draws no card and no notice (nothing was missed)
+      ... and 4 more
+PLANT 13 home: the tape leads again when the card carries the next-read line (home.py): exit 1, 2 red; restored: exit 0
+      FAIL the window-flipped notice: the first block of the left column is the card, and the tape is the next
+      FAIL the no-read notice: the card first, the tape next
+PLANT 14 home: no read yet today is not drawn (home.py): exit 1, 2 red; restored: exit 0
+      FAIL home: the notice says no read yet today and the next read's time, in one line
+      FAIL home with no verdict record at all: the same notice
+PLANT 15 home: the notice follows the tape (card under the tape line) (home.py): exit 1, 3 red; restored: exit 0
+      FAIL the window-flipped notice: the first block of the left column is the card, and the tape is the next
+      FAIL the no-read notice: the card first, the tape next
+      FAIL a graded card (the 15 October real record) is still first, the tape next
+PLANT 16 today: the window line is not drawn (today.py): exit 1, 7 red; restored: exit 0
+      FAIL a window line stands under the headline, carrying the page's basis and direction
+      FAIL the window line says the direction is read since midnight ET
+      FAIL the window line names the evidence's window and the way its run went, with no figure of its own
+      FAIL the window line sits under the stamp and above the answer [ValueError: substring not found]
+      FAIL the fallback page says the direction is read over the last 24 hours and why (no midnight open on the Board)
+      ... and 2 more
+PLANT 17 today: the window line stops naming the evidence's window (today.py): exit 1, 1 red; restored: exit 0
+      FAIL the window line names the evidence's window and the way its run went, with no figure of its own
+PLANT 18 today: the fallback is not named (today.py): exit 1, 1 red; restored: exit 0
+      FAIL the fallback page says the direction is read over the last 24 hours and why (no midnight open on the Board)
+PLANT 19 today: the notice takes the build's clock, not the page's composition clock (today.py): exit 1, 1 red; restored: exit 0
+      FAIL SYNTHETIC: the notice's next read follows the page's own composition clock (the clock its 'Next update' line used)
+PLANT 20 evidence: the run figure says 'the window' again (why_evidence.py): exit 1, 1 red; restored: exit 0
+      FAIL the evidence's run figure carries its window's name beside it (the 24 hours), never 'the window' alone
+PLANT 21 evidence: the section stops naming its window (why_evidence.py): exit 1, 1 red; restored: exit 0
+      FAIL the evidence section is the 24-hour record and says so in its own attribute
+PLANT 22 coin page: no read yet today is not drawn (site_build.py): exit 1, 1 red; restored: exit 0
+      FAIL /coins/btc: the notice says no read yet today and the next read's time, in one line
+PLANT 23 fixtures: the stored verdict fixture is reworded (it must stay the stored October 26 read byte for byte) (fixtures/sprint991/real-2026-10-26-morning/verdict_2026-10-26-morning.json): exit 1, 1 red; restored: exit 0
+      FAIL the fixture is the stored October 26 verdict byte for byte

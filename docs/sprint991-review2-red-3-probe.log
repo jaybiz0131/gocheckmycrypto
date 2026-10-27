@@ -1,0 +1,7 @@
+Sprint 9.9.1 Review 2, failure 3: the new cases seen red on f3f6c7f (code unchanged), scripts/sprint991_test.py --only review2
+   failure 3 (SYNTHETIC probe): the card and the list never grade apart
+  ok   SYNTHETIC premise: stored share 50.0 (passes by share), the cut's 33.3 (no pass), the same run, graded on the stored run
+  FAIL SYNTHETIC: the card does not say a passing event while the list prints a figure under the bar for it
+  FAIL SYNTHETIC: the list is the ET day's (33% of the rise since midnight ET), beside a notice, not beside a grade
+  ok   SYNTHETIC control: an event within the hour before the run passes in both windows: the graded card stands over the cut
+  FAIL the SYNTHETIC probe on the Bitcoin page: the same outcome as /today/ (the three pages cannot grade apart)

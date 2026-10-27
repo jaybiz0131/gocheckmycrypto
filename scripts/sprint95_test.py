@@ -299,11 +299,15 @@ def front_cases(fails):
             lambda: "h-chart" in since and "data-hl24" in since and "h-coins" in since and "Where Bitcoin stands" in since)
     guarded(fails, "the price and its change print once on the home: not in the tape and again in the chart card",
             lambda: len(re.findall(r'data-tape="bitcoin"', card)) == 1 and len(re.findall(r'data-tape-chg="bitcoin"', card)) == 1)
-    guarded(fails, "with no graded card (the same Board, no verdict): no card, no empty slot; the tape's line is the first object, "
-                   "the Brief card is next",
-            lambda: "<aside" not in none and re.search(r'<div class="h-l"><section class="h-b h-tape"', none) is not None
+    # CHANGED BY Sprint 9.9.1 (the strategist's ruling on J-8 of October 20, "Verdict at the next read" always prints why: the window
+    # flipped since the run, or no read yet today): with no verdict record the card's place carries the no-read notice, first, and
+    # the tape's line is next. The notice is the card's place, not an empty slot; a flat day still draws nothing (below).
+    guarded(fails, "with no verdict record (the same Board): the card's place carries the no-read notice, first; the tape's line is "
+                   "next, the Brief card after it",
+            lambda: re.search(r'<div class="h-l"><aside class="vd vd-next" data-vd="BTC" data-vd-kind="no_read"', none) is not None
             and tuple(re.findall(r'data-block="([a-z]+)"', none)) == home.ABOVE_FOLD
-            and none.index('data-block="tape"') < none.index('data-block="narrative"'))
+            and none.index('data-block="tape"') < none.index('data-block="narrative"')
+            and none.index("<aside") < none.index('data-block="tape"'))
     withheld = copy.deepcopy(v)
     withheld["coins"]["BTC"] = {"kind": "withheld", "name": "Bitcoin", "window_words": "since midnight ET"}
     wh = t._home_html(withheld)

@@ -8287,7 +8287,7 @@ def render_coin_chart(c, name, cid, spark):
             f'<p class="pc-note cc-cap" data-coin-cap>{note}</p></section>')
 
 
-def _coin_evidence(sym, pulse, evidence=None, graded=None, marks=()):
+def _coin_evidence(sym, pulse, evidence=None, graded=None, marks=(), vrec=None, named=False):
     """PROGRAM 9, SPRINT 9.2: (section html, wire source URLs it prints) for Bitcoin and Ether,
     from the newest stored evidence record (why_evidence.py) when its window ends within 3 hours
     of the Board reading this page carries. ('', set()) otherwise: the page as it was."""
@@ -8298,6 +8298,13 @@ def _coin_evidence(sym, pulse, evidence=None, graded=None, marks=()):
         rec = evidence if evidence is not None else _we.latest()
         if not _we.from_snapshot_coin(rec, sym, (pulse or {}).get("generated_utc") or ""):
             return "", set()
+        if named:
+            # SPRINT 9.9.1: the list reads the window the grade was made on (the record's 24 hours), named beside every figure,
+            # and the page says which window a graded card beside it reads
+            import verdict as _vd
+            html = _we.section_html(rec, sym, live=True, graded=graded, marks=marks, window="rolling_24h",
+                                    note=_vd.list_note(vrec, rec, sym) or None)
+            return (html, _we.wire_urls_shown(rec)) if html else ("", set())
         html = _we.section_html(rec, sym, live=True, graded=graded, marks=marks)
         return (html, _we.wire_urls_shown(rec)) if html else ("", set())
     except Exception as e:                       # fail open
@@ -8318,7 +8325,22 @@ def _current_verdict(pulse, verdict=None):
         return None
 
 
-def _coin_verdict(sym, pulse, verdict=None, with_section=False, evidence=None):
+def _coin_view(sym, pulse, vrec, evidence=None):
+    """SPRINT 9.9.1 (round 4): the verdict record as this coin's page may show it beside its evidence section (verdict.list_view): the
+    Ether line in the list's window when the stored prices say so, else the record as stored. Nothing graded is changed."""
+    try:
+        import verdict as _vd
+        import why_evidence as _we
+        rec = evidence if evidence is not None else _we.latest()
+        if not vrec or not _we.from_snapshot_coin(rec, sym, (pulse or {}).get("generated_utc") or ""):
+            return vrec
+        return _vd.list_view(vrec, rec, sym)
+    except Exception as e:                       # fail open: the record as stored
+        print(f"::warning::coin page: the verdict view for {sym} was not made ({type(e).__name__}: {e})")
+        return vrec
+
+
+def _coin_verdict(sym, pulse, verdict=None, with_section=False, evidence=None, read_clock=None):
     """The verdict card for Bitcoin and Ether, or '' (the page as it was). Beside the evidence section
     the card takes its section-page form; a card for another window than the section's is left off,
     so the two never describe different 24 hours on one page."""
@@ -8327,12 +8349,18 @@ def _coin_verdict(sym, pulse, verdict=None, with_section=False, evidence=None):
     try:
         import verdict as _vd
         rec = _current_verdict(pulse, verdict)
+        if sym in ("BTC", "ETH") and read_clock is not None and not _vd.is_today(rec, read_clock):
+            # SPRINT 9.9.1: no read has run on this ET day: the notice says so and when the next read is, as the home's does.
+            # Only a page the build hands its clock judges it (the build does; a caller that hands none gets the 9.3 page).
+            # Review 2 (failure 6): the rule is the Ether page's too, so the two coin pages agree and a stored line of
+            # yesterday's ("Ether moved with Bitcoin since midnight ET") never stands as today's.
+            return _vd.no_read_html(read_clock, sym)
         if rec and with_section:
             import why_evidence as _we
             ev = evidence if evidence is not None else _we.latest()
             if ((ev or {}).get("window") or {}).get("end_utc") != (rec.get("window") or {}).get("end_utc"):
                 return ""
-        return _vd.card_html(rec, sym, where="coin", live=True, with_section=with_section) if rec else ""
+        return _vd.card_html(rec, sym, where="coin", live=True, with_section=with_section, now=read_clock) if rec else ""
     except Exception as e:                       # fail open
         print(f"::warning::coin page: the verdict for {sym} was not drawn ({type(e).__name__}: {e})")
         return ""
@@ -8378,7 +8406,7 @@ COIN_FACTS = {}          # {symbol: {grade, url}} as the last build's coin pages
 
 
 def render_coin_page(c, pos, pulse, items, dateline, wire=None, cm=None, today=None, gate=None,
-                     evidence=None, verdict=None, movers=None):
+                     evidence=None, verdict=None, movers=None, read_clock=None):
     """PROGRAM 7, SPRINT 6.4 (13 October 2026). Under the chart, in this order: the
     readings grid (tile law), the Chart Master's card for the coin (dated), the coin's
     stories (the wire items that name it, newest first, with their sources), the
@@ -8415,14 +8443,17 @@ def render_coin_page(c, pos, pulse, items, dateline, wire=None, cm=None, today=N
     # PROGRAM 9, SPRINT 9.3: the verdict card above the evidence, for Bitcoin and Ether; when it carries a
     # grade, the evidence's note says so instead of denying a cause.
     _vrec = _current_verdict(pulse, verdict) if sym in ("BTC", "ETH") else None
+    if _vrec:
+        _vrec = _coin_view(sym, pulse, _vrec, evidence)          # round 4: the Ether line in the list's window
     _graded = (((_vrec or {}).get("coins") or {}).get(sym) or {}).get("grade")
     try:
         import verdict as _vd
         _marks = _vd.marks(_vrec, sym) if _vrec else []
     except Exception:                            # fail open
         _marks = []
-    ev_html, ev_urls = _coin_evidence(sym, pulse, evidence, graded=_graded, marks=_marks)
-    vd_html = _coin_verdict(sym, pulse, verdict, with_section=bool(ev_html), evidence=evidence)
+    ev_html, ev_urls = _coin_evidence(sym, pulse, evidence, graded=_graded, marks=_marks, vrec=_vrec, named=True)
+    vd_html = _coin_verdict(sym, pulse, _vrec if _vrec else verdict, with_section=bool(ev_html), evidence=evidence,
+                            read_clock=read_clock)
     # PROGRAM 9, SPRINT 9.4: a Big mover's verdict card at the top of its page, above the readings (AUDIT.md
     # 3.2), and its evidence where Bitcoin's sits; the card names its event with a pointer to the one listed
     # item, and the wire items the section lists are not listed again below it
@@ -8445,7 +8476,7 @@ def render_coin_page(c, pos, pulse, items, dateline, wire=None, cm=None, today=N
         # and the wire note speak as 9.2 wrote them
         _graded = None
         if ev_html:
-            ev_html, ev_urls = _coin_evidence(sym, pulse, evidence)
+            ev_html, ev_urls = _coin_evidence(sym, pulse, evidence, vrec=None, named=True)
     if ev_urls and wire:
         wire = dict(wire, items=[w for w in (wire.get("items") or [])
                                  if not ({l.get("url") for l in (w.get("links") or [])} & ev_urls)])
@@ -10048,7 +10079,7 @@ def build():
         _sink = []
         _old_sink = _tile.record(_sink)
         try:
-            _coin_html = render_coin_page(_c, _pos, pulse, items, dateline)
+            _coin_html = render_coin_page(_c, _pos, pulse, items, dateline, read_clock=_build_now())
         finally:
             _tile.record(_old_sink)
         w(os.path.join("coins", f"{_slug}.html"), _coin_html)
