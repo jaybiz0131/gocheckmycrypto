@@ -1,4 +1,4 @@
-Sprint 9.9.1 suite, branch sprint-9-9-1 working tree on 772d686, tree built at the branch's code with the canary's fixtures, Mon Oct 26 2026, 08:06 PM EDT
+Sprint 9.9.1 suite, branch sprint-9-9-1 working tree on 8aa1559 (Review 2 fixes), tree built at the branch's code with the canary's fixtures, Mon Oct 26 2026, 09:29 PM EDT
 ===== scripts/btc_hilo_test.py --tree /tmp/claude-0/-home-user-gocheckmycrypto/1e6de1bd-8489-538c-9680-64aa149428df/scratchpad/tree/publish (exit 0)
 home:      24h (79332.0, 80825.0)  7D hi/lo 84778.0/80182.0  unlabeled=False
 /coins/btc: 24h (79332.0, 80825.0)  7D hi/lo 84777.79/80182.21  unlabeled=False
@@ -8,25 +8,25 @@ canary_clean_test: PASS, git status is the same after the canary as before it
 ===== scripts/chartmaster_publish_test.py  (exit 0)
 
 == 2026-10-09: PUBLISHED  path=cut  model calls=2  reason='cut'
-   ledger: {"date": "2026-10-09", "path": "cut", "tripped": ["headline: advice: bleed", "advice: bleed"], "detail": "dropped 1 sentence(s): Shorts bleed when a trend line turns, a condition worth watching.; data headline used", "t": "2026-10-27T00:09:24Z"}
+   ledger: {"date": "2026-10-09", "path": "cut", "tripped": ["headline: advice: bleed", "advice: bleed"], "detail": "dropped 1 sentence(s): Shorts bleed when a trend line turns, a condition worth watching.; data headline used", "t": "2026-10-27T01:31:59Z"}
    headline: Majors hold above their 200-day lines
    - The regime reads as intact: the majors sit above their 200-day lines and the crosses agree.
    - Momentum is resting while the trend holds, which is a finding rather than a signal.
 
 == 2026-10-10: PUBLISHED  path=cut  model calls=2  reason='cut'
-   ledger: {"date": "2026-10-10", "path": "cut", "tripped": ["headline: belt: chartmaster: an open-interest figure names no venue in its own sentence ('Open interest holds while ", "belt: chartmaster: an open-interest figure names no venue in its own sentence ('Open interest is sizable ("], "detail": "dropped 1 sentence(s): Open interest is sizable (BTC near $2.49B, ETH near $1.1B), which measures how m; data headline used", "t": "2026-10-27T00:09:24Z"}
+   ledger: {"date": "2026-10-10", "path": "cut", "tripped": ["headline: belt: chartmaster: an open-interest figure names no venue in its own sentence ('Open interest holds while ", "belt: chartmaster: an open-interest figure names no venue in its own sentence ('Open interest is sizable ("], "detail": "dropped 1 sentence(s): Open interest is sizable (BTC near $2.49B, ETH near $1.1B), which measures how m; data headline used", "t": "2026-10-27T01:31:59Z"}
    headline: Majors hold above their 200-day lines
    - The regime reads as intact: the majors sit above their 200-day lines and the crosses agree.
    - Momentum is resting while the trend holds, which is a finding rather than a signal.
 
 == 2026-10-11: PUBLISHED  path=cut  model calls=2  reason='cut'
-   ledger: {"date": "2026-10-11", "path": "cut", "tripped": ["headline: advice: bleeding"], "detail": "dropped 0 sentence(s); data headline used", "t": "2026-10-27T00:09:24Z"}
+   ledger: {"date": "2026-10-11", "path": "cut", "tripped": ["headline: advice: bleeding"], "detail": "dropped 0 sentence(s); data headline used", "t": "2026-10-27T01:31:59Z"}
    headline: Majors hold above their 200-day lines
    - The regime reads as intact: the majors sit above their 200-day lines and the crosses agree.
    - Momentum is resting while the trend holds, which is a finding rather than a signal.
    - Watch for the trend lines to cross, which would tell a reader the positioning picture changed.
 
-== synthetic, every sentence flagged: data-only card published  ledger={"date": "2026-10-12", "path": "data-only", "tripped": ["headline: advice: bleed", "advice: bleeding", "advice: you should, buy now", "advice: will rise, price target"], "detail": "0 sentence(s) left after cutting 3", "t": "2026-10-27T00:09:24Z"}
+== synthetic, every sentence flagged: data-only card published  ledger={"date": "2026-10-12", "path": "data-only", "tripped": ["headline: advice: bleed", "advice: bleeding", "advice: you should, buy now", "advice: will rise, price target"], "detail": "0 sentence(s) left after cutting 3", "t": "2026-10-27T01:31:59Z"}
 
 RESULT: all three published
 ===== scripts/coin_pages_test.py --site /tmp/claude-0/-home-user-gocheckmycrypto/1e6de1bd-8489-538c-9680-64aa149428df/scratchpad/tree/publish (exit 0)
@@ -1917,7 +1917,7 @@ HOTFIX 9.6w: PASS (0 failure(s))
   ok   watchlist: with nothing saved there are no marks, no injected style and no reserve
   ok   the Top 100 stamp read 2.9 hours after its stamp: the page's stale state (false) is the feed's rule (false)
   ok   the Top 100 stamp read 3.1 hours after its stamp: the page's stale state (true) is the feed's rule (true)
-  INFO the feed's own flag at build: true (as of 2026-10-26T12:17:13Z, built 2026-10-27T00:04:47Z)
+  INFO the feed's own flag at build: true (as of 2026-10-26T12:17:13Z, built 2026-10-27T01:27:33Z)
   ok   coin page at 375 (light): one h1, the coin's name, with the look the h2 had (23px, 700, 27.6px line, 1.4em and .4em margins)
   ok   coin page at 1440 (light): one h1, the coin's name, with the look the h2 had (23px, 700, 27.6px line, 1.4em and .4em margins)
   ok   coin page at 375 (dark): one h1, the coin's name, with the look the h2 had (23px, 700, 27.6px line, 1.4em and .4em margins)
@@ -2179,7 +2179,7 @@ SPRINT 9.8: PASS (0 failure(s))
   ok   home: the notice says no read yet today and the next read's time, in one line
   ok   /coins/btc: the notice says no read yet today and the next read's time, in one line
   ok   home with no verdict record at all: the same notice
-  ok   the Ether page draws no notice for a verdict the desk never grades for Ether without Bitcoin's
+  ok   the Ether page says the same as the Bitcoin page when no read has run today (Review 2, failure 6)
   ok   a flat day's record, dated today, draws no card and no notice (nothing was missed)
   ok   after the evening slot the notice names tomorrow's read (the Brief card's own function)
 3. /today/, the home and the Bitcoin page agree on direction and window, on a day where the day and the 24 hours disagree
@@ -2234,7 +2234,7 @@ SPRINT 9.8: PASS (0 failure(s))
   ok   every figure of the fallback names the 24 hours (run, shares)
   ok   the fallback's window line on /today/ names the fallback and the reason, so the page never hides two windows
   ok   the cut must run the way the page's direction reads: the same day read as down falls back and says so
-  ok   a graded verdict whose stored run is not the day's run: the list falls back to the 24 hours the grade was made on
+  ok   a graded verdict whose stored run is not the day's run: the list stays on the ET day (Review 2: the card falls to the notice instead, verdict.page_view), and the section does not move to another window to save a card
 9. Review 1, failure 3: the time of the next read is the build's on a living page, and the same on the home, /today/ and the coin page
   ok   premise: the build is at 7:38 PM ET, after the 7:08 PM slot, and the living page is the morning record
   ok   the living /today/ names tomorrow's read, not the 7:08 PM slot that has passed
@@ -2253,6 +2253,45 @@ SPRINT 9.8: PASS (0 failure(s))
   ok   the evidence section called without a window is main's: 'the window' wording, no window attribute
   ok   a verdict page's card (where=page) carries no data-vd-basis or data-vd-dir (main's markup)
   ok   the home's graded card still carries them (the three pages' agreement is read from them)
+12. Review 2, failure 1: /today/2026-10-25 reads one window, the one its record states (since midnight ET)
+  ok   the premise, from the real record: the headline reads down since midnight ET and the stored verdict is a graded Unclear on the 24-hour run
+  ok   the evidence section is drawn on the ET day, not on the 24 hours as a fallback taken for another reason
+  ok   no graded card stands over a list its run does not reach: the card is the notice, not 'Checked: Unclear'
+  ok   the page names no 24-hour window anywhere (line, notice, list, chart)
+  ok   the list does not print the hour of a run that began before the window opened (Sat 11:20 PM ET)
+  ok   the notice names the window the list reads
+   failure 2: the notice's reason names a window and a fact the page itself prints, and no run the page does not draw
+  ok   home: the notice reads the ruled-out run no more, and says what the last read did not grade
+  ok   home: the notice does not say a window flipped since 'the run' (no run is drawn beside it)
+  ok   /today/: the notice reads the ruled-out run no more, and says what the last read did not grade
+  ok   /today/: the notice does not say a window flipped since 'the run' (no run is drawn beside it)
+  ok   /today/2026-10-26: the notice reads the ruled-out run no more, and says what the last read did not grade
+  ok   /today/2026-10-26: the notice does not say a window flipped since 'the run' (no run is drawn beside it)
+  ok   /coins/btc: the notice reads the ruled-out run no more, and says what the last read did not grade
+  ok   /coins/btc: the notice does not say a window flipped since 'the run' (no run is drawn beside it)
+  ok   /today/: the window the notice names is the one the list below it reads
+  ok   /coins/btc: the window the notice names is the one the list below it reads
+   failure 3 (SYNTHETIC probe): the card and the list never grade apart
+  ok   SYNTHETIC premise: stored share 50.0 (passes by share), the cut's 33.3 (no pass), the same run, graded on the stored run
+  ok   SYNTHETIC: the card does not say a passing event while the list prints a figure under the bar for it
+  ok   SYNTHETIC: the list is the ET day's (33% of the rise since midnight ET), beside a notice, not beside a grade
+  ok   SYNTHETIC control: an event within the hour before the run passes in both windows: the graded card stands over the cut
+  ok   the SYNTHETIC probe on the Bitcoin page: the same outcome as /today/ (the three pages cannot grade apart)
+  ok   SYNTHETIC fallback (the series does not reach midnight): the list reads the 24 hours and the notice names those 24 hours and no window the page does not read
+   failure 4: a thing left out is said (the second sources are not read for the cut window)
+  ok   /today/: the section says the second sources (OKX, Binance, Kraken) are not read for this window
+  ok   /coins/btc: the section says the second sources (OKX, Binance, Kraken) are not read for this window
+  ok   /coins/eth: the section says the second sources (OKX, Binance, Kraken) are not read for this window
+  ok   SYNTHETIC fallback (the series does not reach midnight): the 24 hours keep the second sources' agreement
+   failure 5: one next read per page, none already past
+  ok   the living /today/ prints one next-read time, tomorrow's (the card and the footer agree, none is tonight's 7:08 PM)
+  ok   the home prints the same one time
+  ok   a dated page keeps its own record's one time, card and footer alike
+   failure 6: the coin pages agree, and no day-bound line stands as current past its day (SYNTHETIC clock: 6:00 AM ET the next day)
+  ok   /coins/btc says no read yet today
+  ok   /coins/eth says the same, not yesterday's 'Ether moved with Bitcoin since midnight ET' as if it were today's
+  ok   the two coin pages carry the same next-read time and no day-bound sentence of the stored record
+  ok   inside the day the Ether page keeps its own plain line (the rule applies past the day only)
 7. the tree this build wrote: the home's first object
   ok   the built home exists
   ok   the built home's first object below the masthead is a verdict card (a graded card or the notice), and the tape is the block after it
@@ -2270,7 +2309,7 @@ SPRINT 9.8: PASS (0 failure(s))
   PASS the window-flipped notice at 375: no home block starts above the card
   PASS the window-flipped notice at 375: the card is on the first screen
   PASS the window-flipped notice at 375: no sideways scroll
-  INFO the window-flipped notice at 375: card {"top":117,"bottom":280,"left":22,"width":331}, tape {"top":294,"bottom":400,"left":22,"width":331}, masthead bottom 97
+  INFO the window-flipped notice at 375: card {"top":117,"bottom":255,"left":22,"width":331}, tape {"top":269,"bottom":375,"left":22,"width":331}, masthead bottom 97
   PASS the window-flipped notice at 1440: the first block of the home is the verdict card
   PASS the window-flipped notice at 1440: the card starts directly below the masthead (8px under it)
   PASS the window-flipped notice at 1440: the Bitcoin line (the tape) sits under the card (14px below it)
