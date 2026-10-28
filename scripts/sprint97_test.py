@@ -36,7 +36,101 @@ AI = re.compile(r"\bA\.?I\b|artificial|machine[- ]learn|language model|\bLLM\b|\
 GRADES = ("Confirmed", "Likely", "Disputed", "Unclear")
 
 
-def feed_prose(feed):
+# HOTFIX 9.9h2 (round 3). The desk writes its own wire lines (wire.py: "the desk's own one-line summary of a story it
+# ranked"), so a wire candidate line and a news item line are desk prose and stay in the AI-word scan. One AI word in them
+# is excused: a reported subject, an AI word inside a run of three or more consecutive words that a SOURCE'S OWN TITLE carries. The titles come from
+# the stored records the feeds are built from (site/data/wire.json clusters and the why records' candidates), found by the
+# exact line text. Never a link address: the editor model supplies some of those (its own source_urls), so the model that
+# writes a line could also supply the address that excuses it. "AI compute" in a Luxor raise passes when an outlet's title
+# says "AI compute"; "AI editor", "AI-generated summary", "Claude" and every other AI word no title carries fail, and so
+# does any disclosure phrasing, which is never excused. Press and hack candidate lines are the outlet's own title or a
+# fixed template around DefiLlama's fields, so they are sourced and are left out of the scan.
+SOURCED_EVENT_KINDS = ("press", "hack")
+SOURCE_CHECKED_KINDS = ("wire",)
+_AIW = (r"(?:A\.?I\b|artificial|machine[- ]learn|language model|LLM\b|GPT|Claude|Anthropic|Haiku|Sonnet|OpenAI|chatbot)")
+_ROLE = (r"(?:editor|writer|author|reporter|journalist|summary|summaries|summarizer|line|note|read|brief|card|desk|newsroom|"
+         r"curator|ranker|ranking|byline|edition)")
+_GROLE = r"(?:" + _ROLE[3:-1] + r"|story|article|text|content|item|verdict|card)\b"
+_DESK = (r"(?:Cronkite|desk|editor|writer|author|reporter|newsroom|summary|line|read|brief|card|note|item|bot|ranker|we|I|"
+         r"this (?:site|page|read|line|brief|summary|desk))")
+_VERB = (r"(?:written|generated|drafted|produced|composed|created|authored|summari[sz]ed|edited|graded|checked|powered|assisted|made|"
+         r"ranked|picked|selected|curated|reviewed|vetted|verified|compiled|rewritten|researched|flagged|curated|chosen|sorted|"
+         r"translated|narrated|voiced|run|operated|staffed|handled|read|scored)")
+# An AI disclosure, in any of the shapes the desk's own words could take: made or checked by or with an AI; the desk, editor
+# or a line said to be an AI; "AI editor", "AI summary", "AI-generated summary" and the like; the desk's or our AI; first
+# person. A line that says so is never excused.
+AI_DISCLOSURE = re.compile(
+    r"\b" + _VERB + r"\s+(?:in part\s+|first\s+|entirely\s+)?(?:by|with|using|via|through|from)\s+(?:an?\s+|the\s+|our\s+|its\s+)?" + _AIW
+    + r"|\b" + _ROLE + r"\b[^.;:]{0,20}?\b(?:by|from|via)\s+(?:an?\s+|the\s+|our\s+)?" + _AIW
+    + r"|\b" + _DESK + r"\b[^.;:]{0,40}?\b(?:is|am|are|was|were|as|be|being)\s+(?:an?\s+|the\s+|our\s+)?(?:\w+\s+)?" + _AIW
+    + r"|\b(?:I|we)(?:'m|\u2019m|'re|\u2019re)\s+(?:an?\s+)?" + _AIW
+    + r"|\bas an? " + _AIW
+    + r"|\b(?:Claude|Haiku|Sonnet)\b(?:\s+\d+(?:\.\d+)?)?[^.;:]{0,20}\b(?:wrote|written|summari[sz]ed|ranked|drafted|edited|picked|selected|generated|produced|compiled)\b"
+    + r"|\b(?:we|our|this desk|the desk|this read|this site|the editor)\b[^.]{0,60}\b(?:use[sd]?|using|run|runs|rely|relies|employ\w*)\b[^.]{0,30}" + _AIW
+    + r"|\b(?:desk|newsroom|editor|Cronkite|our|my|we|its)(?:'s|\u2019s)?\s+(?:own\s+|resident\s+|in-house\s+)?" + _AIW
+    + r"|" + _AIW + r"[- ]?(?:generated|written|authored|assisted|produced|curated|powered|driven|made|edited|ranked|selected)[- ]?\s*(?:\w+\s+)?" + _GROLE
+    + r"|" + _AIW + r"(?:'s|\u2019s)?[- ]?\s*(?:\w+[- ])?" + _ROLE + r"\b",
+    re.I)
+
+
+def _words(t):
+    return re.findall(r"[a-z0-9]+", (t or "").lower())
+
+
+_TITLES = {}
+
+
+def stored_titles():
+    """{line: [titles]} from the stored records the feeds are built from: site/data/wire.json items and every site/data/why
+    candidate that carries both a line and its titles. Read once. No feed or stored file is changed."""
+    if not _TITLES:
+        out = {}
+        try:
+            for i in json.load(open(os.path.join(HERE, "site", "data", "wire.json"), encoding="utf-8")).get("items") or []:
+                if isinstance(i, dict) and isinstance(i.get("line"), str):
+                    out.setdefault(i["line"], []).extend(t for t in i.get("titles") or [] if isinstance(t, str))
+        except (OSError, ValueError):
+            pass
+        wd = os.path.join(HERE, "site", "data", "why")
+        for n in sorted(os.listdir(wd)) if os.path.isdir(wd) else []:
+            try:
+                for c in json.load(open(os.path.join(wd, n), encoding="utf-8")).get("candidates") or []:
+                    if isinstance(c, dict) and isinstance(c.get("line"), str):
+                        out.setdefault(c["line"], []).extend(t for t in c.get("titles") or [] if isinstance(t, str))
+            except (OSError, ValueError, AttributeError):
+                pass
+        _TITLES["x"] = out
+    return _TITLES["x"]
+
+
+def source_carried_ai(line, titles):
+    """True when `line` has no disclosure phrasing and every AI word in it sits inside a run of THREE OR MORE consecutive
+    words that one of `titles` (an outlet's stored title) also carries, side by side and in the same order. Words are
+    lowercase runs of [a-z0-9]; punctuation and case do not count, and a hyphen splits ("AI-generated" is "ai", "generated").
+    A run never crosses from one title into the next. An AI word that is two words ("machine learning") needs a run of at
+    least that length. HOTFIX 9.9h2 round 4 (C10): the round 3 rule asked only for the one word after the AI word, which a
+    disclosure like "uses AI compute to rank" could ride on."""
+    if not isinstance(line, str) or AI_DISCLOSURE.search(line):
+        return False
+    tw = [_words(t) for t in titles or [] if isinstance(t, str)]
+    lw = _words(line)
+    grams = {}
+
+    def carried(a, b):
+        k = b - a
+        if k not in grams:
+            grams[k] = {tuple(w[j:j + k]) for w in tw for j in range(len(w) - k + 1)}
+        return tuple(lw[a:b]) in grams[k]
+    for m in AI.finditer(line):
+        n = len(_words(m.group(0))) or 1
+        i = len(_words(line[:m.start()]))
+        k = max(3, n)
+        if not any(carried(a, a + k) for a in range(max(0, i + n - k), min(i, len(lw) - k) + 1)):
+            return False
+    return True
+
+
+def feed_prose(feed, titles=None):
     """The feed as JSON text with every web address (a string that starts http:// or https://) taken out: the AI-word scan
     reads the desk's own words, and a source's address is not the desk's wording (a slug may hold 'ai-' in a headline the
     outlet wrote). Everything else, titles, lines, outlet names, stays in. The dash scan does NOT use this: it reads the
@@ -49,7 +143,30 @@ def feed_prose(feed):
         if isinstance(o, str) and re.match(r"https?://", o):
             return ""
         return o
-    return json.dumps(strip(feed))
+    tmap = titles if titles is not None else stored_titles()
+
+    def own_words(o):
+        """HOTFIX 9.9h2: blank the line of a press or hack candidate, and of a wire candidate whose AI words a source title carries."""
+        if isinstance(o, dict):
+            r = {}
+            for k, v in o.items():
+                if k == "candidates" and isinstance(v, list):
+                    v = [dict(c, line="") if isinstance(c, dict) and isinstance(c.get("line"), str) and (
+                        (c.get("kind") in SOURCED_EVENT_KINDS and not AI_DISCLOSURE.search(c["line"]))
+                        or (c.get("kind") in SOURCE_CHECKED_KINDS and source_carried_ai(c["line"], tmap.get(c["line"])))) else c for c in v]
+                r[k] = own_words(v)
+            return r
+        if isinstance(o, list):
+            return [own_words(v) for v in o]
+        return o
+    def news_lines(f):
+        """The news feed (name "news"): an item's line is the desk's, excused only as a wire candidate's is."""
+        if not (isinstance(f, dict) and f.get("name") == "news" and isinstance(f.get("data"), dict)
+                and isinstance(f["data"].get("items"), list)):
+            return f
+        items = [dict(i, line="") if isinstance(i, dict) and source_carried_ai(i.get("line"), tmap.get(i.get("line"))) else i for i in f["data"]["items"]]
+        return dict(f, data=dict(f["data"], items=items))
+    return json.dumps(strip(own_words(news_lines(feed))))
 
 
 FEEDS = ("index", "top100", "markets", "movers", "whales", "news", "brief/latest", "why/today", "events",

@@ -1,0 +1,112 @@
+1. the morning read and the old name 'the Board' (sprint 9.5)
+  ok   the morning prompt carries no old name
+  ok   the morning prompt teaches the ruled name: Markets shows
+  ok   phrases.has_old_name finds 'the Board shows' and 'the Board's' and not 'the Board of Governors'
+  ok   morning.clean cuts the sentence that carries the old name and keeps the others whole
+  ok   the stored October 26 read carries the old name in its first sentence (the premise)
+  ok   today's stored read is used by the home with that one sentence withheld, the others as stored, none reworded
+  ok   the stored file itself is not changed by the home reading it
+  ok   a stored read left with no sentence falls back (usable_morning returns None), as a read with none does
+  ok   the home's Brief card, built from today's stored read, prints no old name
+2-3. the Brief-feed checks at the October 20 clock read a pinned fixture (sprint 9.7)
+  ok   news_brief_cases does not read the live site/data/morning.json
+  ok   it reads the pinned fixtures/sprint97/morning-2026-10-20.json instead
+  ok   the fixture is the October 20 read (date, slot)
+4. the feed scan: an AI word in desk prose fails, a source link's address is not desk prose (sprint 9.7)
+  ok   s97.feed_prose exists and a feed with an AI word only inside a link address has none
+  ok   an AI word in a line of the same feed is still found
+  ok   an AI word in a feed's title or outlet name is still found
+  ok   a dash in a link address is still a dash (the dash scan reads the whole feed)
+5. the canary's fixture build reads no stored verdict record (sprint 9.8)
+  ok   while the fixture verdict dir stands, verdict_record.STORE is a scratch dir under the same root
+  ok   the real store holds a verdict the fixture dir does not (the premise: the October 25 Bitcoin entry)
+  ok   the record view built meanwhile lists no October 25 verdict
+  ok   _verdict_restore puts the real store back
+6. the feed AI-word scan holds the desk's wording and any disclosure; an AI word a source's own title carries is a reported subject (hotfix 9.9h2, J-20)
+  ok   the premise: the stored October 27 evening evidence carries the Luxor wire line, and its own source titles carry 'AI compute'
+  ok   the premise: the stored wire cluster for the same line carries 'AI compute' in a title
+  ok   today's why feeds, built from the stored records, pass the AI-word scan
+  ok   the news feed built from the stored wire passes the AI-word scan
+  ok   plant: the Luxor line passes in a wire candidate line, its source titles found for it
+  ok   plant: the Luxor line passes in a wire candidate line on the stored records alone
+  ok   plant: "An AI-generated summary of three reports on Luxor's raise." fails in a wire candidate line
+  ok   plant: "Crypto Cronkite, the desk's AI editor, ranked this item first." fails in a wire candidate line
+  ok   plant: 'AI summary: Luxor raised $16 million.' fails in a wire candidate line
+  ok   plant: "Summary by AI of reports on Luxor's raise." fails in a wire candidate line
+  ok   plant: 'Claude wrote this line from three reports.' fails in a wire candidate line
+  ok   plant: 'Our editor is an AI model; Luxor raised $16 million.' fails in a wire candidate line
+  ok   plant: 'Haiku 5.5 summarized three reports: Luxor raised $16 million.' fails in a wire candidate line
+  ok   plant: "Ranked first by the desk's AI editor: Luxor raised $16 million." fails in a wire candidate line with its link 'https://example.com/news/ai-editor-ranks-luxor'
+  ok   plant: the same line fails in a wire candidate line even when a source title carries its AI words
+  ok   plant: 'Crypto Cronkite is an AI model reading three reports: firm launched an AI model for traders.' fails in a wire candidate line with its link 'https://cointelegraph.com/news/firm-launches-ai-model-for-traders'
+  ok   plant: the same line fails in a wire candidate line even when a source title carries its AI words
+  ok   plant: 'An AI-generated summary: scammers used AI-generated deepfakes to take $5 million.' fails in a wire candidate line with its link 'https://www.theblock.co/post/1/ai-generated-deepfake-scam-5-million'
+  ok   plant: the same line fails in a wire candidate line even when a source title carries its AI words
+  ok   plant: "This AI summary covers Luxor's $16 million raise to expand AI compute." fails in a wire candidate line with its link 'https://coindesk.com/x/ai-summary-tool-launch'
+  ok   plant: the same line fails in a wire candidate line even when a source title carries its AI words
+  ok   plant: 'The desk is an AI and Luxor raised money for AI compute.' fails in a wire candidate line with its link ''
+  ok   plant: the same line fails in a wire candidate line even when a source title carries its AI words
+  ok   plant: 'I am an AI reading three reports on AI compute.' fails in a wire candidate line with its link ''
+  ok   plant: the same line fails in a wire candidate line even when a source title carries its AI words
+  ok   plant: 'As an AI, the desk ranked this AI compute raise first.' fails in a wire candidate line with its link ''
+  ok   plant: the same line fails in a wire candidate line even when a source title carries its AI words
+  ok   plant: 'Our AI newsroom flagged the AI compute raise.' fails in a wire candidate line with its link ''
+  ok   plant: the same line fails in a wire candidate line even when a source title carries its AI words
+  ok   plant: 'AI-written line: Luxor raised money for AI compute.' fails in a wire candidate line with its link ''
+  ok   plant: the same line fails in a wire candidate line even when a source title carries its AI words
+  ok   plant: 'The line is AI-generated; Luxor raised money for AI compute.' fails in a wire candidate line with its link ''
+  ok   plant: the same line fails in a wire candidate line even when a source title carries its AI words
+  ok   plant: 'Luxor raised money for AI compute, ranked by Claude.' fails in a wire candidate line with its link ''
+  ok   plant: the same line fails in a wire candidate line even when a source title carries its AI words
+  ok   plant: "The desk's AI picked this AI compute raise." fails in a wire candidate line with its link ''
+  ok   plant: the same line fails in a wire candidate line even when a source title carries its AI words
+  ok   plant: a carried AI subject AND a disclosure fails in a wire candidate line
+  ok   plant: an AI word the titles lack fails in a wire candidate line even beside a carried one
+  ok   plant: the Luxor line passes in a news item line, its source titles found for it
+  ok   plant: the Luxor line passes in a news item line on the stored records alone
+  ok   plant: "An AI-generated summary of three reports on Luxor's raise." fails in a news item line
+  ok   plant: "Crypto Cronkite, the desk's AI editor, ranked this item first." fails in a news item line
+  ok   plant: 'AI summary: Luxor raised $16 million.' fails in a news item line
+  ok   plant: "Summary by AI of reports on Luxor's raise." fails in a news item line
+  ok   plant: 'Claude wrote this line from three reports.' fails in a news item line
+  ok   plant: 'Our editor is an AI model; Luxor raised $16 million.' fails in a news item line
+  ok   plant: 'Haiku 5.5 summarized three reports: Luxor raised $16 million.' fails in a news item line
+  ok   plant: "Ranked first by the desk's AI editor: Luxor raised $16 million." fails in a news item line with its link 'https://example.com/news/ai-editor-ranks-luxor'
+  ok   plant: the same line fails in a news item line even when a source title carries its AI words
+  ok   plant: 'Crypto Cronkite is an AI model reading three reports: firm launched an AI model for traders.' fails in a news item line with its link 'https://cointelegraph.com/news/firm-launches-ai-model-for-traders'
+  ok   plant: the same line fails in a news item line even when a source title carries its AI words
+  ok   plant: 'An AI-generated summary: scammers used AI-generated deepfakes to take $5 million.' fails in a news item line with its link 'https://www.theblock.co/post/1/ai-generated-deepfake-scam-5-million'
+  ok   plant: the same line fails in a news item line even when a source title carries its AI words
+  ok   plant: "This AI summary covers Luxor's $16 million raise to expand AI compute." fails in a news item line with its link 'https://coindesk.com/x/ai-summary-tool-launch'
+  ok   plant: the same line fails in a news item line even when a source title carries its AI words
+  ok   plant: 'The desk is an AI and Luxor raised money for AI compute.' fails in a news item line with its link ''
+  ok   plant: the same line fails in a news item line even when a source title carries its AI words
+  ok   plant: 'I am an AI reading three reports on AI compute.' fails in a news item line with its link ''
+  ok   plant: the same line fails in a news item line even when a source title carries its AI words
+  ok   plant: 'As an AI, the desk ranked this AI compute raise first.' fails in a news item line with its link ''
+  ok   plant: the same line fails in a news item line even when a source title carries its AI words
+  ok   plant: 'Our AI newsroom flagged the AI compute raise.' fails in a news item line with its link ''
+  ok   plant: the same line fails in a news item line even when a source title carries its AI words
+  ok   plant: 'AI-written line: Luxor raised money for AI compute.' fails in a news item line with its link ''
+  ok   plant: the same line fails in a news item line even when a source title carries its AI words
+  ok   plant: 'The line is AI-generated; Luxor raised money for AI compute.' fails in a news item line with its link ''
+  ok   plant: the same line fails in a news item line even when a source title carries its AI words
+  ok   plant: 'Luxor raised money for AI compute, ranked by Claude.' fails in a news item line with its link ''
+  ok   plant: the same line fails in a news item line even when a source title carries its AI words
+  ok   plant: "The desk's AI picked this AI compute raise." fails in a news item line with its link ''
+  ok   plant: the same line fails in a news item line even when a source title carries its AI words
+  ok   plant: a carried AI subject AND a disclosure fails in a news item line
+  ok   plant: an AI word the titles lack fails in a news item line even beside a carried one
+  ok   plant: an AI word with no title anywhere fails in a news item
+  ok   plant: a link address alone never excuses an AI word
+  ok   plant: an AI word inside a press line (the outlet's own title) passes
+  ok   plant: an AI disclosure inside a press line still fails
+  ok   plant: an AI word in a release candidate's line (the desk's template) still fails
+  ok   plant: an AI disclosure in a verdict card sentence still fails
+  ok   plant: an AI disclosure in a Brief line still fails
+  ok   plant: an AI word in a feed that is not the news feed's items (a Brief item line) still fails
+  ok   plant: a candidate's outlet name is still read
+  ok   the dash scan is unchanged: a dash inside a wire line is still a dash
+  ok   the disclosure pattern leaves ordinary reported subjects alone
+
+SPRINT 9.9h: PASS (0 failure(s))
