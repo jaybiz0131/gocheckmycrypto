@@ -36,19 +36,48 @@ AI = re.compile(r"\bA\.?I\b|artificial|machine[- ]learn|language model|\bLLM\b|\
 GRADES = ("Confirmed", "Likely", "Disputed", "Unclear")
 
 
-# HOTFIX 9.9h2: a reported event's own subject is not the desk's wording. A why feed's evidence candidates of these kinds,
-# and the news feed's ranked items (name "news", one wire cluster each), carry a line taken from the sources ("... to expand AI compute
-# ..." about a miner's raise); the scan leaves that line out of the AI-word read, but not out of the disclosure read below.
-# Release lines (the desk's own template around a calendar title) and every other field stay in the scan.
-SOURCED_EVENT_KINDS = ("wire", "press", "hack")
+# HOTFIX 9.9h2 (round 2). The desk writes its own wire lines (wire.py: "the desk's own one-line summary of a story it
+# ranked"), so a wire candidate line and a news item line are desk prose and stay in the AI-word scan. One AI word in them
+# is excused: a reported subject, an AI word with the word after it that the item's OWN sources carry (the record's titles
+# when the item has them, and the words of its source links' addresses, which the outlets wrote from their headlines).
+# "AI compute" in a Luxor raise passes when a source says "ai compute"; "AI editor", "AI-generated", "Claude" and every
+# other AI word the sources do not carry fail, and so does any disclosure phrasing. Press and hack candidate lines are the
+# outlet's own title or a fixed template around DefiLlama's fields, so they are sourced and are left out of the scan.
+SOURCED_EVENT_KINDS = ("press", "hack")
+SOURCE_CHECKED_KINDS = ("wire",)
 _AIW = (r"(?:A\.?I\b|artificial|machine[- ]learn|language model|LLM\b|GPT|Claude|Anthropic|Haiku|Sonnet|OpenAI|chatbot)")
 # An AI disclosure: something said to be made, written, drafted, summarized or checked by or with an AI or a model, or the
-# desk or its read said to use one. A sourced line that says so still fails the scan.
+# desk or its read said to use one. A line that says so is never excused.
 AI_DISCLOSURE = re.compile(
     r"\b(?:written|generated|drafted|produced|composed|created|authored|summari[sz]ed|edited|graded|checked|powered|assisted|made)\s+"
     r"(?:in part\s+)?(?:by|with|using|via)\s+(?:an?\s+|the\s+)?" + _AIW
     + r"|\b(?:we|our|this desk|the desk|this read|this site)\b[^.]{0,60}\b(?:use[sd]?|using|run|runs|rely|relies)\b[^.]{0,30}" + _AIW,
     re.I)
+
+
+def _words(t):
+    return re.findall(r"[a-z0-9]+", (t or "").lower())
+
+
+def source_carried_ai(line, item):
+    """True when `line` has AI words, no disclosure phrasing, and every AI word with the word after it is carried, as that
+    pair of words side by side, by the item's own source text (its "titles" and the words of its links' addresses)."""
+    if not isinstance(line, str) or AI_DISCLOSURE.search(line):
+        return False
+    src = []
+    for t in item.get("titles") or []:
+        src += _words(t) + ["|"]
+    for l in item.get("links") or []:
+        if isinstance(l, dict) and isinstance(l.get("url"), str):
+            src += _words(l["url"]) + ["|"]
+    pairs = {(src[i], src[i + 1]) for i in range(len(src) - 1)}
+    lw = _words(line)
+    for m in AI.finditer(line):
+        n = len(_words(m.group(0))) or 1
+        i = len(_words(line[:m.start()]))
+        if i + n >= len(lw) or (lw[i + n - 1], lw[i + n]) not in pairs:
+            return False
+    return True
 
 
 def feed_prose(feed):
@@ -65,25 +94,25 @@ def feed_prose(feed):
             return ""
         return o
     def own_words(o):
-        """HOTFIX 9.9h2: blank the line of a sourced evidence candidate unless it carries an AI disclosure."""
+        """HOTFIX 9.9h2: blank the line of a press or hack candidate, and of a wire candidate whose AI words its own sources carry."""
         if isinstance(o, dict):
             r = {}
             for k, v in o.items():
                 if k == "candidates" and isinstance(v, list):
-                    v = [dict(c, line="") if isinstance(c, dict) and c.get("kind") in SOURCED_EVENT_KINDS
-                         and isinstance(c.get("line"), str) and not AI_DISCLOSURE.search(c["line"]) else c for c in v]
+                    v = [dict(c, line="") if isinstance(c, dict) and isinstance(c.get("line"), str) and (
+                        (c.get("kind") in SOURCED_EVENT_KINDS and not AI_DISCLOSURE.search(c["line"]))
+                        or (c.get("kind") in SOURCE_CHECKED_KINDS and source_carried_ai(c["line"], c))) else c for c in v]
                 r[k] = own_words(v)
             return r
         if isinstance(o, list):
             return [own_words(v) for v in o]
         return o
     def news_lines(f):
-        """The news feed (name "news"): each ranked item is one wire cluster and its line is the sources' event."""
+        """The news feed (name "news"): an item's line is the desk's, excused only as a wire candidate's is."""
         if not (isinstance(f, dict) and f.get("name") == "news" and isinstance(f.get("data"), dict)
                 and isinstance(f["data"].get("items"), list)):
             return f
-        items = [dict(i, line="") if isinstance(i, dict) and isinstance(i.get("line"), str)
-                 and not AI_DISCLOSURE.search(i["line"]) else i for i in f["data"]["items"]]
+        items = [dict(i, line="") if isinstance(i, dict) and source_carried_ai(i.get("line"), i) else i for i in f["data"]["items"]]
         return dict(f, data=dict(f["data"], items=items))
     return json.dumps(strip(own_words(news_lines(feed))))
 
