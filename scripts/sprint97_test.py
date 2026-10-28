@@ -38,7 +38,7 @@ GRADES = ("Confirmed", "Likely", "Disputed", "Unclear")
 
 # HOTFIX 9.9h2 (round 3). The desk writes its own wire lines (wire.py: "the desk's own one-line summary of a story it
 # ranked"), so a wire candidate line and a news item line are desk prose and stay in the AI-word scan. One AI word in them
-# is excused: a reported subject, an AI word with the word after it that a SOURCE'S OWN TITLE carries. The titles come from
+# is excused: a reported subject, an AI word inside a run of three or more consecutive words that a SOURCE'S OWN TITLE carries. The titles come from
 # the stored records the feeds are built from (site/data/wire.json clusters and the why records' candidates), found by the
 # exact line text. Never a link address: the editor model supplies some of those (its own source_urls), so the model that
 # writes a line could also supply the address that excuses it. "AI compute" in a Luxor raise passes when an outlet's title
@@ -104,19 +104,28 @@ def stored_titles():
 
 
 def source_carried_ai(line, titles):
-    """True when `line` has no disclosure phrasing and every AI word in it, with the word after it, is carried side by side
-    by one of `titles`, the outlets' own titles for this line's story."""
+    """True when `line` has no disclosure phrasing and every AI word in it sits inside a run of THREE OR MORE consecutive
+    words that one of `titles` (an outlet's stored title) also carries, side by side and in the same order. Words are
+    lowercase runs of [a-z0-9]; punctuation and case do not count, and a hyphen splits ("AI-generated" is "ai", "generated").
+    A run never crosses from one title into the next. An AI word that is two words ("machine learning") needs a run of at
+    least that length. HOTFIX 9.9h2 round 4 (C10): the round 3 rule asked only for the one word after the AI word, which a
+    disclosure like "uses AI compute to rank" could ride on."""
     if not isinstance(line, str) or AI_DISCLOSURE.search(line):
         return False
-    src = []
-    for t in titles or []:
-        src += _words(t) + ["|"]
-    pairs = {(src[i], src[i + 1]) for i in range(len(src) - 1)}
+    tw = [_words(t) for t in titles or [] if isinstance(t, str)]
     lw = _words(line)
+    grams = {}
+
+    def carried(a, b):
+        k = b - a
+        if k not in grams:
+            grams[k] = {tuple(w[j:j + k]) for w in tw for j in range(len(w) - k + 1)}
+        return tuple(lw[a:b]) in grams[k]
     for m in AI.finditer(line):
         n = len(_words(m.group(0))) or 1
         i = len(_words(line[:m.start()]))
-        if i + n >= len(lw) or (lw[i + n - 1], lw[i + n]) not in pairs:
+        k = max(3, n)
+        if not any(carried(a, a + k) for a in range(max(0, i + n - k), min(i, len(lw) - k) + 1)):
             return False
     return True
 

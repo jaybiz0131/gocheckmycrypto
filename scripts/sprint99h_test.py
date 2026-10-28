@@ -241,10 +241,49 @@ def case_6_sourced_event_text(fails):
             lambda: not any(s97.AI_DISCLOSURE.search(t) for t in (LUXOR_LINE, "Firm launched an AI model for traders.",
                                                               "Scammers used AI-generated deepfakes to take $5 million.")))
 
+R4_LUXOR_TITLES = ["Bitcoin Mining Firm Luxor Raises $16 Million to Scale Its AI Compute Push",
+                   "Bitcoin Mining Firm Luxor Raises $16 Million to Scale AI Compute Trading and Hardware",
+                   "Bitcoin mining infrastructure firm Luxor raises $16 million to expand AI business"]
+R4_FIRM_TITLES = ["Firm X launches AI model for traders"]
+# round 4: the reviewer's five probe lines (review 3), each with the stored titles the reviewer used
+R4_PROBES = (
+    ("Crypto Cronkite uses AI compute to rank reports: Luxor raised $16 million.", R4_LUXOR_TITLES),
+    ("This summary was produced with help from AI compute; Luxor raised $16 million.", R4_LUXOR_TITLES),
+    ("Picked for you by an AI model: Firm X launched an AI model for traders.", R4_FIRM_TITLES),
+    ("Crypto Cronkite runs on an AI model; Firm X launched an AI model for traders.", R4_FIRM_TITLES),
+    ("Our picks come from an AI model. Firm X launched an AI model for traders.", R4_FIRM_TITLES),
+)
+
+
+def case_7_three_word_run(fails):
+    print("7. an AI word in a desk line is excused only inside a run of three or more words an outlet's stored title carries (hotfix 9.9h2 round 4, C10)")
+    import sprint97_test as s97
+    def cand(line):
+        return {"data": {"evidence": {"candidates": [{"id": "x", "kind": "wire", "line": line, "links": []}]}}}
+    def nitem(line):
+        return {"name": "news", "data": {"items": [{"rank": 1, "id": "c1", "line": line, "links": []}]}}
+    firm = "Firm X launched an AI model for traders."
+    for label, mk in (("a wire candidate line", cand), ("a news item line", nitem)):
+        for line, titles in R4_PROBES:
+            guarded(fails, f"plant: {line!r} fails in {label}", lambda mk=mk, line=line, titles=titles: s97.AI.search(s97.feed_prose(mk(line), titles={line: titles})))
+        guarded(fails, f"the real Luxor line is still excused in {label} (its title carries 'AI Compute Trading and Hardware')",
+                lambda mk=mk: not s97.AI.search(s97.feed_prose(mk(LUXOR_LINE), titles={LUXOR_LINE: R4_LUXOR_TITLES})))
+        guarded(fails, f"a line whose AI words sit inside a three-word run of the title passes in {label}",
+                lambda mk=mk: not s97.AI.search(s97.feed_prose(mk(firm), titles={firm: R4_FIRM_TITLES})))
+    guarded(fails, "source_carried_ai: a two-word run is not enough",
+            lambda: not s97.source_carried_ai("Miner AI compute funds", ["AI compute"]))
+    guarded(fails, "source_carried_ai: a run may not cross from one title into the next",
+            lambda: not s97.source_carried_ai("Firm said AI model for traders", ["Said AI", "model for traders"]))
+    guarded(fails, "source_carried_ai: the run must cover the AI word",
+            lambda: not s97.source_carried_ai("Our AI picks: Luxor raised money from CMT Digital", ["Luxor raised money from CMT Digital"]))
+    guarded(fails, "source_carried_ai: a three-word run around the AI word passes, case-insensitive",
+            lambda: s97.source_carried_ai("firm to scale ai compute push", ["Firm Raises $16 Million to Scale AI Compute Push"])
+            and not s97.source_carried_ai("firm to scale ai compute push", ["Firm Raises $16 Million to Scale Its AI Compute"]))
+
 
 def unit():
     fails = []
-    for fn in (case_1_names, case_2_pinned_morning, case_4_feed_ai, case_5_record_store, case_6_sourced_event_text):
+    for fn in (case_1_names, case_2_pinned_morning, case_4_feed_ai, case_5_record_store, case_6_sourced_event_text, case_7_three_word_run):
         try:
             fn(fails)
         except Exception as e:                               # noqa: BLE001
