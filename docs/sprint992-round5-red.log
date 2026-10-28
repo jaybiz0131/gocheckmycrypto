@@ -1,0 +1,14 @@
+Sprint 9.9.2, round 4 under entry 2026-10-27-C8 (review 3's named fix): the new test cases (scripts/sprint992_test.py group round5) run on sprint-9-9-2 at 4c499d6 (421f08e with origin/main f4523e6 merged), fact_once.py unchanged, red first. Wed Oct 28 2026, 11:24 AM EDT.
+1f. review 3's named fix: the withholding pass twins a named reading only when fact_sweep.one_printing finds no reason for the pair and the value matches; fact_once.vanished compares readings by value
+  FAIL a dated read printing Fear and Greed 31 beside reads printing 29 and 30 stays printed: 31 is printed nowhere else (SYNTHETIC, bottom-line/2026-08)
+  FAIL reason A reaches the withholding pass: two dated reads printing one Fear and Greed value on a month archive are one printing, and neither is withheld (SYNTHETIC, bottom-line/2026-08)
+  ok   no reason, one value: the second read printing Fear and Greed 29 off a month archive is still withheld, its reading still printed (SYNTHETIC, bottom-line.html)
+  FAIL no reason, another value: a read printing Fear and Greed 31 is not covered by a 29 and stays printed off a month archive too (SYNTHETIC, bottom-line.html)
+  FAIL fact_once.vanished reports a Fear and Greed reading whose value is printed nowhere after the pass (SYNTHETIC)
+  ok   fact_once.vanished reports nothing when the reading's value still prints (SYNTHETIC)
+  ok   premise, from the stored Briefs: bottom-line/2026-08 renders 51 dated reads (51)
+  FAIL the stored August archive keeps all 51 dated reads through the pass (49), the August 11 and 17 Afternoon Briefs among them
+  FAIL the stored August archive prints "Fear and Greed sits at 31", "roughly 200,000 customers" and "nearly 40,000" after the pass
+
+SPRINT 9.9.2: FAIL (6 failure(s))
+Exit status 1.
