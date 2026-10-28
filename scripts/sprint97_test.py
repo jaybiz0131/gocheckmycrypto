@@ -36,22 +36,40 @@ AI = re.compile(r"\bA\.?I\b|artificial|machine[- ]learn|language model|\bLLM\b|\
 GRADES = ("Confirmed", "Likely", "Disputed", "Unclear")
 
 
-# HOTFIX 9.9h2 (round 2). The desk writes its own wire lines (wire.py: "the desk's own one-line summary of a story it
+# HOTFIX 9.9h2 (round 3). The desk writes its own wire lines (wire.py: "the desk's own one-line summary of a story it
 # ranked"), so a wire candidate line and a news item line are desk prose and stay in the AI-word scan. One AI word in them
-# is excused: a reported subject, an AI word with the word after it that the item's OWN sources carry (the record's titles
-# when the item has them, and the words of its source links' addresses, which the outlets wrote from their headlines).
-# "AI compute" in a Luxor raise passes when a source says "ai compute"; "AI editor", "AI-generated", "Claude" and every
-# other AI word the sources do not carry fail, and so does any disclosure phrasing. Press and hack candidate lines are the
-# outlet's own title or a fixed template around DefiLlama's fields, so they are sourced and are left out of the scan.
+# is excused: a reported subject, an AI word with the word after it that a SOURCE'S OWN TITLE carries. The titles come from
+# the stored records the feeds are built from (site/data/wire.json clusters and the why records' candidates), found by the
+# exact line text. Never a link address: the editor model supplies some of those (its own source_urls), so the model that
+# writes a line could also supply the address that excuses it. "AI compute" in a Luxor raise passes when an outlet's title
+# says "AI compute"; "AI editor", "AI-generated summary", "Claude" and every other AI word no title carries fail, and so
+# does any disclosure phrasing, which is never excused. Press and hack candidate lines are the outlet's own title or a
+# fixed template around DefiLlama's fields, so they are sourced and are left out of the scan.
 SOURCED_EVENT_KINDS = ("press", "hack")
 SOURCE_CHECKED_KINDS = ("wire",)
 _AIW = (r"(?:A\.?I\b|artificial|machine[- ]learn|language model|LLM\b|GPT|Claude|Anthropic|Haiku|Sonnet|OpenAI|chatbot)")
-# An AI disclosure: something said to be made, written, drafted, summarized or checked by or with an AI or a model, or the
-# desk or its read said to use one. A line that says so is never excused.
+_ROLE = (r"(?:editor|writer|author|reporter|journalist|summary|summaries|summarizer|line|note|read|brief|card|desk|newsroom|"
+         r"curator|ranker|ranking|byline|edition)")
+_GROLE = r"(?:" + _ROLE[3:-1] + r"|story|article|text|content|item|verdict|card)\b"
+_DESK = (r"(?:Cronkite|desk|editor|writer|author|reporter|newsroom|summary|line|read|brief|card|note|item|bot|ranker|we|I|"
+         r"this (?:site|page|read|line|brief|summary|desk))")
+_VERB = (r"(?:written|generated|drafted|produced|composed|created|authored|summari[sz]ed|edited|graded|checked|powered|assisted|made|"
+         r"ranked|picked|selected|curated|reviewed|vetted|verified|compiled|rewritten|researched|flagged|curated|chosen|sorted|"
+         r"translated|narrated|voiced|run|operated|staffed|handled|read|scored)")
+# An AI disclosure, in any of the shapes the desk's own words could take: made or checked by or with an AI; the desk, editor
+# or a line said to be an AI; "AI editor", "AI summary", "AI-generated summary" and the like; the desk's or our AI; first
+# person. A line that says so is never excused.
 AI_DISCLOSURE = re.compile(
-    r"\b(?:written|generated|drafted|produced|composed|created|authored|summari[sz]ed|edited|graded|checked|powered|assisted|made)\s+"
-    r"(?:in part\s+)?(?:by|with|using|via)\s+(?:an?\s+|the\s+)?" + _AIW
-    + r"|\b(?:we|our|this desk|the desk|this read|this site)\b[^.]{0,60}\b(?:use[sd]?|using|run|runs|rely|relies)\b[^.]{0,30}" + _AIW,
+    r"\b" + _VERB + r"\s+(?:in part\s+|first\s+|entirely\s+)?(?:by|with|using|via|through|from)\s+(?:an?\s+|the\s+|our\s+|its\s+)?" + _AIW
+    + r"|\b" + _ROLE + r"\b[^.;:]{0,20}?\b(?:by|from|via)\s+(?:an?\s+|the\s+|our\s+)?" + _AIW
+    + r"|\b" + _DESK + r"\b[^.;:]{0,40}?\b(?:is|am|are|was|were|as|be|being)\s+(?:an?\s+|the\s+|our\s+)?(?:\w+\s+)?" + _AIW
+    + r"|\b(?:I|we)(?:'m|\u2019m|'re|\u2019re)\s+(?:an?\s+)?" + _AIW
+    + r"|\bas an? " + _AIW
+    + r"|\b(?:Claude|Haiku|Sonnet)\b(?:\s+\d+(?:\.\d+)?)?[^.;:]{0,20}\b(?:wrote|written|summari[sz]ed|ranked|drafted|edited|picked|selected|generated|produced|compiled)\b"
+    + r"|\b(?:we|our|this desk|the desk|this read|this site|the editor)\b[^.]{0,60}\b(?:use[sd]?|using|run|runs|rely|relies|employ\w*)\b[^.]{0,30}" + _AIW
+    + r"|\b(?:desk|newsroom|editor|Cronkite|our|my|we|its)(?:'s|\u2019s)?\s+(?:own\s+|resident\s+|in-house\s+)?" + _AIW
+    + r"|" + _AIW + r"[- ]?(?:generated|written|authored|assisted|produced|curated|powered|driven|made|edited|ranked|selected)[- ]?\s*(?:\w+\s+)?" + _GROLE
+    + r"|" + _AIW + r"(?:'s|\u2019s)?[- ]?\s*(?:\w+[- ])?" + _ROLE + r"\b",
     re.I)
 
 
@@ -59,17 +77,40 @@ def _words(t):
     return re.findall(r"[a-z0-9]+", (t or "").lower())
 
 
-def source_carried_ai(line, item):
-    """True when `line` has AI words, no disclosure phrasing, and every AI word with the word after it is carried, as that
-    pair of words side by side, by the item's own source text (its "titles" and the words of its links' addresses)."""
+_TITLES = {}
+
+
+def stored_titles():
+    """{line: [titles]} from the stored records the feeds are built from: site/data/wire.json items and every site/data/why
+    candidate that carries both a line and its titles. Read once. No feed or stored file is changed."""
+    if not _TITLES:
+        out = {}
+        try:
+            for i in json.load(open(os.path.join(HERE, "site", "data", "wire.json"), encoding="utf-8")).get("items") or []:
+                if isinstance(i, dict) and isinstance(i.get("line"), str):
+                    out.setdefault(i["line"], []).extend(t for t in i.get("titles") or [] if isinstance(t, str))
+        except (OSError, ValueError):
+            pass
+        wd = os.path.join(HERE, "site", "data", "why")
+        for n in sorted(os.listdir(wd)) if os.path.isdir(wd) else []:
+            try:
+                for c in json.load(open(os.path.join(wd, n), encoding="utf-8")).get("candidates") or []:
+                    if isinstance(c, dict) and isinstance(c.get("line"), str):
+                        out.setdefault(c["line"], []).extend(t for t in c.get("titles") or [] if isinstance(t, str))
+            except (OSError, ValueError, AttributeError):
+                pass
+        _TITLES["x"] = out
+    return _TITLES["x"]
+
+
+def source_carried_ai(line, titles):
+    """True when `line` has no disclosure phrasing and every AI word in it, with the word after it, is carried side by side
+    by one of `titles`, the outlets' own titles for this line's story."""
     if not isinstance(line, str) or AI_DISCLOSURE.search(line):
         return False
     src = []
-    for t in item.get("titles") or []:
+    for t in titles or []:
         src += _words(t) + ["|"]
-    for l in item.get("links") or []:
-        if isinstance(l, dict) and isinstance(l.get("url"), str):
-            src += _words(l["url"]) + ["|"]
     pairs = {(src[i], src[i + 1]) for i in range(len(src) - 1)}
     lw = _words(line)
     for m in AI.finditer(line):
@@ -80,7 +121,7 @@ def source_carried_ai(line, item):
     return True
 
 
-def feed_prose(feed):
+def feed_prose(feed, titles=None):
     """The feed as JSON text with every web address (a string that starts http:// or https://) taken out: the AI-word scan
     reads the desk's own words, and a source's address is not the desk's wording (a slug may hold 'ai-' in a headline the
     outlet wrote). Everything else, titles, lines, outlet names, stays in. The dash scan does NOT use this: it reads the
@@ -93,15 +134,17 @@ def feed_prose(feed):
         if isinstance(o, str) and re.match(r"https?://", o):
             return ""
         return o
+    tmap = titles if titles is not None else stored_titles()
+
     def own_words(o):
-        """HOTFIX 9.9h2: blank the line of a press or hack candidate, and of a wire candidate whose AI words its own sources carry."""
+        """HOTFIX 9.9h2: blank the line of a press or hack candidate, and of a wire candidate whose AI words a source title carries."""
         if isinstance(o, dict):
             r = {}
             for k, v in o.items():
                 if k == "candidates" and isinstance(v, list):
                     v = [dict(c, line="") if isinstance(c, dict) and isinstance(c.get("line"), str) and (
                         (c.get("kind") in SOURCED_EVENT_KINDS and not AI_DISCLOSURE.search(c["line"]))
-                        or (c.get("kind") in SOURCE_CHECKED_KINDS and source_carried_ai(c["line"], c))) else c for c in v]
+                        or (c.get("kind") in SOURCE_CHECKED_KINDS and source_carried_ai(c["line"], tmap.get(c["line"])))) else c for c in v]
                 r[k] = own_words(v)
             return r
         if isinstance(o, list):
@@ -112,7 +155,7 @@ def feed_prose(feed):
         if not (isinstance(f, dict) and f.get("name") == "news" and isinstance(f.get("data"), dict)
                 and isinstance(f["data"].get("items"), list)):
             return f
-        items = [dict(i, line="") if isinstance(i, dict) and source_carried_ai(i.get("line"), i) else i for i in f["data"]["items"]]
+        items = [dict(i, line="") if isinstance(i, dict) and source_carried_ai(i.get("line"), tmap.get(i.get("line"))) else i for i in f["data"]["items"]]
         return dict(f, data=dict(f["data"], items=items))
     return json.dumps(strip(own_words(news_lines(feed))))
 

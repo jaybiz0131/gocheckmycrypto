@@ -149,13 +149,30 @@ SEVEN = (
     "Our editor is an AI model; Luxor raised $16 million.",
     "Haiku 5.5 summarized three reports: Luxor raised $16 million.",
 )
-LUXOR_LINKS = [{"outlet": "Decrypt", "url": "https://decrypt.co/381847/bitcoin-mining-firm-luxor-raises-16-million-ai-compute"},
-               {"outlet": "The Block", "url": "https://www.theblock.co/news/deals/2026-10-27-bitcoin-mining-ai-luxor-technology-funding-431858"}]
 LUXOR_LINE = "Bitcoin miner Luxor raised $16 million from CMT Digital, Canaan, and MicroBT to expand AI compute trading, hardware, and derivatives."
+LUXOR_TITLES = ["Bitcoin Mining Firm Luxor Raises $16 Million to Scale Its AI Compute Push",
+                "Bitcoin mining infrastructure firm Luxor raises $16 million to expand AI business"]
+# round 3: the reviewer's four probes (a line, the source title a slug would give, the link it carried) and more found since
+PROBES = (
+    ("Ranked first by the desk's AI editor: Luxor raised $16 million.", "AI editor ranks Luxor", "https://example.com/news/ai-editor-ranks-luxor"),
+    ("Crypto Cronkite is an AI model reading three reports: firm launched an AI model for traders.",
+     "Firm launches AI model for traders", "https://cointelegraph.com/news/firm-launches-ai-model-for-traders"),
+    ("An AI-generated summary: scammers used AI-generated deepfakes to take $5 million.",
+     "AI generated deepfake scam 5 million", "https://www.theblock.co/post/1/ai-generated-deepfake-scam-5-million"),
+    ("This AI summary covers Luxor's $16 million raise to expand AI compute.", "AI summary tool launch", "https://coindesk.com/x/ai-summary-tool-launch"),
+    ("The desk is an AI and Luxor raised money for AI compute.", "Luxor raises money for AI compute", ""),
+    ("I am an AI reading three reports on AI compute.", "AI compute reports", ""),
+    ("As an AI, the desk ranked this AI compute raise first.", "AI compute raise", ""),
+    ("Our AI newsroom flagged the AI compute raise.", "AI compute raise", ""),
+    ("AI-written line: Luxor raised money for AI compute.", "AI compute", ""),
+    ("The line is AI-generated; Luxor raised money for AI compute.", "AI compute", ""),
+    ("Luxor raised money for AI compute, ranked by Claude.", "AI compute", ""),
+    ("The desk's AI picked this AI compute raise.", "AI compute raise", ""),
+)
 
 
 def case_6_sourced_event_text(fails):
-    print("6. the feed AI-word scan holds the desk's wording and any disclosure; an AI word its own sources carry is a reported subject (hotfix 9.9h2, J-20)")
+    print("6. the feed AI-word scan holds the desk's wording and any disclosure; an AI word a source's own title carries is a reported subject (hotfix 9.9h2, J-20)")
     import api_feeds
     import sprint97_test as s97
     wpath = os.path.join(HERE, "site", "data", "why", "2026-10-27-evening.json")
@@ -163,44 +180,66 @@ def case_6_sourced_event_text(fails):
     luxor = [c for c in stored["candidates"] if c.get("kind") == "wire" and "AI compute" in (c.get("line") or "")]
     guarded(fails, "the premise: the stored October 27 evening evidence carries the Luxor wire line, and its own source titles carry 'AI compute'",
             lambda: bool(luxor) and any("ai compute" in t.lower() for t in luxor[0]["titles"]))
+    wire = json.load(open(os.path.join(HERE, "site", "data", "wire.json"), encoding="utf-8"))
+    guarded(fails, "the premise: the stored wire cluster for the same line carries 'AI compute' in a title",
+            lambda: any(i.get("line") == LUXOR_LINE and any("ai compute" in t.lower() for t in i.get("titles") or []) for i in wire["items"]))
     now = dt.datetime(2026, 10, 28, 12, 0, tzinfo=UTC)
+    def scan(feed, titles=None):
+        try:
+            return s97.AI.search(s97.feed_prose(feed, titles=titles)) if titles is not None else s97.AI.search(s97.feed_prose(feed))
+        except TypeError:                                    # the round 2 scan has no titles argument
+            return s97.AI.search(s97.feed_prose(feed))
     feeds = api_feeds.why_feeds(now)
     guarded(fails, "today's why feeds, built from the stored records, pass the AI-word scan",
-            lambda: all(not s97.AI.search(s97.feed_prose(f)) for f in feeds.values()))
-    wire = json.load(open(os.path.join(HERE, "site", "data", "wire.json"), encoding="utf-8"))
+            lambda: all(not scan(f) for f in feeds.values()))
     news = api_feeds.news_feed(wire, now)
     guarded(fails, "the news feed built from the stored wire passes the AI-word scan",
-            lambda: not s97.AI.search(s97.feed_prose(news)))
-    def cand(kind, line, links=None):
-        return {"data": {"evidence": {"candidates": [{"id": "x", "kind": kind, "line": line, "links": links if links is not None else LUXOR_LINKS}]}}}
-    def nitem(line, links=None):
-        return {"name": "news", "data": {"items": [{"rank": 1, "id": "c1", "line": line, "links": links if links is not None else LUXOR_LINKS}]}}
-    for label, mk in (("a wire candidate line", lambda t: cand("wire", t)), ("a news item line", nitem)):
-        guarded(fails, f"plant: the Luxor line, whose AI subject its own sources carry, passes in {label}",
-                lambda mk=mk: not s97.AI.search(s97.feed_prose(mk(LUXOR_LINE))))
+            lambda: not scan(news))
+    def cand(kind, line, link=""):
+        return {"data": {"evidence": {"candidates": [{"id": "x", "kind": kind, "line": line,
+                                                       "links": [{"outlet": "O", "url": link}] if link else []}]}}}
+    def nitem(line, link=""):
+        return {"name": "news", "data": {"items": [{"rank": 1, "id": "c1", "line": line,
+                                                     "links": [{"outlet": "O", "url": link}] if link else []}]}}
+    for label, mk in (("a wire candidate line", lambda t, l="": cand("wire", t, l)), ("a news item line", nitem)):
+        guarded(fails, f"plant: the Luxor line passes in {label}, its source titles found for it",
+                lambda mk=mk: not scan(mk(LUXOR_LINE), {LUXOR_LINE: LUXOR_TITLES}))
+        guarded(fails, f"plant: the Luxor line passes in {label} on the stored records alone",
+                lambda mk=mk: not scan(mk(LUXOR_LINE)))
         for t in SEVEN:
-            guarded(fails, f"plant: {t!r} fails in {label}",
-                    lambda mk=mk, t=t: s97.AI.search(s97.feed_prose(mk(t))))
-        guarded(fails, f"plant: a line with the sources' AI subject AND a disclosure fails in {label}",
-                lambda mk=mk: s97.AI.search(s97.feed_prose(mk("Luxor raised $16 million to expand AI compute, in an AI-generated summary."))))
-        guarded(fails, f"plant: an AI word the sources lack fails in {label} even beside a carried one",
-                lambda mk=mk: s97.AI.search(s97.feed_prose(mk("Luxor raised money for AI compute and an AI editor picked it."))))
-    guarded(fails, "plant: an AI word with no links to carry it fails in a news item",
-            lambda: s97.AI.search(s97.feed_prose(nitem("Miner raised money to expand AI compute.", links=[]))))
+            guarded(fails, f"plant: {t!r} fails in {label}", lambda mk=mk, t=t: scan(mk(t)))
+        for line, title, link in PROBES:
+            guarded(fails, f"plant: {line!r} fails in {label} with its link {link!r}", lambda mk=mk, line=line, link=link: scan(mk(line, link)))
+            guarded(fails, f"plant: the same line fails in {label} even when a source title carries its AI words",
+                    lambda mk=mk, line=line, title=title: scan(mk(line), {line: [title]}))
+        guarded(fails, f"plant: a carried AI subject AND a disclosure fails in {label}",
+                lambda mk=mk: scan(mk("Luxor raised $16 million to expand AI compute, in an AI-generated summary."), {"x": []}))
+        guarded(fails, f"plant: an AI word the titles lack fails in {label} even beside a carried one",
+                lambda mk=mk: scan(mk("Luxor raised money for AI compute and an AI desk picked it."),
+                                   {"Luxor raised money for AI compute and an AI desk picked it.": ["Luxor raises money for AI compute"]}))
+    guarded(fails, "plant: an AI word with no title anywhere fails in a news item",
+            lambda: scan(nitem("Miner raised money to expand AI compute.")))
+    guarded(fails, "plant: a link address alone never excuses an AI word",
+            lambda: scan(nitem(LUXOR_LINE, "https://decrypt.co/381847/bitcoin-mining-firm-luxor-raises-16-million-ai-compute"), {}))
     guarded(fails, "plant: an AI word inside a press line (the outlet's own title) passes",
-            lambda: not s97.AI.search(s97.feed_prose(cand("press", "OpenAI cut a crypto fee (CoinDesk)"))))
+            lambda: not scan(cand("press", "OpenAI cut a crypto fee (CoinDesk)")))
+    guarded(fails, "plant: an AI disclosure inside a press line still fails",
+            lambda: scan(cand("press", "An AI-generated summary of a fee cut (CoinDesk)")))
     guarded(fails, "plant: an AI word in a release candidate's line (the desk's template) still fails",
-            lambda: s97.AI.search(s97.feed_prose(cand("release", "AI Jobs Report (Bureau of Labor Statistics)"))))
+            lambda: scan(cand("release", "AI Jobs Report (Bureau of Labor Statistics)")))
     guarded(fails, "plant: an AI disclosure in a verdict card sentence still fails",
-            lambda: s97.AI.search(s97.feed_prose({"data": {"coins": {"BTC": {"card_text": ["Graded by an AI model from the evidence."]}}}})))
+            lambda: scan({"data": {"coins": {"BTC": {"card_text": ["Graded by an AI model from the evidence."]}}}}))
     guarded(fails, "plant: an AI disclosure in a Brief line still fails",
-            lambda: s97.AI.search(s97.feed_prose({"data": {"items": [{"line": "This Brief was drafted by Claude."}]}})))
+            lambda: scan({"data": {"items": [{"line": "This Brief was drafted by Claude."}]}}))
     guarded(fails, "plant: an AI word in a feed that is not the news feed's items (a Brief item line) still fails",
-            lambda: s97.AI.search(s97.feed_prose({"name": "brief/latest", "data": {"items": [{"line": "An AI model priced it."}]}})))
+            lambda: scan({"name": "brief/latest", "data": {"items": [{"line": "An AI model priced it."}]}}))
     guarded(fails, "plant: a candidate's outlet name is still read",
-            lambda: s97.AI.search(s97.feed_prose(cand("wire", "Miner raised money.", [{"outlet": "AI Daily", "url": "https://x.com/a"}]))))
+            lambda: scan({"data": {"evidence": {"candidates": [{"id": "x", "kind": "wire", "line": "Miner raised money.", "links": [{"outlet": "AI Daily", "url": ""}]}]}}}))
     guarded(fails, "the dash scan is unchanged: a dash inside a wire line is still a dash",
             lambda: s97.DASH.search(json.dumps(cand("wire", "a" + chr(0x2014) + "b"), ensure_ascii=False)))
+    guarded(fails, "the disclosure pattern leaves ordinary reported subjects alone",
+            lambda: not any(s97.AI_DISCLOSURE.search(t) for t in (LUXOR_LINE, "Firm launched an AI model for traders.",
+                                                              "Scammers used AI-generated deepfakes to take $5 million.")))
 
 
 def unit():
