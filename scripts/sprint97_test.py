@@ -36,6 +36,21 @@ AI = re.compile(r"\bA\.?I\b|artificial|machine[- ]learn|language model|\bLLM\b|\
 GRADES = ("Confirmed", "Likely", "Disputed", "Unclear")
 
 
+# HOTFIX 9.9h2: a reported event's own subject is not the desk's wording. A why feed's evidence candidates of these kinds,
+# and the news feed's ranked items (name "news", one wire cluster each), carry a line taken from the sources ("... to expand AI compute
+# ..." about a miner's raise); the scan leaves that line out of the AI-word read, but not out of the disclosure read below.
+# Release lines (the desk's own template around a calendar title) and every other field stay in the scan.
+SOURCED_EVENT_KINDS = ("wire", "press", "hack")
+_AIW = (r"(?:A\.?I\b|artificial|machine[- ]learn|language model|LLM\b|GPT|Claude|Anthropic|Haiku|Sonnet|OpenAI|chatbot)")
+# An AI disclosure: something said to be made, written, drafted, summarized or checked by or with an AI or a model, or the
+# desk or its read said to use one. A sourced line that says so still fails the scan.
+AI_DISCLOSURE = re.compile(
+    r"\b(?:written|generated|drafted|produced|composed|created|authored|summari[sz]ed|edited|graded|checked|powered|assisted|made)\s+"
+    r"(?:in part\s+)?(?:by|with|using|via)\s+(?:an?\s+|the\s+)?" + _AIW
+    + r"|\b(?:we|our|this desk|the desk|this read|this site)\b[^.]{0,60}\b(?:use[sd]?|using|run|runs|rely|relies)\b[^.]{0,30}" + _AIW,
+    re.I)
+
+
 def feed_prose(feed):
     """The feed as JSON text with every web address (a string that starts http:// or https://) taken out: the AI-word scan
     reads the desk's own words, and a source's address is not the desk's wording (a slug may hold 'ai-' in a headline the
@@ -49,7 +64,28 @@ def feed_prose(feed):
         if isinstance(o, str) and re.match(r"https?://", o):
             return ""
         return o
-    return json.dumps(strip(feed))
+    def own_words(o):
+        """HOTFIX 9.9h2: blank the line of a sourced evidence candidate unless it carries an AI disclosure."""
+        if isinstance(o, dict):
+            r = {}
+            for k, v in o.items():
+                if k == "candidates" and isinstance(v, list):
+                    v = [dict(c, line="") if isinstance(c, dict) and c.get("kind") in SOURCED_EVENT_KINDS
+                         and isinstance(c.get("line"), str) and not AI_DISCLOSURE.search(c["line"]) else c for c in v]
+                r[k] = own_words(v)
+            return r
+        if isinstance(o, list):
+            return [own_words(v) for v in o]
+        return o
+    def news_lines(f):
+        """The news feed (name "news"): each ranked item is one wire cluster and its line is the sources' event."""
+        if not (isinstance(f, dict) and f.get("name") == "news" and isinstance(f.get("data"), dict)
+                and isinstance(f["data"].get("items"), list)):
+            return f
+        items = [dict(i, line="") if isinstance(i, dict) and isinstance(i.get("line"), str)
+                 and not AI_DISCLOSURE.search(i["line"]) else i for i in f["data"]["items"]]
+        return dict(f, data=dict(f["data"], items=items))
+    return json.dumps(strip(own_words(news_lines(feed))))
 
 
 FEEDS = ("index", "top100", "markets", "movers", "whales", "news", "brief/latest", "why/today", "events",
