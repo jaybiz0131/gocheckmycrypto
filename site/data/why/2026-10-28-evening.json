@@ -1,0 +1,5085 @@
+{
+ "what": "The evidence under 'What lined up with the move': the intraday series, the candidate events with their event and first-report times, the timing test and the onset hour's mechanics. Measured by code; no model call; no grade.",
+ "window": {
+  "start_utc": "2026-10-27T23:13:43Z",
+  "end_utc": "2026-10-28T23:13:43Z",
+  "hours": 24
+ },
+ "made_utc": "2026-10-28T23:19:37Z",
+ "candidates": [
+  {
+   "id": "bls-20261028-metropolitan-area-employment-and-unemployment-monthly",
+   "kind": "release",
+   "line": "Metropolitan Area Employment and Unemployment (Monthly), September 2026 (Bureau of Labor Statistics)",
+   "release_name": "Metropolitan Area Employment and Unemployment (Monthly)",
+   "event_utc": "2026-10-28T14:00:00Z",
+   "event_basis": "BLS release schedule",
+   "scheduled": true,
+   "report_utc": null,
+   "source_count": 0,
+   "primary": true,
+   "links": [
+    {
+     "outlet": "BLS",
+     "url": "https://www.bls.gov/schedule/2026/10_sched.htm"
+    }
+   ],
+   "secondary": false,
+   "secondary_why": ""
+  },
+  {
+   "id": "bls-20261028-quarterly-data-series-on-business-employment-dynamics",
+   "kind": "release",
+   "line": "Quarterly Data Series on Business Employment Dynamics, First Quarter 2026 (Bureau of Labor Statistics)",
+   "release_name": "Quarterly Data Series on Business Employment Dynamics",
+   "event_utc": "2026-10-28T14:00:00Z",
+   "event_basis": "BLS release schedule",
+   "scheduled": true,
+   "report_utc": null,
+   "source_count": 0,
+   "primary": true,
+   "links": [
+    {
+     "outlet": "BLS",
+     "url": "https://www.bls.gov/schedule/2026/10_sched.htm"
+    }
+   ],
+   "secondary": false,
+   "secondary_why": ""
+  },
+  {
+   "id": "fomc-2026-10-28",
+   "kind": "release",
+   "line": "FOMC meeting concludes, October 27-28 (Federal Reserve)",
+   "release_name": "FOMC",
+   "event_utc": null,
+   "event_basis": "the Fed's calendar gives the date, not the time",
+   "event_day": "2026-10-28",
+   "scheduled": true,
+   "report_utc": null,
+   "source_count": 0,
+   "primary": true,
+   "links": [
+    {
+     "outlet": "Federal Reserve",
+     "url": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm"
+    }
+   ],
+   "secondary": false,
+   "secondary_why": ""
+  },
+  {
+   "id": "federal reserve-1793210400",
+   "kind": "press",
+   "line": "Federal Reserve issues FOMC statement (Federal Reserve)",
+   "event_utc": "2026-10-28T18:00:00Z",
+   "event_basis": "Federal Reserve's own feed stamp",
+   "scheduled": false,
+   "report_utc": null,
+   "source_count": 0,
+   "primary": true,
+   "links": [
+    {
+     "outlet": "Federal Reserve",
+     "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20261028a.htm"
+    }
+   ],
+   "secondary": false,
+   "secondary_why": ""
+  },
+  {
+   "id": "ff-1793210400-federal-funds-rate",
+   "kind": "release",
+   "line": "Federal Funds Rate (US, ForexFactory calendar)",
+   "release_name": "Federal Funds Rate",
+   "event_utc": "2026-10-28T18:00:00Z",
+   "event_basis": "ForexFactory calendar",
+   "scheduled": true,
+   "report_utc": null,
+   "source_count": 0,
+   "primary": false,
+   "links": [
+    {
+     "outlet": "ForexFactory",
+     "url": "https://www.forexfactory.com/calendar"
+    }
+   ],
+   "secondary": false,
+   "secondary_why": ""
+  },
+  {
+   "id": "ff-1793212200-fomc-press-conference",
+   "kind": "release",
+   "line": "FOMC Press Conference (US, ForexFactory calendar)",
+   "release_name": "FOMC Press Conference",
+   "event_utc": "2026-10-28T18:30:00Z",
+   "event_basis": "ForexFactory calendar",
+   "scheduled": true,
+   "report_utc": null,
+   "source_count": 0,
+   "primary": false,
+   "links": [
+    {
+     "outlet": "ForexFactory",
+     "url": "https://www.forexfactory.com/calendar"
+    }
+   ],
+   "secondary": false,
+   "secondary_why": ""
+  },
+  {
+   "id": "wire-c170",
+   "kind": "wire",
+   "line": "Federal Reserve held interest rates steady at 3.75-4% on October 28, with two dissenting votes in favor of a quarter-point increase.",
+   "titles": [
+    "Federal Reserve issues FOMC statement"
+   ],
+   "event_utc": null,
+   "event_basis": null,
+   "scheduled": false,
+   "report_utc": "2026-10-28T18:00:00Z",
+   "source_count": 1,
+   "primary": true,
+   "links": [
+    {
+     "outlet": "Federal Reserve",
+     "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20261028a.htm"
+    }
+   ],
+   "secondary": false,
+   "secondary_why": "",
+   "wire_id": "c170"
+  },
+  {
+   "id": "wire-c022",
+   "kind": "wire",
+   "line": "Bithumb disclosed a breach of its internal employee mobile system; customer data exposure status under investigation.",
+   "titles": [
+    "Bithumb hacked through employee system as South Korean financial firms face cyberattacks"
+   ],
+   "event_utc": null,
+   "event_basis": null,
+   "scheduled": false,
+   "report_utc": "2026-10-28T05:10:36Z",
+   "source_count": 1,
+   "primary": false,
+   "links": [
+    {
+     "outlet": "CoinDesk",
+     "url": "https://www.coindesk.com/tech/2026/10/28/bithumb-hacked-through-employee-system-as-south-korean-financial-firms-face-cyberattacks"
+    }
+   ],
+   "secondary": false,
+   "secondary_why": "",
+   "wire_id": "c022"
+  },
+  {
+   "id": "wire-c009",
+   "kind": "wire",
+   "line": "DTCC's tokenization service launched on Canton and Besu with 20 DTC participants including JPMorgan, Citi, and Morgan Stanley; 34 securities live.",
+   "titles": [
+    "Wall Street backbone DTCC brings $30 trillion securities closer to blockchain with major banks"
+   ],
+   "event_utc": null,
+   "event_basis": null,
+   "scheduled": false,
+   "report_utc": "2026-10-28T13:14:37Z",
+   "source_count": 1,
+   "primary": false,
+   "links": [
+    {
+     "outlet": "CoinDesk",
+     "url": "https://www.coindesk.com/business/2026/10/28/wall-street-backbone-dtcc-brings-usd30-trillion-securities-closer-to-blockchain-with-major-banks"
+    }
+   ],
+   "secondary": false,
+   "secondary_why": "",
+   "wire_id": "c009"
+  },
+  {
+   "id": "wire-c017",
+   "kind": "wire",
+   "line": "Ita\u00fa Unibanco, Brazil's largest private bank, filed for crypto brokerage and custody licensing ahead of regulatory deadline.",
+   "titles": [
+    "Brazil\u2019s largest lender becomes first bank to formalize crypto brokerage under new rules"
+   ],
+   "event_utc": null,
+   "event_basis": null,
+   "scheduled": false,
+   "report_utc": "2026-10-28T10:07:54Z",
+   "source_count": 1,
+   "primary": false,
+   "links": [
+    {
+     "outlet": "CoinDesk",
+     "url": "https://www.coindesk.com/policy/2026/10/28/brazil-s-largest-lender-becomes-first-bank-to-formalize-crypto-brokerage-under-new-rules"
+    }
+   ],
+   "secondary": false,
+   "secondary_why": "",
+   "wire_id": "c017"
+  },
+  {
+   "id": "wire-c000",
+   "kind": "wire",
+   "line": "CFTC announced a public roundtable on 24/7 derivatives trading scheduled for December 15.",
+   "titles": [
+    "CFTC to Host Roundtable on 24/7 Trading",
+    "CFTC to host public roundtable on 24/7 derivatives trading on Dec. 15"
+   ],
+   "event_utc": null,
+   "event_basis": null,
+   "scheduled": false,
+   "report_utc": "2026-10-28T17:00:53Z",
+   "source_count": 2,
+   "primary": true,
+   "links": [
+    {
+     "outlet": "CFTC Press Releases",
+     "url": "https://www.cftc.gov/PressRoom/PressReleases/9318-26"
+    },
+    {
+     "outlet": "Crypto Briefing",
+     "url": "https://cryptobriefing.com/cftc-roundtable-24-7-derivatives-trading/"
+    }
+   ],
+   "secondary": false,
+   "secondary_why": "",
+   "wire_id": "c000"
+  }
+ ],
+ "source_cuts": [],
+ "coins": {
+  "BTC": {
+   "series": {
+    "source": "CoinGecko 5-minute prices",
+    "url": "https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=1",
+    "bar_min": 5,
+    "points": [
+     [
+      1793143200,
+      80782.563359
+     ],
+     [
+      1793143500,
+      80731.026307
+     ],
+     [
+      1793143800,
+      80827.849158
+     ],
+     [
+      1793144100,
+      80732.618216
+     ],
+     [
+      1793144400,
+      80791.364156
+     ],
+     [
+      1793144700,
+      80839.90685
+     ],
+     [
+      1793145000,
+      80867.899757
+     ],
+     [
+      1793145300,
+      80828.622087
+     ],
+     [
+      1793145600,
+      80800.83208
+     ],
+     [
+      1793145900,
+      80742.266039
+     ],
+     [
+      1793146200,
+      80671.740934
+     ],
+     [
+      1793146500,
+      80687.513018
+     ],
+     [
+      1793146800,
+      80654.194717
+     ],
+     [
+      1793147100,
+      80663.601741
+     ],
+     [
+      1793147400,
+      80676.438215
+     ],
+     [
+      1793147700,
+      80720.388539
+     ],
+     [
+      1793148000,
+      80705.134908
+     ],
+     [
+      1793148300,
+      80655.282099
+     ],
+     [
+      1793148600,
+      80638.746561
+     ],
+     [
+      1793148900,
+      80631.772757
+     ],
+     [
+      1793149200,
+      80639.78982
+     ],
+     [
+      1793149500,
+      80566.717661
+     ],
+     [
+      1793149800,
+      80543.977075
+     ],
+     [
+      1793150100,
+      80550.940332
+     ],
+     [
+      1793150400,
+      80590.051184
+     ],
+     [
+      1793150700,
+      80745.444348
+     ],
+     [
+      1793151000,
+      80695.927259
+     ],
+     [
+      1793151300,
+      80704.718073
+     ],
+     [
+      1793151600,
+      80802.294579
+     ],
+     [
+      1793151900,
+      80850.920228
+     ],
+     [
+      1793152200,
+      80812.158944
+     ],
+     [
+      1793152500,
+      80791.252601
+     ],
+     [
+      1793152800,
+      80845.038902
+     ],
+     [
+      1793153100,
+      80816.306952
+     ],
+     [
+      1793153400,
+      80835.975317
+     ],
+     [
+      1793153700,
+      80924.771837
+     ],
+     [
+      1793154000,
+      80975.699422
+     ],
+     [
+      1793154300,
+      80869.410623
+     ],
+     [
+      1793154600,
+      80833.212663
+     ],
+     [
+      1793154900,
+      80828.584637
+     ],
+     [
+      1793155200,
+      80822.787548
+     ],
+     [
+      1793155500,
+      80820.975392
+     ],
+     [
+      1793155800,
+      80846.631046
+     ],
+     [
+      1793156100,
+      80877.971759
+     ],
+     [
+      1793156400,
+      80843.099806
+     ],
+     [
+      1793156700,
+      80820.949022
+     ],
+     [
+      1793157000,
+      80830.512182
+     ],
+     [
+      1793157300,
+      80846.948186
+     ],
+     [
+      1793157600,
+      80858.869001
+     ],
+     [
+      1793157900,
+      80872.985386
+     ],
+     [
+      1793158200,
+      80979.678696
+     ],
+     [
+      1793158500,
+      81062.490243
+     ],
+     [
+      1793158800,
+      81071.27786
+     ],
+     [
+      1793159100,
+      81097.6181
+     ],
+     [
+      1793159400,
+      81085.181631
+     ],
+     [
+      1793159700,
+      81031.802416
+     ],
+     [
+      1793160000,
+      81029.837813
+     ],
+     [
+      1793160300,
+      81000.094979
+     ],
+     [
+      1793160600,
+      80907.639282
+     ],
+     [
+      1793160900,
+      80881.300888
+     ],
+     [
+      1793161200,
+      80877.005626
+     ],
+     [
+      1793161500,
+      80839.527075
+     ],
+     [
+      1793161800,
+      80857.562257
+     ],
+     [
+      1793162100,
+      80926.371095
+     ],
+     [
+      1793162400,
+      80912.874777
+     ],
+     [
+      1793162700,
+      80896.912136
+     ],
+     [
+      1793163000,
+      80881.351282
+     ],
+     [
+      1793163300,
+      80861.839142
+     ],
+     [
+      1793163600,
+      80884.196531
+     ],
+     [
+      1793163900,
+      80831.383083
+     ],
+     [
+      1793164200,
+      80859.494973
+     ],
+     [
+      1793164500,
+      80863.491264
+     ],
+     [
+      1793164800,
+      80845.272087
+     ],
+     [
+      1793165100,
+      80854.811137
+     ],
+     [
+      1793165400,
+      80844.387503
+     ],
+     [
+      1793165700,
+      80822.324164
+     ],
+     [
+      1793166000,
+      80835.655824
+     ],
+     [
+      1793166300,
+      80849.62545
+     ],
+     [
+      1793166600,
+      80864.962992
+     ],
+     [
+      1793166900,
+      80817.156867
+     ],
+     [
+      1793167200,
+      80797.601689
+     ],
+     [
+      1793167500,
+      80805.671707
+     ],
+     [
+      1793167800,
+      80824.949094
+     ],
+     [
+      1793168100,
+      80857.341955
+     ],
+     [
+      1793168400,
+      80878.623676
+     ],
+     [
+      1793168700,
+      80861.505452
+     ],
+     [
+      1793169000,
+      80831.812852
+     ],
+     [
+      1793169300,
+      80812.384233
+     ],
+     [
+      1793169600,
+      80805.382288
+     ],
+     [
+      1793169900,
+      80826.438725
+     ],
+     [
+      1793170200,
+      80794.907196
+     ],
+     [
+      1793170500,
+      80788.159884
+     ],
+     [
+      1793170800,
+      80776.662843
+     ],
+     [
+      1793171100,
+      80801.342374
+     ],
+     [
+      1793171400,
+      80824.917452
+     ],
+     [
+      1793171700,
+      80819.552489
+     ],
+     [
+      1793172000,
+      80814.991115
+     ],
+     [
+      1793172300,
+      80826.768092
+     ],
+     [
+      1793172600,
+      80840.035489
+     ],
+     [
+      1793172900,
+      80837.902878
+     ],
+     [
+      1793173200,
+      80842.245353
+     ],
+     [
+      1793173500,
+      80862.406377
+     ],
+     [
+      1793173800,
+      80900.153353
+     ],
+     [
+      1793174100,
+      80942.710635
+     ],
+     [
+      1793174400,
+      80992.72934
+     ],
+     [
+      1793174700,
+      81061.435525
+     ],
+     [
+      1793175000,
+      81078.914537
+     ],
+     [
+      1793175300,
+      81072.195399
+     ],
+     [
+      1793175600,
+      81089.177562
+     ],
+     [
+      1793175900,
+      81120.435572
+     ],
+     [
+      1793176200,
+      81340.22192
+     ],
+     [
+      1793176500,
+      81388.360819
+     ],
+     [
+      1793176800,
+      81543.781996
+     ],
+     [
+      1793177100,
+      81570.222389
+     ],
+     [
+      1793177400,
+      81432.057093
+     ],
+     [
+      1793177700,
+      81410.552676
+     ],
+     [
+      1793178000,
+      81395.917749
+     ],
+     [
+      1793178300,
+      81373.927612
+     ],
+     [
+      1793178600,
+      81396.136415
+     ],
+     [
+      1793178900,
+      81437.96224
+     ],
+     [
+      1793179200,
+      81424.758514
+     ],
+     [
+      1793179500,
+      81389.453109
+     ],
+     [
+      1793179800,
+      81383.442152
+     ],
+     [
+      1793180100,
+      81285.884243
+     ],
+     [
+      1793180400,
+      81327.449035
+     ],
+     [
+      1793180700,
+      81416.006918
+     ],
+     [
+      1793181000,
+      81430.614672
+     ],
+     [
+      1793181300,
+      81381.161712
+     ],
+     [
+      1793181600,
+      81445.161156
+     ],
+     [
+      1793181900,
+      81437.477506
+     ],
+     [
+      1793182200,
+      81389.006525
+     ],
+     [
+      1793182500,
+      81410.988804
+     ],
+     [
+      1793182800,
+      81398.551102
+     ],
+     [
+      1793183100,
+      81452.046786
+     ],
+     [
+      1793183400,
+      81431.836378
+     ],
+     [
+      1793183700,
+      81441.661263
+     ],
+     [
+      1793184000,
+      81420.007507
+     ],
+     [
+      1793184300,
+      81458.134412
+     ],
+     [
+      1793184600,
+      81476.664343
+     ],
+     [
+      1793184900,
+      81445.188699
+     ],
+     [
+      1793185200,
+      81400.755487
+     ],
+     [
+      1793185500,
+      81349.210865
+     ],
+     [
+      1793185800,
+      81283.754993
+     ],
+     [
+      1793186100,
+      81277.032684
+     ],
+     [
+      1793186400,
+      81271.678407
+     ],
+     [
+      1793186700,
+      81299.586929
+     ],
+     [
+      1793187000,
+      81296.305484
+     ],
+     [
+      1793187300,
+      81344.165018
+     ],
+     [
+      1793187600,
+      81343.716049
+     ],
+     [
+      1793187900,
+      81290.431088
+     ],
+     [
+      1793188200,
+      81294.88473
+     ],
+     [
+      1793188500,
+      81276.257561
+     ],
+     [
+      1793188800,
+      81237.841863
+     ],
+     [
+      1793189100,
+      81106.392137
+     ],
+     [
+      1793189400,
+      81088.060498
+     ],
+     [
+      1793189700,
+      80859.461568
+     ],
+     [
+      1793190000,
+      80909.681301
+     ],
+     [
+      1793190300,
+      80890.064466
+     ],
+     [
+      1793190600,
+      80867.266852
+     ],
+     [
+      1793190900,
+      80682.103496
+     ],
+     [
+      1793191200,
+      80652.025121
+     ],
+     [
+      1793191500,
+      80716.655709
+     ],
+     [
+      1793191800,
+      80667.803515
+     ],
+     [
+      1793192100,
+      80645.131475
+     ],
+     [
+      1793192400,
+      80641.007234
+     ],
+     [
+      1793192700,
+      80649.352056
+     ],
+     [
+      1793193000,
+      80628.024276
+     ],
+     [
+      1793193300,
+      80628.401518
+     ],
+     [
+      1793193600,
+      80608.690802
+     ],
+     [
+      1793193900,
+      80560.115656
+     ],
+     [
+      1793194200,
+      80531.167372
+     ],
+     [
+      1793194500,
+      80581.786701
+     ],
+     [
+      1793194800,
+      80698.202618
+     ],
+     [
+      1793195100,
+      80663.740412
+     ],
+     [
+      1793195400,
+      80384.580802
+     ],
+     [
+      1793195700,
+      80451.858339
+     ],
+     [
+      1793196000,
+      80596.230206
+     ],
+     [
+      1793196300,
+      80711.338335
+     ],
+     [
+      1793196600,
+      80618.323924
+     ],
+     [
+      1793196900,
+      80556.210131
+     ],
+     [
+      1793197200,
+      80521.515654
+     ],
+     [
+      1793197500,
+      80438.931832
+     ],
+     [
+      1793197800,
+      80447.249429
+     ],
+     [
+      1793198100,
+      80446.846641
+     ],
+     [
+      1793198400,
+      80421.600582
+     ],
+     [
+      1793198700,
+      80463.023041
+     ],
+     [
+      1793199000,
+      80519.29253
+     ],
+     [
+      1793199300,
+      80430.037041
+     ],
+     [
+      1793199600,
+      80505.686618
+     ],
+     [
+      1793199900,
+      80552.878712
+     ],
+     [
+      1793200200,
+      80541.169955
+     ],
+     [
+      1793200500,
+      80578.931614
+     ],
+     [
+      1793200800,
+      80603.2567
+     ],
+     [
+      1793201100,
+      80635.750263
+     ],
+     [
+      1793201400,
+      80607.811281
+     ],
+     [
+      1793201700,
+      80501.889442
+     ],
+     [
+      1793202000,
+      80538.337366
+     ],
+     [
+      1793202300,
+      80518.718597
+     ],
+     [
+      1793202600,
+      80435.204056
+     ],
+     [
+      1793202900,
+      80410.324279
+     ],
+     [
+      1793203200,
+      80450.704713
+     ],
+     [
+      1793203500,
+      80461.935533
+     ],
+     [
+      1793203800,
+      80462.185698
+     ],
+     [
+      1793204100,
+      80477.228364
+     ],
+     [
+      1793204400,
+      80457.609043
+     ],
+     [
+      1793204700,
+      80407.168779
+     ],
+     [
+      1793205000,
+      80423.081497
+     ],
+     [
+      1793205300,
+      80472.588503
+     ],
+     [
+      1793205600,
+      80421.722526
+     ],
+     [
+      1793205900,
+      80362.242966
+     ],
+     [
+      1793206200,
+      80374.095422
+     ],
+     [
+      1793206500,
+      80572.994421
+     ],
+     [
+      1793206800,
+      80534.461068
+     ],
+     [
+      1793207100,
+      80446.477454
+     ],
+     [
+      1793207400,
+      80415.179029
+     ],
+     [
+      1793207700,
+      80410.711522
+     ],
+     [
+      1793208000,
+      80419.867209
+     ],
+     [
+      1793208300,
+      80525.049712
+     ],
+     [
+      1793208600,
+      80507.500928
+     ],
+     [
+      1793208900,
+      80574.84157
+     ],
+     [
+      1793209200,
+      80569.763935
+     ],
+     [
+      1793209500,
+      80639.316764
+     ],
+     [
+      1793209800,
+      80718.542511
+     ],
+     [
+      1793210100,
+      80770.184733
+     ],
+     [
+      1793210400,
+      80807.554705
+     ],
+     [
+      1793210700,
+      80889.411138
+     ],
+     [
+      1793211000,
+      80728.141694
+     ],
+     [
+      1793211300,
+      80739.685014
+     ],
+     [
+      1793211600,
+      80695.479863
+     ],
+     [
+      1793211900,
+      80734.236209
+     ],
+     [
+      1793212200,
+      80852.05806
+     ],
+     [
+      1793212500,
+      80912.578702
+     ],
+     [
+      1793212800,
+      80989.791736
+     ],
+     [
+      1793213100,
+      81106.054304
+     ],
+     [
+      1793213400,
+      81021.213333
+     ],
+     [
+      1793213700,
+      81000.554051
+     ],
+     [
+      1793214000,
+      80949.288789
+     ],
+     [
+      1793214300,
+      81104.225483
+     ],
+     [
+      1793214600,
+      81071.524959
+     ],
+     [
+      1793214900,
+      81055.96548
+     ],
+     [
+      1793215200,
+      81088.737664
+     ],
+     [
+      1793215500,
+      81103.748884
+     ],
+     [
+      1793215800,
+      81127.477566
+     ],
+     [
+      1793216100,
+      81244.094717
+     ],
+     [
+      1793216400,
+      81205.944653
+     ],
+     [
+      1793216700,
+      81261.675493
+     ],
+     [
+      1793217000,
+      81355.998451
+     ],
+     [
+      1793217300,
+      81416.092278
+     ],
+     [
+      1793217600,
+      81515.598249
+     ],
+     [
+      1793217900,
+      81583.355846
+     ],
+     [
+      1793218200,
+      81441.446643
+     ],
+     [
+      1793218500,
+      81250.579088
+     ],
+     [
+      1793218800,
+      81175.221748
+     ],
+     [
+      1793219100,
+      81143.987123
+     ],
+     [
+      1793219400,
+      81044.053138
+     ],
+     [
+      1793219700,
+      81121.226622
+     ],
+     [
+      1793220000,
+      81083.635609
+     ],
+     [
+      1793220300,
+      81036.738081
+     ],
+     [
+      1793220600,
+      81007.917095
+     ],
+     [
+      1793220900,
+      81118.980773
+     ],
+     [
+      1793221200,
+      81234.807704
+     ],
+     [
+      1793221500,
+      81307.16983
+     ],
+     [
+      1793221800,
+      81251.199276
+     ],
+     [
+      1793222100,
+      81295.562765
+     ],
+     [
+      1793222400,
+      81326.481766
+     ],
+     [
+      1793222700,
+      81340.00721
+     ],
+     [
+      1793223000,
+      81158.489191
+     ],
+     [
+      1793223300,
+      81118.064606
+     ],
+     [
+      1793223600,
+      81123.371891
+     ],
+     [
+      1793223900,
+      81173.807295
+     ],
+     [
+      1793224200,
+      81273.012798
+     ],
+     [
+      1793224500,
+      81294.385738
+     ],
+     [
+      1793224800,
+      81282.3187
+     ],
+     [
+      1793225100,
+      81197.377166
+     ],
+     [
+      1793225400,
+      81204.10737
+     ],
+     [
+      1793225700,
+      81209.413659
+     ],
+     [
+      1793226000,
+      81154.533028
+     ],
+     [
+      1793226300,
+      81111.689085
+     ],
+     [
+      1793226600,
+      81182.500208
+     ],
+     [
+      1793226900,
+      81312.421243
+     ],
+     [
+      1793227200,
+      81268.0734
+     ],
+     [
+      1793227500,
+      81248.320284
+     ],
+     [
+      1793227800,
+      81218.862615
+     ],
+     [
+      1793228100,
+      81214.539359
+     ],
+     [
+      1793228400,
+      81184.45457
+     ],
+     [
+      1793228700,
+      81180.487052
+     ],
+     [
+      1793229000,
+      81228.806359
+     ]
+    ]
+   },
+   "second": {
+    "source": "Coinbase 5-minute candles",
+    "url": "https://api.exchange.coinbase.com/products/BTC-USD/candles?granularity=300&start=2026-10-27T23:13:43Z&end=2026-10-28T23:13:43Z",
+    "gap_pts": 0.02
+   },
+   "seconds": [
+    {
+     "source": "Coinbase 5-minute candles",
+     "url": "https://api.exchange.coinbase.com/products/BTC-USD/candles?granularity=300&start=2026-10-27T23:13:43Z&end=2026-10-28T23:13:43Z",
+     "gap_pts": 0.02
+    },
+    {
+     "source": "OKX 5-minute candles",
+     "url": "https://www.okx.com/api/v5/market/history-candles?instId=BTC-USDT&bar=5m&after=1793229223000&limit=300",
+     "gap_pts": 0.08
+    },
+    {
+     "source": "Binance 5-minute klines (data-api.binance.vision)",
+     "url": "https://data-api.binance.vision/api/v3/klines?symbol=BTCUSDT&interval=5m&startTime=1793142523000&endTime=1793229223000&limit=300",
+     "gap_pts": 0.09
+    },
+    {
+     "source": "Kraken 5-minute candles",
+     "url": "https://api.kraken.com/0/public/OHLC?pair=XBTUSD&interval=5&since=1793142523",
+     "gap_pts": 0.01
+    }
+   ],
+   "run": {
+    "dir": "up",
+    "start_t": 1793205900,
+    "start_p": 80362.242966,
+    "end_t": 1793217900,
+    "end_p": 81583.355846,
+    "pct": 1.52
+   },
+   "tests": [
+    {
+     "id": "bls-20261028-metropolitan-area-employment-and-unemployment-monthly",
+     "t_utc": "2026-10-28T14:00:00Z",
+     "basis": "event",
+     "result": {
+      "lead_min": 165.0,
+      "before_onset": false,
+      "after_pct": -0.11,
+      "share_pct": -20.3,
+      "share_partial": false,
+      "in_window": true,
+      "done_pct": 0.0,
+      "moved_first": false
+     }
+    },
+    {
+     "id": "bls-20261028-quarterly-data-series-on-business-employment-dynamics",
+     "t_utc": "2026-10-28T14:00:00Z",
+     "basis": "event",
+     "result": {
+      "lead_min": 165.0,
+      "before_onset": false,
+      "after_pct": -0.11,
+      "share_pct": -20.3,
+      "share_partial": false,
+      "in_window": true,
+      "done_pct": 0.0,
+      "moved_first": false
+     }
+    },
+    {
+     "id": "fomc-2026-10-28",
+     "t_utc": null,
+     "basis": "the Fed's calendar gives the date, not the time",
+     "result": null
+    },
+    {
+     "id": "federal reserve-1793210400",
+     "t_utc": "2026-10-28T18:00:00Z",
+     "basis": "event",
+     "result": {
+      "lead_min": -75.0,
+      "before_onset": false,
+      "after_pct": 0.18,
+      "share_pct": 31.8,
+      "share_partial": false,
+      "in_window": true,
+      "done_pct": 36.5,
+      "moved_first": false
+     }
+    },
+    {
+     "id": "ff-1793210400-federal-funds-rate",
+     "t_utc": "2026-10-28T18:00:00Z",
+     "basis": "event",
+     "result": {
+      "lead_min": -75.0,
+      "before_onset": false,
+      "after_pct": 0.18,
+      "share_pct": 31.8,
+      "share_partial": false,
+      "in_window": true,
+      "done_pct": 36.5,
+      "moved_first": false
+     }
+    },
+    {
+     "id": "ff-1793212200-fomc-press-conference",
+     "t_utc": "2026-10-28T18:30:00Z",
+     "basis": "event",
+     "result": {
+      "lead_min": -105.0,
+      "before_onset": false,
+      "after_pct": 0.34,
+      "share_pct": 61.7,
+      "share_partial": false,
+      "in_window": true,
+      "done_pct": 40.1,
+      "moved_first": false
+     }
+    },
+    {
+     "id": "wire-c170",
+     "t_utc": "2026-10-28T18:00:00Z",
+     "basis": "first report",
+     "result": {
+      "lead_min": -75.0,
+      "before_onset": false,
+      "after_pct": 0.18,
+      "share_pct": 31.8,
+      "share_partial": false,
+      "in_window": true,
+      "done_pct": 36.5,
+      "moved_first": false
+     }
+    },
+    {
+     "id": "wire-c022",
+     "t_utc": "2026-10-28T05:10:36Z",
+     "basis": "first report",
+     "result": {
+      "lead_min": 694.4,
+      "before_onset": false,
+      "after_pct": -0.04,
+      "share_pct": -7.7,
+      "share_partial": false,
+      "in_window": true,
+      "done_pct": 0.0,
+      "moved_first": false
+     }
+    },
+    {
+     "id": "wire-c009",
+     "t_utc": "2026-10-28T13:14:37Z",
+     "basis": "first report",
+     "result": {
+      "lead_min": 210.4,
+      "before_onset": false,
+      "after_pct": -0.01,
+      "share_pct": -2.2,
+      "share_partial": false,
+      "in_window": true,
+      "done_pct": 0.0,
+      "moved_first": false
+     }
+    },
+    {
+     "id": "wire-c017",
+     "t_utc": "2026-10-28T10:07:54Z",
+     "basis": "first report",
+     "result": {
+      "lead_min": 397.1,
+      "before_onset": false,
+      "after_pct": -0.11,
+      "share_pct": -19.8,
+      "share_partial": false,
+      "in_window": true,
+      "done_pct": 0.0,
+      "moved_first": false
+     }
+    },
+    {
+     "id": "wire-c000",
+     "t_utc": "2026-10-28T17:00:53Z",
+     "basis": "first report",
+     "result": {
+      "lead_min": -15.9,
+      "before_onset": false,
+      "after_pct": 0.34,
+      "share_pct": 61.2,
+      "share_partial": false,
+      "in_window": true,
+      "done_pct": 14.1,
+      "moved_first": false
+     }
+    }
+   ],
+   "mechanics": {
+    "hour_start_utc": "2026-10-28T16:45:00Z",
+    "hour_end_utc": "2026-10-28T17:45:00Z",
+    "rows": [
+     {
+      "key": "BTC",
+      "label": "Bitcoin",
+      "value": 0.34,
+      "unit": "pct"
+     },
+     {
+      "key": "ETH",
+      "label": "Ether",
+      "value": 0.47,
+      "unit": "pct"
+     },
+     {
+      "key": "ES=F",
+      "label": "S&P 500 futures",
+      "value": -0.05,
+      "unit": "pct"
+     },
+     {
+      "key": "NQ=F",
+      "label": "Nasdaq 100 futures",
+      "value": -0.05,
+      "unit": "pct"
+     },
+     {
+      "key": "DX-Y.NYB",
+      "label": "Dollar index",
+      "value": 0.03,
+      "unit": "pct"
+     },
+     {
+      "key": "^TNX",
+      "label": "10-year Treasury yield",
+      "value": -0.8,
+      "unit": "bp"
+     },
+     {
+      "key": "ZT=F",
+      "label": "2-year Treasury note futures",
+      "value": 0.01,
+      "unit": "pct"
+     },
+     {
+      "key": "GC=F",
+      "label": "Gold futures",
+      "value": -0.06,
+      "unit": "pct"
+     },
+     {
+      "key": "CL=F",
+      "label": "Oil futures (WTI)",
+      "value": -0.45,
+      "unit": "pct"
+     },
+     {
+      "key": "^VIX",
+      "label": "VIX",
+      "value": -0.23,
+      "unit": "pct"
+     },
+     {
+      "key": "IBIT",
+      "label": "IBIT volume (iShares Bitcoin Trust)",
+      "value": 1112572,
+      "unit": "shares"
+     },
+     {
+      "key": "FBTC",
+      "label": "FBTC volume (Fidelity Wise Origin Bitcoin Fund)",
+      "value": 227504,
+      "unit": "shares"
+     },
+     {
+      "key": "oi",
+      "label": "Open interest, OKX",
+      "value": -0.86,
+      "unit": "pct"
+     },
+     {
+      "key": "liq",
+      "label": "Liquidations, OKX",
+      "unread": true,
+      "why": "OKX keeps its latest 100 orders, back to Oct 28, 4:00 PM ET"
+     },
+     {
+      "key": "taker",
+      "label": "Taker flow, OKX BTC-USDT-SWAP (the hour from 12:00 PM ET, in USDT)",
+      "hour_utc": "2026-10-28T16:00:00Z",
+      "sell_usd": 68639606,
+      "buy_usd": 68034407
+     },
+     {
+      "key": "liq-gate",
+      "label": "Liquidations, Gate",
+      "longs_usd": 5671,
+      "shorts_usd": 15559,
+      "orders": 11,
+      "capped": false
+     },
+     {
+      "key": "kalshi-KXFED-26DEC-T4.00",
+      "unit": "chance",
+      "label": "Kalshi: Fed rate above 4.00% after the December 9 meeting, yes price (bid-ask mid of hourly candles), 12:00 PM ET close to 1:00 PM ET close",
+      "from_utc": "2026-10-28T16:00:00Z",
+      "to_utc": "2026-10-28T17:00:00Z",
+      "from_pct": 82.0,
+      "to_pct": 82.5
+     },
+     {
+      "key": "kalshi-KXFED-26DEC-T4.25",
+      "unit": "chance",
+      "label": "Kalshi: Fed rate above 4.25% after the December 9 meeting, yes price (bid-ask mid of hourly candles), 12:00 PM ET close to 1:00 PM ET close",
+      "from_utc": "2026-10-28T16:00:00Z",
+      "to_utc": "2026-10-28T17:00:00Z",
+      "from_pct": 8.5,
+      "to_pct": 8.5
+     }
+    ],
+    "beta": null,
+    "excess_pts": null,
+    "patterns": [
+     {
+      "label": "crypto only",
+      "rule": "crypto moved 0.3% or more while stock futures traded and stayed within 0.1%"
+     }
+    ]
+   },
+   "event_hours": {
+    "bls-20261028-metropolitan-area-employment-and-unemployment-monthly": {
+     "hour_start_utc": "2026-10-28T14:00:00Z",
+     "hour_end_utc": "2026-10-28T15:00:00Z",
+     "rows": [
+      {
+       "key": "BTC",
+       "label": "Bitcoin",
+       "value": -0.11,
+       "unit": "pct"
+      },
+      {
+       "key": "ETH",
+       "label": "Ether",
+       "value": -0.07,
+       "unit": "pct"
+      },
+      {
+       "key": "ES=F",
+       "label": "S&P 500 futures",
+       "value": -0.04,
+       "unit": "pct"
+      },
+      {
+       "key": "NQ=F",
+       "label": "Nasdaq 100 futures",
+       "value": -0.18,
+       "unit": "pct"
+      },
+      {
+       "key": "DX-Y.NYB",
+       "label": "Dollar index",
+       "value": 0.0,
+       "unit": "pct"
+      },
+      {
+       "key": "^TNX",
+       "label": "10-year Treasury yield",
+       "value": 3.1,
+       "unit": "bp"
+      },
+      {
+       "key": "ZT=F",
+       "label": "2-year Treasury note futures",
+       "value": -0.03,
+       "unit": "pct"
+      },
+      {
+       "key": "GC=F",
+       "label": "Gold futures",
+       "value": -0.21,
+       "unit": "pct"
+      },
+      {
+       "key": "CL=F",
+       "label": "Oil futures (WTI)",
+       "value": 0.51,
+       "unit": "pct"
+      },
+      {
+       "key": "^VIX",
+       "label": "VIX",
+       "value": -0.4,
+       "unit": "pct"
+      },
+      {
+       "key": "IBIT",
+       "label": "IBIT volume (iShares Bitcoin Trust)",
+       "value": 1635905,
+       "unit": "shares"
+      },
+      {
+       "key": "FBTC",
+       "label": "FBTC volume (Fidelity Wise Origin Bitcoin Fund)",
+       "value": 335034,
+       "unit": "shares"
+      }
+     ],
+     "patterns": []
+    },
+    "bls-20261028-quarterly-data-series-on-business-employment-dynamics": {
+     "hour_start_utc": "2026-10-28T14:00:00Z",
+     "hour_end_utc": "2026-10-28T15:00:00Z",
+     "rows": [
+      {
+       "key": "BTC",
+       "label": "Bitcoin",
+       "value": -0.11,
+       "unit": "pct"
+      },
+      {
+       "key": "ETH",
+       "label": "Ether",
+       "value": -0.07,
+       "unit": "pct"
+      },
+      {
+       "key": "ES=F",
+       "label": "S&P 500 futures",
+       "value": -0.04,
+       "unit": "pct"
+      },
+      {
+       "key": "NQ=F",
+       "label": "Nasdaq 100 futures",
+       "value": -0.18,
+       "unit": "pct"
+      },
+      {
+       "key": "DX-Y.NYB",
+       "label": "Dollar index",
+       "value": 0.0,
+       "unit": "pct"
+      },
+      {
+       "key": "^TNX",
+       "label": "10-year Treasury yield",
+       "value": 3.1,
+       "unit": "bp"
+      },
+      {
+       "key": "ZT=F",
+       "label": "2-year Treasury note futures",
+       "value": -0.03,
+       "unit": "pct"
+      },
+      {
+       "key": "GC=F",
+       "label": "Gold futures",
+       "value": -0.21,
+       "unit": "pct"
+      },
+      {
+       "key": "CL=F",
+       "label": "Oil futures (WTI)",
+       "value": 0.51,
+       "unit": "pct"
+      },
+      {
+       "key": "^VIX",
+       "label": "VIX",
+       "value": -0.4,
+       "unit": "pct"
+      },
+      {
+       "key": "IBIT",
+       "label": "IBIT volume (iShares Bitcoin Trust)",
+       "value": 1635905,
+       "unit": "shares"
+      },
+      {
+       "key": "FBTC",
+       "label": "FBTC volume (Fidelity Wise Origin Bitcoin Fund)",
+       "value": 335034,
+       "unit": "shares"
+      }
+     ],
+     "patterns": []
+    },
+    "federal reserve-1793210400": {
+     "hour_start_utc": "2026-10-28T18:00:00Z",
+     "hour_end_utc": "2026-10-28T19:00:00Z",
+     "rows": [
+      {
+       "key": "BTC",
+       "label": "Bitcoin",
+       "value": 0.18,
+       "unit": "pct"
+      },
+      {
+       "key": "ETH",
+       "label": "Ether",
+       "value": 0.35,
+       "unit": "pct"
+      },
+      {
+       "key": "ES=F",
+       "label": "S&P 500 futures",
+       "value": -0.01,
+       "unit": "pct"
+      },
+      {
+       "key": "NQ=F",
+       "label": "Nasdaq 100 futures",
+       "value": 0.13,
+       "unit": "pct"
+      },
+      {
+       "key": "DX-Y.NYB",
+       "label": "Dollar index",
+       "value": -0.12,
+       "unit": "pct"
+      },
+      {
+       "key": "^TNX",
+       "label": "10-year Treasury yield",
+       "value": 2.5,
+       "unit": "bp"
+      },
+      {
+       "key": "ZT=F",
+       "label": "2-year Treasury note futures",
+       "value": 0.06,
+       "unit": "pct"
+      },
+      {
+       "key": "GC=F",
+       "label": "Gold futures",
+       "value": -0.18,
+       "unit": "pct"
+      },
+      {
+       "key": "CL=F",
+       "label": "Oil futures (WTI)",
+       "value": 0.22,
+       "unit": "pct"
+      },
+      {
+       "key": "^VIX",
+       "label": "VIX",
+       "value": -0.06,
+       "unit": "pct"
+      },
+      {
+       "key": "IBIT",
+       "label": "IBIT volume (iShares Bitcoin Trust)",
+       "value": 4738507,
+       "unit": "shares"
+      },
+      {
+       "key": "FBTC",
+       "label": "FBTC volume (Fidelity Wise Origin Bitcoin Fund)",
+       "value": 698746,
+       "unit": "shares"
+      }
+     ],
+     "patterns": []
+    },
+    "ff-1793210400-federal-funds-rate": {
+     "hour_start_utc": "2026-10-28T18:00:00Z",
+     "hour_end_utc": "2026-10-28T19:00:00Z",
+     "rows": [
+      {
+       "key": "BTC",
+       "label": "Bitcoin",
+       "value": 0.18,
+       "unit": "pct"
+      },
+      {
+       "key": "ETH",
+       "label": "Ether",
+       "value": 0.35,
+       "unit": "pct"
+      },
+      {
+       "key": "ES=F",
+       "label": "S&P 500 futures",
+       "value": -0.01,
+       "unit": "pct"
+      },
+      {
+       "key": "NQ=F",
+       "label": "Nasdaq 100 futures",
+       "value": 0.13,
+       "unit": "pct"
+      },
+      {
+       "key": "DX-Y.NYB",
+       "label": "Dollar index",
+       "value": -0.12,
+       "unit": "pct"
+      },
+      {
+       "key": "^TNX",
+       "label": "10-year Treasury yield",
+       "value": 2.5,
+       "unit": "bp"
+      },
+      {
+       "key": "ZT=F",
+       "label": "2-year Treasury note futures",
+       "value": 0.06,
+       "unit": "pct"
+      },
+      {
+       "key": "GC=F",
+       "label": "Gold futures",
+       "value": -0.18,
+       "unit": "pct"
+      },
+      {
+       "key": "CL=F",
+       "label": "Oil futures (WTI)",
+       "value": 0.22,
+       "unit": "pct"
+      },
+      {
+       "key": "^VIX",
+       "label": "VIX",
+       "value": -0.06,
+       "unit": "pct"
+      },
+      {
+       "key": "IBIT",
+       "label": "IBIT volume (iShares Bitcoin Trust)",
+       "value": 4738507,
+       "unit": "shares"
+      },
+      {
+       "key": "FBTC",
+       "label": "FBTC volume (Fidelity Wise Origin Bitcoin Fund)",
+       "value": 698746,
+       "unit": "shares"
+      }
+     ],
+     "patterns": []
+    },
+    "ff-1793212200-fomc-press-conference": {
+     "hour_start_utc": "2026-10-28T18:30:00Z",
+     "hour_end_utc": "2026-10-28T19:30:00Z",
+     "rows": [
+      {
+       "key": "BTC",
+       "label": "Bitcoin",
+       "value": 0.34,
+       "unit": "pct"
+      },
+      {
+       "key": "ETH",
+       "label": "Ether",
+       "value": 0.47,
+       "unit": "pct"
+      },
+      {
+       "key": "ES=F",
+       "label": "S&P 500 futures",
+       "value": -0.01,
+       "unit": "pct"
+      },
+      {
+       "key": "NQ=F",
+       "label": "Nasdaq 100 futures",
+       "value": 0.06,
+       "unit": "pct"
+      },
+      {
+       "key": "DX-Y.NYB",
+       "label": "Dollar index",
+       "value": -0.25,
+       "unit": "pct"
+      },
+      {
+       "key": "^TNX",
+       "label": "10-year Treasury yield",
+       "value": 1.7,
+       "unit": "bp"
+      },
+      {
+       "key": "ZT=F",
+       "label": "2-year Treasury note futures",
+       "value": 0.1,
+       "unit": "pct"
+      },
+      {
+       "key": "GC=F",
+       "label": "Gold futures",
+       "value": 0.46,
+       "unit": "pct"
+      },
+      {
+       "key": "CL=F",
+       "label": "Oil futures (WTI)",
+       "value": 0.07,
+       "unit": "pct"
+      },
+      {
+       "key": "^VIX",
+       "label": "VIX",
+       "value": -1.1,
+       "unit": "pct"
+      },
+      {
+       "key": "IBIT",
+       "label": "IBIT volume (iShares Bitcoin Trust)",
+       "value": 3268076,
+       "unit": "shares"
+      },
+      {
+       "key": "FBTC",
+       "label": "FBTC volume (Fidelity Wise Origin Bitcoin Fund)",
+       "value": 676196,
+       "unit": "shares"
+      }
+     ],
+     "patterns": [
+      {
+       "label": "crypto only",
+       "rule": "crypto moved 0.3% or more while stock futures traded and stayed within 0.1%"
+      }
+     ]
+    },
+    "wire-c170": {
+     "hour_start_utc": "2026-10-28T18:00:00Z",
+     "hour_end_utc": "2026-10-28T19:00:00Z",
+     "rows": [
+      {
+       "key": "BTC",
+       "label": "Bitcoin",
+       "value": 0.18,
+       "unit": "pct"
+      },
+      {
+       "key": "ETH",
+       "label": "Ether",
+       "value": 0.35,
+       "unit": "pct"
+      },
+      {
+       "key": "ES=F",
+       "label": "S&P 500 futures",
+       "value": -0.01,
+       "unit": "pct"
+      },
+      {
+       "key": "NQ=F",
+       "label": "Nasdaq 100 futures",
+       "value": 0.13,
+       "unit": "pct"
+      },
+      {
+       "key": "DX-Y.NYB",
+       "label": "Dollar index",
+       "value": -0.12,
+       "unit": "pct"
+      },
+      {
+       "key": "^TNX",
+       "label": "10-year Treasury yield",
+       "value": 2.5,
+       "unit": "bp"
+      },
+      {
+       "key": "ZT=F",
+       "label": "2-year Treasury note futures",
+       "value": 0.06,
+       "unit": "pct"
+      },
+      {
+       "key": "GC=F",
+       "label": "Gold futures",
+       "value": -0.18,
+       "unit": "pct"
+      },
+      {
+       "key": "CL=F",
+       "label": "Oil futures (WTI)",
+       "value": 0.22,
+       "unit": "pct"
+      },
+      {
+       "key": "^VIX",
+       "label": "VIX",
+       "value": -0.06,
+       "unit": "pct"
+      },
+      {
+       "key": "IBIT",
+       "label": "IBIT volume (iShares Bitcoin Trust)",
+       "value": 4738507,
+       "unit": "shares"
+      },
+      {
+       "key": "FBTC",
+       "label": "FBTC volume (Fidelity Wise Origin Bitcoin Fund)",
+       "value": 698746,
+       "unit": "shares"
+      }
+     ],
+     "patterns": []
+    },
+    "wire-c022": {
+     "hour_start_utc": "2026-10-28T05:10:36Z",
+     "hour_end_utc": "2026-10-28T06:10:36Z",
+     "rows": [
+      {
+       "key": "BTC",
+       "label": "Bitcoin",
+       "value": -0.04,
+       "unit": "pct"
+      },
+      {
+       "key": "ETH",
+       "label": "Ether",
+       "value": -0.04,
+       "unit": "pct"
+      },
+      {
+       "key": "ES=F",
+       "label": "S&P 500 futures",
+       "value": 0.03,
+       "unit": "pct"
+      },
+      {
+       "key": "NQ=F",
+       "label": "Nasdaq 100 futures",
+       "value": 0.18,
+       "unit": "pct"
+      },
+      {
+       "key": "DX-Y.NYB",
+       "label": "Dollar index",
+       "value": 0.01,
+       "unit": "pct"
+      },
+      {
+       "key": "^TNX",
+       "label": "10-year Treasury yield",
+       "value": null,
+       "unit": "bp"
+      },
+      {
+       "key": "ZT=F",
+       "label": "2-year Treasury note futures",
+       "value": 0.0,
+       "unit": "pct"
+      },
+      {
+       "key": "GC=F",
+       "label": "Gold futures",
+       "value": -0.16,
+       "unit": "pct"
+      },
+      {
+       "key": "CL=F",
+       "label": "Oil futures (WTI)",
+       "value": 0.07,
+       "unit": "pct"
+      },
+      {
+       "key": "^VIX",
+       "label": "VIX",
+       "value": null,
+       "unit": "pct"
+      },
+      {
+       "key": "IBIT",
+       "label": "IBIT volume (iShares Bitcoin Trust)",
+       "value": null,
+       "unit": "shares"
+      },
+      {
+       "key": "FBTC",
+       "label": "FBTC volume (Fidelity Wise Origin Bitcoin Fund)",
+       "value": null,
+       "unit": "shares"
+      }
+     ],
+     "patterns": []
+    },
+    "wire-c009": {
+     "hour_start_utc": "2026-10-28T13:14:37Z",
+     "hour_end_utc": "2026-10-28T14:14:37Z",
+     "rows": [
+      {
+       "key": "BTC",
+       "label": "Bitcoin",
+       "value": -0.01,
+       "unit": "pct"
+      },
+      {
+       "key": "ETH",
+       "label": "Ether",
+       "value": -0.2,
+       "unit": "pct"
+      },
+      {
+       "key": "ES=F",
+       "label": "S&P 500 futures",
+       "value": -0.17,
+       "unit": "pct"
+      },
+      {
+       "key": "NQ=F",
+       "label": "Nasdaq 100 futures",
+       "value": -0.38,
+       "unit": "pct"
+      },
+      {
+       "key": "DX-Y.NYB",
+       "label": "Dollar index",
+       "value": 0.01,
+       "unit": "pct"
+      },
+      {
+       "key": "^TNX",
+       "label": "10-year Treasury yield",
+       "value": 0.8,
+       "unit": "bp"
+      },
+      {
+       "key": "ZT=F",
+       "label": "2-year Treasury note futures",
+       "value": -0.03,
+       "unit": "pct"
+      },
+      {
+       "key": "GC=F",
+       "label": "Gold futures",
+       "value": -0.19,
+       "unit": "pct"
+      },
+      {
+       "key": "CL=F",
+       "label": "Oil futures (WTI)",
+       "value": 0.2,
+       "unit": "pct"
+      },
+      {
+       "key": "^VIX",
+       "label": "VIX",
+       "value": 0.29,
+       "unit": "pct"
+      },
+      {
+       "key": "IBIT",
+       "label": "IBIT volume (iShares Bitcoin Trust)",
+       "value": 4454472,
+       "unit": "shares"
+      },
+      {
+       "key": "FBTC",
+       "label": "FBTC volume (Fidelity Wise Origin Bitcoin Fund)",
+       "value": 483471,
+       "unit": "shares"
+      }
+     ],
+     "patterns": []
+    },
+    "wire-c017": {
+     "hour_start_utc": "2026-10-28T10:07:54Z",
+     "hour_end_utc": "2026-10-28T11:07:54Z",
+     "rows": [
+      {
+       "key": "BTC",
+       "label": "Bitcoin",
+       "value": -0.11,
+       "unit": "pct"
+      },
+      {
+       "key": "ETH",
+       "label": "Ether",
+       "value": -0.31,
+       "unit": "pct"
+      },
+      {
+       "key": "ES=F",
+       "label": "S&P 500 futures",
+       "value": -0.02,
+       "unit": "pct"
+      },
+      {
+       "key": "NQ=F",
+       "label": "Nasdaq 100 futures",
+       "value": -0.05,
+       "unit": "pct"
+      },
+      {
+       "key": "DX-Y.NYB",
+       "label": "Dollar index",
+       "value": 0.02,
+       "unit": "pct"
+      },
+      {
+       "key": "^TNX",
+       "label": "10-year Treasury yield",
+       "value": null,
+       "unit": "bp"
+      },
+      {
+       "key": "ZT=F",
+       "label": "2-year Treasury note futures",
+       "value": -0.01,
+       "unit": "pct"
+      },
+      {
+       "key": "GC=F",
+       "label": "Gold futures",
+       "value": -0.23,
+       "unit": "pct"
+      },
+      {
+       "key": "CL=F",
+       "label": "Oil futures (WTI)",
+       "value": 0.36,
+       "unit": "pct"
+      },
+      {
+       "key": "^VIX",
+       "label": "VIX",
+       "value": -0.06,
+       "unit": "pct"
+      },
+      {
+       "key": "IBIT",
+       "label": "IBIT volume (iShares Bitcoin Trust)",
+       "value": null,
+       "unit": "shares"
+      },
+      {
+       "key": "FBTC",
+       "label": "FBTC volume (Fidelity Wise Origin Bitcoin Fund)",
+       "value": null,
+       "unit": "shares"
+      }
+     ],
+     "patterns": []
+    },
+    "wire-c000": {
+     "hour_start_utc": "2026-10-28T17:00:53Z",
+     "hour_end_utc": "2026-10-28T18:00:53Z",
+     "rows": [
+      {
+       "key": "BTC",
+       "label": "Bitcoin",
+       "value": 0.34,
+       "unit": "pct"
+      },
+      {
+       "key": "ETH",
+       "label": "Ether",
+       "value": 0.49,
+       "unit": "pct"
+      },
+      {
+       "key": "ES=F",
+       "label": "S&P 500 futures",
+       "value": -0.08,
+       "unit": "pct"
+      },
+      {
+       "key": "NQ=F",
+       "label": "Nasdaq 100 futures",
+       "value": -0.07,
+       "unit": "pct"
+      },
+      {
+       "key": "DX-Y.NYB",
+       "label": "Dollar index",
+       "value": 0.08,
+       "unit": "pct"
+      },
+      {
+       "key": "^TNX",
+       "label": "10-year Treasury yield",
+       "value": 0.2,
+       "unit": "bp"
+      },
+      {
+       "key": "ZT=F",
+       "label": "2-year Treasury note futures",
+       "value": -0.0,
+       "unit": "pct"
+      },
+      {
+       "key": "GC=F",
+       "label": "Gold futures",
+       "value": -0.05,
+       "unit": "pct"
+      },
+      {
+       "key": "CL=F",
+       "label": "Oil futures (WTI)",
+       "value": -0.33,
+       "unit": "pct"
+      },
+      {
+       "key": "^VIX",
+       "label": "VIX",
+       "value": -0.86,
+       "unit": "pct"
+      },
+      {
+       "key": "IBIT",
+       "label": "IBIT volume (iShares Bitcoin Trust)",
+       "value": 953481,
+       "unit": "shares"
+      },
+      {
+       "key": "FBTC",
+       "label": "FBTC volume (Fidelity Wise Origin Bitcoin Fund)",
+       "value": 187319,
+       "unit": "shares"
+      }
+     ],
+     "patterns": [
+      {
+       "label": "crypto only",
+       "rule": "crypto moved 0.3% or more while stock futures traded and stayed within 0.1%"
+      }
+     ]
+    }
+   }
+  },
+  "ETH": {
+   "series": {
+    "source": "CoinGecko 5-minute prices",
+    "url": "https://api.coingecko.com/api/v3/coins/ethereum/market_chart?vs_currency=usd&days=1",
+    "bar_min": 5,
+    "points": [
+     [
+      1793143200,
+      2346.007863
+     ],
+     [
+      1793143500,
+      2344.971384
+     ],
+     [
+      1793143800,
+      2347.86607
+     ],
+     [
+      1793144100,
+      2345.308403
+     ],
+     [
+      1793144400,
+      2346.976838
+     ],
+     [
+      1793144700,
+      2348.316899
+     ],
+     [
+      1793145000,
+      2350.347429
+     ],
+     [
+      1793145300,
+      2349.11754
+     ],
+     [
+      1793145600,
+      2347.32309
+     ],
+     [
+      1793145900,
+      2345.437706
+     ],
+     [
+      1793146200,
+      2343.728016
+     ],
+     [
+      1793146500,
+      2344.612964
+     ],
+     [
+      1793146800,
+      2342.906867
+     ],
+     [
+      1793147100,
+      2343.853533
+     ],
+     [
+      1793147400,
+      2343.734654
+     ],
+     [
+      1793147700,
+      2344.096964
+     ],
+     [
+      1793148000,
+      2344.0321
+     ],
+     [
+      1793148300,
+      2343.901409
+     ],
+     [
+      1793148600,
+      2342.730002
+     ],
+     [
+      1793148900,
+      2342.521953
+     ],
+     [
+      1793149200,
+      2343.037593
+     ],
+     [
+      1793149500,
+      2340.270329
+     ],
+     [
+      1793149800,
+      2340.430942
+     ],
+     [
+      1793150100,
+      2339.898572
+     ],
+     [
+      1793150400,
+      2341.611742
+     ],
+     [
+      1793150700,
+      2348.070509
+     ],
+     [
+      1793151000,
+      2346.072269
+     ],
+     [
+      1793151300,
+      2346.44741
+     ],
+     [
+      1793151600,
+      2351.124479
+     ],
+     [
+      1793151900,
+      2354.45378
+     ],
+     [
+      1793152200,
+      2352.447136
+     ],
+     [
+      1793152500,
+      2350.769229
+     ],
+     [
+      1793152800,
+      2352.215435
+     ],
+     [
+      1793153100,
+      2352.581782
+     ],
+     [
+      1793153400,
+      2352.027788
+     ],
+     [
+      1793153700,
+      2355.433584
+     ],
+     [
+      1793154000,
+      2361.074174
+     ],
+     [
+      1793154300,
+      2356.028556
+     ],
+     [
+      1793154600,
+      2353.696767
+     ],
+     [
+      1793154900,
+      2353.546179
+     ],
+     [
+      1793155200,
+      2354.410594
+     ],
+     [
+      1793155500,
+      2354.105914
+     ],
+     [
+      1793155800,
+      2355.566555
+     ],
+     [
+      1793156100,
+      2356.333081
+     ],
+     [
+      1793156400,
+      2354.471431
+     ],
+     [
+      1793156700,
+      2353.945263
+     ],
+     [
+      1793157000,
+      2353.474333
+     ],
+     [
+      1793157300,
+      2354.543798
+     ],
+     [
+      1793157600,
+      2355.276043
+     ],
+     [
+      1793157900,
+      2355.957439
+     ],
+     [
+      1793158200,
+      2359.059206
+     ],
+     [
+      1793158500,
+      2362.202204
+     ],
+     [
+      1793158800,
+      2362.201932
+     ],
+     [
+      1793159100,
+      2362.887812
+     ],
+     [
+      1793159400,
+      2361.671547
+     ],
+     [
+      1793159700,
+      2359.33498
+     ],
+     [
+      1793160000,
+      2357.651318
+     ],
+     [
+      1793160300,
+      2355.961744
+     ],
+     [
+      1793160600,
+      2353.31714
+     ],
+     [
+      1793160900,
+      2352.333285
+     ],
+     [
+      1793161200,
+      2352.317211
+     ],
+     [
+      1793161500,
+      2350.532831
+     ],
+     [
+      1793161800,
+      2350.970678
+     ],
+     [
+      1793162100,
+      2353.788036
+     ],
+     [
+      1793162400,
+      2353.674082
+     ],
+     [
+      1793162700,
+      2353.863325
+     ],
+     [
+      1793163000,
+      2353.490562
+     ],
+     [
+      1793163300,
+      2352.030629
+     ],
+     [
+      1793163600,
+      2352.354481
+     ],
+     [
+      1793163900,
+      2350.285497
+     ],
+     [
+      1793164200,
+      2351.727617
+     ],
+     [
+      1793164500,
+      2351.750297
+     ],
+     [
+      1793164800,
+      2351.348455
+     ],
+     [
+      1793165100,
+      2352.971224
+     ],
+     [
+      1793165400,
+      2353.178556
+     ],
+     [
+      1793165700,
+      2351.328167
+     ],
+     [
+      1793166000,
+      2350.739242
+     ],
+     [
+      1793166300,
+      2350.03681
+     ],
+     [
+      1793166600,
+      2350.247195
+     ],
+     [
+      1793166900,
+      2349.972931
+     ],
+     [
+      1793167200,
+      2349.15428
+     ],
+     [
+      1793167500,
+      2349.049358
+     ],
+     [
+      1793167800,
+      2350.710708
+     ],
+     [
+      1793168100,
+      2352.359036
+     ],
+     [
+      1793168400,
+      2352.840756
+     ],
+     [
+      1793168700,
+      2351.844412
+     ],
+     [
+      1793169000,
+      2350.452482
+     ],
+     [
+      1793169300,
+      2350.837593
+     ],
+     [
+      1793169600,
+      2350.379201
+     ],
+     [
+      1793169900,
+      2351.149686
+     ],
+     [
+      1793170200,
+      2350.5188
+     ],
+     [
+      1793170500,
+      2349.859433
+     ],
+     [
+      1793170800,
+      2349.291762
+     ],
+     [
+      1793171100,
+      2350.122625
+     ],
+     [
+      1793171400,
+      2351.39751
+     ],
+     [
+      1793171700,
+      2350.984209
+     ],
+     [
+      1793172000,
+      2350.263156
+     ],
+     [
+      1793172300,
+      2350.523245
+     ],
+     [
+      1793172600,
+      2351.538191
+     ],
+     [
+      1793172900,
+      2351.288691
+     ],
+     [
+      1793173200,
+      2351.051461
+     ],
+     [
+      1793173500,
+      2351.535835
+     ],
+     [
+      1793173800,
+      2353.224402
+     ],
+     [
+      1793174100,
+      2354.723794
+     ],
+     [
+      1793174400,
+      2358.243412
+     ],
+     [
+      1793174700,
+      2361.366671
+     ],
+     [
+      1793175000,
+      2362.414445
+     ],
+     [
+      1793175300,
+      2362.391186
+     ],
+     [
+      1793175600,
+      2362.946965
+     ],
+     [
+      1793175900,
+      2364.346154
+     ],
+     [
+      1793176200,
+      2371.365119
+     ],
+     [
+      1793176500,
+      2371.16732
+     ],
+     [
+      1793176800,
+      2376.191509
+     ],
+     [
+      1793177100,
+      2377.139371
+     ],
+     [
+      1793177400,
+      2372.575867
+     ],
+     [
+      1793177700,
+      2370.384084
+     ],
+     [
+      1793178000,
+      2369.276291
+     ],
+     [
+      1793178300,
+      2367.201736
+     ],
+     [
+      1793178600,
+      2367.12836
+     ],
+     [
+      1793178900,
+      2368.051625
+     ],
+     [
+      1793179200,
+      2369.254864
+     ],
+     [
+      1793179500,
+      2367.547785
+     ],
+     [
+      1793179800,
+      2366.572176
+     ],
+     [
+      1793180100,
+      2363.989443
+     ],
+     [
+      1793180400,
+      2365.995549
+     ],
+     [
+      1793180700,
+      2369.212163
+     ],
+     [
+      1793181000,
+      2369.432968
+     ],
+     [
+      1793181300,
+      2367.530376
+     ],
+     [
+      1793181600,
+      2369.983585
+     ],
+     [
+      1793181900,
+      2370.458545
+     ],
+     [
+      1793182200,
+      2367.069616
+     ],
+     [
+      1793182500,
+      2367.26397
+     ],
+     [
+      1793182800,
+      2367.250146
+     ],
+     [
+      1793183100,
+      2368.280667
+     ],
+     [
+      1793183400,
+      2367.301801
+     ],
+     [
+      1793183700,
+      2367.386384
+     ],
+     [
+      1793184000,
+      2366.306711
+     ],
+     [
+      1793184300,
+      2366.746813
+     ],
+     [
+      1793184600,
+      2368.3519
+     ],
+     [
+      1793184900,
+      2367.324163
+     ],
+     [
+      1793185200,
+      2365.72459
+     ],
+     [
+      1793185500,
+      2363.138465
+     ],
+     [
+      1793185800,
+      2359.486013
+     ],
+     [
+      1793186100,
+      2359.613673
+     ],
+     [
+      1793186400,
+      2359.564793
+     ],
+     [
+      1793186700,
+      2360.989896
+     ],
+     [
+      1793187000,
+      2360.76512
+     ],
+     [
+      1793187300,
+      2362.851927
+     ],
+     [
+      1793187600,
+      2363.46639
+     ],
+     [
+      1793187900,
+      2362.480427
+     ],
+     [
+      1793188200,
+      2362.307054
+     ],
+     [
+      1793188500,
+      2360.956761
+     ],
+     [
+      1793188800,
+      2358.815129
+     ],
+     [
+      1793189100,
+      2352.601431
+     ],
+     [
+      1793189400,
+      2351.241888
+     ],
+     [
+      1793189700,
+      2343.942817
+     ],
+     [
+      1793190000,
+      2344.843858
+     ],
+     [
+      1793190300,
+      2345.025775
+     ],
+     [
+      1793190600,
+      2345.542317
+     ],
+     [
+      1793190900,
+      2337.536492
+     ],
+     [
+      1793191200,
+      2336.596961
+     ],
+     [
+      1793191500,
+      2339.168178
+     ],
+     [
+      1793191800,
+      2336.789989
+     ],
+     [
+      1793192100,
+      2336.774952
+     ],
+     [
+      1793192400,
+      2336.97625
+     ],
+     [
+      1793192700,
+      2337.071226
+     ],
+     [
+      1793193000,
+      2336.413413
+     ],
+     [
+      1793193300,
+      2336.289647
+     ],
+     [
+      1793193600,
+      2335.721592
+     ],
+     [
+      1793193900,
+      2335.332477
+     ],
+     [
+      1793194200,
+      2334.24758
+     ],
+     [
+      1793194500,
+      2336.060784
+     ],
+     [
+      1793194800,
+      2339.672584
+     ],
+     [
+      1793195100,
+      2336.582804
+     ],
+     [
+      1793195400,
+      2325.91037
+     ],
+     [
+      1793195700,
+      2327.378696
+     ],
+     [
+      1793196000,
+      2331.882178
+     ],
+     [
+      1793196300,
+      2336.351967
+     ],
+     [
+      1793196600,
+      2331.695877
+     ],
+     [
+      1793196900,
+      2328.66972
+     ],
+     [
+      1793197200,
+      2328.093568
+     ],
+     [
+      1793197500,
+      2326.11562
+     ],
+     [
+      1793197800,
+      2326.679442
+     ],
+     [
+      1793198100,
+      2327.130957
+     ],
+     [
+      1793198400,
+      2326.370917
+     ],
+     [
+      1793198700,
+      2328.036677
+     ],
+     [
+      1793199000,
+      2331.82347
+     ],
+     [
+      1793199300,
+      2328.399033
+     ],
+     [
+      1793199600,
+      2330.259546
+     ],
+     [
+      1793199900,
+      2331.668384
+     ],
+     [
+      1793200200,
+      2332.328747
+     ],
+     [
+      1793200500,
+      2333.266642
+     ],
+     [
+      1793200800,
+      2334.782786
+     ],
+     [
+      1793201100,
+      2337.139788
+     ],
+     [
+      1793201400,
+      2335.395719
+     ],
+     [
+      1793201700,
+      2330.154039
+     ],
+     [
+      1793202000,
+      2331.424328
+     ],
+     [
+      1793202300,
+      2331.837679
+     ],
+     [
+      1793202600,
+      2329.076869
+     ],
+     [
+      1793202900,
+      2329.296763
+     ],
+     [
+      1793203200,
+      2331.595424
+     ],
+     [
+      1793203500,
+      2331.035157
+     ],
+     [
+      1793203800,
+      2330.86575
+     ],
+     [
+      1793204100,
+      2330.947093
+     ],
+     [
+      1793204400,
+      2330.781282
+     ],
+     [
+      1793204700,
+      2329.232622
+     ],
+     [
+      1793205000,
+      2330.511075
+     ],
+     [
+      1793205300,
+      2332.051824
+     ],
+     [
+      1793205600,
+      2329.970631
+     ],
+     [
+      1793205900,
+      2327.514571
+     ],
+     [
+      1793206200,
+      2326.479575
+     ],
+     [
+      1793206500,
+      2334.775409
+     ],
+     [
+      1793206800,
+      2333.112521
+     ],
+     [
+      1793207100,
+      2331.826805
+     ],
+     [
+      1793207400,
+      2330.243498
+     ],
+     [
+      1793207700,
+      2330.100493
+     ],
+     [
+      1793208000,
+      2329.161981
+     ],
+     [
+      1793208300,
+      2332.596923
+     ],
+     [
+      1793208600,
+      2331.929332
+     ],
+     [
+      1793208900,
+      2334.161634
+     ],
+     [
+      1793209200,
+      2335.035221
+     ],
+     [
+      1793209500,
+      2338.513882
+     ],
+     [
+      1793209800,
+      2342.156357
+     ],
+     [
+      1793210100,
+      2343.73393
+     ],
+     [
+      1793210400,
+      2344.542255
+     ],
+     [
+      1793210700,
+      2346.078039
+     ],
+     [
+      1793211000,
+      2341.049779
+     ],
+     [
+      1793211300,
+      2343.185855
+     ],
+     [
+      1793211600,
+      2340.228993
+     ],
+     [
+      1793211900,
+      2341.060411
+     ],
+     [
+      1793212200,
+      2345.29244
+     ],
+     [
+      1793212500,
+      2347.473898
+     ],
+     [
+      1793212800,
+      2354.274386
+     ],
+     [
+      1793213100,
+      2356.2376
+     ],
+     [
+      1793213400,
+      2355.396356
+     ],
+     [
+      1793213700,
+      2354.163131
+     ],
+     [
+      1793214000,
+      2352.826758
+     ],
+     [
+      1793214300,
+      2356.696211
+     ],
+     [
+      1793214600,
+      2357.125447
+     ],
+     [
+      1793214900,
+      2355.953101
+     ],
+     [
+      1793215200,
+      2356.136436
+     ],
+     [
+      1793215500,
+      2355.850161
+     ],
+     [
+      1793215800,
+      2356.213097
+     ],
+     [
+      1793216100,
+      2360.89775
+     ],
+     [
+      1793216400,
+      2358.799732
+     ],
+     [
+      1793216700,
+      2361.905863
+     ],
+     [
+      1793217000,
+      2363.680047
+     ],
+     [
+      1793217300,
+      2365.705958
+     ],
+     [
+      1793217600,
+      2369.208439
+     ],
+     [
+      1793217900,
+      2378.561725
+     ],
+     [
+      1793218200,
+      2373.600898
+     ],
+     [
+      1793218500,
+      2366.439684
+     ],
+     [
+      1793218800,
+      2360.828555
+     ],
+     [
+      1793219100,
+      2358.933998
+     ],
+     [
+      1793219400,
+      2350.650736
+     ],
+     [
+      1793219700,
+      2352.513367
+     ],
+     [
+      1793220000,
+      2350.468922
+     ],
+     [
+      1793220300,
+      2350.45408
+     ],
+     [
+      1793220600,
+      2350.68239
+     ],
+     [
+      1793220900,
+      2355.099005
+     ],
+     [
+      1793221200,
+      2357.903374
+     ],
+     [
+      1793221500,
+      2360.865293
+     ],
+     [
+      1793221800,
+      2359.408054
+     ],
+     [
+      1793222100,
+      2359.506895
+     ],
+     [
+      1793222400,
+      2363.366958
+     ],
+     [
+      1793222700,
+      2365.697386
+     ],
+     [
+      1793223000,
+      2357.868619
+     ],
+     [
+      1793223300,
+      2355.271533
+     ],
+     [
+      1793223600,
+      2356.776094
+     ],
+     [
+      1793223900,
+      2359.102031
+     ],
+     [
+      1793224200,
+      2361.989044
+     ],
+     [
+      1793224500,
+      2364.441037
+     ],
+     [
+      1793224800,
+      2362.484332
+     ],
+     [
+      1793225100,
+      2358.651723
+     ],
+     [
+      1793225400,
+      2357.699496
+     ],
+     [
+      1793225700,
+      2357.338297
+     ],
+     [
+      1793226000,
+      2355.576494
+     ],
+     [
+      1793226300,
+      2354.689936
+     ],
+     [
+      1793226600,
+      2355.958721
+     ],
+     [
+      1793226900,
+      2361.635719
+     ],
+     [
+      1793227200,
+      2359.685011
+     ],
+     [
+      1793227500,
+      2359.733868
+     ],
+     [
+      1793227800,
+      2358.214836
+     ],
+     [
+      1793228100,
+      2358.632925
+     ],
+     [
+      1793228400,
+      2357.237579
+     ],
+     [
+      1793228700,
+      2356.255495
+     ],
+     [
+      1793229000,
+      2358.766079
+     ]
+    ]
+   },
+   "second": {
+    "source": "Coinbase 5-minute candles",
+    "url": "https://api.exchange.coinbase.com/products/ETH-USD/candles?granularity=300&start=2026-10-27T23:13:43Z&end=2026-10-28T23:13:43Z",
+    "gap_pts": 0.02
+   },
+   "seconds": [
+    {
+     "source": "Coinbase 5-minute candles",
+     "url": "https://api.exchange.coinbase.com/products/ETH-USD/candles?granularity=300&start=2026-10-27T23:13:43Z&end=2026-10-28T23:13:43Z",
+     "gap_pts": 0.02
+    },
+    {
+     "source": "OKX 5-minute candles",
+     "url": "https://www.okx.com/api/v5/market/history-candles?instId=ETH-USDT&bar=5m&after=1793229223000&limit=300",
+     "gap_pts": 0.11
+    },
+    {
+     "source": "Binance 5-minute klines (data-api.binance.vision)",
+     "url": "https://data-api.binance.vision/api/v3/klines?symbol=ETHUSDT&interval=5m&startTime=1793142523000&endTime=1793229223000&limit=300",
+     "gap_pts": 0.1
+    },
+    {
+     "source": "Kraken 5-minute candles",
+     "url": "https://api.kraken.com/0/public/OHLC?pair=ETHUSD&interval=5&since=1793142523",
+     "gap_pts": 0.05
+    }
+   ],
+   "run": {
+    "dir": "up",
+    "start_t": 1793195400,
+    "start_p": 2325.91037,
+    "end_t": 1793217900,
+    "end_p": 2378.561725,
+    "pct": 2.264
+   },
+   "tests": [
+    {
+     "id": "bls-20261028-metropolitan-area-employment-and-unemployment-monthly",
+     "t_utc": "2026-10-28T14:00:00Z",
+     "basis": "event",
+     "result": {
+      "lead_min": -10.0,
+      "before_onset": true,
+      "after_pct": -0.07,
+      "share_pct": -12.7,
+      "share_partial": false,
+      "in_window": true,
+      "done_pct": 11.3,
+      "moved_first": false
+     }
+    },
+    {
+     "id": "bls-20261028-quarterly-data-series-on-business-employment-dynamics",
+     "t_utc": "2026-10-28T14:00:00Z",
+     "basis": "event",
+     "result": {
+      "lead_min": -10.0,
+      "before_onset": true,
+      "after_pct": -0.07,
+      "share_pct": -12.7,
+      "share_partial": false,
+      "in_window": true,
+      "done_pct": 11.3,
+      "moved_first": false
+     }
+    },
+    {
+     "id": "fomc-2026-10-28",
+     "t_utc": null,
+     "basis": "the Fed's calendar gives the date, not the time",
+     "result": null
+    },
+    {
+     "id": "federal reserve-1793210400",
+     "t_utc": "2026-10-28T18:00:00Z",
+     "basis": "event",
+     "result": {
+      "lead_min": -250.0,
+      "before_onset": false,
+      "after_pct": 0.35,
+      "share_pct": 64.9,
+      "share_partial": false,
+      "in_window": true,
+      "done_pct": 35.4,
+      "moved_first": false
+     }
+    },
+    {
+     "id": "ff-1793210400-federal-funds-rate",
+     "t_utc": "2026-10-28T18:00:00Z",
+     "basis": "event",
+     "result": {
+      "lead_min": -250.0,
+      "before_onset": false,
+      "after_pct": 0.35,
+      "share_pct": 64.9,
+      "share_partial": false,
+      "in_window": true,
+      "done_pct": 35.4,
+      "moved_first": false
+     }
+    },
+    {
+     "id": "ff-1793212200-fomc-press-conference",
+     "t_utc": "2026-10-28T18:30:00Z",
+     "basis": "event",
+     "result": {
+      "lead_min": -280.0,
+      "before_onset": false,
+      "after_pct": 0.47,
+      "share_pct": 85.6,
+      "share_partial": false,
+      "in_window": true,
+      "done_pct": 36.8,
+      "moved_first": false
+     }
+    },
+    {
+     "id": "wire-c170",
+     "t_utc": "2026-10-28T18:00:00Z",
+     "basis": "first report",
+     "result": {
+      "lead_min": -250.0,
+      "before_onset": false,
+      "after_pct": 0.35,
+      "share_pct": 64.9,
+      "share_partial": false,
+      "in_window": true,
+      "done_pct": 35.4,
+      "moved_first": false
+     }
+    },
+    {
+     "id": "wire-c022",
+     "t_utc": "2026-10-28T05:10:36Z",
+     "basis": "first report",
+     "result": {
+      "lead_min": 519.4,
+      "before_onset": false,
+      "after_pct": -0.04,
+      "share_pct": -8.0,
+      "share_partial": false,
+      "in_window": true,
+      "done_pct": 0.0,
+      "moved_first": false
+     }
+    },
+    {
+     "id": "wire-c009",
+     "t_utc": "2026-10-28T13:14:37Z",
+     "basis": "first report",
+     "result": {
+      "lead_min": 35.4,
+      "before_onset": true,
+      "after_pct": -0.2,
+      "share_pct": -37.0,
+      "share_partial": false,
+      "in_window": true,
+      "done_pct": 0.0,
+      "moved_first": false
+     }
+    },
+    {
+     "id": "wire-c017",
+     "t_utc": "2026-10-28T10:07:54Z",
+     "basis": "first report",
+     "result": {
+      "lead_min": 222.1,
+      "before_onset": false,
+      "after_pct": -0.31,
+      "share_pct": -57.4,
+      "share_partial": false,
+      "in_window": true,
+      "done_pct": 0.0,
+      "moved_first": false
+     }
+    },
+    {
+     "id": "wire-c000",
+     "t_utc": "2026-10-28T17:00:53Z",
+     "basis": "first report",
+     "result": {
+      "lead_min": -190.9,
+      "before_onset": false,
+      "after_pct": 0.49,
+      "share_pct": 89.6,
+      "share_partial": false,
+      "in_window": true,
+      "done_pct": 13.7,
+      "moved_first": false
+     }
+    }
+   ],
+   "mechanics": {
+    "hour_start_utc": "2026-10-28T13:50:00Z",
+    "hour_end_utc": "2026-10-28T14:50:00Z",
+    "rows": [
+     {
+      "key": "ETH",
+      "label": "Ether",
+      "value": 0.25,
+      "unit": "pct"
+     },
+     {
+      "key": "BTC",
+      "label": "Bitcoin",
+      "value": 0.17,
+      "unit": "pct"
+     },
+     {
+      "key": "ES=F",
+      "label": "S&P 500 futures",
+      "value": 0.06,
+      "unit": "pct"
+     },
+     {
+      "key": "NQ=F",
+      "label": "Nasdaq 100 futures",
+      "value": 0.09,
+      "unit": "pct"
+     },
+     {
+      "key": "DX-Y.NYB",
+      "label": "Dollar index",
+      "value": 0.06,
+      "unit": "pct"
+     },
+     {
+      "key": "^TNX",
+      "label": "10-year Treasury yield",
+      "value": 2.9,
+      "unit": "bp"
+     },
+     {
+      "key": "ZT=F",
+      "label": "2-year Treasury note futures",
+      "value": -0.05,
+      "unit": "pct"
+     },
+     {
+      "key": "GC=F",
+      "label": "Gold futures",
+      "value": -0.22,
+      "unit": "pct"
+     },
+     {
+      "key": "CL=F",
+      "label": "Oil futures (WTI)",
+      "value": 0.62,
+      "unit": "pct"
+     },
+     {
+      "key": "^VIX",
+      "label": "VIX",
+      "value": -1.75,
+      "unit": "pct"
+     },
+     {
+      "key": "IBIT",
+      "label": "IBIT volume (iShares Bitcoin Trust)",
+      "value": 1780308,
+      "unit": "shares"
+     },
+     {
+      "key": "FBTC",
+      "label": "FBTC volume (Fidelity Wise Origin Bitcoin Fund)",
+      "value": 395584,
+      "unit": "shares"
+     },
+     {
+      "key": "oi",
+      "label": "Open interest, OKX",
+      "value": 0.72,
+      "unit": "pct"
+     },
+     {
+      "key": "liq",
+      "label": "Liquidations, OKX",
+      "unread": true,
+      "why": "OKX keeps its latest 100 orders, back to Oct 28, 4:01 PM ET"
+     },
+     {
+      "key": "taker",
+      "label": "Taker flow, OKX ETH-USDT-SWAP (the hour from 9:00 AM ET, in USDT)",
+      "hour_utc": "2026-10-28T13:00:00Z",
+      "sell_usd": 223387262,
+      "buy_usd": 207148826
+     },
+     {
+      "key": "liq-gate",
+      "label": "Liquidations, Gate",
+      "longs_usd": 37156,
+      "shorts_usd": 23172,
+      "orders": 27,
+      "capped": false
+     },
+     {
+      "key": "kalshi-KXFED-26DEC-T4.00",
+      "unit": "chance",
+      "label": "Kalshi: Fed rate above 4.00% after the December 9 meeting, yes price (bid-ask mid of hourly candles), 9:00 AM ET close to 10:00 AM ET close",
+      "from_utc": "2026-10-28T13:00:00Z",
+      "to_utc": "2026-10-28T14:00:00Z",
+      "from_pct": 82.5,
+      "to_pct": 80.0
+     },
+     {
+      "key": "kalshi-KXFED-26DEC-T4.25",
+      "unit": "chance",
+      "label": "Kalshi: Fed rate above 4.25% after the December 9 meeting, yes price (bid-ask mid of hourly candles), 9:00 AM ET close to 9:00 AM ET close",
+      "from_utc": "2026-10-28T13:00:00Z",
+      "to_utc": "2026-10-28T13:00:00Z",
+      "from_pct": 8.5,
+      "to_pct": 8.5
+     },
+     {
+      "key": "funding",
+      "label": "Funding, OKX (the 8-hour period that settled 12:00 PM ET)",
+      "value": 0.0072,
+      "unit": "rate"
+     }
+    ],
+    "beta": 1.218,
+    "excess_pts": 0.04,
+    "patterns": []
+   },
+   "event_hours": {
+    "bls-20261028-metropolitan-area-employment-and-unemployment-monthly": {
+     "hour_start_utc": "2026-10-28T14:00:00Z",
+     "hour_end_utc": "2026-10-28T15:00:00Z",
+     "rows": [
+      {
+       "key": "ETH",
+       "label": "Ether",
+       "value": -0.07,
+       "unit": "pct"
+      },
+      {
+       "key": "BTC",
+       "label": "Bitcoin",
+       "value": -0.11,
+       "unit": "pct"
+      },
+      {
+       "key": "ES=F",
+       "label": "S&P 500 futures",
+       "value": -0.04,
+       "unit": "pct"
+      },
+      {
+       "key": "NQ=F",
+       "label": "Nasdaq 100 futures",
+       "value": -0.18,
+       "unit": "pct"
+      },
+      {
+       "key": "DX-Y.NYB",
+       "label": "Dollar index",
+       "value": 0.0,
+       "unit": "pct"
+      },
+      {
+       "key": "^TNX",
+       "label": "10-year Treasury yield",
+       "value": 3.1,
+       "unit": "bp"
+      },
+      {
+       "key": "ZT=F",
+       "label": "2-year Treasury note futures",
+       "value": -0.03,
+       "unit": "pct"
+      },
+      {
+       "key": "GC=F",
+       "label": "Gold futures",
+       "value": -0.21,
+       "unit": "pct"
+      },
+      {
+       "key": "CL=F",
+       "label": "Oil futures (WTI)",
+       "value": 0.51,
+       "unit": "pct"
+      },
+      {
+       "key": "^VIX",
+       "label": "VIX",
+       "value": -0.4,
+       "unit": "pct"
+      },
+      {
+       "key": "IBIT",
+       "label": "IBIT volume (iShares Bitcoin Trust)",
+       "value": 1635905,
+       "unit": "shares"
+      },
+      {
+       "key": "FBTC",
+       "label": "FBTC volume (Fidelity Wise Origin Bitcoin Fund)",
+       "value": 335034,
+       "unit": "shares"
+      }
+     ],
+     "patterns": []
+    },
+    "bls-20261028-quarterly-data-series-on-business-employment-dynamics": {
+     "hour_start_utc": "2026-10-28T14:00:00Z",
+     "hour_end_utc": "2026-10-28T15:00:00Z",
+     "rows": [
+      {
+       "key": "ETH",
+       "label": "Ether",
+       "value": -0.07,
+       "unit": "pct"
+      },
+      {
+       "key": "BTC",
+       "label": "Bitcoin",
+       "value": -0.11,
+       "unit": "pct"
+      },
+      {
+       "key": "ES=F",
+       "label": "S&P 500 futures",
+       "value": -0.04,
+       "unit": "pct"
+      },
+      {
+       "key": "NQ=F",
+       "label": "Nasdaq 100 futures",
+       "value": -0.18,
+       "unit": "pct"
+      },
+      {
+       "key": "DX-Y.NYB",
+       "label": "Dollar index",
+       "value": 0.0,
+       "unit": "pct"
+      },
+      {
+       "key": "^TNX",
+       "label": "10-year Treasury yield",
+       "value": 3.1,
+       "unit": "bp"
+      },
+      {
+       "key": "ZT=F",
+       "label": "2-year Treasury note futures",
+       "value": -0.03,
+       "unit": "pct"
+      },
+      {
+       "key": "GC=F",
+       "label": "Gold futures",
+       "value": -0.21,
+       "unit": "pct"
+      },
+      {
+       "key": "CL=F",
+       "label": "Oil futures (WTI)",
+       "value": 0.51,
+       "unit": "pct"
+      },
+      {
+       "key": "^VIX",
+       "label": "VIX",
+       "value": -0.4,
+       "unit": "pct"
+      },
+      {
+       "key": "IBIT",
+       "label": "IBIT volume (iShares Bitcoin Trust)",
+       "value": 1635905,
+       "unit": "shares"
+      },
+      {
+       "key": "FBTC",
+       "label": "FBTC volume (Fidelity Wise Origin Bitcoin Fund)",
+       "value": 335034,
+       "unit": "shares"
+      }
+     ],
+     "patterns": []
+    },
+    "federal reserve-1793210400": {
+     "hour_start_utc": "2026-10-28T18:00:00Z",
+     "hour_end_utc": "2026-10-28T19:00:00Z",
+     "rows": [
+      {
+       "key": "ETH",
+       "label": "Ether",
+       "value": 0.35,
+       "unit": "pct"
+      },
+      {
+       "key": "BTC",
+       "label": "Bitcoin",
+       "value": 0.18,
+       "unit": "pct"
+      },
+      {
+       "key": "ES=F",
+       "label": "S&P 500 futures",
+       "value": -0.01,
+       "unit": "pct"
+      },
+      {
+       "key": "NQ=F",
+       "label": "Nasdaq 100 futures",
+       "value": 0.13,
+       "unit": "pct"
+      },
+      {
+       "key": "DX-Y.NYB",
+       "label": "Dollar index",
+       "value": -0.12,
+       "unit": "pct"
+      },
+      {
+       "key": "^TNX",
+       "label": "10-year Treasury yield",
+       "value": 2.5,
+       "unit": "bp"
+      },
+      {
+       "key": "ZT=F",
+       "label": "2-year Treasury note futures",
+       "value": 0.06,
+       "unit": "pct"
+      },
+      {
+       "key": "GC=F",
+       "label": "Gold futures",
+       "value": -0.18,
+       "unit": "pct"
+      },
+      {
+       "key": "CL=F",
+       "label": "Oil futures (WTI)",
+       "value": 0.22,
+       "unit": "pct"
+      },
+      {
+       "key": "^VIX",
+       "label": "VIX",
+       "value": -0.06,
+       "unit": "pct"
+      },
+      {
+       "key": "IBIT",
+       "label": "IBIT volume (iShares Bitcoin Trust)",
+       "value": 4738507,
+       "unit": "shares"
+      },
+      {
+       "key": "FBTC",
+       "label": "FBTC volume (Fidelity Wise Origin Bitcoin Fund)",
+       "value": 698746,
+       "unit": "shares"
+      }
+     ],
+     "patterns": []
+    },
+    "ff-1793210400-federal-funds-rate": {
+     "hour_start_utc": "2026-10-28T18:00:00Z",
+     "hour_end_utc": "2026-10-28T19:00:00Z",
+     "rows": [
+      {
+       "key": "ETH",
+       "label": "Ether",
+       "value": 0.35,
+       "unit": "pct"
+      },
+      {
+       "key": "BTC",
+       "label": "Bitcoin",
+       "value": 0.18,
+       "unit": "pct"
+      },
+      {
+       "key": "ES=F",
+       "label": "S&P 500 futures",
+       "value": -0.01,
+       "unit": "pct"
+      },
+      {
+       "key": "NQ=F",
+       "label": "Nasdaq 100 futures",
+       "value": 0.13,
+       "unit": "pct"
+      },
+      {
+       "key": "DX-Y.NYB",
+       "label": "Dollar index",
+       "value": -0.12,
+       "unit": "pct"
+      },
+      {
+       "key": "^TNX",
+       "label": "10-year Treasury yield",
+       "value": 2.5,
+       "unit": "bp"
+      },
+      {
+       "key": "ZT=F",
+       "label": "2-year Treasury note futures",
+       "value": 0.06,
+       "unit": "pct"
+      },
+      {
+       "key": "GC=F",
+       "label": "Gold futures",
+       "value": -0.18,
+       "unit": "pct"
+      },
+      {
+       "key": "CL=F",
+       "label": "Oil futures (WTI)",
+       "value": 0.22,
+       "unit": "pct"
+      },
+      {
+       "key": "^VIX",
+       "label": "VIX",
+       "value": -0.06,
+       "unit": "pct"
+      },
+      {
+       "key": "IBIT",
+       "label": "IBIT volume (iShares Bitcoin Trust)",
+       "value": 4738507,
+       "unit": "shares"
+      },
+      {
+       "key": "FBTC",
+       "label": "FBTC volume (Fidelity Wise Origin Bitcoin Fund)",
+       "value": 698746,
+       "unit": "shares"
+      }
+     ],
+     "patterns": []
+    },
+    "ff-1793212200-fomc-press-conference": {
+     "hour_start_utc": "2026-10-28T18:30:00Z",
+     "hour_end_utc": "2026-10-28T19:30:00Z",
+     "rows": [
+      {
+       "key": "ETH",
+       "label": "Ether",
+       "value": 0.47,
+       "unit": "pct"
+      },
+      {
+       "key": "BTC",
+       "label": "Bitcoin",
+       "value": 0.34,
+       "unit": "pct"
+      },
+      {
+       "key": "ES=F",
+       "label": "S&P 500 futures",
+       "value": -0.01,
+       "unit": "pct"
+      },
+      {
+       "key": "NQ=F",
+       "label": "Nasdaq 100 futures",
+       "value": 0.06,
+       "unit": "pct"
+      },
+      {
+       "key": "DX-Y.NYB",
+       "label": "Dollar index",
+       "value": -0.25,
+       "unit": "pct"
+      },
+      {
+       "key": "^TNX",
+       "label": "10-year Treasury yield",
+       "value": 1.7,
+       "unit": "bp"
+      },
+      {
+       "key": "ZT=F",
+       "label": "2-year Treasury note futures",
+       "value": 0.1,
+       "unit": "pct"
+      },
+      {
+       "key": "GC=F",
+       "label": "Gold futures",
+       "value": 0.46,
+       "unit": "pct"
+      },
+      {
+       "key": "CL=F",
+       "label": "Oil futures (WTI)",
+       "value": 0.07,
+       "unit": "pct"
+      },
+      {
+       "key": "^VIX",
+       "label": "VIX",
+       "value": -1.1,
+       "unit": "pct"
+      },
+      {
+       "key": "IBIT",
+       "label": "IBIT volume (iShares Bitcoin Trust)",
+       "value": 3268076,
+       "unit": "shares"
+      },
+      {
+       "key": "FBTC",
+       "label": "FBTC volume (Fidelity Wise Origin Bitcoin Fund)",
+       "value": 676196,
+       "unit": "shares"
+      }
+     ],
+     "patterns": [
+      {
+       "label": "crypto only",
+       "rule": "crypto moved 0.3% or more while stock futures traded and stayed within 0.1%"
+      }
+     ]
+    },
+    "wire-c170": {
+     "hour_start_utc": "2026-10-28T18:00:00Z",
+     "hour_end_utc": "2026-10-28T19:00:00Z",
+     "rows": [
+      {
+       "key": "ETH",
+       "label": "Ether",
+       "value": 0.35,
+       "unit": "pct"
+      },
+      {
+       "key": "BTC",
+       "label": "Bitcoin",
+       "value": 0.18,
+       "unit": "pct"
+      },
+      {
+       "key": "ES=F",
+       "label": "S&P 500 futures",
+       "value": -0.01,
+       "unit": "pct"
+      },
+      {
+       "key": "NQ=F",
+       "label": "Nasdaq 100 futures",
+       "value": 0.13,
+       "unit": "pct"
+      },
+      {
+       "key": "DX-Y.NYB",
+       "label": "Dollar index",
+       "value": -0.12,
+       "unit": "pct"
+      },
+      {
+       "key": "^TNX",
+       "label": "10-year Treasury yield",
+       "value": 2.5,
+       "unit": "bp"
+      },
+      {
+       "key": "ZT=F",
+       "label": "2-year Treasury note futures",
+       "value": 0.06,
+       "unit": "pct"
+      },
+      {
+       "key": "GC=F",
+       "label": "Gold futures",
+       "value": -0.18,
+       "unit": "pct"
+      },
+      {
+       "key": "CL=F",
+       "label": "Oil futures (WTI)",
+       "value": 0.22,
+       "unit": "pct"
+      },
+      {
+       "key": "^VIX",
+       "label": "VIX",
+       "value": -0.06,
+       "unit": "pct"
+      },
+      {
+       "key": "IBIT",
+       "label": "IBIT volume (iShares Bitcoin Trust)",
+       "value": 4738507,
+       "unit": "shares"
+      },
+      {
+       "key": "FBTC",
+       "label": "FBTC volume (Fidelity Wise Origin Bitcoin Fund)",
+       "value": 698746,
+       "unit": "shares"
+      }
+     ],
+     "patterns": []
+    },
+    "wire-c022": {
+     "hour_start_utc": "2026-10-28T05:10:36Z",
+     "hour_end_utc": "2026-10-28T06:10:36Z",
+     "rows": [
+      {
+       "key": "ETH",
+       "label": "Ether",
+       "value": -0.04,
+       "unit": "pct"
+      },
+      {
+       "key": "BTC",
+       "label": "Bitcoin",
+       "value": -0.04,
+       "unit": "pct"
+      },
+      {
+       "key": "ES=F",
+       "label": "S&P 500 futures",
+       "value": 0.03,
+       "unit": "pct"
+      },
+      {
+       "key": "NQ=F",
+       "label": "Nasdaq 100 futures",
+       "value": 0.18,
+       "unit": "pct"
+      },
+      {
+       "key": "DX-Y.NYB",
+       "label": "Dollar index",
+       "value": 0.01,
+       "unit": "pct"
+      },
+      {
+       "key": "^TNX",
+       "label": "10-year Treasury yield",
+       "value": null,
+       "unit": "bp"
+      },
+      {
+       "key": "ZT=F",
+       "label": "2-year Treasury note futures",
+       "value": 0.0,
+       "unit": "pct"
+      },
+      {
+       "key": "GC=F",
+       "label": "Gold futures",
+       "value": -0.16,
+       "unit": "pct"
+      },
+      {
+       "key": "CL=F",
+       "label": "Oil futures (WTI)",
+       "value": 0.07,
+       "unit": "pct"
+      },
+      {
+       "key": "^VIX",
+       "label": "VIX",
+       "value": null,
+       "unit": "pct"
+      },
+      {
+       "key": "IBIT",
+       "label": "IBIT volume (iShares Bitcoin Trust)",
+       "value": null,
+       "unit": "shares"
+      },
+      {
+       "key": "FBTC",
+       "label": "FBTC volume (Fidelity Wise Origin Bitcoin Fund)",
+       "value": null,
+       "unit": "shares"
+      }
+     ],
+     "patterns": []
+    },
+    "wire-c009": {
+     "hour_start_utc": "2026-10-28T13:14:37Z",
+     "hour_end_utc": "2026-10-28T14:14:37Z",
+     "rows": [
+      {
+       "key": "ETH",
+       "label": "Ether",
+       "value": -0.2,
+       "unit": "pct"
+      },
+      {
+       "key": "BTC",
+       "label": "Bitcoin",
+       "value": -0.01,
+       "unit": "pct"
+      },
+      {
+       "key": "ES=F",
+       "label": "S&P 500 futures",
+       "value": -0.17,
+       "unit": "pct"
+      },
+      {
+       "key": "NQ=F",
+       "label": "Nasdaq 100 futures",
+       "value": -0.38,
+       "unit": "pct"
+      },
+      {
+       "key": "DX-Y.NYB",
+       "label": "Dollar index",
+       "value": 0.01,
+       "unit": "pct"
+      },
+      {
+       "key": "^TNX",
+       "label": "10-year Treasury yield",
+       "value": 0.8,
+       "unit": "bp"
+      },
+      {
+       "key": "ZT=F",
+       "label": "2-year Treasury note futures",
+       "value": -0.03,
+       "unit": "pct"
+      },
+      {
+       "key": "GC=F",
+       "label": "Gold futures",
+       "value": -0.19,
+       "unit": "pct"
+      },
+      {
+       "key": "CL=F",
+       "label": "Oil futures (WTI)",
+       "value": 0.2,
+       "unit": "pct"
+      },
+      {
+       "key": "^VIX",
+       "label": "VIX",
+       "value": 0.29,
+       "unit": "pct"
+      },
+      {
+       "key": "IBIT",
+       "label": "IBIT volume (iShares Bitcoin Trust)",
+       "value": 4454472,
+       "unit": "shares"
+      },
+      {
+       "key": "FBTC",
+       "label": "FBTC volume (Fidelity Wise Origin Bitcoin Fund)",
+       "value": 483471,
+       "unit": "shares"
+      }
+     ],
+     "patterns": []
+    },
+    "wire-c017": {
+     "hour_start_utc": "2026-10-28T10:07:54Z",
+     "hour_end_utc": "2026-10-28T11:07:54Z",
+     "rows": [
+      {
+       "key": "ETH",
+       "label": "Ether",
+       "value": -0.31,
+       "unit": "pct"
+      },
+      {
+       "key": "BTC",
+       "label": "Bitcoin",
+       "value": -0.11,
+       "unit": "pct"
+      },
+      {
+       "key": "ES=F",
+       "label": "S&P 500 futures",
+       "value": -0.02,
+       "unit": "pct"
+      },
+      {
+       "key": "NQ=F",
+       "label": "Nasdaq 100 futures",
+       "value": -0.05,
+       "unit": "pct"
+      },
+      {
+       "key": "DX-Y.NYB",
+       "label": "Dollar index",
+       "value": 0.02,
+       "unit": "pct"
+      },
+      {
+       "key": "^TNX",
+       "label": "10-year Treasury yield",
+       "value": null,
+       "unit": "bp"
+      },
+      {
+       "key": "ZT=F",
+       "label": "2-year Treasury note futures",
+       "value": -0.01,
+       "unit": "pct"
+      },
+      {
+       "key": "GC=F",
+       "label": "Gold futures",
+       "value": -0.23,
+       "unit": "pct"
+      },
+      {
+       "key": "CL=F",
+       "label": "Oil futures (WTI)",
+       "value": 0.36,
+       "unit": "pct"
+      },
+      {
+       "key": "^VIX",
+       "label": "VIX",
+       "value": -0.06,
+       "unit": "pct"
+      },
+      {
+       "key": "IBIT",
+       "label": "IBIT volume (iShares Bitcoin Trust)",
+       "value": null,
+       "unit": "shares"
+      },
+      {
+       "key": "FBTC",
+       "label": "FBTC volume (Fidelity Wise Origin Bitcoin Fund)",
+       "value": null,
+       "unit": "shares"
+      }
+     ],
+     "patterns": []
+    },
+    "wire-c000": {
+     "hour_start_utc": "2026-10-28T17:00:53Z",
+     "hour_end_utc": "2026-10-28T18:00:53Z",
+     "rows": [
+      {
+       "key": "ETH",
+       "label": "Ether",
+       "value": 0.49,
+       "unit": "pct"
+      },
+      {
+       "key": "BTC",
+       "label": "Bitcoin",
+       "value": 0.34,
+       "unit": "pct"
+      },
+      {
+       "key": "ES=F",
+       "label": "S&P 500 futures",
+       "value": -0.08,
+       "unit": "pct"
+      },
+      {
+       "key": "NQ=F",
+       "label": "Nasdaq 100 futures",
+       "value": -0.07,
+       "unit": "pct"
+      },
+      {
+       "key": "DX-Y.NYB",
+       "label": "Dollar index",
+       "value": 0.08,
+       "unit": "pct"
+      },
+      {
+       "key": "^TNX",
+       "label": "10-year Treasury yield",
+       "value": 0.2,
+       "unit": "bp"
+      },
+      {
+       "key": "ZT=F",
+       "label": "2-year Treasury note futures",
+       "value": -0.0,
+       "unit": "pct"
+      },
+      {
+       "key": "GC=F",
+       "label": "Gold futures",
+       "value": -0.05,
+       "unit": "pct"
+      },
+      {
+       "key": "CL=F",
+       "label": "Oil futures (WTI)",
+       "value": -0.33,
+       "unit": "pct"
+      },
+      {
+       "key": "^VIX",
+       "label": "VIX",
+       "value": -0.86,
+       "unit": "pct"
+      },
+      {
+       "key": "IBIT",
+       "label": "IBIT volume (iShares Bitcoin Trust)",
+       "value": 953481,
+       "unit": "shares"
+      },
+      {
+       "key": "FBTC",
+       "label": "FBTC volume (Fidelity Wise Origin Bitcoin Fund)",
+       "value": 187319,
+       "unit": "shares"
+      }
+     ],
+     "patterns": [
+      {
+       "label": "crypto only",
+       "rule": "crypto moved 0.3% or more while stock futures traded and stayed within 0.1%"
+      }
+     ]
+    }
+   }
+  }
+ },
+ "day": {
+  "stablecoins": {
+   "window": "daily",
+   "change_usd": 22105721,
+   "total_usd": 301587878508
+  },
+  "etf_btc": {
+   "date": "28 Oct 2026",
+   "net_usd_m": 1.3,
+   "source": "Farside Investors (Markets)"
+  }
+ },
+ "read": [
+  {
+   "name": "Bitcoin prices: CoinGecko 5-minute prices",
+   "url": "https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=1",
+   "note": ""
+  },
+  {
+   "name": "Bitcoin prices: Coinbase 5-minute candles",
+   "url": "https://api.exchange.coinbase.com/products/BTC-USD/candles?granularity=300&start=2026-10-27T23:13:43Z&end=2026-10-28T23:13:43Z",
+   "note": ""
+  },
+  {
+   "name": "Bitcoin prices: OKX 5-minute candles",
+   "url": "https://www.okx.com/api/v5/market/history-candles?instId=BTC-USDT&bar=5m&after=1793229223000&limit=300",
+   "note": ""
+  },
+  {
+   "name": "Bitcoin prices: Binance 5-minute klines (data-api.binance.vision)",
+   "url": "https://data-api.binance.vision/api/v3/klines?symbol=BTCUSDT&interval=5m&startTime=1793142523000&endTime=1793229223000&limit=300",
+   "note": ""
+  },
+  {
+   "name": "Bitcoin prices: Kraken 5-minute candles",
+   "url": "https://api.kraken.com/0/public/OHLC?pair=XBTUSD&interval=5&since=1793142523",
+   "note": ""
+  },
+  {
+   "name": "Ether prices: CoinGecko 5-minute prices",
+   "url": "https://api.coingecko.com/api/v3/coins/ethereum/market_chart?vs_currency=usd&days=1",
+   "note": ""
+  },
+  {
+   "name": "Ether prices: Coinbase 5-minute candles",
+   "url": "https://api.exchange.coinbase.com/products/ETH-USD/candles?granularity=300&start=2026-10-27T23:13:43Z&end=2026-10-28T23:13:43Z",
+   "note": ""
+  },
+  {
+   "name": "Ether prices: OKX 5-minute candles",
+   "url": "https://www.okx.com/api/v5/market/history-candles?instId=ETH-USDT&bar=5m&after=1793229223000&limit=300",
+   "note": ""
+  },
+  {
+   "name": "Ether prices: Binance 5-minute klines (data-api.binance.vision)",
+   "url": "https://data-api.binance.vision/api/v3/klines?symbol=ETHUSDT&interval=5m&startTime=1793142523000&endTime=1793229223000&limit=300",
+   "note": ""
+  },
+  {
+   "name": "Ether prices: Kraken 5-minute candles",
+   "url": "https://api.kraken.com/0/public/OHLC?pair=ETHUSD&interval=5&since=1793142523",
+   "note": ""
+  },
+  {
+   "name": "BLS release schedule, 2026-10",
+   "url": "https://www.bls.gov/schedule/2026/10_sched.htm",
+   "note": ""
+  },
+  {
+   "name": "BEA release dates",
+   "url": "https://apps.bea.gov/API/signup/release_dates.json",
+   "note": ""
+  },
+  {
+   "name": "FOMC calendar 2026 (stored copy of the Fed's page, read 2026-10-06)",
+   "url": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+   "note": ""
+  },
+  {
+   "name": "Federal Reserve press releases",
+   "url": "https://www.federalreserve.gov/feeds/press_all.xml",
+   "note": ""
+  },
+  {
+   "name": "SEC press releases",
+   "url": "https://www.sec.gov/news/pressreleases.rss",
+   "note": ""
+  },
+  {
+   "name": "CFTC press releases",
+   "url": "https://www.cftc.gov/RSS/RSSGP/rssgp.xml",
+   "note": ""
+  },
+  {
+   "name": "DefiLlama hacks",
+   "url": "https://api.llama.fi/hacks",
+   "note": ""
+  },
+  {
+   "name": "Federal Register",
+   "url": "https://www.federalregister.gov/api/v1/documents.json?per_page=20&conditions%5Bterm%5D=crypto+OR+bitcoin+OR+%22digital+asset%22&conditions%5Bpublication_date%5D%5Bgte%5D=2026-10-27&conditions%5Bpublication_date%5D%5Blte%5D=2026-10-28",
+   "note": ""
+  },
+  {
+   "name": "ForexFactory calendar",
+   "url": "https://nfs.faireconomy.media/ff_calendar_thisweek.json",
+   "note": ""
+  },
+  {
+   "name": "The wire (site/data/wire.json)",
+   "url": "/data/wire.json",
+   "note": "5 item(s) in the window"
+  },
+  {
+   "name": "Wire sources (the linked reports, for 9.1's source check)",
+   "url": "",
+   "note": "3 report(s) read"
+  },
+  {
+   "name": "Yahoo 5-minute bars, S&P 500 futures",
+   "url": "https://query1.finance.yahoo.com/v8/finance/chart/ES=F?interval=5m&period1=1793142823&period2=1793229223",
+   "note": ""
+  },
+  {
+   "name": "Yahoo 5-minute bars, Nasdaq 100 futures",
+   "url": "https://query1.finance.yahoo.com/v8/finance/chart/NQ=F?interval=5m&period1=1793142823&period2=1793229223",
+   "note": ""
+  },
+  {
+   "name": "Yahoo 5-minute bars, Dollar index",
+   "url": "https://query1.finance.yahoo.com/v8/finance/chart/DX-Y.NYB?interval=5m&period1=1793142823&period2=1793229223",
+   "note": ""
+  },
+  {
+   "name": "Yahoo 5-minute bars, 10-year Treasury yield",
+   "url": "https://query1.finance.yahoo.com/v8/finance/chart/%5ETNX?interval=5m&period1=1793142823&period2=1793229223",
+   "note": ""
+  },
+  {
+   "name": "Yahoo 5-minute bars, 2-year Treasury note futures",
+   "url": "https://query1.finance.yahoo.com/v8/finance/chart/ZT=F?interval=5m&period1=1793142823&period2=1793229223",
+   "note": ""
+  },
+  {
+   "name": "Yahoo 5-minute bars, Gold futures",
+   "url": "https://query1.finance.yahoo.com/v8/finance/chart/GC=F?interval=5m&period1=1793142823&period2=1793229223",
+   "note": ""
+  },
+  {
+   "name": "Yahoo 5-minute bars, Oil futures (WTI)",
+   "url": "https://query1.finance.yahoo.com/v8/finance/chart/CL=F?interval=5m&period1=1793142823&period2=1793229223",
+   "note": ""
+  },
+  {
+   "name": "Yahoo 5-minute bars, VIX",
+   "url": "https://query1.finance.yahoo.com/v8/finance/chart/%5EVIX?interval=5m&period1=1793142823&period2=1793229223",
+   "note": ""
+  },
+  {
+   "name": "Yahoo 5-minute bars, IBIT volume (iShares Bitcoin Trust)",
+   "url": "https://query1.finance.yahoo.com/v8/finance/chart/IBIT?interval=5m&period1=1793142823&period2=1793229223",
+   "note": ""
+  },
+  {
+   "name": "Yahoo 5-minute bars, FBTC volume (Fidelity Wise Origin Bitcoin Fund)",
+   "url": "https://query1.finance.yahoo.com/v8/finance/chart/FBTC?interval=5m&period1=1793142823&period2=1793229223",
+   "note": ""
+  },
+  {
+   "name": "DefiLlama stablecoin supply (daily)",
+   "url": "https://stablecoins.llama.fi/stablecoincharts/all",
+   "note": ""
+  },
+  {
+   "name": "Farside spot ETF flows (the daily read on Markets)",
+   "url": "https://farside.co.uk/btc/",
+   "note": ""
+  },
+  {
+   "name": "Kalshi Fed markets (KXFED)",
+   "url": "https://api.elections.kalshi.com/trade-api/v2/events?series_ticker=KXFED",
+   "note": "the 4 strikes nearest the money read"
+  },
+  {
+   "name": "OKX open interest, Bitcoin (5-minute)",
+   "url": "https://www.okx.com/api/v5/rubik/stat/contracts/open-interest-volume?ccy=BTC&period=5m",
+   "note": ""
+  },
+  {
+   "name": "OKX liquidations, Bitcoin",
+   "url": "https://www.okx.com/api/v5/public/liquidation-orders?instType=SWAP&state=filled&uly=BTC-USDT&limit=100",
+   "note": ""
+  },
+  {
+   "name": "OKX funding, Bitcoin",
+   "url": "https://www.okx.com/api/v5/public/funding-rate-history?instId=BTC-USDT-SWAP&limit=100",
+   "note": ""
+  },
+  {
+   "name": "OKX taker flow, Bitcoin (hourly)",
+   "url": "https://www.okx.com/api/v5/rubik/stat/taker-volume-contract?instId=BTC-USDT-SWAP&period=1H&unit=2&begin=1793199600000&end=1793206800000",
+   "note": ""
+  },
+  {
+   "name": "Gate liquidations, Bitcoin",
+   "url": "https://api.gateio.ws/api/v4/futures/usdt/liq_orders?contract=BTC_USDT&from=1793205900&to=1793209500&limit=1000",
+   "note": ""
+  },
+  {
+   "name": "OKX open interest, Ether (5-minute)",
+   "url": "https://www.okx.com/api/v5/rubik/stat/contracts/open-interest-volume?ccy=ETH&period=5m",
+   "note": ""
+  },
+  {
+   "name": "OKX liquidations, Ether",
+   "url": "https://www.okx.com/api/v5/public/liquidation-orders?instType=SWAP&state=filled&uly=ETH-USDT&limit=100",
+   "note": ""
+  },
+  {
+   "name": "OKX funding, Ether",
+   "url": "https://www.okx.com/api/v5/public/funding-rate-history?instId=ETH-USDT-SWAP&limit=100",
+   "note": ""
+  },
+  {
+   "name": "OKX taker flow, Ether (hourly)",
+   "url": "https://www.okx.com/api/v5/rubik/stat/taker-volume-contract?instId=ETH-USDT-SWAP&period=1H&unit=2&begin=1793188800000&end=1793196000000",
+   "note": ""
+  },
+  {
+   "name": "Gate liquidations, Ether",
+   "url": "https://api.gateio.ws/api/v4/futures/usdt/liq_orders?contract=ETH_USDT&from=1793195400&to=1793199000&limit=1000",
+   "note": ""
+  }
+ ],
+ "unread": [
+  {
+   "name": "Nasdaq economic calendar",
+   "why": "left out: read 18 October, its dates come back a day late (its answer for October 15 lists CPI, which BLS schedules for October 14, and its October 16 answer lists PPI, scheduled for October 15) and its time column is headed GMT while reading as Eastern, so no event can be stamped from it without guessing",
+   "url": ""
+  },
+  {
+   "name": "Wire sources, some linked reports",
+   "why": "not read: CoinDesk (HTTP 429); CoinDesk (HTTP 429); CoinDesk (HTTP 429)",
+   "url": ""
+  },
+  {
+   "name": "Hyperliquid liquidations",
+   "why": "not read: its public info API publishes no market-wide liquidation history; a liquidation shows only in the liquidated account's own fills",
+   "url": ""
+  },
+  {
+   "name": "Exchange listing notices",
+   "why": "not read for Bitcoin and Ether: a listing notice names a coin being added or removed, and the desk reads them for the Big movers",
+   "url": ""
+  },
+  {
+   "name": "EDGAR 8-K filings",
+   "why": "not read: the search gives the day, not the time",
+   "url": ""
+  }
+ ],
+ "date_et": "2026-10-28",
+ "slot": "evening",
+ "today_composed_utc": "2026-10-28T23:19:37Z"
+}

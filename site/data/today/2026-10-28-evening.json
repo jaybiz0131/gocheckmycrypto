@@ -1,0 +1,179 @@
+{
+ "date_et": "2026-10-28",
+ "slot": "evening",
+ "published_utc": "2026-10-28T23:17:34Z",
+ "first_utc": "2026-10-28T23:17:34Z",
+ "direction": "flat",
+ "direction_basis": "et_day",
+ "title": "Crypto today: flat. Wednesday, October 28, 2026",
+ "h1": "Crypto today: flat. Wednesday, October 28, 2026",
+ "stamp_label": "Evening Brief, 7:17 PM ET",
+ "composed_utc": "2026-10-28T23:19:37Z",
+ "board_stamp_et": "7:13 PM ET on Oct 28",
+ "answer": [
+  "On Wednesday, October 28, Bitcoin was flat since midnight ET, at $81,238, a change of +0.49%.",
+  "Over the last 24 hours it was up 0.49%.",
+  "Ether was up 0.44% over the same 24 hours.",
+  "Among the Top 100, PEPE gained 10.25% and VVV lost 8.25% over 24 hours."
+ ],
+ "answer_by": "template",
+ "fallback": false,
+ "btc": {
+  "price": 81238,
+  "chg": 0.49,
+  "chg_day": 0.49
+ },
+ "eth": {
+  "price": 2359.31,
+  "chg": 0.44
+ },
+ "cap": null,
+ "gainers": [
+  {
+   "symbol": "PEPE",
+   "name": "Pepe",
+   "chg": 10.25,
+   "slug": "pepe"
+  },
+  {
+   "symbol": "KAS",
+   "name": "Kaspa",
+   "chg": 5.62,
+   "slug": "kas"
+  },
+  {
+   "symbol": "PUMP",
+   "name": "Pump.fun",
+   "chg": 4.52,
+   "slug": "pump"
+  }
+ ],
+ "losers": [
+  {
+   "symbol": "VVV",
+   "name": "Venice Token",
+   "chg": -8.25,
+   "slug": "vvv"
+  },
+  {
+   "symbol": "LIT",
+   "name": "Lighter",
+   "chg": -3.74,
+   "slug": "lit"
+  },
+  {
+   "symbol": "NIGHT",
+   "name": "Midnight",
+   "chg": -3.38,
+   "slug": "night"
+  }
+ ],
+ "reported": [
+  {
+   "line": "Federal Reserve held interest rates steady at 3.75-4% on October 28, with two dissenting votes in favor of a quarter-point increase.",
+   "time": "2:00 PM ET",
+   "source_count": 1,
+   "primary": true,
+   "links": [
+    {
+     "outlet": "Federal Reserve",
+     "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20261028a.htm"
+    }
+   ]
+  },
+  {
+   "line": "Bithumb disclosed a breach of its internal employee mobile system; customer data exposure status under investigation.",
+   "time": "1:10 AM ET",
+   "source_count": 1,
+   "primary": false,
+   "links": [
+    {
+     "outlet": "CoinDesk",
+     "url": "https://www.coindesk.com/tech/2026/10/28/bithumb-hacked-through-employee-system-as-south-korean-financial-firms-face-cyberattacks"
+    }
+   ]
+  },
+  {
+   "line": "DTCC's tokenization service launched on Canton and Besu with 20 DTC participants including JPMorgan, Citi, and Morgan Stanley; 34 securities live.",
+   "time": "9:14 AM ET",
+   "source_count": 1,
+   "primary": false,
+   "links": [
+    {
+     "outlet": "CoinDesk",
+     "url": "https://www.coindesk.com/business/2026/10/28/wall-street-backbone-dtcc-brings-usd30-trillion-securities-closer-to-blockchain-with-major-banks"
+    }
+   ]
+  },
+  {
+   "line": "Ita\u00fa Unibanco, Brazil's largest private bank, filed for crypto brokerage and custody licensing ahead of regulatory deadline.",
+   "time": "6:07 AM ET",
+   "source_count": 1,
+   "primary": false,
+   "links": [
+    {
+     "outlet": "CoinDesk",
+     "url": "https://www.coindesk.com/policy/2026/10/28/brazil-s-largest-lender-becomes-first-bank-to-formalize-crypto-brokerage-under-new-rules"
+    }
+   ]
+  },
+  {
+   "line": "CFTC announced a public roundtable on 24/7 derivatives trading scheduled for December 15.",
+   "time": "1:00 PM ET",
+   "source_count": 2,
+   "primary": true,
+   "links": [
+    {
+     "outlet": "CFTC Press Releases",
+     "url": "https://www.cftc.gov/PressRoom/PressReleases/9318-26"
+    },
+    {
+     "outlet": "Crypto Briefing",
+     "url": "https://cryptobriefing.com/cftc-roundtable-24-7-derivatives-trading/"
+    }
+   ]
+  }
+ ],
+ "board": [
+  {
+   "key": "etf",
+   "label": "Bitcoin ETF flows",
+   "value": 1.3,
+   "window": "one trading day, 28 Oct 2026",
+   "source": "Farside Investors",
+   "stamp": "7:13 PM ET on Oct 28",
+   "directional": true
+  },
+  {
+   "key": "liq",
+   "label": "Bitcoin liquidations",
+   "longs": 194365,
+   "shorts": 1140761,
+   "window": "last 3 hours",
+   "source": "OKX",
+   "stamp": "7:13 PM ET on Oct 28",
+   "directional": false
+  },
+  {
+   "key": "funding",
+   "label": "Bitcoin funding",
+   "value": 0.01,
+   "window": "current 8-hour period",
+   "source": "OKX",
+   "stamp": "7:13 PM ET on Oct 28",
+   "directional": false
+  },
+  {
+   "key": "fng",
+   "label": "Fear & Greed",
+   "value": 51,
+   "word": "Neutral",
+   "window": "today",
+   "source": "alternative.me",
+   "stamp": "7:13 PM ET on Oct 28",
+   "directional": false
+  }
+ ],
+ "next": "Next update: Morning Brief, tomorrow at 8:15 AM ET",
+ "corrections": []
+}

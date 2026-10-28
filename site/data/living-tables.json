@@ -1,31 +1,13 @@
 {
  "fetched": {
-  "etf_by_issuer": "2026-10-27T23:17:06Z",
-  "stables_by_issuer": "2026-10-27T23:17:06Z",
-  "whales_by_week": "2026-10-27T23:17:06Z"
+  "etf_by_issuer": "2026-10-28T23:20:51Z",
+  "stables_by_issuer": "2026-10-28T23:20:51Z",
+  "whales_by_week": "2026-10-28T23:20:51Z"
  },
- "fetched_at": "2026-10-27T23:17:06Z",
+ "fetched_at": "2026-10-28T23:20:51Z",
  "tables": {
   "etf_by_issuer": {
    "days": [
-    {
-     "date": "08 Oct 2026",
-     "funds": {
-      "ARKB": -20.3,
-      "BITB": -17.7,
-      "BRRR": 0.0,
-      "BTC": 0.0,
-      "BTCO": 0.0,
-      "BTCW": 0.0,
-      "EZBC": 4.7,
-      "FBTC": -197.1,
-      "GBTC": -8.2,
-      "HODL": 0.0,
-      "IBIT": -5.5,
-      "MSBT": 0.0
-     },
-     "total_usd_m": -244.1
-    },
     {
      "date": "09 Oct 2026",
      "funds": {
@@ -247,11 +229,29 @@
      "funds": {
       "ARKB": 0.0,
       "BITB": 0.0,
+      "BRRR": 0.0,
+      "BTC": 0.0,
+      "BTCO": 0.0,
+      "BTCW": 0.0,
+      "EZBC": 0.0,
+      "FBTC": 24.5,
+      "GBTC": 0.0,
+      "HODL": 0.0,
+      "IBIT": 151.5,
+      "MSBT": 0.0
+     },
+     "total_usd_m": 176.0
+    },
+    {
+     "date": "28 Oct 2026",
+     "funds": {
+      "ARKB": 0.0,
+      "BITB": 1.3,
       "BTC": 0.0,
       "GBTC": 0.0,
       "MSBT": 0.0
      },
-     "total_usd_m": 0.0
+     "total_usd_m": 1.3
     }
    ],
    "issuers": [
@@ -273,120 +273,120 @@
   "stables_by_issuer": {
    "rows": [
     {
-     "chg_7d_pct": -0.6263131981459003,
-     "circulating_usd": 181780557755,
+     "chg_7d_pct": -0.8727828950743755,
+     "circulating_usd": 181149819606,
      "name": "Tether",
      "peg": "peggedUSD",
-     "share_pct": 59.91,
+     "share_pct": 59.89,
      "symbol": "USDT"
     },
     {
-     "chg_7d_pct": -1.2662487310250548,
-     "circulating_usd": 71299472919,
+     "chg_7d_pct": -1.1655619362161418,
+     "circulating_usd": 71375054277,
      "name": "USD Coin",
      "peg": "peggedUSD",
-     "share_pct": 23.5,
+     "share_pct": 23.6,
      "symbol": "USDC"
     },
     {
-     "chg_7d_pct": 0.46238035239249964,
-     "circulating_usd": 6771208731,
+     "chg_7d_pct": -1.5378138672901387,
+     "circulating_usd": 6609358789,
      "name": "Sky Dollar",
      "peg": "peggedUSD",
-     "share_pct": 2.23,
+     "share_pct": 2.19,
      "symbol": "USDS"
     },
     {
-     "chg_7d_pct": -0.3393686252515904,
-     "circulating_usd": 4711382280,
+     "chg_7d_pct": 0.33344999406004217,
+     "circulating_usd": 4757215240,
      "name": "Dai",
      "peg": "peggedUSD",
-     "share_pct": 1.55,
+     "share_pct": 1.57,
      "symbol": "DAI"
     },
     {
-     "chg_7d_pct": -2.656264922168783,
-     "circulating_usd": 4548767196,
+     "chg_7d_pct": -2.9414588338410708,
+     "circulating_usd": 4530205149,
      "name": "Ethena USDe",
      "peg": "peggedUSD",
      "share_pct": 1.5,
      "symbol": "USDe"
     },
     {
-     "chg_7d_pct": -2.6698375644954586,
-     "circulating_usd": 3916294788,
+     "chg_7d_pct": -2.6686272322256954,
+     "circulating_usd": 3905578305,
      "name": "World Liberty Financial USD",
      "peg": "peggedUSD",
      "share_pct": 1.29,
      "symbol": "USD1"
     },
     {
-     "chg_7d_pct": -0.08105118096332076,
-     "circulating_usd": 3061516467,
+     "chg_7d_pct": 0.20179803943263241,
+     "circulating_usd": 3070364093,
      "name": "Global Dollar",
      "peg": "peggedUSD",
-     "share_pct": 1.01,
+     "share_pct": 1.02,
      "symbol": "USDG"
     },
     {
-     "chg_7d_pct": 5.450474757605273,
-     "circulating_usd": 3014317077,
+     "chg_7d_pct": 3.7969174681568463,
+     "circulating_usd": 2971654232,
      "name": "PayPal USD",
      "peg": "peggedUSD",
-     "share_pct": 0.99,
+     "share_pct": 0.98,
      "symbol": "PYUSD"
     },
     {
-     "chg_7d_pct": 8.17378011111205,
-     "circulating_usd": 2598603419,
+     "chg_7d_pct": 8.274675901186445,
+     "circulating_usd": 2603609455,
      "name": "Ripple USD",
      "peg": "peggedUSD",
      "share_pct": 0.86,
      "symbol": "RLUSD"
     },
     {
-     "chg_7d_pct": 0.5282703730601801,
-     "circulating_usd": 2182474455,
+     "chg_7d_pct": -0.26013855401822994,
+     "circulating_usd": 2180539000,
      "name": "BlackRock USD",
      "peg": "peggedUSD",
      "share_pct": 0.72,
      "symbol": "BUIDL"
     },
     {
-     "chg_7d_pct": -2.3995373570828704,
-     "circulating_usd": 1720309416,
-     "name": "USDD",
-     "peg": "peggedUSD",
-     "share_pct": 0.57,
-     "symbol": "USDD"
-    },
-    {
-     "chg_7d_pct": 0.03181960082434543,
-     "circulating_usd": 1719188072,
+     "chg_7d_pct": 0.05042395179186698,
+     "circulating_usd": 1719822982,
      "name": "Falcon USD",
      "peg": "peggedUSD",
      "share_pct": 0.57,
      "symbol": "USDf"
     },
     {
-     "chg_7d_pct": 2.719548803962657,
-     "circulating_usd": 1622508158,
+     "chg_7d_pct": 2.7407773085621034,
+     "circulating_usd": 1629425617,
      "name": "United Stables",
      "peg": "peggedUSD",
-     "share_pct": 0.53,
+     "share_pct": 0.54,
      "symbol": "U"
     },
     {
-     "chg_7d_pct": 1.5607469176396105,
-     "circulating_usd": 1301306642,
+     "chg_7d_pct": -15.152749983573177,
+     "circulating_usd": 1500233810,
+     "name": "USDD",
+     "peg": "peggedUSD",
+     "share_pct": 0.5,
+     "symbol": "USDD"
+    },
+    {
+     "chg_7d_pct": 0.5799278366543259,
+     "circulating_usd": 1306046864,
      "name": "USDGO",
      "peg": "peggedUSD",
      "share_pct": 0.43,
      "symbol": "USDGO"
     },
     {
-     "chg_7d_pct": 0.5335106215566876,
-     "circulating_usd": 828276142,
+     "chg_7d_pct": -1.1474601388480665,
+     "circulating_usd": 820264842,
      "name": "Open USD",
      "peg": "peggedUSD",
      "share_pct": 0.27,
@@ -394,75 +394,75 @@
     }
    ],
    "source": "DefiLlama stablecoin circulating supply",
-   "total_usd": 303417814456
+   "total_usd": 302469305469
   },
   "whales_by_week": {
    "source": "Whale Alert public feed, transfers of $50M and up",
    "weeks": [
     {
-     "moves": 62,
-     "net_usd": 1116646075,
-     "week_ending": "Aug 04"
+     "moves": 80,
+     "net_usd": 1209322264,
+     "week_ending": "Aug 05"
     },
     {
-     "moves": 84,
-     "net_usd": -589448629,
-     "week_ending": "Aug 11"
+     "moves": 66,
+     "net_usd": -1052279081,
+     "week_ending": "Aug 12"
     },
     {
-     "moves": 22,
-     "net_usd": -332783306,
-     "week_ending": "Aug 18"
+     "moves": 26,
+     "net_usd": -81502674,
+     "week_ending": "Aug 19"
     },
     {
      "moves": 92,
-     "net_usd": -1198979675,
-     "week_ending": "Aug 25"
+     "net_usd": -1580124597,
+     "week_ending": "Aug 26"
     },
     {
      "moves": 89,
-     "net_usd": -48986252,
-     "week_ending": "Sep 01"
+     "net_usd": 370676302,
+     "week_ending": "Sep 02"
     },
     {
-     "moves": 51,
-     "net_usd": -351082695,
-     "week_ending": "Sep 08"
+     "moves": 49,
+     "net_usd": -536011575,
+     "week_ending": "Sep 09"
     },
     {
-     "moves": 37,
-     "net_usd": -922678983,
-     "week_ending": "Sep 15"
+     "moves": 45,
+     "net_usd": -447752765,
+     "week_ending": "Sep 16"
     },
     {
-     "moves": 95,
-     "net_usd": -506842845,
-     "week_ending": "Sep 22"
+     "moves": 96,
+     "net_usd": -1247328432,
+     "week_ending": "Sep 23"
     },
     {
-     "moves": 91,
-     "net_usd": -1028316074,
-     "week_ending": "Sep 29"
+     "moves": 84,
+     "net_usd": -678459858,
+     "week_ending": "Sep 30"
     },
     {
-     "moves": 64,
-     "net_usd": 254852601,
-     "week_ending": "Oct 06"
+     "moves": 78,
+     "net_usd": -274220441,
+     "week_ending": "Oct 07"
     },
     {
-     "moves": 93,
-     "net_usd": -1557012402,
-     "week_ending": "Oct 13"
+     "moves": 72,
+     "net_usd": -1004535752,
+     "week_ending": "Oct 14"
     },
     {
-     "moves": 61,
-     "net_usd": -771648578,
-     "week_ending": "Oct 20"
+     "moves": 70,
+     "net_usd": -742777999,
+     "week_ending": "Oct 21"
     },
     {
-     "moves": 44,
-     "net_usd": -690884312,
-     "week_ending": "Oct 27"
+     "moves": 96,
+     "net_usd": 435850450,
+     "week_ending": "Oct 28"
     }
    ]
   }

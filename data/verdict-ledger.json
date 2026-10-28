@@ -212,5 +212,71 @@
    "BTC": "Unclear (phrases)",
    "ETH": "with_btc"
   }
+ },
+ {
+  "kind": "run",
+  "date": "2026-10-28",
+  "slot": "evening",
+  "t": "2026-10-28T23:20:21Z",
+  "calls": 0,
+  "tokens": 0,
+  "usd": 0,
+  "by_stage": {},
+  "models": {
+   "verdict_draft": "claude-haiku-5-5",
+   "verdict_check": "claude-sonnet-5-5"
+  },
+  "day_usd": 0,
+  "cap_usd": 1.5,
+  "coins": {
+   "BTC": "flat",
+   "ETH": "with_btc"
+  }
+ },
+ {
+  "kind": "call",
+  "date": "2026-10-28",
+  "slot": "evening",
+  "t": "2026-10-28T23:20:49Z",
+  "stage": "verdict_draft",
+  "model": "claude-haiku-5-5",
+  "est_usd": 0.001534,
+  "usd": 0.000118,
+  "tokens": 532,
+  "status": "settled"
+ },
+ {
+  "kind": "call",
+  "date": "2026-10-28",
+  "slot": "evening",
+  "t": "2026-10-28T23:20:50Z",
+  "stage": "verdict_check",
+  "model": "claude-sonnet-5-5",
+  "est_usd": 0.060707,
+  "usd": 0.000732,
+  "tokens": 366,
+  "status": "settled"
+ },
+ {
+  "kind": "run",
+  "date": "2026-10-28",
+  "slot": "evening",
+  "t": "2026-10-28T23:20:21Z",
+  "calls": 2,
+  "tokens": 898,
+  "usd": 0.00085,
+  "by_stage": {
+   "verdict_draft": 0.000118,
+   "verdict_check": 0.000732
+  },
+  "models": {
+   "verdict_draft": "claude-haiku-5-5",
+   "verdict_check": "claude-sonnet-5-5"
+  },
+  "day_usd": 0.00085,
+  "cap_usd": 1.5,
+  "coins": {
+   "PEPE": "Unclear (phrases)"
+  }
  }
 ]

@@ -1,14 +1,60 @@
 {
-  "date": "2026-10-27",
+  "date": "2026-10-28",
   "generated_by": "chartmaster.py (auto, from the live boards)",
   "mode": "live",
-  "path": "cut",
-  "headline": "All majors hold above 200-day lines with golden crosses intact, but momentum has stalled while whales move coins onto exchanges for a third straight week.",
-  "paragraphs": [
-    "The regime is unified: Bitcoin, Ethereum, Solana, XRP, BNB all sit above their 200-day simple moving averages and have golden crosses in place, a bullish structural alignment. DOGE and ADA are the exceptions, both below the 200-day line despite golden cross signals still active. Bitcoin dominance stands at 59.5%, a stable floor. But structure alone does not carry price. Yet stretched across longer windows, the picture inverts. Over the week, Bitcoin down 2.2%, Ethereum down 3.5%, Solana down 4.0%. Over the month, Bitcoin down 5.2%, Ethereum down 13.9%, Solana down 17.0%. The only asset showing weekly and monthly alignment in the same direction is XRP, which gained 0.3% on the week after losing 14.4% on the month. This is a market resting, not accelerating.",
-    "Momentum indicators confirm the stall. Bitcoin RSI sits at 45.4, Ethereum at 37.6, Solana at 36.3, all in the lower half of the 0-100 range and well below 50, meaning neither buyers nor sellers are applying sustained pressure. MACD has turned negative on five of seven majors: only XRP and BNB show MACD above signal line, a thin read of positive divergence. Realized volatility ranges from 25.3% on Bitcoin to 64.5% on ADA, wide swings but no directional agreement. The 12-month drawdowns tell the fuller story: Bitcoin sits 35.2% below its yearly high, Ethereum 49.9%, Solana 56.5%, and ADA the deepest at 76.5% below peak. The structural crosses suggest the corrective leg may have a floor, but momentum has no conviction in either direction.",
-    "Derivatives positioning reveals a market tilted long but expensively priced for that tilt. The long-to-short ratio on Bitcoin is 2.1-to-1, on Ethereum 2.27-to-1, and on SOL 3.02-to-1, meaning longs outnumber shorts by 2 to 3 times across the board. That crowding is worth monitoring: when the crowd leans one way this hard, reversals tend to be swift. Liquidations over the last 2 to 24 hours show mostly shorts being cleared (Bitcoin: $1.06 million in short liquidations against zero long), consistent with a market that has priced in some downside risk but still favors the long side. Stablecoin supply sits at $301.5 billion, down 1.2% over the month, not a panic withdrawal but a slow drain of dry powder.",
-    "Whale flows are the critical tension. Over the past 7 days (week ending Oct 27), $691 million moved onto exchanges, the third consecutive week of inbound volume. The prior two weeks saw $1.56 billion and $772 million move onto exchanges respectively. Stablecoins moved off exchanges at a net $121 million, a small contrary signal. The largest single moves show Bitcoin and Ethereum into Coinbase Institutional ($323 million and $323 million respectively) balanced by offsetting Bitcoin withdrawals from Coinbase (totaling $377 million), and a massive $500 million in Tether moving both onto Binance and off Binance in near-equal size. This is not panic; it is repositioning. Large holders are rotating through venue wallets and staging fresh deposits, the pattern of accumulation at lower prices or rebalancing ahead of a move. The inflow window contradicts the price window: most majors gained on the day and the week is negative, yet big money is actively moving into exchange custody.",
-    "Sentiment reads as neutral, at 48 on the 0-100 Fear and Greed Index, sitting within the 30-day range of 48 to 74 and at the low end of recent history. This is neither panic nor euphoria. The tension is between the near-term downward price action (especially over the week and month) and the steady whale accumulation onto exchanges. When positioning is long, momentum is flat, and big money is moving coins into exchange wallets, the tape is describing a market looking for a floor. Watch the 200-day hold: any major that closes below it, most urgently Bitcoin or Ethereum, would signal regime shift."
+  "path": "data-only",
+  "headline": "Chart data card: levels, 50-day and 200-day lines, RSI",
+  "paragraphs": [],
+  "data_only": true,
+  "levels": [
+    {
+      "symbol": "BTC",
+      "price": 81238,
+      "sma50": 81895.46,
+      "sma200": 73070.44,
+      "rsi14": 47.5
+    },
+    {
+      "symbol": "ETH",
+      "price": 2359.31,
+      "sma50": 2534.2,
+      "sma200": 2159.05,
+      "rsi14": 39.2
+    },
+    {
+      "symbol": "SOL",
+      "price": 102.4,
+      "sma50": 109.41,
+      "sma200": 88.62,
+      "rsi14": 40.2
+    },
+    {
+      "symbol": "XRP",
+      "price": 1.33,
+      "sma50": 1.4,
+      "sma200": 1.28,
+      "rsi14": 45.8
+    },
+    {
+      "symbol": "BNB",
+      "price": 756.66,
+      "sma50": 749.62,
+      "sma200": 653.37,
+      "rsi14": 56.6
+    },
+    {
+      "symbol": "DOGE",
+      "price": 0.079833,
+      "sma50": 0.09,
+      "sma200": 0.09,
+      "rsi14": 42.8
+    },
+    {
+      "symbol": "ADA",
+      "price": 0.205849,
+      "sma50": 0.23,
+      "sma200": 0.21,
+      "rsi14": 36.6
+    }
   ]
 }

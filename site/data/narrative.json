@@ -1,31 +1,31 @@
 {
- "line": "Bitcoin drifting higher on neutral sentiment and warm funding, as whales accumulate on-exchange and stablecoins exit venues ahead of the FOMC conclusion tomorrow.",
+ "line": "Bitcoin is drifting slightly higher on the Board's 24-hour reading even as weekly and monthly prices stay lower, and the news cycle itself was quiet, with no new desk reporting to explain the move.",
  "by": "edition",
- "written_utc": "2026-10-27T23:15:51Z",
- "written_et": "7:15 PM ET on Oct 27",
+ "written_utc": "2026-10-28T23:17:34Z",
+ "written_et": "7:17 PM ET on Oct 28",
  "readings": {
-  "stamp_utc": "2026-10-27T23:13:49Z",
-  "btc_24h_pct": 1.35,
-  "etf_net_usd_m": 110.3,
-  "etf_date": "26 Oct 2026",
-  "fear_greed": 48,
+  "stamp_utc": "2026-10-28T23:13:43Z",
+  "btc_24h_pct": 0.49,
+  "etf_net_usd_m": 1.3,
+  "etf_date": "28 Oct 2026",
+  "fear_greed": 51,
   "fear_greed_band": "Neutral",
   "funding_8h_pct": 0.01,
   "funding_band": "warm"
  },
- "small_line": "Written from Bitcoin +1.35% on the day, spot ETF net +110.3M USD (Oct 26, 2026), Fear & Greed 48 (neutral), funding +0.0100% per 8h (warm)",
+ "small_line": "Written from Bitcoin +0.49% on the day, spot ETF net +1.3M USD (Oct 28, 2026), Fear & Greed 51 (neutral), funding +0.0100% per 8h (warm)",
  "wire_top3": [
   {
-   "id": "c023",
-   "line": "Ripple won OCC approval to operate a national trust bank backing its $2.6 billion RLUSD stablecoin, separating issuance from custody under federal oversight."
+   "id": "c170",
+   "line": "Federal Reserve held interest rates steady at 3.75-4% on October 28, with two dissenting votes in favor of a quarter-point increase."
   },
   {
-   "id": "c002",
-   "line": "CFTC sued Utah to block state enforcement against prediction markets, asserting federal agency jurisdiction over a sector states are now targeting."
+   "id": "c022",
+   "line": "Bithumb disclosed a breach of its internal employee mobile system; customer data exposure status under investigation."
   },
   {
-   "id": "c006",
-   "line": "Intel, Oracle, IBM, and 23 other firms have now filed objections to OKX-ICE's tokenized stock trading venue, challenging the SEC's new framework."
+   "id": "c009",
+   "line": "DTCC's tokenization service launched on Canton and Besu with 20 DTC participants including JPMorgan, Citi, and Morgan Stanley; 34 securities live."
   }
  ],
  "crossed": []
