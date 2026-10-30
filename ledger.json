@@ -3348,6 +3348,23 @@
    "wf": "Crypto Cronkite daily brief",
    "wrap": "synthesis",
    "wrap_repairs": 1
+  },
+  {
+   "breaking": true,
+   "cron": "",
+   "ev": "workflow_dispatch",
+   "guard": "",
+   "outcome": "no report",
+   "pinged": false,
+   "pushed": false,
+   "run": "41076734632",
+   "t": "2026-10-30T15:03:46Z",
+   "tokens": 0,
+   "twins_drops": 0,
+   "twins_unparsed": 0,
+   "usd": 0.0,
+   "wf": "Breaking-news watcher",
+   "wrap": "synthesis"
   }
  ],
  "since": "2026-09-16T16:27Z"
