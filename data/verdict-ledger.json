@@ -364,5 +364,76 @@
   "coins": {
    "PIEVERSE": "Unclear (model)"
   }
+ },
+ {
+  "kind": "call",
+  "date": "2026-11-08",
+  "slot": "evening",
+  "t": "2026-11-08T23:16:29Z",
+  "stage": "verdict_draft",
+  "model": "claude-haiku-5-5",
+  "est_usd": 0.001534,
+  "usd": 0.000131,
+  "tokens": 559,
+  "status": "settled"
+ },
+ {
+  "kind": "call",
+  "date": "2026-11-08",
+  "slot": "evening",
+  "t": "2026-11-08T23:16:30Z",
+  "stage": "verdict_check",
+  "model": "claude-sonnet-5-5",
+  "est_usd": 0.060707,
+  "usd": 0.000732,
+  "tokens": 366,
+  "status": "settled"
+ },
+ {
+  "kind": "call",
+  "date": "2026-11-08",
+  "slot": "evening",
+  "t": "2026-11-08T23:16:31Z",
+  "stage": "verdict_draft",
+  "model": "claude-haiku-5-5",
+  "est_usd": 0.001534,
+  "usd": 0.000128,
+  "tokens": 552,
+  "status": "settled"
+ },
+ {
+  "kind": "call",
+  "date": "2026-11-08",
+  "slot": "evening",
+  "t": "2026-11-08T23:16:32Z",
+  "stage": "verdict_check",
+  "model": "claude-sonnet-5-5",
+  "est_usd": 0.060707,
+  "usd": 0.000732,
+  "tokens": 366,
+  "status": "settled"
+ },
+ {
+  "kind": "run",
+  "date": "2026-11-08",
+  "slot": "evening",
+  "t": "2026-11-08T23:16:29Z",
+  "calls": 4,
+  "tokens": 1843,
+  "usd": 0.001723,
+  "by_stage": {
+   "verdict_draft": 0.000259,
+   "verdict_check": 0.001464
+  },
+  "models": {
+   "verdict_draft": "claude-haiku-5-5",
+   "verdict_check": "claude-sonnet-5-5"
+  },
+  "day_usd": 0.004484,
+  "cap_usd": 1.5,
+  "coins": {
+   "BTC": "Unclear (phrases)",
+   "ETH": "Unclear (phrases)"
+  }
  }
 ]

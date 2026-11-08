@@ -1,135 +1,39 @@
 {
  "what": "the day's ranked clusters, in the desk's own one line, sources counted and linked (Jack, 5 October 2026)",
  "what_a_wire_line_is": "Each line is the desk's own one-line summary of a story it ranked, with its sources counted and linked. It is not a story the desk wrote or checked; only the item with a badge was checked.",
- "ranked_utc": "2026-11-08T02:00:01Z",
- "ranked_et": "9:00 PM ET on Nov 7",
- "refreshed_utc": "2026-11-08T13:16:59Z",
- "refreshed_et": "8:16 AM ET on Nov 8",
- "refreshes": 1,
- "snapshot_stamp_utc": "2026-11-08T01:59:34Z",
+ "ranked_utc": "2026-11-08T23:13:09Z",
+ "ranked_et": "6:13 PM ET on Nov 8",
+ "refreshed_utc": "2026-11-08T23:13:09Z",
+ "refreshed_et": "6:13 PM ET on Nov 8",
+ "refreshes": 0,
+ "snapshot_stamp_utc": "2026-11-08T23:12:40Z",
  "items": [
   {
    "rank": 1,
-   "id": "c001",
-   "line": "US Treasury cut MEXC from US financial system over $16 billion in alleged illicit transactions linked to Iran, North Korea, and Russia.",
+   "id": "c004",
+   "line": "US Treasury moved to cut off crypto exchange MEXC over $16 billion in alleged illicit flows tied to Iran and Russia.",
    "titles": [
-    "Treasury Cuts Crypto Exchange MEXC Off From US Financial System",
-    "U.S. Treasury Cuts Off MEXC From U.S. Financial System Over Alleged $16 Billion in Illicit Flows",
-    "U.S. Treasury moves to cut off crypto exchange MEXC over $16 billion in alleged illicit flows",
-    "US Treasury cuts off MEXC over alleged $16B in illicit transactions",
-    "US Treasury Bans MEXC Exchange Over Alleged $16B in Illicit Transactions"
+    "U.S. Treasury moves to cut off crypto exchange MEXC over $16 billion in alleged illicit flows"
    ],
    "board_reading": "Whale flows",
-   "source_count": 5,
+   "source_count": 1,
    "primary": false,
-   "standing": "corroborated",
+   "standing": "single",
    "links": [
-    {
-     "url": "https://decrypt.co/382758/treasury-cuts-off-crypto-exchange-mexc-us-financial-system",
-     "outlet": "Decrypt",
-     "primary": false
-    },
-    {
-     "url": "https://bitcoinmagazine.com/news/fincen-cuts-off-mexc-us-financial-system",
-     "outlet": "Bitcoin Magazine",
-     "primary": false
-    },
     {
      "url": "https://www.coindesk.com/business/2026/11/07/u-s-treasury-moves-to-cut-off-crypto-exchange-mexc-over-usd16-billion-in-alleged-illicit-flows",
      "outlet": "CoinDesk",
      "primary": false
-    },
-    {
-     "url": "https://cointelegraph.com/news/us-treasury-bans-mexc-over-alleged-16b-illicit-transactions?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
-     "outlet": "Cointelegraph",
-     "primary": false
-    },
-    {
-     "url": "https://beincrypto.com/us-bans-mexc-16-billion-illicit-transactions/",
-     "outlet": "BeInCrypto",
-     "primary": false
     }
    ],
-   "reported_utc": "2026-11-06T21:06:03Z",
-   "verdict": "VERIFIED",
-   "mark": "checked"
-  },
-  {
-   "rank": 5,
-   "id": "c064",
-   "line": "US sanctioned eight Canadian money-exchange firms for alleged Iran crypto links and blocked six Tron addresses.",
-   "titles": [
-    "US Sanctions Eight Canadian Money Firms Over Alleged Iran Crypto Links",
-    "US sanctions Canadian money-exchange firms over Iran ties"
-   ],
-   "board_reading": "Whale flows",
-   "source_count": 2,
-   "primary": false,
-   "standing": "corroborated",
-   "links": [
-    {
-     "url": "https://thedefiant.io/converge/regulation/us-sanctions-eight-canadian-money-firms-over-alleged-iran-crypto-links",
-     "outlet": "The Defiant",
-     "primary": false
-    },
-    {
-     "url": "https://cointelegraph.com/news/us-sanctions-canadian-money-exchange-firms-over-iran-ties?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
-     "outlet": "Cointelegraph",
-     "primary": false
-    }
-   ],
-   "reported_utc": "2026-11-07T11:27:05Z",
-   "verdict": "VERIFIED",
+   "reported_utc": "2026-11-07T17:36:46Z",
+   "verdict": "NEEDS-HUMAN-REVIEW",
    "mark": "wire"
   },
   {
-   "rank": 3,
-   "id": "c002",
-   "line": "Gnosis Pay breach exposed card numbers, home addresses, and linked crypto wallet details, creating heightened targeted scam risk.",
-   "titles": [
-    "Gnosis Pay breach exposes card numbers, home addresses and linked crypto wallets"
-   ],
-   "board_reading": "",
-   "source_count": 1,
-   "primary": false,
-   "standing": "single",
-   "links": [
-    {
-     "url": "https://www.coindesk.com/business/2026/11/07/gnosis-pay-breach-exposes-card-numbers-home-addresses-and-linked-crypto-wallets",
-     "outlet": "CoinDesk",
-     "primary": false
-    }
-   ],
-   "reported_utc": "2026-11-07T16:51:00Z",
-   "verdict": "VERIFIED",
-   "mark": "wire"
-  },
-  {
-   "rank": 4,
-   "id": "c012",
-   "line": "Greece passed crypto tax law imposing 10% on capital gains and 15% on staking and DeFi income, with \u20ac500 annual threshold.",
-   "titles": [
-    "Greece Passes Crypto Tax Law With 10% Gains Levy, 15% on Staking and DeFi"
-   ],
-   "board_reading": "Ether price",
-   "source_count": 1,
-   "primary": false,
-   "standing": "single",
-   "links": [
-    {
-     "url": "https://decrypt.co/382756/greece-passes-crypto-tax-law-staking-defi",
-     "outlet": "Decrypt",
-     "primary": false
-    }
-   ],
-   "reported_utc": "2026-11-06T20:36:03Z",
-   "verdict": "VERIFIED",
-   "mark": "wire"
-  },
-  {
-   "rank": 6,
-   "id": "c000",
-   "line": "Binance told users in Spain, France, and Poland to withdraw crypto before Dec. 31 account closure, citing regional regulatory constraints.",
+   "rank": 2,
+   "id": "c003",
+   "line": "Binance told users in Spain, France, and Poland to withdraw assets by Dec 31 or face account closure and retroactive fees starting Nov 29.",
    "titles": [
     "Binance users in some European countries told to pull crypto before fees kick in, with accounts closing by year end"
    ],
@@ -147,24 +51,88 @@
    "reported_utc": "2026-11-07T19:13:16Z",
    "verdict": "NEEDS-HUMAN-REVIEW",
    "mark": "wire"
+  },
+  {
+   "rank": 3,
+   "id": "c006",
+   "line": "Web3Auth moved $5.6 million from exposed Keplr wallets to prevent theft, but some funds were already stolen from affected users.",
+   "titles": [
+    "Web3Auth says it frontran hackers by moving $5.6 million out of exposed Keplr wallets"
+   ],
+   "board_reading": "",
+   "source_count": 1,
+   "primary": false,
+   "standing": "single",
+   "links": [
+    {
+     "url": "https://www.theblock.co/news/defi/2026-11-08-web3auth-says-it-frontran-hackers-by-moving-5-6-million-out-of-exposed-keplr-wallets-436029",
+     "outlet": "The Block",
+     "primary": false
+    }
+   ],
+   "reported_utc": "2026-11-08T18:32:11Z",
+   "verdict": "NEEDS-HUMAN-REVIEW",
+   "mark": "wire"
+  },
+  {
+   "rank": 4,
+   "id": "c008",
+   "line": "Binance CFO Kaiser Ng steps down nine days; co-CEO says transition was planned six months prior.",
+   "titles": [
+    "Binance CFO steps down nine days after record hack; co-CEO says transition was planned six months ago"
+   ],
+   "board_reading": "Whale flows",
+   "source_count": 1,
+   "primary": false,
+   "standing": "single",
+   "links": [
+    {
+     "url": "https://www.theblock.co/news/business/2026-11-07-binance-cfo-steps-down-nine-days-after-record-hack-co-ceo-says-transition-was-planned-six-months-ago-435992",
+     "outlet": "The Block",
+     "primary": false
+    }
+   ],
+   "reported_utc": "2026-11-07T21:57:58Z",
+   "verdict": "NEEDS-HUMAN-REVIEW",
+   "mark": "wire"
+  },
+  {
+   "rank": 6,
+   "id": "c000",
+   "line": "Democrats swept US midterm elections by a wider-than-expected margin, potentially shifting crypto policy toward tighter regulation and enforcement.",
+   "titles": [
+    "What the election results mean for crypto: State of Crypto"
+   ],
+   "board_reading": "",
+   "source_count": 1,
+   "primary": false,
+   "standing": "single",
+   "links": [
+    {
+     "url": "https://www.coindesk.com/policy/2026/11/08/what-the-election-results-mean-for-crypto-state-of-crypto",
+     "outlet": "CoinDesk",
+     "primary": false
+    }
+   ],
+   "reported_utc": "2026-11-08T19:30:00Z",
+   "verdict": "NEEDS-HUMAN-REVIEW",
+   "mark": "wire"
   }
  ],
- "checked": {
-  "id": "c001",
-  "rank": 1,
-  "says": "Bitcoin Magazine reports FinCEN issued a final order Friday cutting MEXC from the American banking system over alleged links to sanctions evasion by Iran, North Korea and Russia, alleging at least $16 billion in illicit flows from May 2021 through May 2026.",
-  "unconfirmed": "The specific breakdown of illicit flow attribution ($1.5 billion Russian, $22 million Iran Central Bank/IRGC) rests on Bitcoin Magazine alone; Decrypt and Cointelegraph confirm the $16 billion total and country ties but not the sub-allocations.",
-  "badge": "Verified",
-  "standing": "corroborated",
-  "source": "https://bitcoinmagazine.com/news/fincen-cuts-off-mexc-us-financial-system",
-  "outlet": "Bitcoin Magazine"
- },
+ "checked": null,
  "dropped": [
   {
-   "rank": 2,
-   "id": "c006",
-   "why": "the wire line runs 167 characters, over 160"
+   "rank": 5,
+   "id": "c055",
+   "why": "the wire line runs 168 characters, over 160"
   }
  ],
- "source_cuts": []
+ "source_cuts": [
+  {
+   "rank": 4,
+   "id": "c008",
+   "clause": "the exchange's record $6.34 billion hack",
+   "why": "its sources do not carry the figure $6.34 billion"
+  }
+ ]
 }

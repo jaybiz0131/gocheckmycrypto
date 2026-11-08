@@ -1,0 +1,139 @@
+{
+ "date_et": "2026-11-08",
+ "slot": "evening",
+ "published_utc": "2026-11-08T23:15:11Z",
+ "first_utc": "2026-11-08T23:15:11Z",
+ "direction": "down",
+ "direction_basis": "et_day",
+ "title": "Why is crypto down today? Sunday, November 8, 2026",
+ "h1": "Why is crypto down today? Sunday, November 8, 2026",
+ "stamp_label": "Evening Brief, 6:15 PM ET",
+ "composed_utc": "2026-11-08T23:15:53Z",
+ "board_stamp_et": "6:12 PM ET on Nov 8",
+ "answer": [
+  "Bitcoin down 0.94% over 24 hours and down 2.25% over seven days as the desk's Whale Watch board showed $2.292 billion in bitcoin moving off exchanges during the week ending Nov 08, a pattern of accumulation that contradicts spot Bitcoin ETF outflows of $411.9M on the day and $1,281.7M over the week.",
+  "Technical indicators show deep oversold conditions across major assets: Bitcoin's RSI at 35.8, Ether at 34.0, Cardano at 25.4.",
+  "The Fear and Greed Index closed at 28.",
+  "No near-term regulatory or market checkpoints are stated in the desk's coverage, but whale positioning and funding dynamics warrant close watching in the days ahead."
+ ],
+ "answer_by": "evening",
+ "fallback": false,
+ "btc": {
+  "price": 74801,
+  "chg": -0.94,
+  "chg_day": -1.18
+ },
+ "eth": {
+  "price": 2144.23,
+  "chg": -3.62
+ },
+ "cap": null,
+ "gainers": [
+  {
+   "symbol": "PEPE",
+   "name": "Pepe",
+   "chg": 3.54,
+   "slug": "pepe"
+  },
+  {
+   "symbol": "WLFI",
+   "name": "World Liberty Financial",
+   "chg": 0.33,
+   "slug": "wlfi"
+  },
+  {
+   "symbol": "GT",
+   "name": "Gate",
+   "chg": 0.19,
+   "slug": "gt"
+  }
+ ],
+ "losers": [
+  {
+   "symbol": "M",
+   "name": "MemeCore",
+   "chg": -6.73,
+   "slug": "m"
+  },
+  {
+   "symbol": "PI",
+   "name": "Pi Network",
+   "chg": -6.38,
+   "slug": "pi"
+  },
+  {
+   "symbol": "STX",
+   "name": "Stacks",
+   "chg": -6.35,
+   "slug": "stx"
+  }
+ ],
+ "reported": [
+  {
+   "line": "Web3Auth moved $5.6 million from exposed Keplr wallets to prevent theft, but some funds were already stolen from affected users.",
+   "time": "1:32 PM ET",
+   "source_count": 1,
+   "primary": false,
+   "links": [
+    {
+     "outlet": "The Block",
+     "url": "https://www.theblock.co/news/defi/2026-11-08-web3auth-says-it-frontran-hackers-by-moving-5-6-million-out-of-exposed-keplr-wallets-436029"
+    }
+   ]
+  },
+  {
+   "line": "Democrats swept US midterm elections by a wider-than-expected margin, potentially shifting crypto policy toward tighter regulation and enforcement.",
+   "time": "2:30 PM ET",
+   "source_count": 1,
+   "primary": false,
+   "links": [
+    {
+     "outlet": "CoinDesk",
+     "url": "https://www.coindesk.com/policy/2026/11/08/what-the-election-results-mean-for-crypto-state-of-crypto"
+    }
+   ]
+  }
+ ],
+ "board": [
+  {
+   "key": "etf",
+   "label": "Bitcoin ETF flows",
+   "value": -411.9,
+   "window": "one trading day, 06 Nov 2026",
+   "source": "Farside Investors",
+   "stamp": "6:12 PM ET on Nov 8",
+   "directional": true
+  },
+  {
+   "key": "liq",
+   "label": "Bitcoin liquidations",
+   "longs": 1385410,
+   "shorts": 1370996,
+   "window": "last 1 hour",
+   "source": "OKX",
+   "stamp": "6:12 PM ET on Nov 8",
+   "directional": false
+  },
+  {
+   "key": "funding",
+   "label": "Bitcoin funding",
+   "value": 0.0025,
+   "window": "current 8-hour period",
+   "source": "OKX",
+   "stamp": "6:12 PM ET on Nov 8",
+   "directional": false
+  },
+  {
+   "key": "fng",
+   "label": "Fear & Greed",
+   "value": 28,
+   "word": "Fear",
+   "window": "today",
+   "source": "alternative.me",
+   "stamp": "6:12 PM ET on Nov 8",
+   "directional": false
+  }
+ ],
+ "next": "Next update: Morning Brief, tomorrow at 8:15 AM ET",
+ "corrections": []
+}

@@ -1,31 +1,31 @@
 {
- "line": "Regulatory crackdowns dominate the wire this morning as Markets holds steady, with enforcement actions across exchanges and persistent outflow pressure on spot Bitcoin products.",
+ "line": "Bitcoin drifting lower on persistent oversold technicals and broad selling across the asset class, while whale flows suggest accumulation into the drawdown.",
  "by": "edition",
- "written_utc": "2026-11-08T13:17:00Z",
- "written_et": "8:17 AM ET on Nov 8",
+ "written_utc": "2026-11-08T23:15:11Z",
+ "written_et": "6:15 PM ET on Nov 8",
  "readings": {
-  "stamp_utc": "2026-11-08T13:16:31Z",
-  "btc_24h_pct": 0.32,
+  "stamp_utc": "2026-11-08T23:12:40Z",
+  "btc_24h_pct": -0.94,
   "etf_net_usd_m": -411.9,
   "etf_date": "06 Nov 2026",
   "fear_greed": 28,
   "fear_greed_band": "Fear",
-  "funding_8h_pct": 0.0001,
+  "funding_8h_pct": 0.0025,
   "funding_band": "calm"
  },
- "small_line": "Written from Bitcoin +0.32% on the day, spot ETF net -411.9M USD (Nov 6, 2026), Fear & Greed 28 (fear), funding +0.0001% per 8h (calm)",
+ "small_line": "Written from Bitcoin -0.94% on the day, spot ETF net -411.9M USD (Nov 6, 2026), Fear & Greed 28 (fear), funding +0.0025% per 8h (calm)",
  "wire_top3": [
   {
-   "id": "c001",
-   "line": "US Treasury cut MEXC from US financial system over $16 billion in alleged illicit transactions linked to Iran, North Korea, and Russia."
+   "id": "c004",
+   "line": "US Treasury moved to cut off crypto exchange MEXC over $16 billion in alleged illicit flows tied to Iran and Russia."
   },
   {
-   "id": "c064",
-   "line": "US sanctioned eight Canadian money-exchange firms for alleged Iran crypto links and blocked six Tron addresses."
+   "id": "c003",
+   "line": "Binance told users in Spain, France, and Poland to withdraw assets by Dec 31 or face account closure and retroactive fees starting Nov 29."
   },
   {
-   "id": "c002",
-   "line": "Gnosis Pay breach exposed card numbers, home addresses, and linked crypto wallet details, creating heightened targeted scam risk."
+   "id": "c006",
+   "line": "Web3Auth moved $5.6 million from exposed Keplr wallets to prevent theft, but some funds were already stolen from affected users."
   }
  ],
  "crossed": []
