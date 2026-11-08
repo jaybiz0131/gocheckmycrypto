@@ -263,7 +263,9 @@ def _mask_band(h):
     """SPRINT A, A3 (Nov 7 audit, "never fill a slot with old text"): the Brief card carries only today's Brief, and with none it
     keeps the next slot and the link to the day's answer. Its content is masked on both sides; morning_test.py and
     sprint81_test.py hold the card itself to account."""
-    return re.sub(r'(<section class="h-b h-narrative h-band" data-block="narrative">).*?(</section>)', r"\1\2", h, flags=re.S)
+    h = re.sub(r'(<section class="h-b h-narrative h-band" data-block="narrative">).*?(</section>)', r"\1\2", h, flags=re.S)
+    # SPRINT A, A4: Moving today's rows print in the movers board's order (size of move); the rows are masked on both sides
+    return re.sub(r'(<ol class="h-movers">).*?(</ol>)', r"\1\2", h, flags=re.S)
 
 
 def markup_cases(fails):

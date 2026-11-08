@@ -7496,11 +7496,12 @@ def _week_ago_line(slug, data):
 
 
 def _dash_shell(slug, title, desc, body_inner, dateline, live=False, data=None,
-                path=None, full_title=None, schema_extra=""):
+                path=None, full_title=None, schema_extra="", week_line=True, sources=None):
     stamp = data_stamp(data) if data is not None else ""
-    week = _week_ago_line(slug, data) if data is not None else ""
+    week = _week_ago_line(slug, data) if (data is not None and week_line) else ""
     # C-15: a sources line, not a methods note (G-9, same rule as C-13).
-    srcs = ('<p class="bd-src tile-src">Sources: public market data, alternative.me, '
+    srcs = (f'<p class="bd-src tile-src">{esc(sources)}</p>' if sources else
+            '<p class="bd-src tile-src">Sources: public market data, alternative.me, '
             'mempool.space.</p>')
     body = (f'<main class="wrap"><section class="page">\n{body_inner}\n'
             f'{week}{stamp}{srcs}\n</section></main>')
@@ -7816,7 +7817,41 @@ def _live_meta():
 TOP100_TITLE = f"Top 100 crypto prices today by market cap - {NAME}"
 
 
-def render_pulse_movers(pulse, dateline, movers_rec=None):
+def _movers_board_html(snap, items):
+    """SPRINT A, A4: THE MOVERS BOARD, from the same snapshot the home's Moving today block reads (morning_line.movers_board):
+    the top 20 by market cap in order of the size of their 24-hour move, then every top 100 coin past 5% either way, by
+    magnitude. Each row links its coin page and carries the coin's newest checked story with its date, or says there is none.
+    "" when the snapshot holds no coins."""
+    import morning_line
+    import today as _td
+    import movers as _mv
+    top20, beyond = morning_line.movers_board(snap)
+    if not top20 and not beyond:
+        return ""
+    stories = [i for i in (items or []) if not _is_wrap(i)]
+
+    def row(r):
+        href = _mv.coin_href(r["symbol"], r["name"]) or f'/coins/{esc(str(r["symbol"]).lower())}.html'
+        st = _coin_stories({"name": r["name"], "symbol": r["symbol"]}, stories, n=1)
+        line = (f'<a href="/articles/{esc(st[0]["slug"])}.html">{esc(st[0].get("title") or "")}</a>, '
+                f'{esc(fmt_date(st[0].get("date")) if st[0].get("date") else "")}' if st else "No checked story yet.")
+        return (f'<li class="td-row"><span class="td-n"><a href="{esc(href)}">{esc(r["name"])}</a> '
+                f'<span class="td-w">{esc(r["symbol"])} &middot; #{esc(r["rank"])}</span></span>'
+                f'{_td._chg(r["chg_24h_pct"])}<span class="td-w">24 hours</span>'
+                f'<span class="td-w" style="flex-basis:100%">{line}</span></li>')
+    stamp = (snap or {}).get("stamp_et") or ""
+    out = ('<section class="mb" aria-label="Moving today"><div class="sec-head"><h2>Moving today, top 20</h2>'
+           '<span class="bar"></span></div>'
+           f'<p class="pc-note">The 20 largest coins by market cap, ordered by the size of their 24-hour move, '
+           f'as of {esc(stamp)}. Stablecoins are left out.</p>'
+           f'<ol class="td-list">{"".join(row(r) for r in top20)}</ol>')
+    out += ('<div class="sec-head" style="margin-top:22px"><h2>Top 100 beyond 5%</h2><span class="bar"></span></div>'
+            + (f'<ol class="td-list">{"".join(row(r) for r in beyond)}</ol>' if beyond else
+               '<p class="pc-note">No top 100 coin moved more than 5% either way over 24 hours.</p>'))
+    return out + '</section>'
+
+
+def render_pulse_movers(pulse, dateline, movers_rec=None, items=None):
     desc = ("Big movers: every top-100 coin past the desk's line over 24 hours, with its move beyond Bitcoin's and "
             "the desk's check of why it moved, plus plain-language guidance on how to read big moves.")
     movers = (pulse or {}).get("movers") or {}
@@ -7829,11 +7864,21 @@ def render_pulse_movers(pulse, dateline, movers_rec=None):
     big = ""
     try:
         import movers as _mv
-        big = _mv.list_html(_movers_rec(movers_rec), (pulse or {}).get("generated_utc") or "")
+        # SPRINT A, A4: the checked list shows only while the desk holds a current reading; it never stands empty saying so
+        _rec = _movers_rec(movers_rec)
+        if _mv.current(_rec, (pulse or {}).get("generated_utc") or ""):
+            big = _mv.list_html(_rec, (pulse or {}).get("generated_utc") or "")
     except Exception as e:                       # fail open: the section says nothing rather than something wrong
         print(f"::warning::movers page: the Big movers list was not drawn ({type(e).__name__}: {e})")
+    board = ""
+    try:
+        import snapshot as _snapshot
+        board = _movers_board_html(SNAP or _snapshot.load(), items if items is not None else load_content())
+    except Exception as e:                       # fail open
+        print(f"::warning::movers page: the movers board was not drawn ({type(e).__name__}: {e})")
     inner = f"""{_dash_crumb()}
   <h1>Big movers</h1>
+  {board}
   {big}
 
   <div class="sec-head" style="margin-top:30px"><h2>How to read Big movers</h2><span class="bar"></span></div>
@@ -7856,7 +7901,9 @@ def render_pulse_movers(pulse, dateline, movers_rec=None):
       was, never a list of things to buy.</p></div>
   </div>
 """
-    return _dash_shell("movers", "Big movers", desc, inner, dateline, live=True, data=pulse, full_title=MOVERS_TITLE)
+    # SPRINT A, A4: no unanchored "This time last week" line, and the sources line names only what this page shows
+    return _dash_shell("movers", "Big movers", desc, inner, dateline, live=True, data=pulse, full_title=MOVERS_TITLE,
+                       week_line=False, sources="Source: CoinGecko, the Top 100 by market cap.")
 
 
 COMPRESS_BELOW = 0.0001
@@ -10070,7 +10117,7 @@ def build():
     w("chartmaster.html", render_chartmaster(cm, dateline, pulse))
     w(os.path.join("pulse", "sentiment.html"), render_pulse_sentiment(pulse, dateline))
     w(os.path.join("pulse", "posture.html"), render_pulse_posture(pulse, dateline))
-    w(os.path.join("pulse", "movers.html"), render_pulse_movers(pulse, dateline))
+    w(os.path.join("pulse", "movers.html"), render_pulse_movers(pulse, dateline, items=items))
     w(os.path.join("pulse", "prices.html"), render_pulse_prices(pulse, dateline))
 
     # C-L1: one page per coin on the Board's own universe. Each page claims its own

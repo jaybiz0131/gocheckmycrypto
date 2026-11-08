@@ -191,7 +191,8 @@ def mover_cases(fails):
     # movers page no longer prints these two lists; the rule above still governs every other list that uses them
     html = sb.render_pulse_movers(pv, "FRIDAY", movers_rec={})
     guarded(fails, "the movers page prints no top 5 or bottom 5 (Big movers is its one list, Sprint 9.4)",
-            lambda: "Biggest gainers" not in html and "Biggest losers" not in html and 'class="bm"' in html)
+            lambda: "Biggest gainers" not in html and "Biggest losers" not in html
+            and ('class="bm"' in html or 'class="mb"' in html))     # SPRINT A, A4: the movers board carries the page
     row = sb._mover_rows([{"symbol": "ZZZ", "name": "Zed", "rank": 80, "price": 3.0, "chg_24h_pct": -2.0, "mcap_usd": 1e9}])
     guarded(fails, "the 24h figure is the first column after the coin, before the price",
             lambda: row.index("-2.0") < row.index("$3.00"))

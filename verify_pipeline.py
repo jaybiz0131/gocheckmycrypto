@@ -2759,8 +2759,10 @@ def _home_canary(index_html=None):
     mv = _s.value(snap, "movers")
     mb = blk(full, "movers")
     rows = _re.findall(r'<span class="h-mr">#(\d+)</span>', mb)
-    want = [str(c["rank"]) for c in mv["top20_rises"]] + ([str(mv["top20_fall"]["rank"])]
-                                                          if mv.get("top20_fall") else [])
+    # SPRINT A, A4: the same coins, printed in the movers board's order (size of the 24-hour move, then rank)
+    _mvr = list(mv["top20_rises"]) + ([mv["top20_fall"]] if mv.get("top20_fall") else [])
+    _mvr.sort(key=lambda c: (-abs(c.get("chg_24h_pct") or 0), c.get("rank") or 0))
+    want = [str(c["rank"]) for c in _mvr]
     _check(rows == want, fails, f"home canary: the movers show ranks {rows}, the snapshot "
                                 f"{want}")
     _check(all(_hx(c["symbol"]) in mb for c in mv["standouts"]), fails,

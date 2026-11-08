@@ -1000,9 +1000,10 @@ def movers(snap):
     fall = mv.get("top20_fall")
     if fall and fall.get("symbol") in taped:
         fall = None
-    lis = "".join(row(c) for c in rises)
-    if fall:
-        lis += row(fall)
+    # SPRINT A, A4: the rows print in the movers board's order (/pulse/movers), by the size of the 24-hour move
+    shown = rises + ([fall] if fall else [])
+    shown.sort(key=lambda c: (-abs(c.get("chg_24h_pct") or 0), c.get("rank") or 0))
+    lis = "".join(row(c) for c in shown)
     stand = [c for c in mv.get("standouts") or [] if c.get("symbol") not in taped]
     if stand:
         sl = ", ".join(f'{_e(c["symbol"])} <span class="h-mc {_dir(c["chg_24h_pct"])}">'

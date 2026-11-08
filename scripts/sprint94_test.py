@@ -710,8 +710,9 @@ def review1_cases(fails):
         guarded(fails, "ONE LIST: /pulse/movers prints Big movers and no 'Biggest gainers' or 'Biggest losers' list",
                 lambda: 'class="bm"' in h and "Biggest gainers" not in h and "Biggest losers" not in h)
         h0 = sb.render_pulse_movers(dict(board), "DATELINE", movers_rec={})
-        guarded(fails, "ONE LIST: with no current movers record the page says so, and still prints no old list",
-                lambda: "Biggest gainers" not in h0 and "no current Big movers reading" in t.visible(h0))
+        # SPRINT A, A4 (Nov 7 audit): with no current record the checked list is left off; the movers board carries the page
+        guarded(fails, "ONE LIST: with no current movers record the checked list is left off, and still no old list",
+                lambda: "Biggest gainers" not in h0 and 'class="bm"' not in h0 and "no current Big movers reading" not in t.visible(h0))
         guarded(fails, "How to read Big movers never says 'because' (only a Confirmed verdict may)",
                 lambda: not re.search(r"\bbecause\b", t.visible(h), re.I))
         # one rank, from one named source, with its stamp: the Board's Top 100 position the coin page prints
