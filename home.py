@@ -236,7 +236,7 @@ def _coin_tile(name, price_html, chg, gid=None, unchecked=False):
     if unchecked and not ch:
         # SPRINT 9.1: a change the desk withheld says so, in words, rather than showing nothing
         ch = ('<span class="h-ac unchecked" title="The reported 24-hour change disagreed with '
-              'Bitcoin, Ether and the Top 100, so the desk does not print it">unchecked</span>')
+              'Bitcoin, Ether and the Top 100, so the desk does not print it">no 24h figure</span>')
     tile_attr = f' data-tile="{gid}"' if gid else ""
     return (f'<li class="h-coin {d or "flat"}"{tile_attr}>'
             f'<span class="h-as">{_e(name)}</span>{price_html}{ch}</li>')
@@ -606,15 +606,23 @@ def why(wire, now=None):
                   "Top story, checked")
 
 
-def wire_top(wire, cadence, now=None):
+def _top_story_id(wire):
+    """The wire id the Top story card prints (why() draws a card only when the checked note names a listed item), else None."""
+    note = (wire or {}).get("checked") or {}
+    nid = note.get("id")
+    return nid if nid and any(w.get("id") == nid for w in _wire_items(wire)) else None
+
+
+def wire_top(wire, cadence, now=None, skip_id=None):
     import wire as _w
     head = f'<p class="h-cad">{_e(cadence)}</p>' if cadence else ""
     if wire is None:
         return _block("wire", head + f'<p class="h-wait">The day\'s wire arrives with the '
                                      f'Edition at {_e(edition_time_et(now))}.</p>',
                       "What was reported")
-    items = _wire_items(wire)[:5]
     note = (wire or {}).get("checked") or {}
+    # SPRINT A (Nov 7 audit): nothing twice. On the home the item the Top story card prints is not listed again here
+    items = [w for w in _wire_items(wire) if not (skip_id and w.get("id") == skip_id)][:5]
     rows = []
     for w in items:
         links = w.get("links") or []
@@ -1187,7 +1195,7 @@ def above_fold(snap, pulse, flows, deltas, wire, narr, cal, cadence, now=None, e
     blocks = {
         "tape": tape(snap), "narrative": narrative_band(narr, snap, ed, now, morning),
         "since": since(pulse, deltas, bitcoin_card(snap)), "why": why(wire, now),
-        "wire": wire_top(wire, cadence, now), "money": money(snap, pulse, flows, deltas),
+        "wire": wire_top(wire, cadence, now, skip_id=_top_story_id(wire)), "money": money(snap, pulse, flows, deltas),
         "mood": mood(snap, pulse, deltas), "movers": movers(snap),
         "today": today(cal, now), "mine": mine(),
     }

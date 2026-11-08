@@ -638,7 +638,13 @@ def render(rec, archive_dates, dated, dateline="", evidence=None, verdict=None, 
     import site_build as sb
     path = f"/today/{rec['date_et']}.html" if dated else "/today/"
     url = sb.ORIGIN + (f"/today/{rec['date_et']}" if dated else "/today/")
-    desc = " ".join(rec["answer"])[:200]
+    # SPRINT A (Nov 7 audit): the description is whole sentences up to 200 characters, never cut mid-word ("Among the Top 100, S.")
+    desc = ""
+    for sent in rec["answer"]:
+        if len((desc + " " + sent).strip()) > 200:
+            break
+        desc = (desc + " " + sent).strip()
+    desc = desc or (" ".join(rec["answer"])[:197].rsplit(" ", 1)[0] + "...")
     html = sb.shell(f"{rec['title']} - {sb.NAME}", desc, "Today", body_html(rec, archive_dates, "dated" if dated else "living", evidence, verdict, clock, lead), dateline,
                     path=path, og_type="article",
                     schema_extra=f'\n<script type="application/ld+json">{schema(rec, url)}</script>')

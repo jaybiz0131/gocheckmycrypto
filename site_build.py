@@ -1853,7 +1853,7 @@ def footer(brand="site"):
     <div class="flinks">{links}</div>
   </div>
   <p class="fnote"><b>{esc(NFA)}</b> {note}
-    {who}<br>&copy; {YEAR} Go Check My Brands LLC.</p>
+    <br>&copy; {YEAR} Go Check My Brands LLC.</p>
 </div></footer>"""
 
 

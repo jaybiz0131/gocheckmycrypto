@@ -265,7 +265,11 @@ def _mask_band(h):
     sprint81_test.py hold the card itself to account."""
     h = re.sub(r'(<section class="h-b h-narrative h-band" data-block="narrative">).*?(</section>)', r"\1\2", h, flags=re.S)
     # SPRINT A, A4: Moving today's rows print in the movers board's order (size of move); the rows are masked on both sides
-    return re.sub(r'(<ol class="h-movers">).*?(</ol>)', r"\1\2", h, flags=re.S)
+    h = re.sub(r'(<ol class="h-movers">).*?(</ol>)', r"\1\2", h, flags=re.S)
+    # SPRINT A: What was reported no longer lists the item the Top story card prints; its rows are masked on both sides
+    h = re.sub(r'(<ol class="h-wire">).*?(</ol>)', r"\1\2", h, flags=re.S)
+    # SPRINT A: the withheld whole-market change reads "no 24h figure" (was the bare word "unchecked")
+    return h.replace(">no 24h figure</span>", ">unchecked</span>")
 
 
 def markup_cases(fails):

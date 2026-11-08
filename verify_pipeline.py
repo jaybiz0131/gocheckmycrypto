@@ -2738,14 +2738,17 @@ def _home_canary(index_html=None):
     # 5. the five clusters and the line under them
     m = blk(full, "wire")
     lis = _re.findall(r'<li class="h-wi">(.*?)</li>', m, _re.S)
-    _check(len(lis) == 5, fails, f"home canary: {len(lis)} clusters on the home page, not five")
-    _check(sum("badge verified" in x for x in lis) == 1 and
-           sum('class="h-wm">Reported<' in x for x in lis) == 4, fails,
-           "home canary: the checked cluster does not carry its badge and the rest the wire "
+    # SPRINT A (Nov 7 audit): nothing twice. The checked cluster is the Top story card's, so the list under it holds the
+    # rest, each with the wire mark, at most five
+    _nw = len(_h._wire_items(wire)) - (1 if _h._top_story_id(wire) else 0)
+    _check(len(lis) == min(5, _nw), fails, f"home canary: {len(lis)} clusters on the home page, not {min(5, _nw)}")
+    _check(sum("badge verified" in x for x in lis) == 0 and
+           sum('class="h-wm">Reported<' in x for x in lis) == len(lis), fails,
+           "home canary: the checked cluster is listed again under the Top story, or a row lacks the wire "
            "mark")
     _check(all(_re.search(r"\d+ sources?", x) and "href=" in x for x in lis), fails,
            "home canary: a cluster without its source count or its link")
-    _check(sum("Primary source" in x for x in lis) == 1, fails,
+    _check(sum("Primary source" in x for x in lis) <= 1, fails,
            "home canary: the primary-source mark is not on the one primary cluster")
     _check(_hx(wire["what_a_wire_line_is"]) in m, fails,
            "home canary: the line saying what a wire line is and is not is missing")
