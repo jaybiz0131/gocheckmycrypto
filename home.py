@@ -1145,7 +1145,7 @@ def below_fold(snap, pulse, flows, deltas, items, ed, now=None):
 # ---- the page -----------------------------------------------------------------------------
 
 def above_fold(snap, pulse, flows, deltas, wire, narr, cal, cadence, now=None, ed=None,
-               morning=None, verdict=None):
+               morning=None, verdict=None, lead=None):
     """The ten blocks of section 2, in order, as one string. `ed` is the day's edition
     (site_build.current_bottom_line), which the Brief card names. `verdict` (Sprint 9.3) is the
     current verdict record.
@@ -1180,6 +1180,15 @@ def above_fold(snap, pulse, flows, deltas, wire, narr, cal, cadence, now=None, e
         graded = kind in ("graded", "next_read", "no_read")
     except Exception:                                # fail open: the home without a card
         card, graded = "", False
+    # SPRINT A, A2: THE DATA LEAD (morning_line.py). With no read today the Why it moved block is the lead, dated, from the
+    # boards on this page, in place of the no-read notice; with a read it follows the written Brief. `lead` None is the page
+    # as it was.
+    if lead:
+        import morning_line
+        if kind == "no_read":
+            card = morning_line.card_html(lead)
+        else:
+            blocks["narrative"] += _block("lead", morning_line.para_html(lead), "Why Bitcoin moved")
     if graded:
         left = card + "".join(blocks[k] for k in LEFT)
     else:

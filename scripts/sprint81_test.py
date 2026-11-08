@@ -271,7 +271,8 @@ def unit():
         for hour, minute, why in ((12, 30, "this morning's Brief did not publish"),
                                   (11, 0, "this morning's Brief has not published yet")):
             rec, _g, _p = _compose(snap15, now=_utc(2026, 10, 15, hour, minute), ed=last_ed, morning=stale)
-            want = f"Numbers as of 8:17 AM ET \u00b7 {why}; text from last night's 7:14 PM Brief"
+            # SPRINT A, A2 (Nov 7 audit): the fallback stamp names only the numbers' time, never a Brief that did not publish
+            want = "Numbers as of 8:17 AM ET"
             check(rec and rec["stamp_label"] == want and "Morning Brief" not in rec["stamp_label"], fails,
                   f"{hour - 4}:{minute:02d} AM: {rec and rec['stamp_label']!r}")
         rec, _g, _p = _compose(snap15, now=_utc(2026, 10, 15, 12, 30), ed=last_ed, morning=stale)

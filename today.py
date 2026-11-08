@@ -244,27 +244,14 @@ def next_update(slot, now):
 def stamp_line(slot, src_utc, snap_utc, snap_stamp_et, now, fallback=False):
     """ONE HONEST LINE (Jack, 14 October 2026). When the text and the numbers come from the same
     run, the slot and its time ("Morning read, 8:18 AM ET"). When they do not, both times and
-    the reason: "Numbers as of 7:12 PM ET, tonight's Edition did not publish; text from the 8:18
-    AM read". FALLBACK (15 October): no read ran for the slot, so the line never names a morning
-    read it does not have: "Numbers as of 8:17 AM ET \u00b7 this morning's read did not publish;
-    text from last night's 7:14 PM Edition"."""
+    the reason. FALLBACK (15 October; Sprint A, A2): no read ran for the slot, so the line is the
+    numbers' own time and nothing else: "Numbers as of 8:17 AM ET"."""
     pub, snap_t = _et(src_utc), _et(snap_utc)
     label = SLOT_LABEL[slot]
     if fallback:
-        n = now.astimezone(ET)
-        import home
-        if n >= _evening_et(now):
-            why = "tonight's Brief did not publish"
-        elif n >= n.replace(hour=home.MORNING_ET[0], minute=home.MORNING_ET[1], second=0, microsecond=0):
-            why = "this morning's Brief did not publish"
-        else:
-            why = "this morning's Brief has not published yet"
-        nums = f"Numbers as of {_clock(snap_t)} \u00b7 " if snap_t else ""
-        if pub is None:
-            return f"{nums}{why}"
-        when = ("last night's" if (n.date() - pub.date()).days == 1 and pub.hour >= 17
-                else f"the {pub.strftime('%b')} {pub.day}")
-        return f"{nums}{why}; text from {when} {pub.strftime('%-I:%M %p')} Brief"
+        # SPRINT A, A2: a page with no read for its slot is the day's numbers and says only that; it never names a Brief that
+        # did not publish or an earlier one standing in
+        return f"Numbers as of {_clock(snap_t)}" if snap_t else "Numbers only"
     if pub is None:
         return label
     here = f"{label}, {_clock(pub)}"
@@ -299,7 +286,7 @@ def slot_of(now, ed, morning):
     return None, None
 
 
-def compose(snap, pulse, wire, ed, morning, now, gate, first_utc=None):
+def compose(snap, pulse, wire, ed, morning, now, gate, first_utc=None, lead=None):
     """The day's record at this slot, or None when there is no slot read today or no Bitcoin
     reading to take a direction from (the page then says nothing rather than guess)."""
     import snapshot as _s
@@ -309,14 +296,14 @@ def compose(snap, pulse, wire, ed, morning, now, gate, first_utc=None):
         # NO READ FOR THIS SLOT (the morning fell back, or the Edition did not publish): the page is
         # still the day's answer, built from the numbers alone, and says so. The last Edition on
         # the desk is the only text it may name, and it never claims a read that did not run.
-        if not (ed and _et(ed.get("published_utc"))):
+        if not (ed and _et(ed.get("published_utc"))) and not lead:
             return None
         # THE SLOT IS THE READ'S, AND A PAGE WITH NO READ TAKES THE CLOCK'S (Sprint 9.1, 8.3 item 5).
         # The 7:15 PM run of 15 October found no Edition, composed a numbers-only page and filed it
         # as the MORNING record: a morning that no morning read wrote, frozen. A fallback page is
         # filed under the slot the clock is in, flagged fallback, and a real read replaces it.
         slot = "evening" if now.astimezone(ET) >= _evening_et(now) else "morning"
-        src, fallback = ed, True
+        src, fallback = (ed or {}), True
     btc = dict(_s.coin(snap, "BTC") or {})
     btc_chg = btc.get("chg_24h_pct")
     d = now.astimezone(ET).date()
@@ -348,6 +335,9 @@ def compose(snap, pulse, wire, ed, morning, now, gate, first_utc=None):
         else (src.get("bottom_line") or src.get("dek") or ""), dirn, gate)
     if lifted:
         answer, by = lifted, slot
+    elif fallback and lead and lead.get("date_et") == d.isoformat():
+        # SPRINT A, A2: no read for the slot, so the answer is the data lead, the same paragraph the home prints
+        answer, by = list(lead["sentences"]), "lead"
     else:
         answer = [s for s in (gate.text(x, "the daily answer", dollars=True).strip()
                               for x in template_sentences(d, dirn, btc, eth, cap, gain, lose)) if s]
@@ -513,7 +503,7 @@ def window_line(rec, evidence=None, graded=False):
             f'data-td-dir="{_e(rec.get("direction"))}">{_e(text)}</p>')
 
 
-def body_html(rec, archive_dates, here=None, evidence=None, verdict=None, clock=None):
+def body_html(rec, archive_dates, here=None, evidence=None, verdict=None, clock=None, lead=None):
     """The page, top to bottom: the answer, why it moved (Sprint 9.3, the verdict card, when the
     day's slot has a verdict record), what moved, what lined up with the move (Sprint 9.2, when the
     day's slot has an evidence record), what was reported beside it, the Board, the stamp, the
@@ -551,7 +541,8 @@ def body_html(rec, archive_dates, here=None, evidence=None, verdict=None, clock=
         # date is the page's, not the read's: a record composed for today before any read has run still has no read). A dated page never
         # does: it shows its own day as published.
         if living and not _vnr.is_today(verdict, clock):
-            vd_html, verdict = _vnr.no_read_html(clock), None
+            # SPRINT A, A2: with the day's data lead on the page, it stands in the card's place; no notice about a read
+            vd_html, verdict = ("" if lead else _vnr.no_read_html(clock)), None
     except Exception as e:                          # fail open: the page as it was
         print(f"::warning::today: the no-read notice was not drawn ({type(e).__name__}: {e})")
     # a graded verdict on this page: the evidence and the reported note say so, never deny a cause
@@ -609,6 +600,10 @@ def body_html(rec, archive_dates, here=None, evidence=None, verdict=None, clock=
     corr = "".join(f'<p class="td-corr"><b>Correction, {_e(c.get("date"))}.</b> {_e(c.get("text"))}</p>'
                    for c in rec.get("corrections") or [])
     ans = " ".join(rec["answer"])
+    # SPRINT A, A2: the living page carries the day's data lead under a written answer (the written read renders above it)
+    lead_html = (f'<p class="td-lead" data-lead="{_e(lead["date_et"])}">{_e(lead["text"])}</p>'
+                 if (lead and here != "dated" and rec.get("answer_by") != "lead"
+                     and lead.get("date_et") == rec.get("date_et")) else "")
     # SPRINT 9.9.1 (Review 2, failure 5): one next read per page. The living page names the next slot off the build's clock, the one
     # the verdict notice names (home.next_slot), so a slot already past is never shown as the next; a dated page keeps its record's own
     nxt = next_update(rec["slot"], clock) if (clock is not None and here != "dated") else rec["next"]
@@ -618,6 +613,7 @@ def body_html(rec, archive_dates, here=None, evidence=None, verdict=None, clock=
   <p class="td-stamp">{_e(reader(rec['stamp_label']))}</p>
   {window_line(rec, evidence if ev_html else None, bool(graded))}
   <section class="td-answer" aria-label="The answer"><p>{_e(ans)}</p></section>
+  {lead_html}
   {corr}
 {vd_slot}  <section class="td-sec"><h2>What moved</h2>{moved}</section>
   {ev_html}
@@ -630,13 +626,13 @@ def body_html(rec, archive_dates, here=None, evidence=None, verdict=None, clock=
 </section></main>"""
 
 
-def render(rec, archive_dates, dated, dateline="", evidence=None, verdict=None, clock=None):
+def render(rec, archive_dates, dated, dateline="", evidence=None, verdict=None, clock=None, lead=None):
     """(html, path, lastmod) for one page; `dated` False renders the living /today/."""
     import site_build as sb
     path = f"/today/{rec['date_et']}.html" if dated else "/today/"
     url = sb.ORIGIN + (f"/today/{rec['date_et']}" if dated else "/today/")
     desc = " ".join(rec["answer"])[:200]
-    html = sb.shell(f"{rec['title']} - {sb.NAME}", desc, "Today", body_html(rec, archive_dates, "dated" if dated else "living", evidence, verdict, clock), dateline,
+    html = sb.shell(f"{rec['title']} - {sb.NAME}", desc, "Today", body_html(rec, archive_dates, "dated" if dated else "living", evidence, verdict, clock, lead), dateline,
                     path=path, og_type="article",
                     schema_extra=f'\n<script type="application/ld+json">{schema(rec, url)}</script>')
     return html, path, rec.get("published_utc")
@@ -662,11 +658,11 @@ def _verdict(rec, verdict_dir=None):
 
 
 def build_pages(snap, pulse, wire, ed, morning, now, gate, stored=None, dateline="", why_dir=None,
-                verdict_dir=None):
+                verdict_dir=None, lead=None):
     """[(relative file, html, sitemap path, lastmod)] for the living page and every dated one."""
     stored = load_records() if stored is None else stored
     first = None
-    live = compose(snap, pulse, wire, ed, morning, now, gate)
+    live = compose(snap, pulse, wire, ed, morning, now, gate, lead=lead)
     if live:
         same = [r for r in stored if r["date_et"] == live["date_et"] and r["slot"] == "morning"]
         if same and live["slot"] == "evening":
@@ -679,7 +675,7 @@ def build_pages(snap, pulse, wire, ed, morning, now, gate, stored=None, dateline
     # today's own dated page is not an "earlier day": the living page lists only the days before it
     html, path, mod = render(living, [d for d in days if d < living["date_et"]][:ARCHIVE_N],
                              dated=False, dateline=dateline, evidence=_evidence(living, why_dir),
-                             verdict=_verdict(living, verdict_dir), clock=now)
+                             verdict=_verdict(living, verdict_dir), clock=now, lead=lead)
     out.append(("today/index.html", html, path, mod))
     for day in days:
         # a dated page links only the days BEFORE it, so nothing a later day adds can change it
@@ -708,7 +704,7 @@ def main():
         items = sb.load_content()
         gate = twins_gate.Gate(snap)
         rec = compose(snap, pulse, home.load_json(sb.WIRE_JSON), sb.current_bottom_line(items),
-                      home.load_json(sb.MORNING_JSON), now, gate)
+                      home.load_json(sb.MORNING_JSON), now, gate, lead=sb._data_lead(snap, sb.board_deltas(pulse)))
         gate.save()
         if not rec:
             print("today: no slot read today or no Bitcoin reading; no record written")

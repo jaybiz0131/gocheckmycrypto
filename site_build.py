@@ -5774,6 +5774,16 @@ def render_news_month(month, rows, dateline):
                                             (label, url)]))
 
 
+def _data_lead(snap, deltas):
+    """Sprint A, A2: the Why it moved block's data lead (morning_line.lead) for this build, or None. Fails open."""
+    try:
+        import morning_line
+        return morning_line.lead(snap, deltas, _build_now())
+    except Exception as e:
+        print(f"::warning::lead: the data lead was not drawn ({type(e).__name__}: {e})")
+        return None
+
+
 def render_home(items, flows, pulse, cm, dateline):
     """The home page: the five-minute read (Program 5, sections 2 and 3; Sprint 2).
 
@@ -5802,7 +5812,8 @@ def render_home(items, flows, pulse, cm, dateline):
         _home.load_json(NARRATIVE_JSON),
         _home.load_json(os.path.join(SITE, "data", "calendar.json")), NEWS_CADENCE_LINE,
         now=_build_now(), ed=edition_item,
-        morning=_home.load_json(MORNING_JSON), verdict=_current_verdict(pulse))
+        morning=_home.load_json(MORNING_JSON), verdict=_current_verdict(pulse),
+        lead=_data_lead(snap, deltas))
     below = _home.below_fold(snap, pulse, flows, deltas, items, edition_item)
     body = f"""<main class="wrap h-page"><section class="page">
   <h1 class="sr-only">{esc(FAMILY)}: what is going on in crypto, in five minutes</h1>
@@ -9809,7 +9820,8 @@ def _write_today(w, items, pulse, dateline):
         gate = _tg.Gate(SNAP)
         built = _today.build_pages(SNAP, pulse, _home.load_json(WIRE_JSON),
                                    current_bottom_line(items), _home.load_json(MORNING_JSON),
-                                   _build_now(), gate, dateline=dateline)
+                                   _build_now(), gate, dateline=dateline,
+                                   lead=_data_lead(SNAP, board_deltas(pulse)))
         gate.save()
         for rel, html, _path, _mod in built:
             w(rel, html)
