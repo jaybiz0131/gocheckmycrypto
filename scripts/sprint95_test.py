@@ -35,6 +35,13 @@ UTC = dt.timezone.utc
 EM = re.compile("[\u2013\u2014]")
 
 
+def _cm_now(day):
+    """SPRINT A, A5: the chart page lists reads from the 14 days before the build's ET date; a fixture read is drawn on its own
+    day's clock so the window holds it, as the live page holds today's."""
+    import datetime as _cdt
+    return _cdt.datetime.fromisoformat(str(day)[:10] + "T16:00:00+00:00")
+
+
 def guarded(fails, msg, fn):
     try:
         ok = bool(fn())
@@ -221,7 +228,7 @@ def page_name_cases(fails):
         "Markets": lambda: rendered(lambda p, fl: sb.render_pulse_hub(p, fl, {}, "T")),
         "Whale Watch": lambda: rendered(lambda p, fl: sb.render_flows(fl, "T")),
         "Charts": lambda: rendered(lambda p, fl: sb.render_chartmaster({"date": "2026-10-15", "headline": "H",
-                                                                         "paragraphs": ["Bitcoin holds."]}, "T", p)),
+                                                                         "paragraphs": ["Bitcoin holds."]}, "T", p, now=_cm_now("2026-10-15"))),
         "News": lambda: sb.render_news_hub(items, "T", pulse=pulse),
         "The Brief": lambda: sb.render_bottom_line_history(items, "T"),
         "Storylines": lambda: sb.render_record(items, "T"),
@@ -600,10 +607,10 @@ def review1_cases(fails):
     guarded(fails, "the Learn stablecoin page (URL kept) does not say Markets calls it dry powder, and never uses it as a tile name",
             lambda: "Markets calls it dry powder" not in lp and "when dry powder is high" not in lp
             and not re.search(r"dry powder tile|The dry powder", lp))
-    cmv = visible(rendered(lambda p, f: sb.render_chartmaster({"date": "2026-10-15", "headline": "H", "paragraphs": ["Bitcoin holds."]}, "T", p)))
+    cmv = visible(rendered(lambda p, f: sb.render_chartmaster({"date": "2026-10-15", "headline": "H", "paragraphs": ["Bitcoin holds."]}, "T", p, now=_cm_now("2026-10-15"))))
     guarded(fails, "Charts: the chart section's eyebrow is 'Charts' and the read's tag is 'The chart read, Oct 15' (not 'The tape', not 'the read')",
             lambda: not re.search(r"\bThe tape\b", cmv) and not re.search(r"(?<![Tt]he chart )\bthe read\b", cmv.replace("The chart read", "")))
-    cmh = rendered(lambda p, f: sb.render_chartmaster({"date": "2026-10-15", "headline": "H", "paragraphs": ["Bitcoin holds."]}, "T", p))
+    cmh = rendered(lambda p, f: sb.render_chartmaster({"date": "2026-10-15", "headline": "H", "paragraphs": ["Bitcoin holds."]}, "T", p, now=_cm_now("2026-10-15")))
     guarded(fails, "Charts: no eyebrow 'The tape' and no tag 'the read' in the markup",
             lambda: 'bd-eyebrow">The tape<' not in cmh and 'class="tag">the read<' not in cmh)
     # ruling 4 on the trust path
@@ -719,7 +726,7 @@ def rulings_cases(fails):
             json.dump({"date": "2026-10-20", "headline": "Chart Master data card: levels", "paragraphs": []},
                       open(os.path.join(td, "2026-10-20.json"), "w"))
             _sb.CM_ARCHIVE = tempfile_empty = _tf.mkdtemp()
-            pg = visible(_sb.render_chartmaster({"date": "2026-10-15", "headline": "H", "paragraphs": ["Bitcoin holds."]}, "T", None))
+            pg = visible(_sb.render_chartmaster({"date": "2026-10-15", "headline": "H", "paragraphs": ["Bitcoin holds."]}, "T", None, now=_cm_now("2026-10-15")))
             guarded(fails, "the chart page renders 'The chart read, Oct 15' with no old name when the archive holds no stored read",
                     lambda: "The chart read, Oct 15" in pg and "Chart Master" not in pg)
         finally:
@@ -736,7 +743,7 @@ def rulings_cases(fails):
                       open(os.path.join(td, "2026-10-19.json"), "w"))
             json.dump({"date": "2026-10-18", "headline": "Majors hold above their 200-day lines", "paragraphs": ["x"]},
                       open(os.path.join(td, "2026-10-18.json"), "w"))
-            raw = _sb.render_chartmaster({"date": "2026-10-21", "headline": "H", "paragraphs": ["Bitcoin holds."]}, "T", None)
+            raw = _sb.render_chartmaster({"date": "2026-10-21", "headline": "H", "paragraphs": ["Bitcoin holds."]}, "T", None, now=_cm_now("2026-10-21"))
             pg = visible(raw)
             rest = visible(STORED_READS.sub("", raw))
             guarded(fails, "SYNTHETIC 21 October read over an archive holding the 20 October data card: no 'Chart Master' outside the "
@@ -759,7 +766,7 @@ def rulings_cases(fails):
     # the data card is a table that fits at 375 and 390 by the shared rule (.xs-x and "Show all columns"), and the one scroll
     # region left is labeled like .movetable
     card = _sb.render_chartmaster({"date": "2026-10-20", "headline": "x", "paragraphs": [], "data_only": True,
-                                   "levels": [{"symbol": "BTC", "price": 82893, "sma50": 81572.53, "sma200": 72644.82, "rsi14": 52.4}]}, "T", None)
+                                   "levels": [{"symbol": "BTC", "price": 82893, "sma50": 81572.53, "sma200": 72644.82, "rsi14": 52.4}]}, "T", None, now=_cm_now("2026-10-20"))
     guarded(fails, "the data card table uses the shared table rule: fit-tbl wrapper with role=region, aria-label and tabindex, a "
                    "'Show all columns' toggle, the 50-day and RSI columns behind it, no private .tbl-wrap",
             lambda: 'class="movetable fit-tbl" tabindex="0" role="region" aria-label="Chart data card' in card
@@ -1107,7 +1114,7 @@ def fixture_pages(root):
                 {"symbol": s_, "price": p_, "sma50": a_, "sma200": b_, "rsi14": r_} for s_, p_, a_, b_, r_ in (
                     ("BTC", 82893, 81572.53, 72644.82, 52.4), ("ETH", 2447.08, 2549.93, 2151.0, 43.0), ("SOL", 106.42, 109.45, 87.84, 44.4))]}
         cmj = dict(cmj, data_only=True)
-        open(os.path.join(root, "chartmaster-datacard-fixture.html"), "w", encoding="utf-8").write(sb.render_chartmaster(cmj, "T", None))
+        open(os.path.join(root, "chartmaster-datacard-fixture.html"), "w", encoding="utf-8").write(sb.render_chartmaster(cmj, "T", None, now=_cm_now(cmj.get("date") or "2026-10-20")))
     finally:
         sb.SNAP = old
 

@@ -651,7 +651,8 @@ def _live_layer_canary():
     # 4. Chart Master: boards first, then the read, dated in its headline.
     cm = {"date": "2026-09-21", "headline": "Test headline",
           "paragraphs": ["Bitcoin holds its range."]}
-    page = _sb.render_chartmaster(cm, "TEST", pv)
+    import datetime as _a5dt
+    page = _sb.render_chartmaster(cm, "TEST", pv, now=_a5dt.datetime(2026, 9, 21, 16, 0, tzinfo=_a5dt.timezone.utc))
     ic, ir = page.find('class="cm-charts"'), page.find('class="cm-read-h"')
     _check(ic != -1 and ir != -1 and ic < ir, fails,
            "live layer: Chart Master's read sits above the live boards")

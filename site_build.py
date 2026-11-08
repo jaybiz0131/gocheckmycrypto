@@ -9112,7 +9112,7 @@ def _cm_at_a_glance(sectioned):
             f'<ul>{"".join(rows)}</ul></div>')
 
 
-def render_chartmaster(read, dateline, pulse=None):
+def render_chartmaster(read, dateline, pulse=None, now=None):
     # UX-8 (C-4): THE ORACLE CHALLENGE AND THE WIZARD'S EXAM ARE GONE. The first asked
     # the reader to call Bitcoin higher or lower by tomorrow, on a page whose own first
     # line is "describe the tape, never predict it" and under a footer that says the
@@ -9173,6 +9173,12 @@ def render_chartmaster(read, dateline, pulse=None):
     if _gen:
         _bday = _gen.astimezone(_ET).strftime("%Y-%m-%d")
     _md = fmt_short_date(_rday) if _rday else ""
+    # SPRINT A, A5: no read older than 14 days is shown, the current one included
+    _today_et = (now or _build_now()).astimezone(_ET).date()
+    _cm_floor = (_today_et - _dtmod.timedelta(days=14)).isoformat()
+    _today_et = _today_et.isoformat()
+    if _rday and _rday < _cm_floor:
+        read = {}
     read_title = f"The chart read, {_md}" if _md else "The chart read"
     _bst = _snap_stamp_et((pulse or {}).get("generated_utc") or "")
     newer_note = (f'<p class="pc-note cm-newer">The boards above are newer than this read; '
@@ -9208,7 +9214,7 @@ def render_chartmaster(read, dateline, pulse=None):
   <div class="sec-head" style="margin-top:8px"><h2 class="cm-read-h">{esc(read_title)}</h2><span class="bar"></span></div>
   <article class="pulse-card cm-read cm-datacard">
     <div class="ey"><span class="tag">the data card</span><span class="dateline">{esc(fmt_date(read.get("date")))}</span></div>
-    <p class="pc-note">Today's written read did not clear the desk's checks, so this card carries the numbers only.</p>
+    <p class="pc-note">{"Numbers only today" if _rday and _rday == _today_et else "Numbers only"}</p>
     {fit_toggle("fit-cm")}<div class="movetable fit-tbl" tabindex="0" role="region" aria-label="Chart data card (scrollable)"><table><thead><tr><th scope="col">Asset</th><th scope="col">Price</th>
     <th scope="col" class="xs-x">50-day</th><th scope="col">200-day</th><th scope="col" class="xs-x">RSI-14</th></tr></thead>
     <tbody>{_rows}</tbody></table></div>
@@ -9218,7 +9224,9 @@ def render_chartmaster(read, dateline, pulse=None):
     # C-14: the page becomes a dated archive of reads. Today's is the first entry; the
     # rest come from the dated files load_chartmaster keeps from this build onward. A
     # day the desk does not hold is simply not listed - the archive shows what exists.
-    past = [r for r in load_cm_archive() if str(r.get("date")) != str(read.get("date"))]
+    # SPRINT A, A5: the ledger lists the last 14 days of reads and nothing older
+    past = [r for r in load_cm_archive() if str(r.get("date")) != str(read.get("date"))
+            and str(r.get("date") or "")[:10] >= _cm_floor]
     archive_html = ""
     if past:
         # A data card's stored headline is the code fallback's, never a written read, and is not printed: the row says
