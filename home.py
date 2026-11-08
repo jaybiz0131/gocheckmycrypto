@@ -427,6 +427,20 @@ def usable_morning(morning, ed, now=None):
     return dict(morning, sentences=kept, morning=True, date=morning.get("date_et"))
 
 
+def brief_is_today(ed, now=None):
+    """True when the Edition was published on the ET day of `now`, its date is that day, and its article slug carries the
+    same date (the badge's weekday and the linked article cannot disagree)."""
+    import re
+    pu = _utc((ed or {}).get("published_utc"))
+    if pu is None:
+        return False
+    day = (now or _now()).astimezone(_ET).date()
+    d = str((ed or {}).get("date") or "")[:10]
+    m = re.search(r"\d{4}-\d{2}-\d{2}", str((ed or {}).get("slug") or ""))
+    return (pu.astimezone(_ET).date() == day and d == day.isoformat()
+            and (m is None or m.group(0) == d))
+
+
 def last_brief_note(ed, now=None):
     """'Last night's Brief, 7:16 PM ET': said whenever the Brief on the card is not today's."""
     pu = _utc((ed or {}).get("published_utc"))
@@ -471,6 +485,12 @@ def narrative_band(narr, snap, ed=None, now=None, morning=None):
     not, it holds last night's Brief and says so with its time."""
     now = now or _now()
     m = usable_morning(morning, ed, now)
+    # SPRINT A, A3: NEVER FILL A SLOT WITH OLD TEXT. The card holds today's Brief or nothing: the morning read of this ET
+    # day, or an Edition published on this ET day whose badge weekday (its date) is its linked article's date. An earlier
+    # Brief under today's masthead is not drawn; the data lead says what the day's numbers say.
+    if not m and not brief_is_today(ed, now):
+        # the slot keeps only what is true now: when the next Brief is due, and the way to the day's answer
+        return _block("narrative", f'<p class="h-next">{_e(next_brief(None, now))}</p>' + TODAY_LINK, cls="h-band")
     if m:
         eye = f'<p class="h-eye">{_e(brief_name(m))}</p>'
         head = f'<h2 class="h-bt">{_e(m.get("headline"))}</h2>'
@@ -682,7 +702,7 @@ def t_float(snap, deltas):
         return ""
     d = (deltas.get("stables") or {}).get("pct")
     since_t = (f"{'Up' if d > 0 else 'Down' if d < 0 else 'Level'} {abs(d):.2f}% since "
-               f"yesterday" if isinstance(d, (int, float)) else "No close kept for yesterday")
+               f"yesterday" if isinstance(d, (int, float)) else "First reading")
     return tile.render("stablecoin-float", sb.fmt_usd(stv["total_usd"]),
                        window="all stablecoins, now",
                        since=since_t, source=src.split(" ")[0], stamp=st)
@@ -766,7 +786,7 @@ def t_oi(snap, deltas):
     return tile.render(
         "open-interest", sb.fmt_usd(o["usd"]), label="Open interest",
         window=f"Bitcoin perpetuals on {venue}, now",
-        since="No close kept for yesterday, so no change", source=venue, stamp=st)
+        since="First reading", source=venue, stamp=st)
 
 
 def t_fng(snap, deltas):
@@ -779,7 +799,7 @@ def t_fng(snap, deltas):
     fd = deltas.get("fng") or {}
     word = sb._fng_band(val)
     since_t = (f"{word}; {fd['prev']:g} yesterday" if isinstance(fd.get("prev"), (int, float))
-               else f"{word}; no figure kept for yesterday")
+               else f"{word}; first reading")
     return tile.render("fear-greed", f"{val:g}", window="today",
                        since=since_t, source="alternative.me", stamp=st)
 
@@ -798,7 +818,7 @@ def t_bitcoin(snap, pulse, deltas):
     d = (deltas.get("bitcoin") or {}).get("pct")
     since_t = (f"{'Up' if d > 0 else 'Down' if d < 0 else 'Level'} {abs(d):.2f}% since "
                f"yesterday's close" if isinstance(d, (int, float))
-               else "No close kept for yesterday")
+               else "First reading")
     ch = c.get("chg_24h_pct")
     win = "24 hours"
     sma = btc.get("sma200")
@@ -824,7 +844,7 @@ def t_cap(snap, deltas):
     d = (deltas.get("market") or {}).get("pct")
     since_t = (f"{'Up' if d > 0 else 'Down' if d < 0 else 'Level'} {abs(d):.2f}% since "
                f"yesterday's close" if isinstance(d, (int, float))
-               else "No close kept for yesterday")
+               else "First reading")
     if isinstance(dom, (int, float)):
         since_t += f"; Bitcoin is {dom:.1f}% of it"
     ch = cap.get("chg_24h_pct")
@@ -845,7 +865,7 @@ def t_fee(snap, deltas):
         return ""
     nd = deltas.get("network") or {}
     pts = nd.get("points")
-    since_t = ("No figure kept for yesterday" if pts is None else
+    since_t = ("First reading" if pts is None else
                "Unchanged since yesterday" if pts == 0 else
                f"{'Up' if pts > 0 else 'Down'} {abs(pts):g} sat/vB since yesterday")
     return tile.render("network-fee", f"{fee:g} sat/vB", window="next block, fastest rate",

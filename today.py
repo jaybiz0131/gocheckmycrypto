@@ -257,12 +257,8 @@ def stamp_line(slot, src_utc, snap_utc, snap_stamp_et, now, fallback=False):
     here = f"{label}, {_clock(pub)}"
     if snap_t is None or abs((snap_t - pub).total_seconds()) <= SAME_RUN_MIN * 60:
         return here
-    kind = "Brief"
-    reason = ""
-    if slot == "morning" and now.astimezone(ET) >= _evening_et(now):
-        reason = "tonight's Brief did not publish; "
-    return (f"Numbers as of {_clock(snap_t)} \u00b7 {reason}text from the "
-            f"{pub.strftime('%-I:%M %p')} {kind}")
+    # SPRINT A, A3: the numbers and the written read each carry their own time; nothing about a Brief that did not publish
+    return f"Numbers as of {_clock(snap_t)} \u00b7 {here}"
 
 
 def _evening_et(now):
@@ -424,6 +420,17 @@ def _core(label, price_html, chg, window="24 hours"):
 # page is drawn, so no page prints an old name from a stored file.
 _RENAMED = (("Morning read", "Morning Brief"), ("morning's read", "morning's Brief"), (" AM read", " AM Brief"),
             ("Edition", "Brief"), ("Bitcoin spot ETF net", "Bitcoin ETF flows"))
+
+
+def stamp_text(label):
+    """SPRINT A, A3: a stored stamp as a reader sees it. Records stored before the audit carry 'did not publish' and 'text
+    from' clauses (they are frozen and stay as stored); the page prints only the numbers' time and the read's own."""
+    t = reader(label)
+    if "did not publish" in t or "text from" in t or "has not published" in t:
+        t = t.split(" \u00b7 ")[0].strip()
+        if not t.startswith("Numbers as of"):
+            t = "Numbers only"
+    return t
 
 
 def reader(text):
@@ -602,7 +609,7 @@ def body_html(rec, archive_dates, here=None, evidence=None, verdict=None, clock=
     ans = " ".join(rec["answer"])
     # SPRINT A, A2: the living page carries the day's data lead under a written answer (the written read renders above it)
     lead_html = (f'<p class="td-lead" data-lead="{_e(lead["date_et"])}">{_e(lead["text"])}</p>'
-                 if (lead and here != "dated" and rec.get("answer_by") != "lead"
+                 if (lead and here != "dated" and rec.get("answer_by") not in ("lead", "template")
                      and lead.get("date_et") == rec.get("date_et")) else "")
     # SPRINT 9.9.1 (Review 2, failure 5): one next read per page. The living page names the next slot off the build's clock, the one
     # the verdict notice names (home.next_slot), so a slot already past is never shown as the next; a dated page keeps its record's own
@@ -610,7 +617,7 @@ def body_html(rec, archive_dates, here=None, evidence=None, verdict=None, clock=
     return f"""<main class="wrap"><section class="page td-page">
   <span class="kicker">Why it moved</span>
   <h1>{_e(rec['h1'])}</h1>
-  <p class="td-stamp">{_e(reader(rec['stamp_label']))}</p>
+  <p class="td-stamp">{_e(stamp_text(rec['stamp_label']))}</p>
   {window_line(rec, evidence if ev_html else None, bool(graded))}
   <section class="td-answer" aria-label="The answer"><p>{_e(ans)}</p></section>
   {lead_html}

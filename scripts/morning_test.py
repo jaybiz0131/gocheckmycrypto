@@ -75,8 +75,10 @@ def main():
     print("B. the morning run fell back, the page is built at 8:30 AM")
     b = card(h, narr, snap, None)
     print("   card:", " ".join(text(b).split())[:260])
-    check("EVENING BRIEF · MONDAY" in b, fails, "the card keeps Monday's Brief and names it")
-    check("Last night's Brief, 7:16 PM ET" in b, fails, "it says Last night's Brief with its time")
+    # SPRINT A, A3 (Nov 7 audit): never fill a slot with old text. Last night's Brief no longer stands on the morning card;
+    # the card keeps only the next slot and the link to the day's answer
+    check("EVENING BRIEF · MONDAY" not in b and "Last night's Brief" not in b, fails,
+          "the card does not carry last night's Brief")
     check("Next Brief tonight at 7:08 PM ET" in b, fails, "the next slot is tonight at 7:08 PM ET")
     print("C. clocks")
     for iso, want in (("2026-10-13T11:00:00", "this morning at 8:15 AM ET"),

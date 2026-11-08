@@ -270,7 +270,7 @@ def render_front(desk, items, day, all_days, canonical_path="/news.html"):
     brief_html = ""
     if ed:
         cites = "".join(
-            f'<a href="{esc(s.get("url") or "#")}">{esc(_clip(s.get("title") or s.get("url") or "", 60))}</a>'
+            f'<a href="{esc(s.get("url") or "#")}">{esc(_clip((s.get("title") or s.get("url") or "").replace(" (quiet-day edition)", ""), 60))}</a>'
             for s in (ed.get("sources") or [])[:8])
         brief_html = f"""<section class="ed-brief" aria-label="{esc(_brief_name(ed))}">
   <div class="ed-brief-head">

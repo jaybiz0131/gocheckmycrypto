@@ -1487,7 +1487,12 @@ def _narrative_canary():
     old7 = {"line": want, "small_line": "Written from spot ETF net -66.9M USD (07 Oct 2026)",
             "readings": r7, "written_et": "7:15 PM ET on Oct 7"}
     import home as _home
-    band = _home.narrative_band(old7, {"stamp_et": "7:16 PM ET on Oct 7"})
+    # SPRINT A, A3: the card draws only today's Brief, so the band is drawn on its own Brief's day
+    import datetime as _a3dt
+    band = _home.narrative_band(old7, {"stamp_et": "7:16 PM ET on Oct 7"},
+                                {"slug": "evening-brief-2026-10-07", "date": "2026-10-07",
+                                 "published_utc": "2026-10-07T23:15:00Z", "title": "x"},
+                                _a3dt.datetime(2026, 10, 7, 23, 30, tzinfo=_a3dt.timezone.utc))
     # the band itself prints no date since Sprint 6.2: it names its readings, no figures
     _check("(Oct 7, 2026)" in _n.named(r7) and "07 Oct" not in _n.named(r7)
            and "ETF flows" in band and "07 Oct" not in band, fails,
@@ -2691,8 +2696,14 @@ def _home_canary(index_html=None):
     _check("Fear &amp; Greed reads" not in _pg, fails,
            "home canary: Fear & Greed is printed outside the mood")
 
-    # 3. the band, from a narrative fixture, and absent
-    b = blk(full, "narrative")
+    # 3. the band, from a narrative fixture, and absent. SPRINT A, A3: the card carries a Brief only on that Brief's own ET day,
+    # so the band is drawn with a Brief dated on this canary's clock; without one it keeps only the next slot and the link.
+    _ed7 = {"slug": "evening-brief-2026-10-07", "date": "2026-10-07", "published_utc": "2026-10-07T14:00:00Z",
+            "title": "The Evening Brief: x"}
+    _shell = blk(full, "narrative")
+    _check("h-nline" not in _shell and "h-eye" not in _shell and "Next Brief" in _shell and 'href="/today/"' in _shell,
+           fails, f"home canary: with no Brief today the card carries old text: {_shell[:160]}")
+    b = blk(page(ed=_ed7), "narrative")
     import narrative as _nv
     _check(_hx(narr["line"]) in b and _hx(_nv.band_names(narr["readings"])) in b, fails,
            "home canary: the band does not carry the narrative line and its small line")
@@ -2703,7 +2714,7 @@ def _home_canary(index_html=None):
                                            _re.sub(r"\([^)]*ET[^)]*\)", "", _small.group(1))),
            fails, f"home canary: the band's small line prints a reading's figure: "
                   f"{_small.group(1) if _small else ''}")
-    b0 = blk(page(narr=None), "narrative")
+    b0 = blk(page(narr=None, ed=_ed7), "narrative")
     _check("h-nline" not in b0 and f"Markets as of {snap['stamp_et']}" in b0, fails,
            f"home canary: with no narrative.json the band is not the Board's stamp alone: "
            f"{b0[:120]}")
@@ -3601,9 +3612,12 @@ def _below_canary(index_html=None):
     # 3. THE BRIEF CARD (Program 7, Sprint 7.1): the Brief moved above the fold into the
     # band's place. It names the edition it is, by day and slot, links it, and says when the
     # next one is due; with no current edition it still says when.
+    # SPRINT A, A3: the card draws a Brief only on its own ET day, so it is drawn a minute after the Brief published
+    _bnow = ((_h._utc(ed.get("published_utc")) + _bdt.timedelta(minutes=1))
+             if ed and _h._utc(ed.get("published_utc")) else _BELOW_NOW)
     _bc = _re.search(r'data-block="narrative">(.*?)</section>', _h.above_fold(
         snap, pulse, flows, deltas, wire, narr, cal, _sb.NEWS_CADENCE_LINE, ed=ed,
-        now=_BELOW_NOW), _re.S)
+        now=_bnow), _re.S)
     _bc = _bc.group(1) if _bc else ""
     if ed:
         _check(_sb.esc(_h.brief_name(ed)) in _bc and f'/articles/{ed.get("slug")}.html' in _bc
@@ -3753,7 +3767,7 @@ def _coin_chart_canary():
     _check("data-fallback" in _one, fails,
            "K-7 canary: there is no fallback line, so a blocked fetch leaves an empty "
            "box where the chart was")
-    _check("from the last build" in _one, fails,
+    _check('class="cn-stamp">as of ' in _one, fails,
            "K-7 canary: the fallback does not say it is the fallback, so a stale line "
            "reads as a live one")
     return fails

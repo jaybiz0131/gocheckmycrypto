@@ -259,6 +259,13 @@ def _cut_991(h):
     return re.sub(r'(<aside class="vd[^"]*" data-vd="BTC") data-vd-basis="[^"]*"(?: data-vd-dir="[^"]*")?', r"\1", h)
 
 
+def _mask_band(h):
+    """SPRINT A, A3 (Nov 7 audit, "never fill a slot with old text"): the Brief card carries only today's Brief, and with none it
+    keeps the next slot and the link to the day's answer. Its content is masked on both sides; morning_test.py and
+    sprint81_test.py hold the card itself to account."""
+    return re.sub(r'(<section class="h-b h-narrative h-band" data-block="narrative">).*?(</section>)', r"\1\2", h, flags=re.S)
+
+
 def markup_cases(fails):
     print("3. the markup: the Ether line is the one thing added to the home, and it is the Board's own data")
     import home
@@ -266,8 +273,8 @@ def markup_cases(fails):
     import snapshot
     cur = fixture_html()
     for name in ("card", "nocard"):
-        base = read(os.path.join(FX, f"home-board-{name}.95.html"))
-        cut, n = _cut_wide(_mask_v(_cut_991(cur[name])))
+        base = _mask_band(read(os.path.join(FX, f"home-board-{name}.95.html")))
+        cut, n = _cut_wide(_mask_v(_cut_991(_mask_band(cur[name]))))
         guarded(fails, f"home ({name}): exactly one element is marked data-wide (the Ether line)", lambda n=n: n == 1)
         guarded(fails, f"home ({name}): with it cut out the page is Sprint 9.5's, byte for byte (the 375 markup)",
                 lambda cut=cut, base=base: cut == _mask_v(base))

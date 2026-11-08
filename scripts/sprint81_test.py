@@ -229,7 +229,8 @@ def unit():
         old_ed = {"slug": "2026-10-13-evening-brief", "date": "2026-10-13", "published_utc": "2026-10-13T23:15:58Z",
                   "bottom_line": "x"}
         rec, _g, _p = _compose(_snap(-2.03, 81513.0, "2026-10-14T23:12:00Z"), now=night, ed=old_ed)
-        want = "Numbers as of 7:12 PM ET \u00b7 tonight's Brief did not publish; text from the 8:18 AM Brief"
+        # SPRINT A, A3: each time is named with what it dates; no clause about a Brief that did not publish
+        want = "Numbers as of 7:12 PM ET \u00b7 Morning Brief, 8:18 AM ET"
         check(rec and rec["stamp_label"] == want, fails, f"mismatched runs say so plainly: {rec and rec['stamp_label']!r}")
         check(rec and rec["next"] == "Next update: Morning Brief, tomorrow at 8:15 AM ET", fails,
               f"7:50 PM with the Edition failed: {rec and rec['next']!r}")
@@ -237,7 +238,7 @@ def unit():
         check(card == "Next Brief tomorrow at 8:15 AM ET" and rec["next"].endswith(card.split("Next Brief ")[1]), fails,
               "the daily answer and the home card name the same next slot")
         noon = _compose(_snap(-1.0, 82000.0, "2026-10-14T23:12:00Z"), now=_utc(2026, 10, 14, 16, 0))[0]
-        check(noon and noon["stamp_label"] == "Numbers as of 7:12 PM ET \u00b7 text from the 8:18 AM Brief"
+        check(noon and noon["stamp_label"] == "Numbers as of 7:12 PM ET \u00b7 Morning Brief, 8:18 AM ET"
               and noon["next"] == "Next update: Evening Brief, tonight at 7:08 PM ET", fails,
               f"before the Edition slot the reason clause is absent and the next slot is tonight's: {noon and noon['stamp_label']!r}")
         same, _g, _p = _compose(_snap(-2.03), now=_utc(2026, 10, 14, 12, 30))

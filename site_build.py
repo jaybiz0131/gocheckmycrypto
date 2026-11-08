@@ -363,12 +363,17 @@ OUTLETS = {
 }
 
 
+# SPRINT A, A3: stored quiet-day Briefs name their source "The desk's own market boards (quiet-day edition)"; the reader
+# sees the source, not the desk's internal name for the path that wrote it.
+QUIET_LABEL = " (quiet-day edition)"
+
+
 def source_label(src):
     """'CoinDesk: lending protocol bonzo loses 77 of value locked' instead of a raw URL
     with utm cruft. A real title (anything that isn't just the URL) is kept as-is."""
     from urllib.parse import urlparse
     url = src.get("url") or ""
-    title = (src.get("title") or "").strip()
+    title = (src.get("title") or "").strip().replace(QUIET_LABEL, "")
     if title and title != url:
         return title
     p = urlparse(url)
@@ -8281,7 +8286,8 @@ def render_coin_chart(c, name, cid, spark):
         fallback = spark_svg(spark, w=980, h=150)
         if _w7:
             note += (f' 7D high close {esc(_price_fmt(_w7[1]))}, 7D low close {esc(_price_fmt(_w7[0]))}. ')
-        note += '<span class="cn-stamp">from the last build</span>'
+        # SPRINT A, A3: the fallback line names the reading it is, by its stamp, never "the last build"
+        note += f'<span class="cn-stamp">as of {esc((SNAP or {}).get("stamp_et") or "the latest reading")}</span>'
     chg_html = (f'<p class="cc-chg" data-dir="{up}">{esc(_cp.signed_pct(chg))} over the last 7 days</p>'
                 if chg is not None else '<p class="cc-chg" data-dir="flat"></p>')
     if isinstance(_c7, (int, float)):
