@@ -1,0 +1,114 @@
+{
+ "date_et": "2026-11-08",
+ "slot": "morning",
+ "published_utc": "2026-11-08T13:17:00Z",
+ "first_utc": "2026-11-08T13:17:00Z",
+ "direction": "flat",
+ "direction_basis": "et_day",
+ "title": "Crypto today: flat. Sunday, November 8, 2026",
+ "h1": "Crypto today: flat. Sunday, November 8, 2026",
+ "stamp_label": "Morning Brief, 8:17 AM ET",
+ "composed_utc": "2026-11-08T13:17:02Z",
+ "board_stamp_et": "8:16 AM ET on Nov 8",
+ "answer": [
+  "On Sunday, November 8, Bitcoin was flat since midnight ET, at $76,017, a change of +0.43%.",
+  "Over the last 24 hours it was up 0.32%.",
+  "Ether was up 0.12% over the same 24 hours.",
+  "Among the Top 100, NIGHT gained 3.06% and BCH lost 4.48% over 24 hours."
+ ],
+ "answer_by": "template",
+ "fallback": false,
+ "btc": {
+  "price": 76017,
+  "chg": 0.32,
+  "chg_day": 0.43
+ },
+ "eth": {
+  "price": 2240.06,
+  "chg": 0.12
+ },
+ "cap": null,
+ "gainers": [
+  {
+   "symbol": "NIGHT",
+   "name": "Midnight",
+   "chg": 3.06,
+   "slug": "night"
+  },
+  {
+   "symbol": "STX",
+   "name": "Stacks",
+   "chg": 3.05,
+   "slug": "stx"
+  },
+  {
+   "symbol": "QNT",
+   "name": "Quant",
+   "chg": 2.53,
+   "slug": "qnt"
+  }
+ ],
+ "losers": [
+  {
+   "symbol": "BCH",
+   "name": "Bitcoin Cash",
+   "chg": -4.48,
+   "slug": "bch"
+  },
+  {
+   "symbol": "ENA",
+   "name": "Ethena",
+   "chg": -4.04,
+   "slug": "ena"
+  },
+  {
+   "symbol": "FIL",
+   "name": "Filecoin",
+   "chg": -3.52,
+   "slug": "fil"
+  }
+ ],
+ "reported": [],
+ "board": [
+  {
+   "key": "etf",
+   "label": "Bitcoin ETF flows",
+   "value": -411.9,
+   "window": "one trading day, 06 Nov 2026",
+   "source": "Farside Investors",
+   "stamp": "8:16 AM ET on Nov 8",
+   "directional": true
+  },
+  {
+   "key": "liq",
+   "label": "Bitcoin liquidations",
+   "longs": 284021,
+   "shorts": 45530,
+   "window": "last 21 hours",
+   "source": "OKX",
+   "stamp": "8:16 AM ET on Nov 8",
+   "directional": false
+  },
+  {
+   "key": "funding",
+   "label": "Bitcoin funding",
+   "value": 0.0001,
+   "window": "current 8-hour period",
+   "source": "OKX",
+   "stamp": "8:16 AM ET on Nov 8",
+   "directional": false
+  },
+  {
+   "key": "fng",
+   "label": "Fear & Greed",
+   "value": 28,
+   "word": "Fear",
+   "window": "today",
+   "source": "alternative.me",
+   "stamp": "8:16 AM ET on Nov 8",
+   "directional": false
+  }
+ ],
+ "next": "Next update: Evening Brief, tonight at 6:08 PM ET",
+ "corrections": []
+}

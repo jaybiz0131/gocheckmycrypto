@@ -1,31 +1,31 @@
 {
- "line": "Bitcoin drifting lower on heightened fear as spot ETF outflows persist for a second day, while the wire reports Treasury sanctions against a major exchange and overseas crypto taxation tightening.",
+ "line": "Regulatory crackdowns dominate the wire this morning as Markets holds steady, with enforcement actions across exchanges and persistent outflow pressure on spot Bitcoin products.",
  "by": "edition",
- "written_utc": "2026-11-07T23:01:55Z",
- "written_et": "6:01 PM ET on Nov 7",
+ "written_utc": "2026-11-08T13:17:00Z",
+ "written_et": "8:17 AM ET on Nov 8",
  "readings": {
-  "stamp_utc": "2026-11-08T01:59:34Z",
-  "btc_24h_pct": -0.39,
+  "stamp_utc": "2026-11-08T13:16:31Z",
+  "btc_24h_pct": 0.32,
   "etf_net_usd_m": -411.9,
   "etf_date": "06 Nov 2026",
   "fear_greed": 28,
   "fear_greed_band": "Fear",
-  "funding_8h_pct": 0.0071,
+  "funding_8h_pct": 0.0001,
   "funding_band": "calm"
  },
- "small_line": "Written from Bitcoin -0.39% on the day, spot ETF net -411.9M USD (Nov 6, 2026), Fear & Greed 28 (fear), funding +0.0071% per 8h (calm)",
+ "small_line": "Written from Bitcoin +0.32% on the day, spot ETF net -411.9M USD (Nov 6, 2026), Fear & Greed 28 (fear), funding +0.0001% per 8h (calm)",
  "wire_top3": [
   {
    "id": "c001",
    "line": "US Treasury cut MEXC from US financial system over $16 billion in alleged illicit transactions linked to Iran, North Korea, and Russia."
   },
   {
-   "id": "c002",
-   "line": "Gnosis Pay breach exposed card numbers, home addresses, and linked crypto wallet details, creating heightened targeted scam risk."
+   "id": "c064",
+   "line": "US sanctioned eight Canadian money-exchange firms for alleged Iran crypto links and blocked six Tron addresses."
   },
   {
-   "id": "c012",
-   "line": "Greece passed crypto tax law imposing 10% on capital gains and 15% on staking and DeFi income, with \u20ac500 annual threshold."
+   "id": "c002",
+   "line": "Gnosis Pay breach exposed card numbers, home addresses, and linked crypto wallet details, creating heightened targeted scam risk."
   }
  ],
  "crossed": []
