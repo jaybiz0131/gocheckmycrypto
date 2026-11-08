@@ -7,11 +7,86 @@ before inventing (V-15).
 
 Public repo. No tokens, keys or secret values in this file, ever.
 
-Last updated: 14 October 2026, Program 7 Sprint 7.3 MERGED `5bb4df7`, 8:44 AM ET (section 13). Before it, Sprints 6.5, 6.4, 7.2 and 7.1 merged (sections 9 to 12, moved). Before it, Sprint 7.1 merged (section 9). Before it, Program 6 Sprint 6.3 merged (section 7e, moved). Before it, Sprint 6.2 (section 7d), Sprint 6.1 (section 7c, moved). Earlier that day, 9:20 AM EDT: Sprint 2's close (section 7b) and the band-ink merge `aa64f08`. Before that, the close of 8 October (section 7), written late: the 8 October
+Last updated: 7 November 2026, 10:00 PM ET, Sprint A of the Nov 7 site audit (section 0, below). Before it: 14 October 2026, Program 7 Sprint 7.3 MERGED `5bb4df7`, 8:44 AM ET (section 13). Before it, Sprints 6.5, 6.4, 7.2 and 7.1 merged (sections 9 to 12, moved). Before it, Sprint 7.1 merged (section 9). Before it, Program 6 Sprint 6.3 merged (section 7e, moved). Before it, Sprint 6.2 (section 7d), Sprint 6.1 (section 7c, moved). Earlier that day, 9:20 AM EDT: Sprint 2's close (section 7b) and the band-ink merge `aa64f08`. Before that, the close of 8 October (section 7), written late: the 8 October
 evening wake-up reached the session on 11 October. `main` ends at the close commit on top of
 `a5bea57`. Days before 23 September live in `HANDOFF-2026-08-17.md`; 23 September to 1 October
 in `HANDOFF-2026-09-23-to-10-01.md`; 4 to 8 October in `HANDOFF-2026-10-04.md` to `-10-08.md`
 (U-1).
+
+## 0. Sprint A of the Nov 7 2026 site audit (7 November 2026)
+
+Rules hash checked at the opener: `4179b2ac06d0dc7fb9de9987dc077884df6f4e1b5ebabe1b6ff1bb2de8b3568d`, matches.
+No attribution trailers on any commit. Desk configuration, model assignments, publishing rules, the noon data build,
+the coin pages (beyond one stamp word, A3) and Sprints B and C were not touched.
+
+### Why the Brief stopped on Oct 28 (A1)
+
+A failed step, not a lost trigger, a skipped slot guard or a token. The trigger side was healthy throughout: the
+gcm-slot-trigger Worker dispatched the Brief every evening at 23:10, 23:40 and 00:40 UTC under Jack's account, and
+the schedule's late tick fired too (runs 466 to 505, 29 Oct to 8 Nov, every one red). The Worker dispatch log itself
+was not read (the build machine has no Cloudflare login), but the GitHub side shows every dispatch arriving, so the
+Worker and its token work and Jack has nothing to run. Every run failed in step 5, the offline canary, which runs
+before the slot guard and before any model call, so no ledger row, no edition and no flag beyond a comment on the
+standing pipeline issue. The canary failed on two cases that read live stored data rather than fixtures: the
+Oct 28 Edition wrote a narrative line calling Markets by its banned old name ("the Board's 24-hour reading") into
+`site/data/narrative.json`, which the canary's built home then carried (sprint 9.5 old-name scan), and the same
+Edition rotated `site/data/wire.json`, so hotfix 9.9h2's premise check ("the stored wire cluster carries 'AI
+compute'") went false. The desk locked itself: the bad text could only be replaced by a run, and no run could pass
+the canary while the text stood. The morning read (`morning-read.yml`) has the same canary gate and died the same
+way (the 8:15 AM Worker dispatch red every day; the backstop crons only stood down). Fix in `65135a5`: the
+narrative line refuses the old name at write (`narrative.edition_line`) and at render (`home.band_line`, the clause
+table's line replaces it), and the 9.9h2 premise reads the Oct 27 evening wire pinned as
+`fixtures/sprint99h/wire-2026-10-27-evening.json`. Proof: the Nov 7 evening slot was dispatched once by hand at
+8:57 PM ET (run 42436427926) and published `site/content/2026-11-07-evening-brief.json` (commit `5d15718`, ledger
+`abcd1ad`, 47,039 tokens, $0.0624, `edition_published: true`). That run ends red on its last step, "Fail the run if
+the edition gap breached": the gap check looks back over recent days and the 10-day hole is real. It is an execution
+rule and was left alone; it should clear once Editions run on consecutive days. Watch tomorrow's 8:15 AM read and
+6:08 PM Edition.
+
+### What shipped, one commit per item, all on `main`
+
+| Item | Commit | What |
+|---|---|---|
+| A1 | `65135a5` | The canary no longer locks on the Edition's own stored text (above). Brief republished Nov 7. |
+| A2 | `95d5f36` | `morning_line.py`: a two-sentence data lead for Why it moved on every build, from the boards on the page (Bitcoin since midnight ET and 24h, ETF net with its date, whale net in words, funding, Fear and Greed with yesterday's value or "a first reading", the top 20's biggest mover, the top 100 past 5%). Dated by its snapshot, never the build clock. With no read today it is the home's first object and /today/'s answer; /today/'s stamp names only the numbers' time. |
+| A3 | `c1a7a3c` | The Brief card draws only today's Brief (badge date equals the linked article's date and the publish day); otherwise the slot keeps only the next Brief's time and the /today/ link. Stored /today/ stamps cleaned at render. The six strings are gone from the built tree (see note). |
+| A4 | `9a064c9` | /pulse/movers opens with the movers board: the top 20 by size of 24h move, then the top 100 past 5% by magnitude, each linked to its coin page with its newest checked story and date or "No checked story yet." The checked Big movers list shows only while current. No "This time last week" line; sources line names CoinGecko only. The home's Moving today rows print in the same order. |
+| A5 | `7fcdbd5` | The chart data card reads "Numbers only today"; no read older than 14 days before the build's ET date is shown. |
+| A6 | `64ec457` | Storylines lanes feature their newest live story at build time; a lane quiet for over 21 days shows its name and "Quiet lane"; deks drop sentences that look forward to a date already passed; a passed Week Ahead does not count. /archive's header names the build date. |
+| Extras | `d762a89` | Top story no longer repeated in What was reported (home only); "unchecked" on the All crypto tile reads "no 24h figure"; the lone "GoCheckMyCrypto" line above the copyright is gone; the /today/ meta description is whole sentences. |
+
+Every push was preceded by `python3 verify_pipeline.py canary` with exit 0 on the exact tree pushed. Tests that
+pinned removed wording or shapes were updated in the same commit as the change, each with a "SPRINT A" comment.
+
+**Deploys.** 7 November ET: the noon refresh, A1, the Brief, A2 and A3 built, which is five of five. A4, A5, A6 and
+the extras were pushed with `[skip netlify]`, so they are on `main` but not yet on production. **The first build on 8
+November (the 8:15 AM morning read) deploys them.** Check the live URLs after it.
+
+**Acceptance as built locally (real clock, 9:56 PM ET Nov 7, live data):** home and /today/ open with the dated lead and
+mention no earlier or missing Brief; the six strings return zero files, except that a plain `grep "text from the"` still
+matches one stored Sep 10 article whose prose says "con**text from the** desk's boards" (a word-bounded grep returns
+zero; stored copy was not rewritten); /pulse/movers carries the home's rows (ZEC, TRX) in the same order; /chartmaster
+shows no read before Oct 28; /archive reads "Every published story through Saturday, November 7, 2026." and lists the
+Oct 28 Brief.
+
+### Left for Jack
+
+- Nothing on the Worker or its token: the dispatches arrive.
+- The chart read published tonight is dated **Nov 8** (`site/data/chartmaster.json`, its UTC date) while it is still Nov 7
+  ET, so /chartmaster says "The chart read, Nov 8" tonight. The dating is in the newsroom pipeline (`chartmaster.py`),
+  outside this sprint's remit; one line to rule on.
+- The edition-gap step will keep the evening run red until the gap rule's window clears; say if it should be
+  acknowledged by hand instead.
+- The coin pages still print "Verdict at the next read: no read yet today" (coin pages were out of scope).
+- The /record full index still lists headlines that are forward-looking by their own date (for example "ahead of
+  September 16 markup"); they are titles of their day and were not rewritten.
+
+### Live URLs to check after the 8 November morning build
+
+https://gocheckmycrypto.com/ , https://gocheckmycrypto.com/today/ , https://gocheckmycrypto.com/pulse/movers ,
+https://gocheckmycrypto.com/chartmaster , https://gocheckmycrypto.com/record , https://gocheckmycrypto.com/archive and
+https://gocheckmycrypto.com/archive/ , and the Brief: https://gocheckmycrypto.com/articles/evening-brief-2026-11-07
+
 
 **ITEM 0 IS DONE AND MERGED (section 13):** the twins gate fix, the clause table's sign rule, the ledger's drops, the Whale tags and the funding-band read are merged 14 October at `5bb4df7`; its live proof is the 14 October 7:08 PM Edition's ledger row.
 
