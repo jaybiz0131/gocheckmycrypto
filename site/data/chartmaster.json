@@ -1,60 +1,15 @@
 {
-  "date": "2026-10-28",
+  "date": "2026-11-08",
   "generated_by": "chartmaster.py (auto, from the live boards)",
   "mode": "live",
-  "path": "data-only",
-  "headline": "Chart data card: levels, 50-day and 200-day lines, RSI",
-  "paragraphs": [],
-  "data_only": true,
-  "levels": [
-    {
-      "symbol": "BTC",
-      "price": 81238,
-      "sma50": 81895.46,
-      "sma200": 73070.44,
-      "rsi14": 47.5
-    },
-    {
-      "symbol": "ETH",
-      "price": 2359.31,
-      "sma50": 2534.2,
-      "sma200": 2159.05,
-      "rsi14": 39.2
-    },
-    {
-      "symbol": "SOL",
-      "price": 102.4,
-      "sma50": 109.41,
-      "sma200": 88.62,
-      "rsi14": 40.2
-    },
-    {
-      "symbol": "XRP",
-      "price": 1.33,
-      "sma50": 1.4,
-      "sma200": 1.28,
-      "rsi14": 45.8
-    },
-    {
-      "symbol": "BNB",
-      "price": 756.66,
-      "sma50": 749.62,
-      "sma200": 653.37,
-      "rsi14": 56.6
-    },
-    {
-      "symbol": "DOGE",
-      "price": 0.079833,
-      "sma50": 0.09,
-      "sma200": 0.09,
-      "rsi14": 42.8
-    },
-    {
-      "symbol": "ADA",
-      "price": 0.205849,
-      "sma50": 0.23,
-      "sma200": 0.21,
-      "rsi14": 36.6
-    }
+  "path": "cut",
+  "headline": "4 of 7 majors hold above their 200-day lines",
+  "paragraphs": [
+    "The regime is intact but fraying. Bitcoin, Ethereum, Solana, XRP, and BNB all trade above their 200-day moving averages, and five of seven majors carry golden crosses, suggesting the longer trend remains constructive. But the cross is a lagging signal, and the tape underneath shows decay: every major asset displays RSI-14 below 40, with Solana at 22.4, ADA at 26.4, and Ethereum at 29.4. Bitcoin's RSI of 37.8 is the healthiest of the cohort. All seven assets report MACD below signal, a uniform momentum rollover that contradicts the structural uptrend. This is classic divergence: the trend line points one way, but the engine is stalling. Down 0.4% on the day, down 2.2% on the week, and down 7.2% on the month, Bitcoin sits 39.3 percent below its 12-month high. Ethereum has fared worse, down 12.7% over the month and 52.4% from its peak. Solana and ADA show the steepest damage: ADA is off 19.4% in 30 days and a staggering 79.4% from the 12-month top. The bounce is not returning to old highs; it is testing whether the 200-day line can hold.",
+    "Derivatives positioning reveals the crowding beneath this calm exterior. Bitcoin's long-to-short ratio stands at 2.99, meaning nearly three dollars of long leverage for every dollar of short. Ethereum is worse at 3.28, Solana at 3.75, XRP at 3.99, and Doge at 5.16. These are not balanced bets; they are directional commitments. Traders are paying a premium to hold long exposure in a market that is not rising. The kicker: liquidations in the last ten hours on Bitcoin show 314 million dollars of long liquidations versus just 4 million in shorts. The boat is crowded, the price of entry is expensive, and the first real dip is finding the exit.",
+    "Flow behavior is sending mixed signals. On the traditional finance side, Bitcoin spot ETF outflows of 411.9 million dollars on November 6 extend a five-session net outflow of 1,281.7 million; Ethereum follows with 93.3 million out on the day and 365.2 million over five sessions. Same-direction days run only two sessions deep for both, so this is not yet a persistent reversal, but the direction is consistent and the size is material. The stablecoin pool sits at 292.3 billion dollars, down 4.66% over the past month, suggesting dollars have already left the sidelines or are being deployed cautiously. Yet in the whale book, the picture inverts: over the past 24 hours, 106.9 million dollars in Bitcoin moved off exchanges (out of OKX), while 100 million dollars in USDC moved onto exchanges (into MEXC). This is storage, not flight. The weekly whale record is the real story: the weeks ending October 18 and October 25 saw 68 million and then 1.3 billion dollars flow onto exchanges, a classic liquidation and panic setup. But the weeks ending November 1 and November 8 flipped: 3.0 billion and 4.0 billion dollars moved off exchanges. That divergence often precedes a fast move.",
+    "Sentiment has retreated sharply. The Fear & Greed index stands at 28, labeled as Fear, within a 30-day range of 25 to 69. The crowd is pessimistic, and rightfully: ADA is down 8.08% on the week, SOL down 4.9%, and XRP down nearly a full percent on the day despite the week showing only a 0.36% decline. Only BNB shows a tiny prop: up 0.44% on the week while down 0.09% on the day, a narrow window of internal strength that disagrees with the broader selloff. Altcoins are under the most stress: the top losers include PUMP (down 7.61%), ZEC (down 7.4%), and BCH (down 6.02%), while gainers are modest (NIGHT up 2.82%, UNI up 2.23%, ARB up 1.78%). The spread tells the tale of a market pulling back on speculative edges. Network-level vitals show Bitcoin difficulty retargeting with 732 blocks to go, having fallen 3.9% at the last adjustment. Fees remain low (3 to 4 sat/vB for fast), a sign that the network is not congested; transaction volume is not driving urgency.",
+    "The central tension is the mismatch between structure and sentiment. On-chain and derivatives data show real accumulation by large holders and a crowded, expensive leveraged bet about to meet lower prices. ETF outflows and fear-soaked sentiment align with one reading: weakness ahead. But whales accumulating off exchanges over two consecutive weeks, combined with a still-intact 200-day uptrend, points to another: this is accumulation during weakness. The test is immediate: does the 200-day line hold, or does it break? If the 200-day breaks decisively, the false break setup becomes a real breakdown.",
+    "Watch for two conditions. Second, a move below the 200-day moving average on Bitcoin, particularly if it closes there, would break the structural support that has held all five majors aloft. Either event would clarify whether the whales are buyers at these levels or just front-running their own exits. Until then, the regime remains intact on the chart but hollow underneath."
   ]
 }

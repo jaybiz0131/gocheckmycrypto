@@ -278,5 +278,25 @@
   "coins": {
    "PEPE": "Unclear (phrases)"
   }
+ },
+ {
+  "kind": "run",
+  "date": "2026-11-07",
+  "slot": "evening",
+  "t": "2026-11-08T02:03:19Z",
+  "calls": 0,
+  "tokens": 0,
+  "usd": 0,
+  "by_stage": {},
+  "models": {
+   "verdict_draft": "claude-haiku-5-5",
+   "verdict_check": "claude-sonnet-5-5"
+  },
+  "day_usd": 0,
+  "cap_usd": 1.5,
+  "coins": {
+   "BTC": "flat",
+   "ETH": "with_btc"
+  }
  }
 ]

@@ -1,63 +1,65 @@
 {
  "what": "the day's ranked clusters, in the desk's own one line, sources counted and linked (Jack, 5 October 2026)",
  "what_a_wire_line_is": "Each line is the desk's own one-line summary of a story it ranked, with its sources counted and linked. It is not a story the desk wrote or checked; only the item with a badge was checked.",
- "ranked_utc": "2026-10-28T23:15:30Z",
- "ranked_et": "7:15 PM ET on Oct 28",
- "refreshed_utc": "2026-10-28T23:15:30Z",
- "refreshed_et": "7:15 PM ET on Oct 28",
+ "ranked_utc": "2026-11-08T02:00:01Z",
+ "ranked_et": "9:00 PM ET on Nov 7",
+ "refreshed_utc": "2026-11-08T02:00:01Z",
+ "refreshed_et": "9:00 PM ET on Nov 7",
  "refreshes": 0,
- "snapshot_stamp_utc": "2026-10-28T23:13:43Z",
+ "snapshot_stamp_utc": "2026-11-08T01:59:34Z",
  "items": [
   {
    "rank": 1,
-   "id": "c170",
-   "line": "Federal Reserve held interest rates steady at 3.75-4% on October 28, with two dissenting votes in favor of a quarter-point increase.",
+   "id": "c001",
+   "line": "US Treasury cut MEXC from US financial system over $16 billion in alleged illicit transactions linked to Iran, North Korea, and Russia.",
    "titles": [
-    "Federal Reserve issues FOMC statement"
+    "Treasury Cuts Crypto Exchange MEXC Off From US Financial System",
+    "U.S. Treasury Cuts Off MEXC From U.S. Financial System Over Alleged $16 Billion in Illicit Flows",
+    "U.S. Treasury moves to cut off crypto exchange MEXC over $16 billion in alleged illicit flows",
+    "US Treasury cuts off MEXC over alleged $16B in illicit transactions",
+    "US Treasury Bans MEXC Exchange Over Alleged $16B in Illicit Transactions"
    ],
-   "board_reading": "Fear & Greed",
-   "source_count": 1,
-   "primary": true,
-   "standing": "primary",
+   "board_reading": "Whale flows",
+   "source_count": 5,
+   "primary": false,
+   "standing": "corroborated",
    "links": [
     {
-     "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20261028a.htm",
-     "outlet": "Federal Reserve",
-     "primary": true
+     "url": "https://decrypt.co/382758/treasury-cuts-off-crypto-exchange-mexc-us-financial-system",
+     "outlet": "Decrypt",
+     "primary": false
+    },
+    {
+     "url": "https://bitcoinmagazine.com/news/fincen-cuts-off-mexc-us-financial-system",
+     "outlet": "Bitcoin Magazine",
+     "primary": false
+    },
+    {
+     "url": "https://www.coindesk.com/business/2026/11/07/u-s-treasury-moves-to-cut-off-crypto-exchange-mexc-over-usd16-billion-in-alleged-illicit-flows",
+     "outlet": "CoinDesk",
+     "primary": false
+    },
+    {
+     "url": "https://cointelegraph.com/news/us-treasury-bans-mexc-over-alleged-16b-illicit-transactions?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+     "outlet": "Cointelegraph",
+     "primary": false
+    },
+    {
+     "url": "https://beincrypto.com/us-bans-mexc-16-billion-illicit-transactions/",
+     "outlet": "BeInCrypto",
+     "primary": false
     }
    ],
-   "reported_utc": "2026-10-28T18:00:00Z",
+   "reported_utc": "2026-11-06T21:06:03Z",
    "verdict": "VERIFIED",
    "mark": "checked"
   },
   {
-   "rank": 2,
-   "id": "c022",
-   "line": "Bithumb disclosed a breach of its internal employee mobile system; customer data exposure status under investigation.",
-   "titles": [
-    "Bithumb hacked through employee system as South Korean financial firms face cyberattacks"
-   ],
-   "board_reading": "",
-   "source_count": 1,
-   "primary": false,
-   "standing": "single",
-   "links": [
-    {
-     "url": "https://www.coindesk.com/tech/2026/10/28/bithumb-hacked-through-employee-system-as-south-korean-financial-firms-face-cyberattacks",
-     "outlet": "CoinDesk",
-     "primary": false
-    }
-   ],
-   "reported_utc": "2026-10-28T05:10:36Z",
-   "verdict": "NEEDS-HUMAN-REVIEW",
-   "mark": "wire"
-  },
-  {
    "rank": 3,
-   "id": "c009",
-   "line": "DTCC's tokenization service launched on Canton and Besu with 20 DTC participants including JPMorgan, Citi, and Morgan Stanley; 34 securities live.",
+   "id": "c002",
+   "line": "Gnosis Pay breach exposed card numbers, home addresses, and linked crypto wallet details, creating heightened targeted scam risk.",
    "titles": [
-    "Wall Street backbone DTCC brings $30 trillion securities closer to blockchain with major banks"
+    "Gnosis Pay breach exposes card numbers, home addresses and linked crypto wallets"
    ],
    "board_reading": "",
    "source_count": 1,
@@ -65,81 +67,103 @@
    "standing": "single",
    "links": [
     {
-     "url": "https://www.coindesk.com/business/2026/10/28/wall-street-backbone-dtcc-brings-usd30-trillion-securities-closer-to-blockchain-with-major-banks",
+     "url": "https://www.coindesk.com/business/2026/11/07/gnosis-pay-breach-exposes-card-numbers-home-addresses-and-linked-crypto-wallets",
      "outlet": "CoinDesk",
      "primary": false
     }
    ],
-   "reported_utc": "2026-10-28T13:14:37Z",
-   "verdict": "NEEDS-HUMAN-REVIEW",
+   "reported_utc": "2026-11-07T16:51:00Z",
+   "verdict": "VERIFIED",
    "mark": "wire"
   },
   {
    "rank": 4,
-   "id": "c017",
-   "line": "Ita\u00fa Unibanco, Brazil's largest private bank, filed for crypto brokerage and custody licensing ahead of regulatory deadline.",
+   "id": "c012",
+   "line": "Greece passed crypto tax law imposing 10% on capital gains and 15% on staking and DeFi income, with \u20ac500 annual threshold.",
    "titles": [
-    "Brazil\u2019s largest lender becomes first bank to formalize crypto brokerage under new rules"
+    "Greece Passes Crypto Tax Law With 10% Gains Levy, 15% on Staking and DeFi"
    ],
-   "board_reading": "",
+   "board_reading": "Ether price",
    "source_count": 1,
    "primary": false,
    "standing": "single",
    "links": [
     {
-     "url": "https://www.coindesk.com/policy/2026/10/28/brazil-s-largest-lender-becomes-first-bank-to-formalize-crypto-brokerage-under-new-rules",
-     "outlet": "CoinDesk",
+     "url": "https://decrypt.co/382756/greece-passes-crypto-tax-law-staking-defi",
+     "outlet": "Decrypt",
      "primary": false
     }
    ],
-   "reported_utc": "2026-10-28T10:07:54Z",
-   "verdict": "NEEDS-HUMAN-REVIEW",
+   "reported_utc": "2026-11-06T20:36:03Z",
+   "verdict": "VERIFIED",
+   "mark": "wire"
+  },
+  {
+   "rank": 5,
+   "id": "c064",
+   "line": "US sanctioned eight Canadian money-exchange firms for alleged Iran crypto links and blocked six Tron addresses.",
+   "titles": [
+    "US Sanctions Eight Canadian Money Firms Over Alleged Iran Crypto Links",
+    "US sanctions Canadian money-exchange firms over Iran ties"
+   ],
+   "board_reading": "Whale flows",
+   "source_count": 2,
+   "primary": false,
+   "standing": "corroborated",
+   "links": [
+    {
+     "url": "https://thedefiant.io/converge/regulation/us-sanctions-eight-canadian-money-firms-over-alleged-iran-crypto-links",
+     "outlet": "The Defiant",
+     "primary": false
+    },
+    {
+     "url": "https://cointelegraph.com/news/us-sanctions-canadian-money-exchange-firms-over-iran-ties?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+     "outlet": "Cointelegraph",
+     "primary": false
+    }
+   ],
+   "reported_utc": "2026-11-07T11:27:05Z",
+   "verdict": "VERIFIED",
    "mark": "wire"
   },
   {
    "rank": 6,
    "id": "c000",
-   "line": "CFTC announced a public roundtable on 24/7 derivatives trading scheduled for December 15.",
+   "line": "Binance told users in Spain, France, and Poland to withdraw crypto before Dec. 31 account closure, citing regional regulatory constraints.",
    "titles": [
-    "CFTC to Host Roundtable on 24/7 Trading",
-    "CFTC to host public roundtable on 24/7 derivatives trading on Dec. 15"
+    "Binance users in some European countries told to pull crypto before fees kick in, with accounts closing by year end"
    ],
-   "board_reading": "Bitcoin price",
-   "source_count": 2,
-   "primary": true,
-   "standing": "corroborated",
+   "board_reading": "Whale flows",
+   "source_count": 1,
+   "primary": false,
+   "standing": "single",
    "links": [
     {
-     "url": "https://www.cftc.gov/PressRoom/PressReleases/9318-26",
-     "outlet": "CFTC Press Releases",
-     "primary": true
-    },
-    {
-     "url": "https://cryptobriefing.com/cftc-roundtable-24-7-derivatives-trading/",
-     "outlet": "Crypto Briefing",
+     "url": "https://www.coindesk.com/business/2026/11/07/binance-users-in-some-european-countries-told-to-pull-crypto-before-fees-kick-in-with-accounts-closing-by-year-end",
+     "outlet": "CoinDesk",
      "primary": false
     }
    ],
-   "reported_utc": "2026-10-28T17:00:53Z",
-   "verdict": "VERIFIED",
+   "reported_utc": "2026-11-07T19:13:16Z",
+   "verdict": "NEEDS-HUMAN-REVIEW",
    "mark": "wire"
   }
  ],
  "checked": {
-  "id": "c170",
+  "id": "c001",
   "rank": 1,
-  "says": "The Federal Reserve's official press release states the Committee decided to maintain the target range for the federal funds rate at 3.75% to 4% by a 10-2 vote, with Lisa D. Cook and Beth M. Hammack voting to raise rates by 1/4 percentage point.",
-  "unconfirmed": "Market impact on crypto expectations rests on inference; the Fed statement does not itself address cryptocurrency or December rate probabilities.",
-  "badge": "Verified, primary source",
-  "standing": "primary",
-  "source": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20261028a.htm",
-  "outlet": "Federal Reserve"
+  "says": "Bitcoin Magazine reports FinCEN issued a final order Friday cutting MEXC from the American banking system over alleged links to sanctions evasion by Iran, North Korea and Russia, alleging at least $16 billion in illicit flows from May 2021 through May 2026.",
+  "unconfirmed": "The specific breakdown of illicit flow attribution ($1.5 billion Russian, $22 million Iran Central Bank/IRGC) rests on Bitcoin Magazine alone; Decrypt and Cointelegraph confirm the $16 billion total and country ties but not the sub-allocations.",
+  "badge": "Verified",
+  "standing": "corroborated",
+  "source": "https://bitcoinmagazine.com/news/fincen-cuts-off-mexc-us-financial-system",
+  "outlet": "Bitcoin Magazine"
  },
  "dropped": [
   {
-   "rank": 5,
-   "id": "c021",
-   "why": "the wire line runs 174 characters, over 160"
+   "rank": 2,
+   "id": "c006",
+   "why": "the wire line runs 167 characters, over 160"
   }
  ],
  "source_cuts": []

@@ -1,31 +1,31 @@
 {
- "line": "Bitcoin is drifting slightly higher on the Board's 24-hour reading even as weekly and monthly prices stay lower, and the news cycle itself was quiet, with no new desk reporting to explain the move.",
+ "line": "Bitcoin drifting lower on heightened fear as spot ETF outflows persist for a second day, while the wire reports Treasury sanctions against a major exchange and overseas crypto taxation tightening.",
  "by": "edition",
- "written_utc": "2026-10-28T23:17:34Z",
- "written_et": "7:17 PM ET on Oct 28",
+ "written_utc": "2026-11-07T23:01:55Z",
+ "written_et": "6:01 PM ET on Nov 7",
  "readings": {
-  "stamp_utc": "2026-10-28T23:13:43Z",
-  "btc_24h_pct": 0.49,
-  "etf_net_usd_m": 1.3,
-  "etf_date": "28 Oct 2026",
-  "fear_greed": 51,
-  "fear_greed_band": "Neutral",
-  "funding_8h_pct": 0.01,
-  "funding_band": "warm"
+  "stamp_utc": "2026-11-08T01:59:34Z",
+  "btc_24h_pct": -0.39,
+  "etf_net_usd_m": -411.9,
+  "etf_date": "06 Nov 2026",
+  "fear_greed": 28,
+  "fear_greed_band": "Fear",
+  "funding_8h_pct": 0.0071,
+  "funding_band": "calm"
  },
- "small_line": "Written from Bitcoin +0.49% on the day, spot ETF net +1.3M USD (Oct 28, 2026), Fear & Greed 51 (neutral), funding +0.0100% per 8h (warm)",
+ "small_line": "Written from Bitcoin -0.39% on the day, spot ETF net -411.9M USD (Nov 6, 2026), Fear & Greed 28 (fear), funding +0.0071% per 8h (calm)",
  "wire_top3": [
   {
-   "id": "c170",
-   "line": "Federal Reserve held interest rates steady at 3.75-4% on October 28, with two dissenting votes in favor of a quarter-point increase."
+   "id": "c001",
+   "line": "US Treasury cut MEXC from US financial system over $16 billion in alleged illicit transactions linked to Iran, North Korea, and Russia."
   },
   {
-   "id": "c022",
-   "line": "Bithumb disclosed a breach of its internal employee mobile system; customer data exposure status under investigation."
+   "id": "c002",
+   "line": "Gnosis Pay breach exposed card numbers, home addresses, and linked crypto wallet details, creating heightened targeted scam risk."
   },
   {
-   "id": "c009",
-   "line": "DTCC's tokenization service launched on Canton and Besu with 20 DTC participants including JPMorgan, Citi, and Morgan Stanley; 34 securities live."
+   "id": "c012",
+   "line": "Greece passed crypto tax law imposing 10% on capital gains and 15% on staking and DeFi income, with \u20ac500 annual threshold."
   }
  ],
  "crossed": []

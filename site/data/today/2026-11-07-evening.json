@@ -1,0 +1,155 @@
+{
+ "date_et": "2026-11-07",
+ "slot": "evening",
+ "published_utc": "2026-11-07T23:01:55Z",
+ "first_utc": "2026-11-07T23:01:55Z",
+ "direction": "flat",
+ "direction_basis": "et_day",
+ "title": "Crypto today: flat. Saturday, November 7, 2026",
+ "h1": "Crypto today: flat. Saturday, November 7, 2026",
+ "stamp_label": "Numbers as of 8:59 PM ET \u00b7 text from the 6:01 PM Brief",
+ "composed_utc": "2026-11-08T02:02:40Z",
+ "board_stamp_et": "8:59 PM ET on Nov 7",
+ "answer": [
+  "On Saturday, November 7, Bitcoin was flat since midnight ET, at $75,666, a change of -0.40%.",
+  "Over the last 24 hours it was down 0.39%.",
+  "Ether was down 0.56% over the same 24 hours.",
+  "Among the Top 100, NIGHT gained 2.82% and PUMP lost 7.61% over 24 hours."
+ ],
+ "answer_by": "template",
+ "fallback": false,
+ "btc": {
+  "price": 75666,
+  "chg": -0.39,
+  "chg_day": -0.4
+ },
+ "eth": {
+  "price": 2231.72,
+  "chg": -0.56
+ },
+ "cap": null,
+ "gainers": [
+  {
+   "symbol": "NIGHT",
+   "name": "Midnight",
+   "chg": 2.82,
+   "slug": "night"
+  },
+  {
+   "symbol": "UNI",
+   "name": "Uniswap",
+   "chg": 2.23,
+   "slug": "uni"
+  },
+  {
+   "symbol": "ARB",
+   "name": "Arbitrum",
+   "chg": 1.78,
+   "slug": "arb"
+  }
+ ],
+ "losers": [
+  {
+   "symbol": "PUMP",
+   "name": "Pump.fun",
+   "chg": -7.61,
+   "slug": "pump"
+  },
+  {
+   "symbol": "ZEC",
+   "name": "Zcash",
+   "chg": -7.4,
+   "slug": "zec"
+  },
+  {
+   "symbol": "BCH",
+   "name": "Bitcoin Cash",
+   "chg": -6.02,
+   "slug": "bch"
+  }
+ ],
+ "reported": [
+  {
+   "line": "Gnosis Pay breach exposed card numbers, home addresses, and linked crypto wallet details, creating heightened targeted scam risk.",
+   "time": "11:51 AM ET",
+   "source_count": 1,
+   "primary": false,
+   "links": [
+    {
+     "outlet": "CoinDesk",
+     "url": "https://www.coindesk.com/business/2026/11/07/gnosis-pay-breach-exposes-card-numbers-home-addresses-and-linked-crypto-wallets"
+    }
+   ]
+  },
+  {
+   "line": "US sanctioned eight Canadian money-exchange firms for alleged Iran crypto links and blocked six Tron addresses.",
+   "time": "6:27 AM ET",
+   "source_count": 2,
+   "primary": false,
+   "links": [
+    {
+     "outlet": "The Defiant",
+     "url": "https://thedefiant.io/converge/regulation/us-sanctions-eight-canadian-money-firms-over-alleged-iran-crypto-links"
+    },
+    {
+     "outlet": "Cointelegraph",
+     "url": "https://cointelegraph.com/news/us-sanctions-canadian-money-exchange-firms-over-iran-ties?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound"
+    }
+   ]
+  },
+  {
+   "line": "Binance told users in Spain, France, and Poland to withdraw crypto before Dec. 31 account closure, citing regional regulatory constraints.",
+   "time": "2:13 PM ET",
+   "source_count": 1,
+   "primary": false,
+   "links": [
+    {
+     "outlet": "CoinDesk",
+     "url": "https://www.coindesk.com/business/2026/11/07/binance-users-in-some-european-countries-told-to-pull-crypto-before-fees-kick-in-with-accounts-closing-by-year-end"
+    }
+   ]
+  }
+ ],
+ "board": [
+  {
+   "key": "etf",
+   "label": "Bitcoin ETF flows",
+   "value": -411.9,
+   "window": "one trading day, 06 Nov 2026",
+   "source": "Farside Investors",
+   "stamp": "8:59 PM ET on Nov 7",
+   "directional": true
+  },
+  {
+   "key": "liq",
+   "label": "Bitcoin liquidations",
+   "longs": 314314,
+   "shorts": 3976,
+   "window": "last 10 hours",
+   "source": "OKX",
+   "stamp": "8:59 PM ET on Nov 7",
+   "directional": false
+  },
+  {
+   "key": "funding",
+   "label": "Bitcoin funding",
+   "value": 0.0071,
+   "window": "current 8-hour period",
+   "source": "OKX",
+   "stamp": "8:59 PM ET on Nov 7",
+   "directional": false
+  },
+  {
+   "key": "fng",
+   "label": "Fear & Greed",
+   "value": 28,
+   "word": "Fear",
+   "window": "today",
+   "source": "alternative.me",
+   "stamp": "8:59 PM ET on Nov 7",
+   "directional": false
+  }
+ ],
+ "next": "Next update: Morning Brief, tomorrow at 8:15 AM ET",
+ "corrections": []
+}
