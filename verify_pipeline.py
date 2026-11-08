@@ -3644,7 +3644,8 @@ def _below_canary(index_html=None):
     _check(len({l for l, _ in lanes}) == len(lanes), fails,
            "below canary: a Record lane appears twice")
     for _l, _body in lanes:
-        _check(_body.count("<a ") == 1, fails,
+        # SPRINT A, A6: a lane quiet for three weeks shows its name and "Quiet lane" and no piece
+        _check(_body.count("<a ") == 1 or ("Quiet lane" in _body and _body.count("<a ") == 0), fails,
                f"below canary: the {_l} lane carries {_body.count('<a ')} pieces, not one")
     if index_html is not None:
         _bf = _re.search(r'<div class="h-below" data-fold="below">(.*)</section></main>',

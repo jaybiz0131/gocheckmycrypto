@@ -586,7 +586,8 @@ def review1_cases(fails):
     items = sb.load_content()
     rec = visible(sb.render_record(items, "T"))
     guarded(fails, "Storylines: the lanes say 'N in Storylines', the index card 'Storylines, full index' and 'Open Storylines' (not the Record)",
-            lambda: re.search(r"\d+ in Storylines", rec) and not re.search(r"in the Record|Record, full index|Open Record", rec))
+            lambda: (re.search(r"\d+ in Storylines", rec) or "Quiet lane" in rec)      # SPRINT A, A6: quiet lanes say so
+            and not re.search(r"in the Record|Record, full index|Open Record", rec))
     home_rec = visible(sb.record_sections(items, home=True))
     guarded(fails, "the home's Storylines lane links 'Storylines, in full' and says nothing is 'the Record'",
             lambda: "Storylines, in full" in home_rec and "the Record" not in home_rec)

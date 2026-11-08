@@ -1141,8 +1141,14 @@ def record(items):
     by_lane, _ = sb._record_inventory(items)
     lis = []
     for slug, name, _tags, _home in sb.RECORD_LANES:
-        it = (by_lane.get(slug) or [None])[0]
+        lane = by_lane.get(slug) or []
+        it = lane[0] if lane else None
         if not it:
+            continue
+        if sb.lane_quiet(lane):
+            # SPRINT A, A6: a lane with nothing for three weeks says so rather than feature an old piece
+            lis.append(f'<li data-lane="{_e(slug)}"><span class="h-ln">{_e(name)}</span>'
+                       f'<span class="h-st">Quiet lane</span></li>')
             continue
         lis.append(f'<li data-lane="{_e(slug)}"><span class="h-ln">{_e(name)}</span>'
                    f'<a href="/articles/{_e(it.get("slug"))}.html">{_e(it.get("title"))}</a>'

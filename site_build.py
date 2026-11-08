@@ -5296,24 +5296,60 @@ def _record_type(item, hub_slugs):
     return "Checked story"
 
 
+RECORD_QUIET_DAYS = 21     # Sprint A, A6: a lane with nothing newer than this shows "Quiet lane", not a featured piece
+
+_PASSED_FUTURE = re.compile(r"\b(will|would|is set to|are set to|set for|scheduled|expected to|targets?|ahead of|due on|"
+                            r"closes in|opens on|upcoming|next week|next month)\b", re.I)
+_MONTHS = ("january", "february", "march", "april", "may", "june", "july", "august", "september", "october",
+           "november", "december")
+_MDATE = re.compile(r"\b(jan|feb|mar|apr|may|jun|jul|aug|sept?|oct|nov|dec)[a-z]*\.? (\d{1,2})\b", re.I)
+
+
+def drop_passed_future(text, now=None):
+    """Sprint A, A6: a stored sentence that looks forward to a date already behind the build ("The markup scheduled for
+    September 16 will determine...") is dropped; every other sentence stands as stored. A sentence with no date, or a date
+    still ahead, is kept."""
+    if not text:
+        return text
+    today = (now or _build_now()).astimezone(_ET).date()
+    keep = []
+    for sent in re.split(r"(?<=[.!?])\s+", str(text)):
+        stale = False
+        if _PASSED_FUTURE.search(sent):
+            for mon, day in _MDATE.findall(sent):
+                m = next((k + 1 for k, n in enumerate(_MONTHS) if n.startswith(mon.lower()[:3])), None)
+                try:
+                    if m and _dtmod.date(today.year, m, int(day)) < today:
+                        stale = True
+                except ValueError:
+                    pass
+        if not stale:
+            keep.append(sent)
+    return " ".join(keep).strip()
+
+
+def lane_quiet(lane_items, now=None):
+    """Sprint A, A6: True when the lane's newest live story is more than RECORD_QUIET_DAYS old (or it has none)."""
+    newest = max(((i.get("published_utc") or "") for i in (lane_items or [])), default="")
+    d = _utc_dt(newest)
+    if not d:
+        return True
+    return ((now or _build_now()) - d).days > RECORD_QUIET_DAYS
+
+
 def _record_inventory(items):
-    """Every evergreen pick, bucketed by lane. One piece appears in one lane only: the
-    first lane in RECORD_LANES order that claims it, so a regulation story tagged
-    `exchanges` too does not headline both."""
+    """Sprint A, A6: every lane's live stories, NEWEST FIRST, read from the content at build time (the same lane index
+    /news uses), so a lane's feature is its newest story; one story is in one lane only (the first lane in RECORD_LANES
+    order that claims it). The evergreen picks stay the pool a short lane borrows its read-further rows from."""
     picks = evergreen_picks(items, n=60)
-    claimed, by_lane = set(), {}
-    for slug, name, tags, _home in RECORD_LANES:
-        want = set(tags)
-        lane = []
-        for it in picks:
-            key = it.get("slug")
-            if key in claimed:
-                continue
-            if want & set(tags_for(it)):
-                lane.append(it)
-                claimed.add(key)
-        by_lane[slug] = lane
-    return by_lane, picks
+    lanes, _rest, _live = _news_lane_index(items)
+    now = _build_now()
+
+    def _passed_week(i):
+        # a Week Ahead piece is a schedule: once its week is behind the build it is not a lane's newest work
+        d = _utc_dt(i.get("published_utc") or "")
+        return "week-ahead" in str(i.get("slug") or "") and (not d or (now - d).days > 7)
+    return {L["slug"]: [i for i in L["items"] if not _passed_week(i)] for L in lanes}, picks
 
 
 def _record_bars(lane_items, w=440, h=54, months=6):
@@ -5356,6 +5392,13 @@ def _record_lane(slug, name, lane_items, hub_slugs, page=False, pool=None):
     """One lane: the featured piece on the left, three more on the right (C-10)."""
     if not lane_items:
         return ""
+    if lane_quiet(lane_items):
+        # SPRINT A, A6: nothing in this lane for three weeks: the lane says so rather than feature an old piece
+        return (f'<section class="bd-rec-lane bd-rec-quiet" id="{esc(slug)}"><div class="bd-card bd-rec-feat">'
+                f'<div class="bd-cardtop"><span class="bd-eyebrow">{esc(name)}</span></div>'
+                f'<p class="bd-read" style="font-size:15px">Quiet lane</p>'
+                f'<div class="bd-brief-foot"><a class="bd-more" href="/news.html">All {esc(name.lower())}</a></div>'
+                f'</div></section>')
     feat = lane_items[0]
     # UX-11 (C-6): one appearance per story per page. The lanes were deduped against
     # each other by _record_inventory, but a short lane borrows from the Record's own
@@ -5377,8 +5420,8 @@ def _record_lane(slug, name, lane_items, hub_slugs, page=False, pool=None):
     receipts = (f'Sources: {esc(", ".join(srcs[:4]))}' if srcs
                 else "Sources: every source linked on the piece")
     # C-10: the v3 card leads with the Bottom Line, not the dek.
-    dek = dek_for({"dek": feat.get("bottom_line"), "key_fact": feat.get("key_fact"),
-                   "bottom_line": feat.get("dek"), "body": feat.get("body")}, 300)
+    dek = drop_passed_future(dek_for({"dek": feat.get("bottom_line"), "key_fact": feat.get("key_fact"),
+                                      "bottom_line": feat.get("dek"), "body": feat.get("body")}, 300))
     left = (
         f'<div class="bd-card bd-rec-feat">'
         f'<div class="bd-cardtop"><span class="bd-eyebrow">{esc(name)}</span>'
@@ -5912,8 +5955,11 @@ def render_archive(items, dateline):
                     f'<p class="pc-note" style="margin:0 0 10px">The storylines the desk is '
                     f'following, each collected on one page, newest chapter first.</p>'
                     f'<ul class="link-list">{lis}</ul>')
+    # SPRINT A, A6: the header carries the build's date, and the listing runs through it
+    _bd = _build_now().astimezone(_ET).date()
     body = f"""<main class="wrap"><section class="sec">
     <div class="sec-head"><h1>Archive</h1><span class="bar"></span></div>
+    <p class="lx-dek arch-asof">Every published story through {esc(_bd.strftime("%A, %B"))} {_bd.day}, {_bd.year}.</p>
     {hub_html}
     {inner}
   </section></main>"""
