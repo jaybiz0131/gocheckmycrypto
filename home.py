@@ -356,7 +356,8 @@ def band_line(narr, snap=None):
     import narrative as _n
     narr = narr or {}
     line = str(narr.get("line") or "").strip()
-    if line and _n.quotes_change(line):
+    import phrases
+    if line and (_n.quotes_change(line) or phrases.has_old_name(line)):
         r = _n.readings(snap) if snap else (narr.get("readings") or {})
         return _n.table_line(r, narr.get("wire_top3") or []), r, True
     return line, narr.get("readings"), False

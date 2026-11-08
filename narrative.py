@@ -197,6 +197,14 @@ def table_line(r, wire_items, driver=None):
 
 # ---- the Edition's line ------------------------------------------------------------------
 
+def _old_name(ln):
+    """Sprint A, A1: the copy law's old name for Markets ('the Board') may not stand in the line. The
+    October 28 line carried it, and from then on every canary failed on the built home, so no later
+    Edition could replace it."""
+    import phrases
+    return phrases.has_old_name(ln)
+
+
 def edition_line(model_line, r, wire_items, gate):
     """(line, by): the model's line when it is one sentence, predicts nothing and passes
     the twins gate; else the table's."""
@@ -206,7 +214,7 @@ def edition_line(model_line, r, wire_items, gate):
         from site_build import destyle
         ln = destyle(ln)
         ok = (len(twins_gate.sentences(ln)) == 1 and not _PREDICT.search(ln)
-              and not quotes_change(ln)
+              and not quotes_change(ln) and not _old_name(ln)
               and len(ln) <= 220 and gate.text(ln, "the narrative line").strip() == ln.strip())
         if ok:
             return ln, "edition"

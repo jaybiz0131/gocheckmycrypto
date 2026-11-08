@@ -180,9 +180,13 @@ def case_6_sourced_event_text(fails):
     luxor = [c for c in stored["candidates"] if c.get("kind") == "wire" and "AI compute" in (c.get("line") or "")]
     guarded(fails, "the premise: the stored October 27 evening evidence carries the Luxor wire line, and its own source titles carry 'AI compute'",
             lambda: bool(luxor) and any("ai compute" in t.lower() for t in luxor[0]["titles"]))
-    wire = json.load(open(os.path.join(HERE, "site", "data", "wire.json"), encoding="utf-8"))
+    # Sprint A, A1 (Nov 7 audit): the premise reads the October 27 evening wire PINNED as a fixture. Read from the live
+    # site/data/wire.json, it went false the moment the October 28 Edition rotated the wire, and with it every canary
+    # and so every Brief and morning run from October 29 on. The live wire is still scanned below.
+    pinned = load("fixtures", "sprint99h", "wire-2026-10-27-evening.json")
     guarded(fails, "the premise: the stored wire cluster for the same line carries 'AI compute' in a title",
-            lambda: any(i.get("line") == LUXOR_LINE and any("ai compute" in t.lower() for t in i.get("titles") or []) for i in wire["items"]))
+            lambda: any(i.get("line") == LUXOR_LINE and any("ai compute" in t.lower() for t in i.get("titles") or []) for i in pinned["items"]))
+    wire = json.load(open(os.path.join(HERE, "site", "data", "wire.json"), encoding="utf-8"))
     now = dt.datetime(2026, 10, 28, 12, 0, tzinfo=UTC)
     def scan(feed, titles=None):
         try:
