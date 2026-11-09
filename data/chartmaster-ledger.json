@@ -175,5 +175,16 @@
   ],
   "detail": "dropped 9 sentence(s): Funding tells a story of asymmetric crowding. | Bitcoin perps trade at an 8-hour funding rate of plus 0.0025 percent (annualizin | The long-to-short ratio on Bitcoin stands at 2",
   "t": "2026-11-08T23:15:10Z"
+ },
+ {
+  "date": "2026-11-09",
+  "path": "data-only",
+  "tripped": [
+   "headline: belt: chartmaster: funding is stated without naming the venue (OKX); one exchange's funding is not the mar",
+   "belt: chartmaster: funding is stated without naming the venue (OKX); one exchange's funding is not the mar",
+   "belt: chartmaster: an open-interest figure names no venue in its own sentence ('Open interest is substanti"
+  ],
+  "detail": "the rest still fails whole: chartmaster: unscoped bitcoin price direction while the windows disagree (day 0.08%, week -4.54%, month -9.48%); name th",
+  "t": "2026-11-09T23:16:08Z"
  }
 ]

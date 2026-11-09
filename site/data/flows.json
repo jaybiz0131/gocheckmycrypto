@@ -1,26 +1,26 @@
 {
   "example": false,
   "generated": "2026-11-09",
-  "generated_utc": "2026-11-09T13:17:25Z",
-  "window_hours": 48,
-  "txn_count": 3,
+  "generated_utc": "2026-11-09T23:13:31Z",
+  "window_hours": 72,
+  "txn_count": 5,
   "volatile": {
     "inflow_usd": 0,
-    "outflow_usd": 75762168,
-    "net_usd": 75762168,
+    "outflow_usd": 182675346,
+    "net_usd": 182675346,
     "direction": "off exchanges"
   },
   "stablecoins": {
-    "inflow_usd": 179793890,
+    "inflow_usd": 279830390,
     "outflow_usd": 196860551,
-    "net_buying_power_usd": -17066661
+    "net_buying_power_usd": 82969839
   },
   "by_asset": [
     {
       "symbol": "BTC",
       "inflow_usd": 0,
-      "outflow_usd": 75762168,
-      "net_usd": 75762168
+      "outflow_usd": 182675346,
+      "net_usd": 182675346
     }
   ],
   "by_exchange": [
@@ -29,6 +29,18 @@
       "inflow_usd": 179793890,
       "outflow_usd": 196860551,
       "net_usd": 17066661
+    },
+    {
+      "exchange": "OKX",
+      "inflow_usd": 0,
+      "outflow_usd": 106913178,
+      "net_usd": 106913178
+    },
+    {
+      "exchange": "MEXC",
+      "inflow_usd": 100036500,
+      "outflow_usd": 0,
+      "net_usd": -100036500
     },
     {
       "exchange": "cryptocom",
@@ -49,6 +61,18 @@
       "url": "",
       "ts": 1794158939.0,
       "stable": true
+    },
+    {
+      "symbol": "USDC",
+      "amount": 100000000.0,
+      "usd": 100036500.0,
+      "to": "MEXC",
+      "from": "Unknown wallet",
+      "blockchain": "ethereum",
+      "hash": "0x363fc46e6c997bf7e934401c98ec2e7944f6222c3424562f16f2eafe3ded32b0",
+      "url": "",
+      "ts": 1794044507.0,
+      "stable": true
     }
   ],
   "top_outflows": [
@@ -63,6 +87,18 @@
       "url": "",
       "ts": 1794161135.0,
       "stable": true
+    },
+    {
+      "symbol": "BTC",
+      "amount": 1408.0,
+      "usd": 106913178.0,
+      "to": "Unknown wallet",
+      "from": "OKX",
+      "blockchain": "bitcoin",
+      "hash": "d335ef004e917bc1d1b9d1497bd89c92a857ffc7858cf8c2af24dfc946654aff",
+      "url": "",
+      "ts": 1794056520.0,
+      "stable": false
     },
     {
       "symbol": "BTC",
@@ -82,69 +118,69 @@
   "history": [
     {
       "week_ending": "Aug 17",
-      "net_usd": -355606535,
-      "moves": 29
+      "net_usd": -39953121,
+      "moves": 24
     },
     {
       "week_ending": "Aug 24",
-      "net_usd": -807474851,
-      "moves": 78
+      "net_usd": -1414178311,
+      "moves": 81
     },
     {
       "week_ending": "Aug 31",
-      "net_usd": -512955644,
-      "moves": 93
+      "net_usd": -323228343,
+      "moves": 90
     },
     {
       "week_ending": "Sep 07",
-      "net_usd": -37951972,
-      "moves": 66
+      "net_usd": 347239133,
+      "moves": 62
     },
     {
       "week_ending": "Sep 14",
-      "net_usd": -651891759,
-      "moves": 30
+      "net_usd": -841708467,
+      "moves": 33
     },
     {
       "week_ending": "Sep 21",
-      "net_usd": -358921003,
-      "moves": 74
+      "net_usd": -309981283,
+      "moves": 83
     },
     {
       "week_ending": "Sep 28",
-      "net_usd": -1016781204,
-      "moves": 100
+      "net_usd": -1160750919,
+      "moves": 93
     },
     {
       "week_ending": "Oct 05",
-      "net_usd": -346148987,
-      "moves": 70
+      "net_usd": -365154394,
+      "moves": 74
     },
     {
       "week_ending": "Oct 12",
-      "net_usd": -1739428078,
-      "moves": 102
+      "net_usd": -1435575968,
+      "moves": 93
     },
     {
       "week_ending": "Oct 19",
-      "net_usd": 360974870,
-      "moves": 38
+      "net_usd": 205209406,
+      "moves": 44
     },
     {
       "week_ending": "Oct 26",
-      "net_usd": -1482815521,
-      "moves": 84
+      "net_usd": -1549465029,
+      "moves": 97
     },
     {
       "week_ending": "Nov 02",
-      "net_usd": 5137884891,
-      "moves": 180
+      "net_usd": 5510338135,
+      "moves": 179
     },
     {
       "week_ending": "Nov 09",
-      "net_usd": 1718732789,
-      "moves": 121
+      "net_usd": 1568694517,
+      "moves": 103
     }
   ],
-  "weekly_median_abs_usd": 651891759
+  "weekly_median_abs_usd": 841708467
 }

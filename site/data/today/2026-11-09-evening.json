@@ -1,0 +1,195 @@
+{
+ "date_et": "2026-11-09",
+ "slot": "evening",
+ "published_utc": "2026-11-09T23:16:08Z",
+ "first_utc": "2026-11-09T23:16:08Z",
+ "direction": "flat",
+ "direction_basis": "et_day",
+ "title": "Crypto today: flat. Monday, November 9, 2026",
+ "h1": "Crypto today: flat. Monday, November 9, 2026",
+ "stamp_label": "Evening Brief, 6:16 PM ET",
+ "composed_utc": "2026-11-09T23:17:40Z",
+ "board_stamp_et": "6:13 PM ET on Nov 9",
+ "answer": [
+  "On Monday, November 9, Bitcoin was flat since midnight ET, at $75,103, a change of -0.12%.",
+  "Over the last 24 hours it was up 0.08%.",
+  "The whole market's value was down 0.82% over the same 24 hours, to $2.52T.",
+  "Ether was down 0.93% over the same 24 hours.",
+  "Among the Top 100, PIEVERSE gained 40.99% and ZRO lost 5.38% over 24 hours."
+ ],
+ "answer_by": "template",
+ "fallback": false,
+ "btc": {
+  "price": 75103,
+  "chg": 0.08,
+  "chg_day": -0.12
+ },
+ "eth": {
+  "price": 2130.06,
+  "chg": -0.93
+ },
+ "cap": {
+  "usd": 2521232979437,
+  "chg": -0.82
+ },
+ "gainers": [
+  {
+   "symbol": "PIEVERSE",
+   "name": "Pieverse",
+   "chg": 40.99,
+   "slug": "pieverse"
+  },
+  {
+   "symbol": "JUP",
+   "name": "Jupiter",
+   "chg": 8.06,
+   "slug": "jup"
+  },
+  {
+   "symbol": "AVAX",
+   "name": "Avalanche",
+   "chg": 8.0,
+   "slug": "avax"
+  }
+ ],
+ "losers": [
+  {
+   "symbol": "ZRO",
+   "name": "LayerZero",
+   "chg": -5.38,
+   "slug": "zro"
+  },
+  {
+   "symbol": "PI",
+   "name": "Pi Network",
+   "chg": -4.93,
+   "slug": "pi"
+  },
+  {
+   "symbol": "ZEC",
+   "name": "Zcash",
+   "chg": -4.39,
+   "slug": "zec"
+  }
+ ],
+ "reported": [
+  {
+   "line": "NYSE chose Avalanche as the settlement ledger for its planned 24/7 tokenized stock trading platform.",
+   "time": "8:40 AM ET",
+   "source_count": 4,
+   "primary": false,
+   "links": [
+    {
+     "outlet": "CoinDesk",
+     "url": "https://www.coindesk.com/business/2026/11/09/nyse-picks-avalanche-to-settle-tokenized-stocks-amid-wall-street-s-blockchain-race"
+    },
+    {
+     "outlet": "The Block",
+     "url": "https://www.theblock.co/news/business/2026-11-09-nyse-settle-tokenized-stocks-avalanche-planned-24-7-market-436208"
+    },
+    {
+     "outlet": "The Defiant",
+     "url": "https://thedefiant.io/converge/tradfi-and-fintech/nyse-picks-avalanche-for-tokenized-stock-settlement"
+    },
+    {
+     "outlet": "Decrypt",
+     "url": "https://decrypt.co/382833/nyse-avalanche-settle-tokenized-stock-platform"
+    }
+   ]
+  },
+  {
+   "line": "The Office of the Comptroller of the Currency granted Coinbase a full national trust bank charter, enabling expansion of its institutional custody business.",
+   "time": "5:00 AM ET",
+   "source_count": 2,
+   "primary": false,
+   "links": [
+    {
+     "outlet": "CoinDesk",
+     "url": "https://www.coindesk.com/policy/2026/11/09/coinbase-gets-full-u-s-trust-charter-from-federal-banking-regulator"
+    },
+    {
+     "outlet": "Bitcoin Magazine",
+     "url": "https://bitcoinmagazine.com/news/coinbase-full-occ-national-trust-charter"
+    }
+   ]
+  },
+  {
+   "line": "North Korean hackers tied to the $6.3 billion Binance hack created six memecoins on NEAR to move about $430,000 in stolen funds, Elliptic reported.",
+   "time": "10:00 AM ET",
+   "source_count": 5,
+   "primary": false,
+   "links": [
+    {
+     "outlet": "CoinDesk",
+     "url": "https://www.coindesk.com/business/2026/11/09/north-korean-hackers-are-creating-memecoins-to-wash-loot-from-usd6-3-billion-binance-hack"
+    },
+    {
+     "outlet": "Cointelegraph",
+     "url": "https://cointelegraph.com/news/north-korean-hackers-memecoins-launder-binance-hack-elliptic?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound"
+    },
+    {
+     "outlet": "theblock.co",
+     "url": "https://www.theblock.co/news/ecosystems/2026-11-09-binance-hack-launderers-mint-homemade-elon-musk-animal-memecoins-move-stolen-funds-elliptic-436440"
+    },
+    {
+     "outlet": "The Daily Hodl",
+     "url": "https://dailyhodl.com/2026/11/09/elon-musk-chimpanzees-and-fuk-north-korean-hackers-behind-6-4-billion-binance-heist-mint-memecoins-to-launder-funds-elliptic/"
+    }
+   ]
+  },
+  {
+   "line": "Incoming Senate Banking Committee chair Elizabeth Warren said she plans to scrutinize prediction markets and Trump family crypto ventures.",
+   "time": "3:04 PM ET",
+   "source_count": 1,
+   "primary": false,
+   "links": [
+    {
+     "outlet": "The Block",
+     "url": "https://www.theblock.co/news/regulation/2026-11-09-senate-banking-elizabeth-warren-scrutiny-prediction-markets-trump-crypto-ventures-436898"
+    }
+   ]
+  }
+ ],
+ "board": [
+  {
+   "key": "etf",
+   "label": "Bitcoin ETF flows",
+   "value": -411.9,
+   "window": "one trading day, 06 Nov 2026",
+   "source": "Farside Investors",
+   "stamp": "6:13 PM ET on Nov 9",
+   "directional": true
+  },
+  {
+   "key": "liq",
+   "label": "Bitcoin liquidations",
+   "longs": 31307,
+   "shorts": 552817,
+   "window": "last 5 hours",
+   "source": "OKX",
+   "stamp": "6:13 PM ET on Nov 9",
+   "directional": false
+  },
+  {
+   "key": "funding",
+   "label": "Bitcoin funding",
+   "value": 0.0062,
+   "window": "current 8-hour period",
+   "source": "OKX",
+   "stamp": "6:13 PM ET on Nov 9",
+   "directional": false
+  },
+  {
+   "key": "fng",
+   "label": "Fear & Greed",
+   "value": 29,
+   "word": "Fear",
+   "window": "today",
+   "source": "alternative.me",
+   "stamp": "6:13 PM ET on Nov 9",
+   "directional": false
+  }
+ ],
+ "next": "Next update: Morning Brief, tomorrow at 8:15 AM ET",
+ "corrections": []
+}
