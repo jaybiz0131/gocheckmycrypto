@@ -1,0 +1,114 @@
+{
+ "date_et": "2026-11-09",
+ "slot": "morning",
+ "published_utc": "2026-11-09T13:18:29Z",
+ "first_utc": "2026-11-09T13:18:29Z",
+ "direction": "down",
+ "direction_basis": "et_day",
+ "title": "Why is crypto down today? Monday, November 9, 2026",
+ "h1": "Why is crypto down today? Monday, November 9, 2026",
+ "stamp_label": "Morning Brief, 8:18 AM ET",
+ "composed_utc": "2026-11-09T13:18:32Z",
+ "board_stamp_et": "8:17 AM ET on Nov 9",
+ "answer": [
+  "On Monday, November 9, Bitcoin was down 0.73% since midnight ET, to $74,650.",
+  "Over the last 24 hours it was down 1.83%.",
+  "Ether was down 5.48% over the same 24 hours.",
+  "Among the Top 100, ARB gained 9.07% and PI lost 9.81% over 24 hours."
+ ],
+ "answer_by": "template",
+ "fallback": false,
+ "btc": {
+  "price": 74650,
+  "chg": -1.83,
+  "chg_day": -0.73
+ },
+ "eth": {
+  "price": 2118.63,
+  "chg": -5.48
+ },
+ "cap": null,
+ "gainers": [
+  {
+   "symbol": "ARB",
+   "name": "Arbitrum",
+   "chg": 9.07,
+   "slug": "arb"
+  },
+  {
+   "symbol": "AVAX",
+   "name": "Avalanche",
+   "chg": 3.82,
+   "slug": "avax"
+  },
+  {
+   "symbol": "DASH",
+   "name": "Dash",
+   "chg": 2.43,
+   "slug": "dash"
+  }
+ ],
+ "losers": [
+  {
+   "symbol": "PI",
+   "name": "Pi Network",
+   "chg": -9.81,
+   "slug": "pi"
+  },
+  {
+   "symbol": "XRP",
+   "name": "XRP",
+   "chg": -6.03,
+   "slug": "xrp"
+  },
+  {
+   "symbol": "ASTER",
+   "name": "Aster",
+   "chg": -6.03,
+   "slug": "aster"
+  }
+ ],
+ "reported": [],
+ "board": [
+  {
+   "key": "etf",
+   "label": "Bitcoin ETF flows",
+   "value": -411.9,
+   "window": "one trading day, 06 Nov 2026",
+   "source": "Farside Investors",
+   "stamp": "8:17 AM ET on Nov 9",
+   "directional": true
+  },
+  {
+   "key": "liq",
+   "label": "Bitcoin liquidations",
+   "longs": 23,
+   "shorts": 671778,
+   "window": "last 1 hour",
+   "source": "OKX",
+   "stamp": "8:17 AM ET on Nov 9",
+   "directional": false
+  },
+  {
+   "key": "funding",
+   "label": "Bitcoin funding",
+   "value": 0.0058,
+   "window": "current 8-hour period",
+   "source": "OKX",
+   "stamp": "8:17 AM ET on Nov 9",
+   "directional": false
+  },
+  {
+   "key": "fng",
+   "label": "Fear & Greed",
+   "value": 29,
+   "word": "Fear",
+   "window": "today",
+   "source": "alternative.me",
+   "stamp": "8:17 AM ET on Nov 9",
+   "directional": false
+  }
+ ],
+ "next": "Next update: Evening Brief, tonight at 6:08 PM ET",
+ "corrections": []
+}

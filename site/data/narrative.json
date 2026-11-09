@@ -1,31 +1,31 @@
 {
- "line": "Bitcoin drifting lower on persistent oversold technicals and broad selling across the asset class, while whale flows suggest accumulation into the drawdown.",
+ "line": "Spot ETF outflows and fear sentiment mark a softer Bitcoin morning as regulators tighten enforcement and platforms adjust European operations.",
  "by": "edition",
- "written_utc": "2026-11-08T23:15:11Z",
- "written_et": "6:15 PM ET on Nov 8",
+ "written_utc": "2026-11-09T13:18:29Z",
+ "written_et": "8:18 AM ET on Nov 9",
  "readings": {
-  "stamp_utc": "2026-11-08T23:12:40Z",
-  "btc_24h_pct": -0.94,
+  "stamp_utc": "2026-11-09T13:17:25Z",
+  "btc_24h_pct": -1.83,
   "etf_net_usd_m": -411.9,
   "etf_date": "06 Nov 2026",
-  "fear_greed": 28,
+  "fear_greed": 29,
   "fear_greed_band": "Fear",
-  "funding_8h_pct": 0.0025,
+  "funding_8h_pct": 0.0058,
   "funding_band": "calm"
  },
- "small_line": "Written from Bitcoin -0.94% on the day, spot ETF net -411.9M USD (Nov 6, 2026), Fear & Greed 28 (fear), funding +0.0025% per 8h (calm)",
+ "small_line": "Written from Bitcoin -1.83% on the day, spot ETF net -411.9M USD (Nov 6, 2026), Fear & Greed 29 (fear), funding +0.0058% per 8h (calm)",
  "wire_top3": [
-  {
-   "id": "c004",
-   "line": "US Treasury moved to cut off crypto exchange MEXC over $16 billion in alleged illicit flows tied to Iran and Russia."
-  },
-  {
-   "id": "c003",
-   "line": "Binance told users in Spain, France, and Poland to withdraw assets by Dec 31 or face account closure and retroactive fees starting Nov 29."
-  },
   {
    "id": "c006",
    "line": "Web3Auth moved $5.6 million from exposed Keplr wallets to prevent theft, but some funds were already stolen from affected users."
+  },
+  {
+   "id": "c008",
+   "line": "Binance CFO Kaiser Ng steps down nine days; co-CEO says transition was planned six months prior."
+  },
+  {
+   "id": "c004",
+   "line": "US Treasury moved to cut off crypto exchange MEXC over $16 billion in alleged illicit flows tied to Iran and Russia."
   }
  ],
  "crossed": []

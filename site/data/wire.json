@@ -3,11 +3,65 @@
  "what_a_wire_line_is": "Each line is the desk's own one-line summary of a story it ranked, with its sources counted and linked. It is not a story the desk wrote or checked; only the item with a badge was checked.",
  "ranked_utc": "2026-11-08T23:13:09Z",
  "ranked_et": "6:13 PM ET on Nov 8",
- "refreshed_utc": "2026-11-08T23:13:09Z",
- "refreshed_et": "6:13 PM ET on Nov 8",
- "refreshes": 0,
+ "refreshed_utc": "2026-11-09T13:18:29Z",
+ "refreshed_et": "8:18 AM ET on Nov 9",
+ "refreshes": 1,
  "snapshot_stamp_utc": "2026-11-08T23:12:40Z",
  "items": [
+  {
+   "rank": 3,
+   "id": "c006",
+   "line": "Web3Auth moved $5.6 million from exposed Keplr wallets to prevent theft, but some funds were already stolen from affected users.",
+   "titles": [
+    "Web3Auth says it frontran hackers by moving $5.6 million out of exposed Keplr wallets"
+   ],
+   "board_reading": "",
+   "source_count": 2,
+   "primary": false,
+   "standing": "single",
+   "links": [
+    {
+     "url": "https://www.theblock.co/news/defi/2026-11-08-web3auth-says-it-frontran-hackers-by-moving-5-6-million-out-of-exposed-keplr-wallets-436029",
+     "outlet": "The Block",
+     "primary": false
+    },
+    {
+     "url": "https://thedefiant.io/news/security/keplr-confirms-web3auth-recovery-addresses-after-wallet-breach",
+     "outlet": "The Defiant",
+     "primary": false
+    }
+   ],
+   "reported_utc": "2026-11-08T18:32:11Z",
+   "verdict": "NEEDS-HUMAN-REVIEW",
+   "mark": "wire"
+  },
+  {
+   "rank": 4,
+   "id": "c008",
+   "line": "Binance CFO Kaiser Ng steps down nine days; co-CEO says transition was planned six months prior.",
+   "titles": [
+    "Binance CFO steps down nine days after record hack; co-CEO says transition was planned six months ago"
+   ],
+   "board_reading": "Whale flows",
+   "source_count": 2,
+   "primary": false,
+   "standing": "single",
+   "links": [
+    {
+     "url": "https://www.theblock.co/news/business/2026-11-07-binance-cfo-steps-down-nine-days-after-record-hack-co-ceo-says-transition-was-planned-six-months-ago-435992",
+     "outlet": "The Block",
+     "primary": false
+    },
+    {
+     "url": "https://protos.com/binance-faces-renewed-scrutiny-as-cfo-exits-amid-compliance-turmoil/",
+     "outlet": "Protos",
+     "primary": false
+    }
+   ],
+   "reported_utc": "2026-11-07T21:57:58Z",
+   "verdict": "NEEDS-HUMAN-REVIEW",
+   "mark": "wire"
+  },
   {
    "rank": 1,
    "id": "c004",
@@ -49,50 +103,6 @@
     }
    ],
    "reported_utc": "2026-11-07T19:13:16Z",
-   "verdict": "NEEDS-HUMAN-REVIEW",
-   "mark": "wire"
-  },
-  {
-   "rank": 3,
-   "id": "c006",
-   "line": "Web3Auth moved $5.6 million from exposed Keplr wallets to prevent theft, but some funds were already stolen from affected users.",
-   "titles": [
-    "Web3Auth says it frontran hackers by moving $5.6 million out of exposed Keplr wallets"
-   ],
-   "board_reading": "",
-   "source_count": 1,
-   "primary": false,
-   "standing": "single",
-   "links": [
-    {
-     "url": "https://www.theblock.co/news/defi/2026-11-08-web3auth-says-it-frontran-hackers-by-moving-5-6-million-out-of-exposed-keplr-wallets-436029",
-     "outlet": "The Block",
-     "primary": false
-    }
-   ],
-   "reported_utc": "2026-11-08T18:32:11Z",
-   "verdict": "NEEDS-HUMAN-REVIEW",
-   "mark": "wire"
-  },
-  {
-   "rank": 4,
-   "id": "c008",
-   "line": "Binance CFO Kaiser Ng steps down nine days; co-CEO says transition was planned six months prior.",
-   "titles": [
-    "Binance CFO steps down nine days after record hack; co-CEO says transition was planned six months ago"
-   ],
-   "board_reading": "Whale flows",
-   "source_count": 1,
-   "primary": false,
-   "standing": "single",
-   "links": [
-    {
-     "url": "https://www.theblock.co/news/business/2026-11-07-binance-cfo-steps-down-nine-days-after-record-hack-co-ceo-says-transition-was-planned-six-months-ago-435992",
-     "outlet": "The Block",
-     "primary": false
-    }
-   ],
-   "reported_utc": "2026-11-07T21:57:58Z",
    "verdict": "NEEDS-HUMAN-REVIEW",
    "mark": "wire"
   },

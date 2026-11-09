@@ -1,17 +1,18 @@
 {
- "date_et": "2026-11-08",
+ "date_et": "2026-11-09",
  "slot": "morning",
- "published_utc": "2026-11-08T13:17:00Z",
- "published_et": "8:17 AM ET on Nov 8",
- "headline": "US Treasury sanctions MEXC over $16B in alleged illicit transactions",
+ "published_utc": "2026-11-09T13:18:29Z",
+ "published_et": "8:18 AM ET on Nov 9",
+ "headline": "Bitcoin lower as spot ETFs see outflows; fear index hits 29",
  "headline_by": "model",
  "sentences": [
-  "The US Treasury cut MEXC from the US financial system over $16 billion in alleged illicit transactions linked to Iran, North Korea, and Russia, while sanctioning eight Canadian money-exchange firms for alleged Iran crypto links and blocking six Tron addresses.",
-  "Bitcoin little changed over the past 24 hours as spot Bitcoin ETFs saw net outflows of $411.9M on November 6, with the Fear & Greed index at 28, fear, and funding on Bitcoin perpetual futures remaining calm."
+  "Bitcoin lower over the past 24 hours as spot Bitcoin ETFs saw net outflows of $411.9M on the day, November 6, with the Fear & Greed index reading 29, fear.",
+  "The wire carries regulatory pressure: the US Treasury moved to cut off crypto exchange MEXC over $16 billion in alleged illicit flows tied to Iran and Russia, while Binance told users in Spain, France, and Poland to withdraw assets by Dec 31 or face account closure and retroactive fees starting Nov 29.",
+  "Web3Auth moved $5.6 million from exposed Keplr wallets to prevent theft, though some funds were already stolen from affected users."
  ],
- "line": "Regulatory crackdowns dominate the wire this morning as Markets holds steady, with enforcement actions across exchanges and persistent outflow pressure on spot Bitcoin products.",
+ "line": "Spot ETF outflows and fear sentiment mark a softer Bitcoin morning as regulators tighten enforcement and platforms adjust European operations.",
  "line_by": "edition",
- "tokens": 981,
- "usd": 0.0018,
+ "tokens": 1081,
+ "usd": 0.002,
  "generated_by": "morning.py (one model call; copy law and twins gate)"
 }
