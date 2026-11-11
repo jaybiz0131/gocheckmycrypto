@@ -268,6 +268,11 @@ def _mask_band(h):
     h = re.sub(r'(<ol class="h-movers">).*?(</ol>)', r"\1\2", h, flags=re.S)
     # SPRINT A: What was reported no longer lists the item the Top story card prints; its rows are masked on both sides
     h = re.sub(r'(<ol class="h-wire">).*?(</ol>)', r"\1\2", h, flags=re.S)
+    # SPRINT B, B2: the 200-day gap bar's width follows the once-rounded gap and its end label says it is a scale, not "25% above"
+    h = re.sub(r'(<span class="h-gap-t"><i style="width:)[\d.]+%', r"\1W%", h)
+    h = re.sub(r"<span>200-day(?: average)?</span><span>(?:\d+% (?:above|below)|bar scale ends at \d+%)</span>", "<span>200-day</span><span>SCALE</span>", h)
+    # SPRINT B, B3: funding prints two decimals with a sign, or "flat" (was four decimals)
+    h = re.sub(r'(<p class="tl-f">)(?:[+-]\d+\.\d+%|flat)(</p>)', r"\1FUNDING\2", h)
     # SPRINT A: the withheld whole-market change reads "no 24h figure" (was the bare word "unchecked")
     return h.replace(">no 24h figure</span>", ">unchecked</span>")
 

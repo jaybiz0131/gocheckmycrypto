@@ -144,6 +144,14 @@ def whale_cases(fails):
     import home as _hm
     guarded(fails, "B2: the gap bar prints its scale as a scale, not '25% above'",
             lambda: "25% above" not in _hm.gap_bar(3.4) and "bar scale ends at 25%" in _hm.gap_bar(3.4))
+
+    # SPRINT B, B3: funding prints two decimals with a sign or "flat"; identical 50/200-day averages read n/a
+    guarded(fails, "B3: funding is signed with two decimals, 'flat' when it rounds to zero, never -0%",
+            lambda: _sn2.fmt_funding(0.0100) == "+0.01%" and _sn2.fmt_funding(-0.0003) == "flat"
+            and _sn2.fmt_funding(10.954) == "+10.95%" and _sn2.fmt_funding(-3.1) == "-3.10%" and "-0" not in _sn2.fmt_funding(-0.001))
+    guarded(fails, "B3: a coin whose 50-day and 200-day match to four decimals gets n/a, a sound pair is kept",
+            lambda: sb.sma_pair({"symbol": "DOGE", "sma50": 0.09001, "sma200": 0.09003}) == (None, None)
+            and sb.sma_pair({"symbol": "BTC", "sma50": 81639.84, "sma200": 73161.15}) == (81639.84, 73161.15))
     import chartmaster
     guarded(fails, "the Chart Master is handed the stablecoin convention in words",
             lambda: "stablecoin_convention" in open(os.path.join(HERE, "chartmaster.py"), encoding="utf-8").read())

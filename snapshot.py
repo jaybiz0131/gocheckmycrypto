@@ -447,6 +447,15 @@ def movers(coins):
                     f"way; stablecoins excluded"}
 
 
+def fmt_funding(v):
+    """SPRINT B, B3: a funding rate prints two decimals with a sign, or "flat" when it rounds to zero (never "-0%", never
+    "+0.0000%"). One function for every surface."""
+    if isinstance(v, bool) or not isinstance(v, (int, float)):
+        return ""
+    r = round(float(v), 2)
+    return "flat" if r == 0 else f"{r:+.2f}%"
+
+
 def sma200_gap(price, sma):
     """SPRINT B, B2: THE ONE 200-day gap. Percent above (+) or below (-) the 200-day average, one decimal, or None. The home's
     sentence, the home's tile, the coin page's tile and the Chart Master's data all call this, so two surfaces can no longer

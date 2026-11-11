@@ -744,8 +744,13 @@ def _funding_hist(pulse):
 def _funding_since(word, pulse):
     hist = _funding_hist(pulse)
     if len(hist) >= 4:
-        return f"{word.capitalize()}; {hist[-4]:+.4f}% a day earlier"
+        return f"{word.capitalize()}; {_fund(hist[-4])} a day earlier"
     return f"{word.capitalize()}; no settlement a day back on record"
+
+
+def _fund(v):
+    import snapshot
+    return snapshot.fmt_funding(v)
 
 
 def t_funding(snap, pulse):
@@ -756,7 +761,7 @@ def t_funding(snap, pulse):
     v = f.get("funding_8h_pct")
     if not isinstance(v, (int, float)) or not st:
         return ""
-    return tile.render("funding", f"{v:+.4f}%", label="Funding, per 8 hours",
+    return tile.render("funding", _fund(v), label="Funding, per 8 hours",
                        window="Bitcoin perpetual, current 8-hour period",
                        since=_funding_since(narrative.funding_band(v), pulse),
                        source=f.get("venue") or "OKX", stamp=st)
@@ -771,8 +776,8 @@ def t_leverage(snap, pulse):
     ann, v = f.get("funding_annual_pct"), f.get("funding_8h_pct")
     if not isinstance(ann, (int, float)) or not isinstance(v, (int, float)) or not st:
         return ""
-    return tile.render("funding", f"{ann:+.1f}%", label="Funding rate, annualized",
-                       window=f"Bitcoin perpetual, {v:+.4f}% per 8 hours times 1,095",
+    return tile.render("funding", _fund(ann), label="Funding rate, annualized",
+                       window=f"Bitcoin perpetual, {_fund(v)} per 8 hours, annualized",
                        since=_funding_since(narrative.funding_band(v), pulse),
                        source=f.get("venue") or "OKX", stamp=st)
 
@@ -786,11 +791,14 @@ def t_oi(snap, deltas):
         return ""
     venue = o.get("venue") or "OKX"
     d = (deltas.get("leverage") or {}).get("pct")
+    pv = (deltas.get("leverage") or {}).get("btc_prev_usd")
     if isinstance(d, (int, float)):
         return tile.render(
             "open-interest", f"{d:+.2f}%", label="Open interest change",
             window=f"since yesterday's close, five coins on {venue}",
-            since=f"Bitcoin {sb.fmt_usd(o['usd'])} open now",
+            # B3: which figure is current and which is prior
+            since=(f"Bitcoin {sb.fmt_usd(o['usd'])} open now, {sb.fmt_usd(pv)} at yesterday's close"
+                   if isinstance(pv, (int, float)) and pv else f"Bitcoin {sb.fmt_usd(o['usd'])} open now"),
             source=venue, stamp=st)
     return tile.render(
         "open-interest", sb.fmt_usd(o["usd"]), label="Open interest",
@@ -930,7 +938,7 @@ def c_funding(snap):
     v = f.get("funding_8h_pct")
     if not isinstance(v, (int, float)):
         return ""
-    fig = "0.0000%" if abs(v) < 0.00005 else f"{v:+.4f}%"     # never a "-0.0000%"
+    fig = _fund(v)     # B3: two decimals with a sign, or "flat"; never a "-0.0000%"
     return tile.card("funding", fig,
                      f"{narrative.funding_band(v)}, per 8 hours \u00b7 {f.get('venue') or 'OKX'}")
 

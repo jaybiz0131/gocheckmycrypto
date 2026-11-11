@@ -2688,7 +2688,7 @@ def _home_canary(index_html=None):
     _fg_ = (_s.value(snap, "fear_greed") or {}).get("value")
     for _what, _fig in (("Bitcoin's price", _sb._price_fmt(btc["price"])),
                         ("Bitcoin's day change", _arw(btc['chg_24h_pct'])),
-                        ("funding", f"{_fv.get('funding_8h_pct', 0):+.4f}%"),
+                        ("funding", _s.fmt_funding(_fv.get('funding_8h_pct', 0))),   # SPRINT B, B3: two decimals with a sign, or flat
                         ("the stablecoin float", _sb.fmt_usd(_st_.get("total_usd") or 0)),
                         ("Fear & Greed", f'<p class="h-g-n">{_fg_:g}</p>')):
         _n_ = (_pg.count(_fig) if _fig.startswith("<") else _vis.count(_hx(_fig)))

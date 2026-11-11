@@ -112,8 +112,9 @@ def lead(snap, deltas=None, now=None):
     f = ((snapshot.value(snap, "funding") or {}).get("BTC") or {})
     if _num(f.get("funding_8h_pct")):
         v = f["funding_8h_pct"]
-        fig = "0.0000%" if abs(v) < 0.00005 else f"{v:+.4f}%"
-        clauses.append(f"funding is {narrative.funding_band(v)} at {fig} per 8 hours")
+        fig = snapshot.fmt_funding(v)        # B3: two decimals with a sign, or "flat"
+        clauses.append(f"funding is {narrative.funding_band(v)}, flat per 8 hours" if fig == "flat"
+                       else f"funding is {narrative.funding_band(v)} at {fig} per 8 hours")
     fg = snapshot.value(snap, "fear_greed") or {}
     if _num(fg.get("value")):
         prev = ((deltas or {}).get("fng") or {}).get("prev")

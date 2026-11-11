@@ -1752,8 +1752,10 @@ def _section(rec, sym, live, skip, quoted=(), graded=None, marks=frozenset(), re
             if r.get("unread"):
                 fig = f'<span class="ev-f">not read for this hour: {_e(r["why"])}</span>'
             else:
-                fig = (f'<span class="ev-f">{_e(_usd(r["longs_usd"]))} longs, '
-                       f'{_e(_usd(r["shorts_usd"]))} shorts</span>')
+                # SPRINT B, B3: a zero side reads "none", never "$0"
+                _l, _s = r["longs_usd"], r["shorts_usd"]
+                fig = (f'<span class="ev-f">longs {_e(_usd(_l) if _l else "none")}, '
+                       f'shorts {_e(_usd(_s) if _s else "none")}</span>')
         else:
             fig = _chg(r.get("value"), r.get("unit") or "pct")
         mrows.append(f'<li class="td-row"><span class="td-n">{_e(r["label"])}</span>{fig}</li>')

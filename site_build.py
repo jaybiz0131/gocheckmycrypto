@@ -7163,6 +7163,18 @@ def _chip(text, cls="", learn=""):
     return f'<span class="chip {cls}">{esc(text)}</span>'
 
 
+def sma_pair(a):
+    """SPRINT B, B3: a coin's (50-day, 200-day) averages, or (None, None) when they are identical to four decimals, which
+    is a feed fault (DOGE printed $0.0900 for both), not a market. The cell reads "n/a"; the module stays up."""
+    s50, s200 = (a or {}).get("sma50"), (a or {}).get("sma200")
+    ok = lambda v: isinstance(v, (int, float)) and not isinstance(v, bool)
+    if ok(s50) and ok(s200) and round(s50, 4) == round(s200, 4):
+        print(f"::warning::posture: {(a or {}).get('symbol')} 50-day and 200-day averages are identical to four decimals; "
+              f"both cells read n/a")
+        return (None, None)
+    return (s50 if ok(s50) else None, s200 if ok(s200) else None)
+
+
 def _posture_card(a, pulse=None):
     win = a.get("window") or {}
     thru = _series_stamp(a, pulse)
@@ -7202,10 +7214,12 @@ def _posture_card(a, pulse=None):
     if chg is not None:
         chg_html = (f'<span class="pc-chg {"up" if chg >= 0 else "down"}" '
                     f'data-live="chg:{esc(sym)}">{chg:+.2f}% (24h)</span>')
+    _a50, _a200 = sma_pair(a)
     stats = "".join(
-        f'<div><dt>{esc(lab)}</dt><dd>{esc(_price_fmt(a.get(key)))}</dd></div>'
-        for lab, key in (("50-day avg", "sma50"), ("200-day avg", "sma200"),
-                         ("90-day high", "spark_high"), ("90-day low", "spark_low")))
+        f'<div><dt>{esc(lab)}</dt><dd>{esc(val if isinstance(val, str) else _price_fmt(val))}</dd></div>'
+        for lab, val in (("50-day avg", _a50 if _a50 is not None else "n/a"),
+                         ("200-day avg", _a200 if _a200 is not None else "n/a"),
+                         ("90-day high", a.get("spark_high")), ("90-day low", a.get("spark_low"))))
     return f"""<div class="pulse-card">
   <div class="pc-head"><span class="pc-sym">{esc(sym)}<span class="live-dot"></span></span>
     <span class="pc-quote"><span class="pc-price" data-live="price:{esc(sym)}"{_price_aria(a.get("price"))}>{esc(_price_fmt(a.get("price")))}</span>{chg_html}</span></div>
@@ -7349,10 +7363,11 @@ def leverage_figure(pulse):
     venue = (btc.get("venue") or "").strip()
     if ann is None:
         return (None, None, None)
-    value = f"{ann:+.1f}%"
+    import snapshot as _snf
+    value = _snf.fmt_funding(ann)
     bits = []
     if eight is not None:
-        bits.append(f"{eight:+.4f}% per 8h")
+        bits.append(f"{_snf.fmt_funding(eight)} per 8h")
     if oi:
         bits.append(f"{fmt_usd(oi)} open" + (f" on {venue}" if venue else ""))
     sub = " &middot; ".join(bits)
@@ -7458,8 +7473,10 @@ def board_deltas(pulse, prev=None):
             out["market"] = {"pct": d}
     if "leverage" not in carried:
         d = _pct(_oi_total(pulse), _oi_total(prev))
+        _pb = next((a.get("open_interest_usd") for a in (((prev or {}).get("leverage") or {}).get("assets") or [])
+                    if str(a.get("symbol") or "").upper() == "BTC"), None)
         if d is not None:
-            out["leverage"] = {"pct": d}
+            out["leverage"] = {"pct": d, "btc_prev_usd": _pb}
     if "stables" not in carried:
         d = _pct(((pulse or {}).get("stables") or {}).get("total_usd"),
                  ((prev or {}).get("stables") or {}).get("total_usd"))
@@ -8959,6 +8976,7 @@ def render_pulse_leverage(pulse, dateline):
     if not assets:
         inner = f"{_dash_crumb()}\n  <h1>Leverage</h1>\n  {_no_data()}"
         return _dash_shell("leverage", "Leverage", desc, inner, dateline, data=pulse)
+    import snapshot as _snf
     rows = ""
     for a in assets:
         f8 = a.get("funding_8h_pct", 0)
@@ -8967,8 +8985,8 @@ def render_pulse_leverage(pulse, dateline):
         ls_html = (f'<span class="chip {"chip-down" if ls >= 1.5 else ""}">{ls:.2f} L/S</span>'
                    if ls is not None else '<span class="mut">&mdash;</span>')
         rows += (f'<tr><td class="sym2">{esc(a.get("symbol",""))}</td>'
-                 f'<td class="pnum"><span class="chip {cls}">{f8:+.4f}% / 8h</span></td>'
-                 f'<td class="pnum xs-x">{a.get("funding_annual_pct", 0):+.1f}%/yr</td>'
+                 f'<td class="pnum"><span class="chip {cls}">{_snf.fmt_funding(f8)} / 8h</span></td>'
+                 f'<td class="pnum xs-x">{_snf.fmt_funding(a.get("funding_annual_pct", 0))} /yr</td>'
                  f'<td class="pnum">{esc(fmt_usd(a.get("open_interest_usd", 0)))}</td>'
                  f'<td class="pnum xs-x">{ls_html}</td>'
                  f'<td class="mut xs-x">{esc(venue_name(a.get("venue")))}</td></tr>')
@@ -8997,7 +9015,7 @@ def render_pulse_leverage(pulse, dateline):
     if btc.get("funding_history_pct") and len(btc["funding_history_pct"]) > 2:
         fh = btc["funding_history_pct"]
         chart = both_geometries(line_chart_svg, fh, dollars=False, x_labels=["21 funding intervals ago", "now"],
-                               value_label=f"{fh[-1]:+.4f}%",
+                               value_label=_snf.fmt_funding(fh[-1]),
                                aria=f"{btc.get('symbol','BTC')} funding rate history")
         charts_html += (f'<div class="sec-head" style="margin-top:26px"><h2>BTC funding, last 21 intervals</h2>'
                         f'<span class="bar"></span></div><div class="chartcard">{chart}</div>'
@@ -9322,9 +9340,12 @@ def render_chartmaster(read, dateline, pulse=None, now=None):
         # and 200-day lines and RSI, no prose, and it says why there is no prose.
         def _n(v):
             return "" if v is None else (f"{v:,.2f}" if abs(v) >= 1 else f"{v:,.4f}")
+
+        def _d(v):
+            return "n/a" if v is None else "$" + _n(v)
         _rows = "".join(
             f'<tr><th scope="row">{esc(str(lv.get("symbol")))}</th><td>${_n(lv.get("price"))}</td>'
-            f'<td class="xs-x">${_n(lv.get("sma50"))}</td><td>${_n(lv.get("sma200"))}</td>'
+            f'<td class="xs-x">{_d(sma_pair(lv)[0])}</td><td>{_d(sma_pair(lv)[1])}</td>'
             f'<td class="xs-x">{esc(str(lv.get("rsi14") if lv.get("rsi14") is not None else ""))}</td></tr>'
             for lv in read["levels"])
         read_html = (f"""
@@ -9713,7 +9734,7 @@ def render_board_panel(item):
     lev = snap.get("leverage") or {}
     if lev.get("funding_annual_pct") is not None:
         rows += (f'<div class="bp-row"><span class="bp-k">BTC funding</span>'
-                 f'<span class="bp-v">{float(lev["funding_annual_pct"]):+.1f}%/yr</span>'
+                 f'<span class="bp-v">{__import__("snapshot").fmt_funding(float(lev["funding_annual_pct"]))} /yr</span>'
                  f'<span class="bp-d">perp lean</span></div>')
     if not rows:
         return ""
