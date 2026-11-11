@@ -27,6 +27,7 @@ import os
 import re
 import sys
 from datetime import datetime, timezone
+from zoneinfo import ZoneInfo
 
 import common
 import llm as llmlib
@@ -795,7 +796,9 @@ def run():
     except llmlib.LLMError as e:
         obj, path, tripped, detail = publish_path(cand[0], e, data)
     out = {
-        "date": data["data_date"],
+        # SPRINT B, B0e (Jack's ruling): the read's date stamp is the ET date of the moment it was written, not UTC. Only the
+        # stamp; data_date (the Board's own day) still feeds the prompt.
+        "date": datetime.now(ZoneInfo("America/New_York")).strftime("%Y-%m-%d"),
         "generated_by": "chartmaster.py (auto, from the live boards)",
         "mode": client.mode,
         "path": path,
