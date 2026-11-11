@@ -219,7 +219,7 @@ def news_feed(wire, now):
                       "links": [{"outlet": l.get("outlet"), "url": l.get("url"), "primary": bool(l.get("primary"))}
                                 for l in i.get("links") or []]})
     return envelope("news", "/news", wire.get("ranked_utc"), now,
-                    ["the desk's wire: clusters ranked by the desk, sources counted and linked"],
+                    ["The news wire: clusters ranked, sources counted and linked"],
                     {"ranked_et": wire.get("ranked_et"), "items": items})
 
 

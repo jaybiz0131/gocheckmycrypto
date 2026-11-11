@@ -1304,6 +1304,16 @@ def fit_toggle(ident, label="Show all columns"):
             f'<label class="fit-more" for="{esc(ident)}">{esc(label)}</label>')
 
 
+_FIT_RX = re.compile(r'<input type="checkbox" class="fit-cb" id="([^"]+)"><label class="fit-more" for="\1">[^<]*</label>'
+                     r'(.*?</table>)', re.S)
+
+
+def prune_fit_toggles(html):
+    """SPRINT B, B4: a "Show all columns" control that reveals nothing is not drawn. It stays only when the table after it
+    carries at least one xs-x column (the ones system.css hides at 375 px)."""
+    return _FIT_RX.sub(lambda m: m.group(0) if 'xs-x' in m.group(2) else m.group(2), html)
+
+
 # The wire's kind labels as a reader reads them (the data-kind attribute and the kind keys stay).
 KIND_LABEL = {"Board": "Markets", "Edition": "Brief"}
 
@@ -2156,7 +2166,7 @@ def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=
     # a source's own words are never repunctuated, and the sports desk ships six em
     # dashes today that are correct for exactly that reason.
     page = _em_dash_belt(page)
-    return _fingerprint_assets(page)
+    return _fingerprint_assets(prune_fit_toggles(page))   # B4: no "Show all columns" that reveals nothing
 
 
 # ---- article ----------------------------------------------------------------

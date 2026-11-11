@@ -729,7 +729,7 @@ def t_whale(snap, flows):
     # compare with, and the tile says so rather than pass a week off as a day.
     return tile.render("whale-net", amt, direction=cls,
                        window=f"{sb._win_phrase(wv.get('window_hours', 24))}, all coins",
-                       since=f"Net {words}; no reading kept for yesterday",
+                       since=f"Net {words}; first reading",
                        source="Whale Alert", stamp=st)
 
 
