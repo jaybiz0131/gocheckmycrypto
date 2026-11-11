@@ -107,15 +107,34 @@ def market_cases(fails):
 def whale_cases(fails):
     import site_build as sb
     print("2. Whale Watch: the $233.2M case")
-    guarded(fails, "negative buying power reads 'off exchanges'", lambda: sb.stable_flow_words(-233245281)[1] == "off exchanges")
-    guarded(fails, "positive buying power reads 'onto exchanges'", lambda: sb.stable_flow_words(5e7)[1] == "onto exchanges")
+    # SPRINT B, B1: stablecoins follow THE convention (positive = off exchanges); the stored buying power is the same fact with
+    # the opposite sign and sb.stable_net() flips it, so the case below still reads 'off exchanges' with a plus sign
+    guarded(fails, "positive net reads 'off exchanges'", lambda: sb.stable_flow_words(233245281)[1] == "off exchanges")
+    guarded(fails, "negative net reads 'onto exchanges'", lambda: sb.stable_flow_words(-5e7)[1] == "onto exchanges")
+    guarded(fails, "an old snapshot's buying power flips to the convention", lambda: sb.stable_net({"net_buying_power_usd": -233245281}) == 233245281)
     f = flows16()
     html = sb.render_flows(f, "FRIDAY")
     guarded(fails, "the page says 'net stablecoins off exchanges' for transfers that left",
             lambda: "net stablecoins off exchanges" in html)
     guarded(fails, "the page never says 'net stablecoins onto exchanges' for them",
             lambda: "net stablecoins onto exchanges" not in html)
-    guarded(fails, "the signed amount stays -$233.2M", lambda: "-$233.2M" in html)
+    guarded(fails, "the signed amount is +$233.2M (off exchanges is positive)", lambda: "+$233.2M" in html and "-$233.2M" not in html)
+    # SPRINT B, B1: the Nov 7 case. The tile read -$201.1M onto exchanges while Bitfinex showed +$201.1M off.
+    import copy
+    f2 = copy.deepcopy(f)
+    f2["stablecoins"] = {"inflow_usd": 0, "outflow_usd": 201100000, "net_buying_power_usd": -201100000, "net_usd": 201100000}
+    f2["by_exchange_kind"] = [
+        {"exchange": "Bitfinex", "kind": "stablecoins", "inflow_usd": 0, "outflow_usd": 201100000, "net_usd": 201100000},
+        {"exchange": "Binance", "kind": "volatile", "inflow_usd": 50000000, "outflow_usd": 0, "net_usd": -50000000}]
+    f2["volatile"] = dict(f2.get("volatile") or {}, net_usd=-50000000, direction="onto exchanges")
+    h2 = sb.render_flows(f2, "FRIDAY")
+    guarded(fails, "B1: the tile and the Bitfinex row agree: +$201.1M off, never onto",
+            lambda: not sb.flows_assert(f2) and "+$201.1M off" in h2 and "-$201.1M" not in h2)
+    f3 = copy.deepcopy(f2)
+    f3["stablecoins"]["net_usd"] = -201100000
+    h3 = sb.render_flows(f3, "FRIDAY")
+    guarded(fails, "B1: a tile that disagrees with its rows is caught, and the page draws the rows' figure",
+            lambda: sb.flows_assert(f3) and "+$201.1M" in h3 and "-$201.1M" not in h3)
     import chartmaster
     guarded(fails, "the Chart Master is handed the stablecoin convention in words",
             lambda: "stablecoin_convention" in open(os.path.join(HERE, "chartmaster.py"), encoding="utf-8").read())

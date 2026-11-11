@@ -75,6 +75,7 @@ def analyze(txns, window_hours, top_assets=6, top_moves=6, example=False, date=N
     inflow_moves = []
     outflow_moves = []
     exchanges = {}
+    ex_kind = {}   # SPRINT B, B1: (exchange, "stablecoins"|"volatile") -> in/out, so the tiles can be summed from rows
     for t in txns:
         kind = classify(t)
         sym = (t.get("symbol") or "?").upper()
@@ -100,6 +101,10 @@ def analyze(txns, window_hours, top_assets=6, top_moves=6, example=False, date=N
             e = exchanges.setdefault(ex_name, {"exchange": ex_name,
                                                "inflow_usd": 0.0, "outflow_usd": 0.0})
             e["inflow_usd" if kind == "inflow" else "outflow_usd"] += usd
+            ek = ex_kind.setdefault((ex_name, "stablecoins" if is_stable else "volatile"),
+                                    {"exchange": ex_name, "kind": "stablecoins" if is_stable else "volatile",
+                                     "inflow_usd": 0.0, "outflow_usd": 0.0})
+            ek["inflow_usd" if kind == "inflow" else "outflow_usd"] += usd
         if is_stable:
             if kind == "inflow":
                 stable_in += usd
@@ -133,6 +138,24 @@ def analyze(txns, window_hours, top_assets=6, top_moves=6, example=False, date=N
         e["outflow_usd"] = round(e["outflow_usd"])
         by_exchange.append(e)
     by_exchange.sort(key=lambda e: e["inflow_usd"] + e["outflow_usd"], reverse=True)
+    # B1: the rows behind the two tiles. The five busiest exchanges by name; every other exchange is folded into one
+    # "All other exchanges" row per class, so the rows ALWAYS sum to the tile (the page asserts it).
+    keep = {e["exchange"] for e in by_exchange[:5]}
+    folded = {}
+    kind_rows = []
+    for (name, kd), r in ex_kind.items():
+        if name in keep:
+            kind_rows.append(dict(r))
+        else:
+            o = folded.setdefault(kd, {"exchange": "All other exchanges", "kind": kd,
+                                       "inflow_usd": 0.0, "outflow_usd": 0.0})
+            o["inflow_usd"] += r["inflow_usd"]
+            o["outflow_usd"] += r["outflow_usd"]
+    kind_rows += list(folded.values())
+    for r in kind_rows:
+        r["net_usd"] = round(r["outflow_usd"] - r["inflow_usd"])   # + = net off exchanges, as everywhere
+        r["inflow_usd"], r["outflow_usd"] = round(r["inflow_usd"]), round(r["outflow_usd"])
+    kind_rows.sort(key=lambda r: (r["exchange"] == "All other exchanges", -(r["inflow_usd"] + r["outflow_usd"])))
     net = vol_out - vol_in  # positive = net off exchanges (accumulation)
     direction = "off exchanges" if net >= 0 else "onto exchanges"
 
@@ -150,9 +173,13 @@ def analyze(txns, window_hours, top_assets=6, top_moves=6, example=False, date=N
         "stablecoins": {
             "inflow_usd": round(stable_in), "outflow_usd": round(stable_out),
             "net_buying_power_usd": round(stable_in - stable_out),
+            # B1: the ONE convention. Positive = net off exchanges, exactly as volatile.net_usd and every table row.
+            # net_buying_power_usd is the same fact with the opposite sign; nothing on the site reads it for display.
+            "net_usd": round(stable_out - stable_in),
         },
         "by_asset": by_asset,
         "by_exchange": by_exchange[:5],
+        "by_exchange_kind": kind_rows,
         "top_inflows": inflow_moves[:top_moves],
         "top_outflows": outflow_moves[:top_moves],
         "note": ("Data: Whale Alert public alert archive; exchanges identified by name, and only "

@@ -3819,22 +3819,60 @@ def flow_words(net):
             "down" if onto else "up")
 
 
+def stable_net(s):
+    """SPRINT B, B1: a stablecoin board's net in THE convention (positive = off exchanges). New snapshots carry net_usd;
+    one written before Sprint B carries only net_buying_power_usd, the same fact with the opposite sign."""
+    s = s or {}
+    if isinstance(s.get("net_usd"), (int, float)):
+        return s["net_usd"]
+    bp = s.get("net_buying_power_usd")
+    return -bp if isinstance(bp, (int, float)) else None
+
+
 def stable_flow_words(net):
-    """STABLECOINS RUN THE OTHER WAY (Sprint 9.1, AUDIT.md 1.3 item 2). whale_flows scores a
-    stablecoin as buying power: inflow minus outflow, so POSITIVE means dollars arriving ONTO
-    exchanges and NEGATIVE means dollars leaving them. flow_words reads volatile assets, where
-    positive is off exchanges, and fed this number it printed "-$233.2M net stablecoins onto
-    exchanges" for two transfers that both left (Bitfinex to Tether Treasury, Binance to Ceffu).
-    The sign stays the buying power's; only the words follow it.
-    Returns (amount, words, cls) like flow_words."""
+    """SPRINT B, B1 (supersedes Sprint 9.1's inverted stablecoin sign): ONE CONVENTION. `net` is in the convention
+    (positive = off exchanges, negative = onto), so this is flow_words. Callers get the number from stable_net()."""
+    return flow_words(net)
+
+
+def flow_tag(net):
+    """B1: a flow figure with its direction word beside it, for tables and cells: "+$201.1M off", "-$100.0M onto".
+    A true zero says "none"; a missing reading says "no reading"."""
     if not isinstance(net, (int, float)):
-        return (None, None, None)
+        return "no reading"
     if net == 0:
-        return ("0", "no net movement", "flat")
-    onto = net > 0
-    return (("+" if onto else "-") + fmt_usd(abs(net)),
-            "onto exchanges" if onto else "off exchanges",
-            "up" if onto else "down")
+        return "none"
+    return f"{'+' if net > 0 else '-'}{fmt_usd(abs(net))} {'off' if net > 0 else 'onto'}"
+
+
+def flow_kind_sums(flows):
+    """B1: (stablecoin net, volatile net) summed from the By exchange rows, or None when the snapshot has no rows."""
+    rows = (flows or {}).get("by_exchange_kind")
+    if not rows:
+        return None
+    sums = {"stablecoins": 0, "volatile": 0}
+    for r in rows:
+        if r.get("kind") in sums and isinstance(r.get("net_usd"), (int, float)):
+            sums[r["kind"]] += r["net_usd"]
+    return sums["stablecoins"], sums["volatile"], len(rows)
+
+
+def flows_assert(flows):
+    """B1: THE BUILD ASSERTION. The Whale Watch stablecoin tile equals the sum of the stablecoin rows in the By exchange
+    table, and the volatile tile equals the volatile rows (each row is rounded to the dollar, so the tolerance is one
+    dollar a row). Returns the problems found; the page prints a warning and draws the ROWS' figures, so a tile that
+    disagrees with its table cannot reach a reader."""
+    k = flow_kind_sums(flows)
+    if not k:
+        return []
+    st, vo, n = k
+    probs = []
+    tile_s, tile_v = stable_net((flows or {}).get("stablecoins")), ((flows or {}).get("volatile") or {}).get("net_usd")
+    if isinstance(tile_s, (int, float)) and abs(tile_s - st) > n + 1:
+        probs.append(f"stablecoin tile {tile_s} != by-exchange stablecoin rows {st}")
+    if isinstance(tile_v, (int, float)) and abs(tile_v - vo) > n + 1:
+        probs.append(f"volatile tile {tile_v} != by-exchange volatile rows {vo}")
+    return probs
 
 
 def _flow_big(v, words=None):
@@ -5882,8 +5920,8 @@ def flow_teaser():
         pre = "Example: " if flows.get("example") else ""
         summ = (f"{pre}Volatile whales net {fmt_usd(abs(v.get('net_usd',0)))} {v.get('direction','')} over "
                 f"{_win_phrase(flows.get('window_hours', 24))}; net stablecoins "
-                f"{fmt_usd(abs(s.get('net_buying_power_usd') or 0))} "
-                f"{stable_flow_words(s.get('net_buying_power_usd'))[1] or 'with no reading'}.")
+                f"{fmt_usd(abs(stable_net(s) or 0))} "
+                f"{stable_flow_words(stable_net(s))[1] or 'with no reading'}.")
     return (f'<section class="sec"><div class="wrap">'
             f'<a class="flow-teaser" href="/flows.html">'
             f'<div><div class="t">Whale Watch &middot; follow the money</div>'
@@ -6599,12 +6637,12 @@ def flows_chart_svg(by_asset, narrow=False):
             parts.append(f'<rect x="{cx-length:.1f}" y="{by:.0f}" width="{length:.1f}" height="{bar_h}" '
                          f'rx="4" fill="var(--down)"/>')
             parts.append(f'<text x="{W:.0f}" y="{cy+5:.0f}" text-anchor="end" class="val">'
-                         f'{esc(fmt_usd(net))}</text>')
+                         f'{esc(flow_tag(net))}</text>')
         else:  # off exchanges, extend right, green
             parts.append(f'<rect x="{cx:.1f}" y="{by:.0f}" width="{length:.1f}" height="{bar_h}" '
                          f'rx="4" fill="var(--up)"/>')
             parts.append(f'<text x="{W:.0f}" y="{cy+5:.0f}" text-anchor="end" class="val">'
-                         f'+{esc(fmt_usd(net))}</text>')
+                         f'{esc(flow_tag(net))}</text>')
     parts.append("</svg>")
     return "".join(parts)
 
@@ -6677,7 +6715,17 @@ def render_flows(flows, dateline):
     net = v.get("net_usd")
     if not isinstance(net, (int, float)) or not _flows_have_data(flows):
         net = None
-    dir_word = v.get("direction", "")
+    # SPRINT B, B1: the tiles and the By exchange table are one fact. The assertion runs on every build; on a mismatch the
+    # build warns and the tiles draw the ROWS' sums, so a tile can never disagree with the table under it.
+    stable_tile = stable_net(s)
+    _probs = flows_assert(flows)
+    if _probs:
+        print("::warning::flows: " + "; ".join(_probs) + " (the tiles draw the table's sums)")
+        _ks = flow_kind_sums(flows)
+        stable_tile = _ks[0]
+        if net is not None:
+            net = _ks[1]
+    dir_word = ("off exchanges" if (net or 0) >= 0 else "onto exchanges") if net is not None else v.get("direction", "")
     dir_cls = "up" if (net or 0) >= 0 else "down"
     ribbon = ""
     if flows.get("example"):
@@ -6727,12 +6775,22 @@ def render_flows(flows, dateline):
 
     move_rows = _move_rows(ww["inflows"])
     out_rows = _move_rows(ww["outflows"])
-    ex_rows = "".join(
-        f'<tr><td class="sym2" style="text-transform:none">{esc(venue_name(e.get("exchange")))}</td>'
-        f'<td class="pnum xs-x" style="color:var(--down)">{_flow_cell(e.get("inflow_usd"))}</td>'
-        f'<td class="pnum xs-x" style="color:var(--up)">{_flow_cell(e.get("outflow_usd"))}</td>'
-        f'<td class="pnum">{"+" if e.get("net_usd",0) >= 0 else ""}{esc(fmt_usd(e.get("net_usd",0)))}</td></tr>'
-        for e in flows.get("by_exchange", []))
+    _kind_rows = flows.get("by_exchange_kind")
+    if _kind_rows:
+        # SPRINT B, B1: one row per exchange and class, so the stablecoin and volatile tiles are sums of rows on this table
+        ex_rows = "".join(
+            f'<tr><td class="sym2" style="text-transform:none">{esc(venue_name(e.get("exchange")))}, '
+            f'{"stablecoins" if e.get("kind") == "stablecoins" else "volatile assets"}</td>'
+            f'<td class="pnum xs-x" style="color:var(--down)">{_flow_cell(e.get("inflow_usd"))}</td>'
+            f'<td class="pnum xs-x" style="color:var(--up)">{_flow_cell(e.get("outflow_usd"))}</td>'
+            f'<td class="pnum">{esc(flow_tag(e.get("net_usd", 0)))}</td></tr>' for e in _kind_rows)
+    else:
+        ex_rows = "".join(
+            f'<tr><td class="sym2" style="text-transform:none">{esc(venue_name(e.get("exchange")))}</td>'
+            f'<td class="pnum xs-x" style="color:var(--down)">{_flow_cell(e.get("inflow_usd"))}</td>'
+            f'<td class="pnum xs-x" style="color:var(--up)">{_flow_cell(e.get("outflow_usd"))}</td>'
+            f'<td class="pnum">{esc(flow_tag(e.get("net_usd", 0)))}</td></tr>'
+            for e in flows.get("by_exchange", []))
     winp = _win_phrase(flows.get("window_hours", 24))
     # pace vs the last quarter: |net| in this window against the median week's |net|,
     # scaled to the window length, so the headline number arrives with a judgment
@@ -6755,10 +6813,10 @@ def render_flows(flows, dateline):
         vol_stat = ('<span class="big"><span class="mut" style="font-size:.5em">no reading'
                     f'</span></span><span class="sub">{esc(WHALE_WAITING)}</span>')
     else:
-        vol_stat = (f'<span class="big {dir_cls}">{esc(fmt_usd(abs(net)))}</span>'
+        vol_stat = (f'<span class="big {dir_cls}">{esc(flow_words(net)[0] if net else "none")}</span>'
                     f'<span class="sub">net {esc(dir_word)} &middot; gross '
-                    f'{esc(fmt_usd(v.get("inflow_usd", 0)))} on / '
-                    f'{esc(fmt_usd(v.get("outflow_usd", 0)))} off{pace_html}</span>')
+                    f'{_flow_cell(v.get("inflow_usd", 0))} onto / '
+                    f'{_flow_cell(v.get("outflow_usd", 0))} off{pace_html}</span>')
     body = ww_hero() + f"""<main class="wrap"><section class="page">
   <h1>{esc(task_name("flows"))}</h1>
   <p class="lede">Where the whales are moving. Large transfers onto exchanges (can precede selling) against off into
@@ -6774,9 +6832,9 @@ def render_flows(flows, dateline):
       {vol_stat}
     </div>
     <div class="stat">
-      <span class="lab">Stablecoins onto exchanges</span>
-      <span class="big">{_flow_big(s.get("net_buying_power_usd"), stable_flow_words)}</span>
-      <span class="sub">net stablecoins {esc(stable_flow_words(s.get("net_buying_power_usd"))[1] or "")}</span>
+      <span class="lab">Stablecoins, net</span>
+      <span class="big">{_flow_big(stable_tile, stable_flow_words)}</span>
+      <span class="sub">net stablecoins {esc(stable_flow_words(stable_tile)[1] or "")}</span>
     </div>
     {big_html}
     <div class="stat">
@@ -6794,15 +6852,15 @@ def render_flows(flows, dateline):
       <div class="chartcard">{flow_ledger(
           [(w.get("week_ending", ""), w.get("net_usd", 0),
             f'{w.get("moves", 0)} exchange-size moves') for w in flows.get("history", [])],
-          aria="Weekly net exchange flow, last 13 weeks", compact=True)}</div>
+          aria="Weekly net exchange flow, last 13 weeks", compact=True, fmt=flow_tag)}</div>
       <p class="pc-note" style="margin-top:8px">Weekly net flow for volatile assets,
       newest first.</p>''' if flows.get("history") else ""}
       {f'''<div class="sec-head" style="margin-top:18px"><h2>By exchange</h2><span class="bar"></span></div>
       {fit_toggle("fit-ex")}<div class="movetable fit-tbl" tabindex="0" role="region" aria-label="Net flow by exchange (scrollable)"><table>
-        <thead><tr><th><span class="sr-only">Exchange</span></th><th class="xs-x">In</th><th class="xs-x">Out</th><th>Net</th></tr></thead>
+        <thead><tr><th><span class="sr-only">Exchange</span></th><th class="xs-x">Onto exchange</th><th class="xs-x">Off exchange</th><th>Net</th></tr></thead>
         <tbody>{ex_rows}</tbody></table></div>
-      <p class="pc-note" style="margin-top:6px">Window totals per named exchange; net + = more
-      left than arrived. Amounts in the move tables link to the transfer itself on Whale Alert.</p>''' if ex_rows else ""}
+      <p class="pc-note" style="margin-top:6px">Window totals per named exchange and class; net + = more
+      left than arrived (off exchanges), net - = more arrived (onto exchanges). Amounts in the move tables link to the transfer itself on Whale Alert.</p>''' if ex_rows else ""}
     </div>
     <div class="stack">
       <div class="sec-head"><h2>Biggest moves onto exchanges</h2><span class="bar"></span></div>
@@ -7073,7 +7131,7 @@ def fng_gauge_svg(value):
     return "".join(parts)
 
 
-def flow_ledger(rows, aria="", compact=False):
+def flow_ledger(rows, aria="", compact=False, fmt=None):
     """Signed flows as LEDGER ROWS instead of a bar chart: date, a horizontal bar diverging
     from a center line (green right = in/accumulation, red left = out/sell side), and the
     dollar value at full text size. SVG bar charts scale their labels below legibility on
@@ -7093,7 +7151,7 @@ def flow_ledger(rows, aria="", compact=False):
             f'<div class="lrow"{tip_attr}><span class="ldate">{esc(label)}</span>'
             f'<span class="ltrack"><span class="lbar {side}" style="{style}"></span></span>'
             f'<span class="lval {"up" if val >= 0 else "down"}">'
-            f'{"+" if val >= 0 else ""}{esc(fmt_usd(val))}</span></div>')
+            f'{esc(fmt(val) if fmt else ("+" if val >= 0 else "") + fmt_usd(val))}</span></div>')
     out.append("</div>")
     return "".join(out)
 

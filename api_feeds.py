@@ -185,23 +185,23 @@ def whales_feed(flows, now):
                 "shown": {"usd": sb.fmt_usd(m.get("usd", 0))}}
 
     ex = []
-    for e in flows.get("by_exchange") or []:
+    for e in flows.get("by_exchange_kind") or flows.get("by_exchange") or []:
         n = e.get("net_usd", 0)
         ex.append({"exchange": sb.venue_name(e.get("exchange")), "inflow_usd": e.get("inflow_usd"),
-                   "outflow_usd": e.get("outflow_usd"), "net_usd": n,
-                   "shown": {"net": ("+" if n >= 0 else "") + sb.fmt_usd(n)}})
+                   "outflow_usd": e.get("outflow_usd"), "net_usd": n, "kind": e.get("kind"),
+                   "shown": {"net": sb.flow_tag(n)}})
     weeks = []
     for w in flows.get("history") or []:
         n = w.get("net_usd", 0)
         weeks.append({"week_ending": w.get("week_ending"), "net_usd": n,
-                      "shown": {"net": ("+" if n >= 0 else "") + sb.fmt_usd(n)}})
+                      "shown": {"net": sb.flow_tag(n)}})
     net = v.get("net_usd")
     return envelope("whales", "/flows", flows.get("generated_utc"), now,
                     ["Whale Alert public archive" if flows.get("source") != "blockscout" else "Blockscout public explorer"],
                     {"window_hours": flows.get("window_hours"), "sentence": ww["sentence"], "count": ww["count"],
                      "volatile": {"net_usd": net if isinstance(net, (int, float)) else None, "direction": v.get("direction"),
                                   "inflow_usd": v.get("inflow_usd"), "outflow_usd": v.get("outflow_usd")},
-                     "stablecoins": {"net_buying_power_usd": s.get("net_buying_power_usd")},
+                     "stablecoins": {"net_usd": sb.stable_net(s)},   # B1: positive = off exchanges, as everywhere
                      "by_asset": [{"symbol": a.get("symbol"), "net_usd": a.get("net_usd")} for a in flows.get("by_asset") or []],
                      "by_exchange": ex, "weeks": weeks,
                      "moves_in": [move(m) for m in ww["inflows"]], "moves_out": [move(m) for m in ww["outflows"]]})

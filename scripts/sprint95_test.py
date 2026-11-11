@@ -271,8 +271,9 @@ def page_name_cases(fails):
             lambda: h1(st) == "Stablecoin supply" and "dry powder" not in visible(st).split("Dry powder")[0]
             and "Stablecoin float" not in visible(st) and "USD-pegged float" not in visible(st))
     fl = pages["Whale Watch"]()
-    guarded(fails, "Whale Watch: the stablecoin flow is 'Stablecoins onto exchanges' (not 'Stablecoin buying power')",
-            lambda: "Stablecoins onto exchanges" in visible(fl) and "Stablecoin buying power" not in visible(fl)
+    # SPRINT B, B1: the tile is 'Stablecoins, net' with its direction word, in the one sign convention
+    guarded(fails, "Whale Watch: the stablecoin flow is 'Stablecoins, net' (not 'Stablecoin buying power')",
+            lambda: "Stablecoins, net" in visible(fl) and "Stablecoin buying power" not in visible(fl)
             and "buying power" not in visible(fl))
 
 
@@ -544,7 +545,7 @@ def css_cases(fails):
             and re.search(r'<th scope="col">Grade</th>', bm))
     fl = rendered(lambda p, f: sb.render_flows(f, "T"))
     guarded(fails, "Whale Watch by exchange: net only at 375 (In and Out are xs-x), the toggle before the table",
-            lambda: fl.count('class="pnum xs-x"') >= 2 and 'class="xs-x">In</th>' in fl and 'class="xs-x">Out</th>' in fl
+            lambda: fl.count('class="pnum xs-x"') >= 2 and 'class="xs-x">Onto exchange</th>' in fl and 'class="xs-x">Off exchange</th>' in fl
             and "fit-more" in fl and fl.index("fit-more") < fl.index("fit-tbl"))
     guarded(fails, "the toggle's checkbox is a real, labelled control (a label for it, a 44 px target)",
             lambda: re.search(r'<input type="checkbox" class="fit-cb" id="(fit-[a-z]+)"><label class="fit-more" for="\1">', bm)
