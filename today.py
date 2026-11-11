@@ -608,9 +608,12 @@ def body_html(rec, archive_dates, here=None, evidence=None, verdict=None, clock=
                    for c in rec.get("corrections") or [])
     ans = " ".join(rec["answer"])
     # SPRINT A, A2: the living page carries the day's data lead under a written answer (the written read renders above it)
-    lead_html = (f'<p class="td-lead" data-lead="{_e(lead["date_et"])}">{_e(lead["text"])}</p>'
-                 if (lead and here != "dated" and rec.get("answer_by") not in ("lead", "template")
-                     and lead.get("date_et") == rec.get("date_et")) else "")
+    # SPRINT B, B0d: it draws whether or not a written read exists, as the home does; the only case it stands down is an answer
+    # that already IS the lead (same text). When the stored record is another day's, the lead names its own day.
+    lead_html = ""
+    if lead and here != "dated" and rec.get("answer_by") != "lead":
+        day = f'{_e(lead.get("dateline") or lead["date_et"])}: ' if lead.get("date_et") != rec.get("date_et") else ""
+        lead_html = f'<p class="td-lead" data-lead="{_e(lead["date_et"])}">{day}{_e(lead["text"])}</p>'
     # SPRINT 9.9.1 (Review 2, failure 5): one next read per page. The living page names the next slot off the build's clock, the one
     # the verdict notice names (home.next_slot), so a slot already past is never shown as the next; a dated page keeps its record's own
     nxt = next_update(rec["slot"], clock) if (clock is not None and here != "dated") else rec["next"]
