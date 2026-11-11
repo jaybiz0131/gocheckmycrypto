@@ -67,6 +67,7 @@ def norm(html):
     html = re.sub(r'data-build-date="[^"]*">[^<]*<', 'data-build-date="X">X<', html or "")
     html = re.sub(r'data-asof="[^"]*"', 'data-asof="X"', html)
     html = re.sub(r'(name="build-commit" content=")[^"]*"', r'\1X"', html)       # the commit the page was built from
+    html = re.sub(r'(/assets/[a-z.]+\.css\?v=)[0-9a-f]+', r'\1X', html)           # SPRINT B: the stylesheet's cache hash moves with any CSS edit
     return re.sub(r'<span class="mh-lt">[^<]*</span>', '<span class="mh-lt">X</span>', html)
 
 

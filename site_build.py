@@ -5213,7 +5213,7 @@ def _cc_stables_table(t):
 
 def _cc_whales_table(t):
     rows = "".join(
-        f'<tr><td class="lt-prop">{esc(w.get("week_ending") or "")}</td>'
+        f'<tr><td class="lt-prop">{esc(w.get("week_ending") or "")}{" (week to date)" if w is t["weeks"][-1] else ""}</td>'
         f'<td class="lt-what">{"onto exchanges" if (w.get("net_usd") or 0) < 0 else "off exchanges"}</td>'
         f'<td class="lt-when"><span class="bd-stamp {"down" if (w.get("net_usd") or 0) < 0 else "up"}">'
         f'{esc(fmt_usd(abs(w.get("net_usd") or 0)))}</span></td>'
@@ -6862,9 +6862,9 @@ def render_flows(flows, dateline):
       <div class="chartcard">{flow_ledger(
           [(w.get("week_ending", ""), w.get("net_usd", 0),
             f'{w.get("moves", 0)} exchange-size moves') for w in flows.get("history", [])],
-          aria="Weekly net exchange flow, last 13 weeks", compact=True, fmt=flow_tag)}</div>
+          aria="Weekly net exchange flow, last 13 weeks", compact=True, fmt=flow_tag, partial_last=True)}</div>
       <p class="pc-note" style="margin-top:8px">Weekly net flow for volatile assets,
-      newest first.</p>''' if flows.get("history") else ""}
+      newest first. The newest bar, drawn hatched, is the week to date: it is still filling in and will change.</p>''' if flows.get("history") else ""}
       {f'''<div class="sec-head" style="margin-top:18px"><h2>By exchange</h2><span class="bar"></span></div>
       {fit_toggle("fit-ex")}<div class="movetable fit-tbl" tabindex="0" role="region" aria-label="Net flow by exchange (scrollable)"><table>
         <thead><tr><th><span class="sr-only">Exchange</span></th><th class="xs-x">Onto exchange</th><th class="xs-x">Off exchange</th><th>Net</th></tr></thead>
@@ -7141,7 +7141,7 @@ def fng_gauge_svg(value):
     return "".join(parts)
 
 
-def flow_ledger(rows, aria="", compact=False, fmt=None):
+def flow_ledger(rows, aria="", compact=False, fmt=None, partial_last=False):
     """Signed flows as LEDGER ROWS instead of a bar chart: date, a horizontal bar diverging
     from a center line (green right = in/accumulation, red left = out/sell side), and the
     dollar value at full text size. SVG bar charts scale their labels below legibility on
@@ -7150,8 +7150,16 @@ def flow_ledger(rows, aria="", compact=False, fmt=None):
     if not rows:
         return ""
     max_abs = max((abs(v) for _, v, _ in rows), default=0) or 1
+    # SPRINT B, B5: the newest row is a week still in progress: drawn hatched and lighter, labeled "week to date" on the row,
+    # in the title and in the chart's accessible label (the caption says it too, where the caller prints one)
+    if partial_last:
+        aria = f"{aria}. The newest bar is the week to date, still in progress"
     out = [f'<div class="ledger{" compact" if compact else ""}" role="img" aria-label="{esc(aria)}">']
-    for label, val, tip in reversed(rows):
+    for _i, (label, val, tip) in enumerate(reversed(rows)):
+        part = partial_last and _i == 0
+        if part:
+            label = f"{label} (week to date)"
+            tip = f"{tip}, week to date" if tip else "week to date"
         pct = abs(val) / max_abs * 50
         side = "pos" if val >= 0 else "neg"
         style = (f"left:50%;width:{pct:.1f}%" if val >= 0 else
@@ -7159,7 +7167,7 @@ def flow_ledger(rows, aria="", compact=False, fmt=None):
         tip_attr = f' title="{esc(tip)}"' if tip else ""
         out.append(
             f'<div class="lrow"{tip_attr}><span class="ldate">{esc(label)}</span>'
-            f'<span class="ltrack"><span class="lbar {side}" style="{style}"></span></span>'
+            f'<span class="ltrack"><span class="lbar {side}{" partial" if part else ""}" style="{style}"></span></span>'
             f'<span class="lval {"up" if val >= 0 else "down"}">'
             f'{esc(fmt(val) if fmt else ("+" if val >= 0 else "") + fmt_usd(val))}</span></div>')
     out.append("</div>")

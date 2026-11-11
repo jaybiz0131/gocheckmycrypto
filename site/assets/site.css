@@ -627,6 +627,7 @@ footer.site .fnote b{color:var(--muted)}
 .lbar{position:absolute;top:0;bottom:0;border-radius:3px;min-width:2px}
 .lbar.pos{background:var(--up)}
 .lbar.neg{background:var(--down)}
+.lbar.partial{opacity:.5;background-image:repeating-linear-gradient(135deg,rgba(255,255,255,.65) 0 3px,transparent 3px 7px)}
 .lval{font-family:var(--mono);font-size:12.5px;font-weight:600;text-align:right;white-space:nowrap}
 .lval.up{color:var(--up)}
 .lval.down{color:var(--down)}

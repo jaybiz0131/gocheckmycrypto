@@ -204,6 +204,8 @@ def under_1280_cases(fails):
     print("2. nothing changes under 1280: the 9.5b block and the two J-11 blocks cut out of each stylesheet leave Sprint 9.5's file, byte for byte")
     for name, path, base in (("site.css", SITE_CSS, "site.95.css"), ("system.css", SYSTEM_CSS, "system.95.css")):
         css = read(path)
+        # SPRINT B, B5: one rule styles the hatched week-to-date bar; it is not Sprint 9.5's and is taken out before the comparison
+        css = re.sub(r"\n\.lbar\.partial\{[^\n]*\}", "", css)
         rest, blk = block_of(css)
         guarded(fails, f"{name}: the Sprint 9.5b block is there, marked at both ends", lambda blk=blk: blk is not None)
         guarded(fails, f"{name}: with the block cut out the file is Sprint 9.5's, byte for byte", lambda rest=rest, base=base: rest == read(os.path.join(FX, base)))
