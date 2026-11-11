@@ -1,0 +1,3864 @@
+{
+ "what": "Big movers, checked: the gate on the Board's top 100 (AUDIT.md 3.1 and 3.2), and for each coin past it the evidence by 9.2's rules with the coin's own candidates. Measured by code.",
+ "window": {
+  "start_utc": "2026-11-10T23:13:35Z",
+  "end_utc": "2026-11-11T23:13:35Z",
+  "hours": 24
+ },
+ "made_utc": "2026-11-11T23:18:34Z",
+ "gate": {
+  "rule": {
+   "version": "2026-10-19",
+   "source": "AUDIT.md section 3.1, the row 'Any top-100 coin', and section 3.2",
+   "move_min_pct": 10.0,
+   "vol_multiple_min": 2.5,
+   "excess_min_pts": 6.0,
+   "history_days": 30,
+   "per_slot": 8,
+   "per_day": 10
+  },
+  "board_utc": "2026-11-11T23:13:35Z",
+  "before_day": "2026-11-10",
+  "btc_24h_pct": 0.09,
+  "passed": [
+   {
+    "sym": "PEPE",
+    "name": "Pepe",
+    "gecko_id": "pepe",
+    "rank": 46,
+    "pos": 39,
+    "move_pct": -13.87,
+    "vol_pct": 4.79,
+    "multiple": 2.89,
+    "beta": 1.623,
+    "btc_pct": 0.09,
+    "predicted_pct": 0.15,
+    "excess_pts": -14.02,
+    "legs": {
+     "move": true,
+     "multiple": true,
+     "excess": true
+    },
+    "pass": true,
+    "history": {
+     "from": "2026-10-10",
+     "through": "2026-11-09"
+    }
+   },
+   {
+    "sym": "NIGHT",
+    "name": "Midnight",
+    "gecko_id": "midnight-3",
+    "rank": 83,
+    "pos": 68,
+    "move_pct": 12.32,
+    "vol_pct": 4.78,
+    "multiple": 2.58,
+    "beta": 1.695,
+    "btc_pct": 0.09,
+    "predicted_pct": 0.15,
+    "excess_pts": 12.17,
+    "legs": {
+     "move": true,
+     "multiple": true,
+     "excess": true
+    },
+    "pass": true,
+    "history": {
+     "from": "2026-10-10",
+     "through": "2026-11-09"
+    }
+   }
+  ],
+  "over_cap": [],
+  "failed": [
+   {
+    "sym": "PIEVERSE",
+    "name": "Pieverse",
+    "gecko_id": "pieverse",
+    "rank": 112,
+    "pos": 87,
+    "move_pct": -12.01,
+    "vol_pct": 8.17,
+    "multiple": 1.47,
+    "beta": 0.869,
+    "btc_pct": 0.09,
+    "predicted_pct": 0.08,
+    "excess_pts": -12.09,
+    "legs": {
+     "move": true,
+     "multiple": false,
+     "excess": true
+    },
+    "pass": false,
+    "history": {
+     "from": "2026-10-10",
+     "through": "2026-11-09"
+    }
+   }
+  ],
+  "left_out": [],
+  "own_card": [],
+  "log": [
+   "movers: gate PASS PEPE -13.87%, 2.89x its 30-day daily volatility of 4.79%, -14.02 points beyond its Bitcoin beta of 1.623 (Bitcoin +0.09%)",
+   "movers: gate PASS NIGHT +12.32%, 2.58x its 30-day daily volatility of 4.78%, +12.17 points beyond its Bitcoin beta of 1.695 (Bitcoin +0.09%)",
+   "movers: 1 coin(s) passed one leg and failed another (the per-coin log ran through 2026-11-02)"
+  ],
+  "crash": {
+   "day": false,
+   "why": [],
+   "btc_pct": 0.09,
+   "market_pct": -0.01,
+   "past_move": 3,
+   "measured_past_move": 3,
+   "with_market": 0
+  },
+  "used_today": 0
+ },
+ "coins": {
+  "PEPE": {
+   "gate": {
+    "sym": "PEPE",
+    "name": "Pepe",
+    "gecko_id": "pepe",
+    "rank": 46,
+    "pos": 39,
+    "move_pct": -13.87,
+    "vol_pct": 4.79,
+    "multiple": 2.89,
+    "beta": 1.623,
+    "btc_pct": 0.09,
+    "predicted_pct": 0.15,
+    "excess_pts": -14.02,
+    "legs": {
+     "move": true,
+     "multiple": true,
+     "excess": true
+    },
+    "pass": true,
+    "history": {
+     "from": "2026-10-10",
+     "through": "2026-11-09"
+    }
+   },
+   "gecko_id": "pepe",
+   "name": "Pepe",
+   "rank": 46,
+   "pos": 39,
+   "slug": "pepe",
+   "volume_vs_7d": {
+    "ratio": 1.4,
+    "avg_usd": 404249669
+   },
+   "evidence": {
+    "what": "The evidence for a Big mover, by 9.2's rules (why_evidence.py): the coin's series, its own candidates (the wire items, listing and delisting notices, unlocks and hacks that name it), the timing test and the onset hour's readings. Measured by code; no model call; no grade.",
+    "window": {
+     "start_utc": "2026-11-10T23:13:35Z",
+     "end_utc": "2026-11-11T23:13:35Z",
+     "hours": 24
+    },
+    "made_utc": "2026-11-11T23:18:34Z",
+    "candidates": [],
+    "source_cuts": [],
+    "coins": {
+     "PEPE": {
+      "series": {
+       "source": "CoinGecko 5-minute prices",
+       "url": "https://api.coingecko.com/api/v3/coins/pepe/market_chart?vs_currency=usd&days=1",
+       "bar_min": 5,
+       "points": [
+        [
+         1794352800,
+         5.3e-06
+        ],
+        [
+         1794353100,
+         5.32e-06
+        ],
+        [
+         1794353400,
+         5.32e-06
+        ],
+        [
+         1794353700,
+         5.32e-06
+        ],
+        [
+         1794354000,
+         5.32e-06
+        ],
+        [
+         1794354300,
+         5.33e-06
+        ],
+        [
+         1794354600,
+         5.35e-06
+        ],
+        [
+         1794354900,
+         5.37e-06
+        ],
+        [
+         1794355200,
+         5.37e-06
+        ],
+        [
+         1794355500,
+         5.42e-06
+        ],
+        [
+         1794355800,
+         5.43e-06
+        ],
+        [
+         1794356100,
+         5.43e-06
+        ],
+        [
+         1794356400,
+         5.39e-06
+        ],
+        [
+         1794356700,
+         5.39e-06
+        ],
+        [
+         1794357000,
+         5.4e-06
+        ],
+        [
+         1794357300,
+         5.44e-06
+        ],
+        [
+         1794357600,
+         5.43e-06
+        ],
+        [
+         1794357900,
+         5.42e-06
+        ],
+        [
+         1794358200,
+         5.41e-06
+        ],
+        [
+         1794358500,
+         5.42e-06
+        ],
+        [
+         1794358800,
+         5.39e-06
+        ],
+        [
+         1794359100,
+         5.38e-06
+        ],
+        [
+         1794359400,
+         5.41e-06
+        ],
+        [
+         1794359700,
+         5.42e-06
+        ],
+        [
+         1794360000,
+         5.42e-06
+        ],
+        [
+         1794360300,
+         5.42e-06
+        ],
+        [
+         1794360600,
+         5.47e-06
+        ],
+        [
+         1794360900,
+         5.47e-06
+        ],
+        [
+         1794361200,
+         5.48e-06
+        ],
+        [
+         1794361500,
+         5.5e-06
+        ],
+        [
+         1794361800,
+         5.5e-06
+        ],
+        [
+         1794362100,
+         5.45e-06
+        ],
+        [
+         1794362400,
+         5.44e-06
+        ],
+        [
+         1794362700,
+         5.45e-06
+        ],
+        [
+         1794363000,
+         5.44e-06
+        ],
+        [
+         1794363300,
+         5.42e-06
+        ],
+        [
+         1794363600,
+         5.4e-06
+        ],
+        [
+         1794363900,
+         5.41e-06
+        ],
+        [
+         1794364200,
+         5.41e-06
+        ],
+        [
+         1794364500,
+         5.43e-06
+        ],
+        [
+         1794364800,
+         5.44e-06
+        ],
+        [
+         1794365100,
+         5.47e-06
+        ],
+        [
+         1794365400,
+         5.44e-06
+        ],
+        [
+         1794365700,
+         5.43e-06
+        ],
+        [
+         1794366000,
+         5.41e-06
+        ],
+        [
+         1794366300,
+         5.41e-06
+        ],
+        [
+         1794366600,
+         5.42e-06
+        ],
+        [
+         1794366900,
+         5.44e-06
+        ],
+        [
+         1794367200,
+         5.42e-06
+        ],
+        [
+         1794367500,
+         5.38e-06
+        ],
+        [
+         1794367800,
+         5.39e-06
+        ],
+        [
+         1794368100,
+         5.36e-06
+        ],
+        [
+         1794368400,
+         5.36e-06
+        ],
+        [
+         1794368700,
+         5.35e-06
+        ],
+        [
+         1794369000,
+         5.36e-06
+        ],
+        [
+         1794369300,
+         5.38e-06
+        ],
+        [
+         1794369600,
+         5.38e-06
+        ],
+        [
+         1794369900,
+         5.39e-06
+        ],
+        [
+         1794370200,
+         5.39e-06
+        ],
+        [
+         1794370500,
+         5.39e-06
+        ],
+        [
+         1794370800,
+         5.35e-06
+        ],
+        [
+         1794371100,
+         5.36e-06
+        ],
+        [
+         1794371400,
+         5.38e-06
+        ],
+        [
+         1794371700,
+         5.41e-06
+        ],
+        [
+         1794372000,
+         5.4e-06
+        ],
+        [
+         1794372300,
+         5.37e-06
+        ],
+        [
+         1794372600,
+         5.36e-06
+        ],
+        [
+         1794372900,
+         5.33e-06
+        ],
+        [
+         1794373200,
+         5.32e-06
+        ],
+        [
+         1794373500,
+         5.3e-06
+        ],
+        [
+         1794373800,
+         5.27e-06
+        ],
+        [
+         1794374100,
+         5.28e-06
+        ],
+        [
+         1794374400,
+         5.27e-06
+        ],
+        [
+         1794374700,
+         5.31e-06
+        ],
+        [
+         1794375000,
+         5.31e-06
+        ],
+        [
+         1794375300,
+         5.33e-06
+        ],
+        [
+         1794375600,
+         5.31e-06
+        ],
+        [
+         1794375900,
+         5.31e-06
+        ],
+        [
+         1794376200,
+         5.33e-06
+        ],
+        [
+         1794376500,
+         5.34e-06
+        ],
+        [
+         1794376800,
+         5.33e-06
+        ],
+        [
+         1794377100,
+         5.32e-06
+        ],
+        [
+         1794377400,
+         5.32e-06
+        ],
+        [
+         1794377700,
+         5.31e-06
+        ],
+        [
+         1794378000,
+         5.3e-06
+        ],
+        [
+         1794378300,
+         5.28e-06
+        ],
+        [
+         1794378600,
+         5.29e-06
+        ],
+        [
+         1794378900,
+         5.3e-06
+        ],
+        [
+         1794379200,
+         5.29e-06
+        ],
+        [
+         1794379500,
+         5.24e-06
+        ],
+        [
+         1794379800,
+         5.24e-06
+        ],
+        [
+         1794380100,
+         5.24e-06
+        ],
+        [
+         1794380400,
+         5.23e-06
+        ],
+        [
+         1794380700,
+         5.21e-06
+        ],
+        [
+         1794381000,
+         5.23e-06
+        ],
+        [
+         1794381300,
+         5.23e-06
+        ],
+        [
+         1794381600,
+         5.25e-06
+        ],
+        [
+         1794381900,
+         5.28e-06
+        ],
+        [
+         1794382200,
+         5.29e-06
+        ],
+        [
+         1794382500,
+         5.29e-06
+        ],
+        [
+         1794382800,
+         5.27e-06
+        ],
+        [
+         1794383100,
+         5.26e-06
+        ],
+        [
+         1794383400,
+         5.28e-06
+        ],
+        [
+         1794383700,
+         5.26e-06
+        ],
+        [
+         1794384000,
+         5.25e-06
+        ],
+        [
+         1794384300,
+         5.24e-06
+        ],
+        [
+         1794384600,
+         5.25e-06
+        ],
+        [
+         1794384900,
+         5.25e-06
+        ],
+        [
+         1794385200,
+         5.22e-06
+        ],
+        [
+         1794385500,
+         5.18e-06
+        ],
+        [
+         1794385800,
+         5.16e-06
+        ],
+        [
+         1794386100,
+         5.18e-06
+        ],
+        [
+         1794386400,
+         5.16e-06
+        ],
+        [
+         1794386700,
+         5.15e-06
+        ],
+        [
+         1794387000,
+         5.14e-06
+        ],
+        [
+         1794387300,
+         5.1e-06
+        ],
+        [
+         1794387600,
+         5.06e-06
+        ],
+        [
+         1794387900,
+         5.04e-06
+        ],
+        [
+         1794388200,
+         5.04e-06
+        ],
+        [
+         1794388500,
+         4.99e-06
+        ],
+        [
+         1794388800,
+         4.99e-06
+        ],
+        [
+         1794389100,
+         5.04e-06
+        ],
+        [
+         1794389400,
+         5.04e-06
+        ],
+        [
+         1794389700,
+         5e-06
+        ],
+        [
+         1794390000,
+         4.99e-06
+        ],
+        [
+         1794390300,
+         4.99e-06
+        ],
+        [
+         1794390600,
+         5.01e-06
+        ],
+        [
+         1794390900,
+         5.03e-06
+        ],
+        [
+         1794391200,
+         5.04e-06
+        ],
+        [
+         1794391500,
+         5.02e-06
+        ],
+        [
+         1794391800,
+         5e-06
+        ],
+        [
+         1794392100,
+         5.02e-06
+        ],
+        [
+         1794392400,
+         5.05e-06
+        ],
+        [
+         1794392700,
+         5.05e-06
+        ],
+        [
+         1794393000,
+         5.04e-06
+        ],
+        [
+         1794393300,
+         5.05e-06
+        ],
+        [
+         1794393600,
+         5.06e-06
+        ],
+        [
+         1794393900,
+         5.05e-06
+        ],
+        [
+         1794394200,
+         5.03e-06
+        ],
+        [
+         1794394500,
+         5.05e-06
+        ],
+        [
+         1794394800,
+         5.02e-06
+        ],
+        [
+         1794395100,
+         5.01e-06
+        ],
+        [
+         1794395400,
+         4.97e-06
+        ],
+        [
+         1794395700,
+         4.95e-06
+        ],
+        [
+         1794396000,
+         4.97e-06
+        ],
+        [
+         1794396300,
+         4.95e-06
+        ],
+        [
+         1794396600,
+         4.96e-06
+        ],
+        [
+         1794396900,
+         4.97e-06
+        ],
+        [
+         1794397200,
+         4.97e-06
+        ],
+        [
+         1794397500,
+         4.98e-06
+        ],
+        [
+         1794397800,
+         4.99e-06
+        ],
+        [
+         1794398100,
+         5e-06
+        ],
+        [
+         1794398400,
+         4.99e-06
+        ],
+        [
+         1794398700,
+         4.99e-06
+        ],
+        [
+         1794399000,
+         5.01e-06
+        ],
+        [
+         1794399300,
+         4.99e-06
+        ],
+        [
+         1794399600,
+         4.99e-06
+        ],
+        [
+         1794399900,
+         4.95e-06
+        ],
+        [
+         1794400200,
+         4.96e-06
+        ],
+        [
+         1794400500,
+         4.94e-06
+        ],
+        [
+         1794400800,
+         4.96e-06
+        ],
+        [
+         1794401100,
+         4.97e-06
+        ],
+        [
+         1794401400,
+         4.99e-06
+        ],
+        [
+         1794401700,
+         4.99e-06
+        ],
+        [
+         1794402000,
+         4.97e-06
+        ],
+        [
+         1794402300,
+         4.98e-06
+        ],
+        [
+         1794402600,
+         4.97e-06
+        ],
+        [
+         1794402900,
+         4.99e-06
+        ],
+        [
+         1794403200,
+         4.99e-06
+        ],
+        [
+         1794403500,
+         5.01e-06
+        ],
+        [
+         1794403800,
+         5.01e-06
+        ],
+        [
+         1794404100,
+         4.99e-06
+        ],
+        [
+         1794404400,
+         4.97e-06
+        ],
+        [
+         1794404700,
+         4.97e-06
+        ],
+        [
+         1794405000,
+         4.99e-06
+        ],
+        [
+         1794405300,
+         5e-06
+        ],
+        [
+         1794405600,
+         4.99e-06
+        ],
+        [
+         1794405900,
+         5e-06
+        ],
+        [
+         1794406200,
+         4.99e-06
+        ],
+        [
+         1794406500,
+         4.96e-06
+        ],
+        [
+         1794406800,
+         4.96e-06
+        ],
+        [
+         1794407100,
+         4.96e-06
+        ],
+        [
+         1794407400,
+         4.96e-06
+        ],
+        [
+         1794407700,
+         4.96e-06
+        ],
+        [
+         1794408000,
+         4.99e-06
+        ],
+        [
+         1794408300,
+         4.96e-06
+        ],
+        [
+         1794408600,
+         4.95e-06
+        ],
+        [
+         1794408900,
+         4.95e-06
+        ],
+        [
+         1794409200,
+         4.94e-06
+        ],
+        [
+         1794409500,
+         4.95e-06
+        ],
+        [
+         1794409800,
+         4.94e-06
+        ],
+        [
+         1794410100,
+         4.95e-06
+        ],
+        [
+         1794410400,
+         4.92e-06
+        ],
+        [
+         1794410700,
+         4.91e-06
+        ],
+        [
+         1794411000,
+         4.94e-06
+        ],
+        [
+         1794411300,
+         4.98e-06
+        ],
+        [
+         1794411600,
+         4.98e-06
+        ],
+        [
+         1794411900,
+         4.96e-06
+        ],
+        [
+         1794412200,
+         4.96e-06
+        ],
+        [
+         1794412500,
+         4.95e-06
+        ],
+        [
+         1794412800,
+         4.95e-06
+        ],
+        [
+         1794413100,
+         4.96e-06
+        ],
+        [
+         1794413400,
+         4.97e-06
+        ],
+        [
+         1794413700,
+         4.98e-06
+        ],
+        [
+         1794414000,
+         4.98e-06
+        ],
+        [
+         1794414300,
+         4.99e-06
+        ],
+        [
+         1794414600,
+         4.98e-06
+        ],
+        [
+         1794414900,
+         4.98e-06
+        ],
+        [
+         1794415200,
+         4.96e-06
+        ],
+        [
+         1794415500,
+         4.96e-06
+        ],
+        [
+         1794415800,
+         4.95e-06
+        ],
+        [
+         1794416100,
+         4.93e-06
+        ],
+        [
+         1794416400,
+         4.96e-06
+        ],
+        [
+         1794416700,
+         4.97e-06
+        ],
+        [
+         1794417000,
+         4.97e-06
+        ],
+        [
+         1794417300,
+         4.99e-06
+        ],
+        [
+         1794417600,
+         4.99e-06
+        ],
+        [
+         1794417900,
+         4.97e-06
+        ],
+        [
+         1794418200,
+         4.97e-06
+        ],
+        [
+         1794418500,
+         4.96e-06
+        ],
+        [
+         1794418800,
+         4.95e-06
+        ],
+        [
+         1794419100,
+         4.97e-06
+        ],
+        [
+         1794419400,
+         4.95e-06
+        ],
+        [
+         1794419700,
+         4.95e-06
+        ],
+        [
+         1794420000,
+         4.93e-06
+        ],
+        [
+         1794420300,
+         4.93e-06
+        ],
+        [
+         1794420600,
+         4.94e-06
+        ],
+        [
+         1794420900,
+         4.93e-06
+        ],
+        [
+         1794421200,
+         4.93e-06
+        ],
+        [
+         1794421500,
+         4.92e-06
+        ],
+        [
+         1794421800,
+         4.91e-06
+        ],
+        [
+         1794422100,
+         4.94e-06
+        ],
+        [
+         1794422400,
+         4.93e-06
+        ],
+        [
+         1794422700,
+         4.92e-06
+        ],
+        [
+         1794423000,
+         4.93e-06
+        ],
+        [
+         1794423300,
+         4.89e-06
+        ],
+        [
+         1794423600,
+         4.9e-06
+        ],
+        [
+         1794423900,
+         4.88e-06
+        ],
+        [
+         1794424200,
+         4.87e-06
+        ],
+        [
+         1794424500,
+         4.87e-06
+        ],
+        [
+         1794424800,
+         4.87e-06
+        ],
+        [
+         1794425100,
+         4.87e-06
+        ],
+        [
+         1794425400,
+         4.87e-06
+        ],
+        [
+         1794425700,
+         4.86e-06
+        ],
+        [
+         1794426000,
+         4.81e-06
+        ],
+        [
+         1794426300,
+         4.81e-06
+        ],
+        [
+         1794426600,
+         4.81e-06
+        ],
+        [
+         1794426900,
+         4.8e-06
+        ],
+        [
+         1794427200,
+         4.8e-06
+        ],
+        [
+         1794427500,
+         4.8e-06
+        ],
+        [
+         1794427800,
+         4.81e-06
+        ],
+        [
+         1794428100,
+         4.82e-06
+        ],
+        [
+         1794428400,
+         4.81e-06
+        ],
+        [
+         1794428700,
+         4.82e-06
+        ],
+        [
+         1794429000,
+         4.81e-06
+        ],
+        [
+         1794429300,
+         4.8e-06
+        ],
+        [
+         1794429600,
+         4.77e-06
+        ],
+        [
+         1794429900,
+         4.76e-06
+        ],
+        [
+         1794430200,
+         4.78e-06
+        ],
+        [
+         1794430500,
+         4.77e-06
+        ],
+        [
+         1794430800,
+         4.77e-06
+        ],
+        [
+         1794431100,
+         4.75e-06
+        ],
+        [
+         1794431400,
+         4.74e-06
+        ],
+        [
+         1794431700,
+         4.73e-06
+        ],
+        [
+         1794432000,
+         4.7e-06
+        ],
+        [
+         1794432300,
+         4.7e-06
+        ],
+        [
+         1794432600,
+         4.69e-06
+        ],
+        [
+         1794432900,
+         4.68e-06
+        ],
+        [
+         1794433200,
+         4.67e-06
+        ],
+        [
+         1794433500,
+         4.68e-06
+        ],
+        [
+         1794433800,
+         4.67e-06
+        ],
+        [
+         1794434100,
+         4.67e-06
+        ],
+        [
+         1794434400,
+         4.67e-06
+        ],
+        [
+         1794434700,
+         4.68e-06
+        ],
+        [
+         1794435000,
+         4.68e-06
+        ],
+        [
+         1794435300,
+         4.69e-06
+        ],
+        [
+         1794435600,
+         4.72e-06
+        ],
+        [
+         1794435900,
+         4.73e-06
+        ],
+        [
+         1794436200,
+         4.71e-06
+        ],
+        [
+         1794436500,
+         4.69e-06
+        ],
+        [
+         1794436800,
+         4.65e-06
+        ],
+        [
+         1794437100,
+         4.63e-06
+        ],
+        [
+         1794437400,
+         4.63e-06
+        ],
+        [
+         1794437700,
+         4.63e-06
+        ],
+        [
+         1794438000,
+         4.62e-06
+        ],
+        [
+         1794438300,
+         4.62e-06
+        ],
+        [
+         1794438600,
+         4.57e-06
+        ]
+       ]
+      },
+      "second": {
+       "source": "Coinbase 5-minute candles",
+       "url": "https://api.exchange.coinbase.com/products/PEPE-USD/candles?granularity=300&start=2026-11-10T23:13:35Z&end=2026-11-11T23:13:35Z",
+       "gap_pts": 0.0
+      },
+      "seconds": [
+       {
+        "source": "Coinbase 5-minute candles",
+        "url": "https://api.exchange.coinbase.com/products/PEPE-USD/candles?granularity=300&start=2026-11-10T23:13:35Z&end=2026-11-11T23:13:35Z",
+        "gap_pts": 0.0
+       },
+       {
+        "source": "OKX 5-minute candles",
+        "url": "https://www.okx.com/api/v5/market/history-candles?instId=PEPE-USDT&bar=5m&after=1794438815000&limit=300",
+        "gap_pts": 0.16
+       },
+       {
+        "source": "Binance 5-minute klines (data-api.binance.vision)",
+        "url": "https://data-api.binance.vision/api/v3/klines?symbol=PEPEUSDT&interval=5m&startTime=1794352115000&endTime=1794438815000&limit=300",
+        "gap_pts": 0.35
+       },
+       {
+        "source": "Kraken 5-minute candles",
+        "url": "https://api.kraken.com/0/public/OHLC?pair=PEPEUSD&interval=5&since=1794352115",
+        "gap_pts": 0.19
+       }
+      ],
+      "run": {
+       "dir": "down",
+       "start_t": 1794361800,
+       "start_p": 5.5e-06,
+       "end_t": 1794438600,
+       "end_p": 4.57e-06,
+       "pct": -16.909
+      },
+      "tests": [],
+      "mechanics": {
+       "hour_start_utc": "2026-11-11T01:50:00Z",
+       "hour_end_utc": "2026-11-11T02:50:00Z",
+       "rows": [
+        {
+         "key": "PEPE",
+         "label": "Pepe",
+         "value": -1.09,
+         "unit": "pct"
+        },
+        {
+         "key": "BTC",
+         "label": "Bitcoin",
+         "value": -0.13,
+         "unit": "pct"
+        },
+        {
+         "key": "ES=F",
+         "label": "S&P 500 futures",
+         "value": -0.02,
+         "unit": "pct"
+        },
+        {
+         "key": "NQ=F",
+         "label": "Nasdaq 100 futures",
+         "value": -0.01,
+         "unit": "pct"
+        },
+        {
+         "key": "DX-Y.NYB",
+         "label": "Dollar index",
+         "value": 0.02,
+         "unit": "pct"
+        },
+        {
+         "key": "^TNX",
+         "label": "10-year Treasury yield",
+         "value": null,
+         "unit": "bp"
+        },
+        {
+         "key": "ZT=F",
+         "label": "2-year Treasury note futures",
+         "value": 0.01,
+         "unit": "pct"
+        },
+        {
+         "key": "GC=F",
+         "label": "Gold futures",
+         "value": -0.2,
+         "unit": "pct"
+        },
+        {
+         "key": "CL=F",
+         "label": "Oil futures (WTI)",
+         "value": 0.63,
+         "unit": "pct"
+        },
+        {
+         "key": "^VIX",
+         "label": "VIX",
+         "value": null,
+         "unit": "pct"
+        },
+        {
+         "key": "IBIT",
+         "label": "IBIT volume (iShares Bitcoin Trust)",
+         "value": null,
+         "unit": "shares"
+        },
+        {
+         "key": "FBTC",
+         "label": "FBTC volume (Fidelity Wise Origin Bitcoin Fund)",
+         "value": null,
+         "unit": "shares"
+        },
+        {
+         "key": "oi",
+         "label": "Open interest, OKX",
+         "value": 0.58,
+         "unit": "pct"
+        },
+        {
+         "key": "liq",
+         "label": "Liquidations, OKX",
+         "unread": true,
+         "why": "OKX keeps its latest 100 orders, back to Nov 11, 6:06 PM ET"
+        },
+        {
+         "key": "taker",
+         "label": "Taker flow, OKX PEPE-USDT-SWAP (the hour from 8:00 PM ET, in USDT)",
+         "hour_utc": "2026-11-11T01:00:00Z",
+         "sell_usd": 7168621,
+         "buy_usd": 7248558
+        },
+        {
+         "key": "liq-gate",
+         "label": "Liquidations, Gate",
+         "longs_usd": 354,
+         "shorts_usd": 11,
+         "orders": 3,
+         "capped": false
+        },
+        {
+         "key": "funding",
+         "label": "Funding, OKX (the 8-hour period that settled Wed 3:00 AM ET)",
+         "value": 0.0042,
+         "unit": "rate"
+        }
+       ],
+       "beta": 1.623,
+       "excess_pts": -0.88,
+       "patterns": []
+      },
+      "event_hours": {}
+     }
+    },
+    "subject": {
+     "sym": "PEPE",
+     "name": "Pepe",
+     "gecko_id": "pepe"
+    },
+    "day": {
+     "stablecoins": null,
+     "etf_btc": null
+    },
+    "read": [
+     {
+      "name": "Bitcoin prices: CoinGecko 5-minute prices",
+      "url": "https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=1",
+      "note": ""
+     },
+     {
+      "name": "Bitcoin prices: Coinbase 5-minute candles",
+      "url": "https://api.exchange.coinbase.com/products/BTC-USD/candles?granularity=300&start=2026-11-10T23:13:35Z&end=2026-11-11T23:13:35Z",
+      "note": ""
+     },
+     {
+      "name": "Bitcoin prices: OKX 5-minute candles",
+      "url": "https://www.okx.com/api/v5/market/history-candles?instId=BTC-USDT&bar=5m&after=1794438815000&limit=300",
+      "note": ""
+     },
+     {
+      "name": "Bitcoin prices: Binance 5-minute klines (data-api.binance.vision)",
+      "url": "https://data-api.binance.vision/api/v3/klines?symbol=BTCUSDT&interval=5m&startTime=1794352115000&endTime=1794438815000&limit=300",
+      "note": ""
+     },
+     {
+      "name": "Bitcoin prices: Kraken 5-minute candles",
+      "url": "https://api.kraken.com/0/public/OHLC?pair=XBTUSD&interval=5&since=1794352115",
+      "note": ""
+     },
+     {
+      "name": "Binance new listings",
+      "url": "https://www.binance.com/bapi/composite/v1/public/cms/article/list/query?type=1&catalogId=48&pageNo=1&pageSize=20",
+      "note": "20 notice(s) in its answer"
+     },
+     {
+      "name": "Binance delistings",
+      "url": "https://www.binance.com/bapi/composite/v1/public/cms/article/list/query?type=1&catalogId=161&pageNo=1&pageSize=20",
+      "note": "20 notice(s) in its answer"
+     },
+     {
+      "name": "OKX new listings",
+      "url": "https://www.okx.com/api/v5/support/announcements?annType=announcements-new-listings",
+      "note": "20 notice(s) in its answer"
+     },
+     {
+      "name": "OKX delistings",
+      "url": "https://www.okx.com/api/v5/support/announcements?annType=announcements-delistings",
+      "note": "18 notice(s) in its answer"
+     },
+     {
+      "name": "KuCoin new listings",
+      "url": "https://api.kucoin.com/api/v3/announcements?annType=new-listings&pageSize=50",
+      "note": "21 notice(s) in its answer"
+     },
+     {
+      "name": "KuCoin delistings",
+      "url": "https://api.kucoin.com/api/v3/announcements?annType=delistings&pageSize=50",
+      "note": "4 notice(s) in its answer"
+     },
+     {
+      "name": "Bitget listings",
+      "url": "https://api.bitget.com/api/v2/public/annoucements?language=en_US&annType=coin_listings",
+      "note": "10 notice(s) in its answer"
+     },
+     {
+      "name": "Kraken blog (listings)",
+      "url": "https://blog.kraken.com/feed",
+      "note": "2 notice(s) in its answer"
+     },
+     {
+      "name": "Coinbase status notices",
+      "url": "https://status.exchange.coinbase.com/history.rss",
+      "note": "7 notice(s) in its answer"
+     },
+     {
+      "name": "DefiLlama hacks",
+      "url": "https://api.llama.fi/hacks",
+      "note": ""
+     },
+     {
+      "name": "Yahoo 5-minute bars, S&P 500 futures",
+      "url": "https://query1.finance.yahoo.com/v8/finance/chart/ES=F?interval=5m&period1=1794352415&period2=1794438815",
+      "note": ""
+     },
+     {
+      "name": "Yahoo 5-minute bars, Nasdaq 100 futures",
+      "url": "https://query1.finance.yahoo.com/v8/finance/chart/NQ=F?interval=5m&period1=1794352415&period2=1794438815",
+      "note": ""
+     },
+     {
+      "name": "Yahoo 5-minute bars, Dollar index",
+      "url": "https://query1.finance.yahoo.com/v8/finance/chart/DX-Y.NYB?interval=5m&period1=1794352415&period2=1794438815",
+      "note": ""
+     },
+     {
+      "name": "Yahoo 5-minute bars, 10-year Treasury yield",
+      "url": "https://query1.finance.yahoo.com/v8/finance/chart/%5ETNX?interval=5m&period1=1794352415&period2=1794438815",
+      "note": ""
+     },
+     {
+      "name": "Yahoo 5-minute bars, 2-year Treasury note futures",
+      "url": "https://query1.finance.yahoo.com/v8/finance/chart/ZT=F?interval=5m&period1=1794352415&period2=1794438815",
+      "note": ""
+     },
+     {
+      "name": "Yahoo 5-minute bars, Gold futures",
+      "url": "https://query1.finance.yahoo.com/v8/finance/chart/GC=F?interval=5m&period1=1794352415&period2=1794438815",
+      "note": ""
+     },
+     {
+      "name": "Yahoo 5-minute bars, Oil futures (WTI)",
+      "url": "https://query1.finance.yahoo.com/v8/finance/chart/CL=F?interval=5m&period1=1794352415&period2=1794438815",
+      "note": ""
+     },
+     {
+      "name": "Yahoo 5-minute bars, VIX",
+      "url": "https://query1.finance.yahoo.com/v8/finance/chart/%5EVIX?interval=5m&period1=1794352415&period2=1794438815",
+      "note": ""
+     },
+     {
+      "name": "Yahoo 5-minute bars, IBIT volume (iShares Bitcoin Trust)",
+      "url": "https://query1.finance.yahoo.com/v8/finance/chart/IBIT?interval=5m&period1=1794352415&period2=1794438815",
+      "note": ""
+     },
+     {
+      "name": "Yahoo 5-minute bars, FBTC volume (Fidelity Wise Origin Bitcoin Fund)",
+      "url": "https://query1.finance.yahoo.com/v8/finance/chart/FBTC?interval=5m&period1=1794352415&period2=1794438815",
+      "note": ""
+     },
+     {
+      "name": "Pepe prices: CoinGecko 5-minute prices",
+      "url": "https://api.coingecko.com/api/v3/coins/pepe/market_chart?vs_currency=usd&days=1",
+      "note": ""
+     },
+     {
+      "name": "Pepe prices: Coinbase 5-minute candles",
+      "url": "https://api.exchange.coinbase.com/products/PEPE-USD/candles?granularity=300&start=2026-11-10T23:13:35Z&end=2026-11-11T23:13:35Z",
+      "note": ""
+     },
+     {
+      "name": "Pepe prices: OKX 5-minute candles",
+      "url": "https://www.okx.com/api/v5/market/history-candles?instId=PEPE-USDT&bar=5m&after=1794438815000&limit=300",
+      "note": ""
+     },
+     {
+      "name": "Pepe prices: Binance 5-minute klines (data-api.binance.vision)",
+      "url": "https://data-api.binance.vision/api/v3/klines?symbol=PEPEUSDT&interval=5m&startTime=1794352115000&endTime=1794438815000&limit=300",
+      "note": ""
+     },
+     {
+      "name": "Pepe prices: Kraken 5-minute candles",
+      "url": "https://api.kraken.com/0/public/OHLC?pair=PEPEUSD&interval=5&since=1794352115",
+      "note": ""
+     },
+     {
+      "name": "CoinMarketCap token unlocks, Pepe",
+      "url": "https://api.coinmarketcap.com/data-api/v3/token-unlock/event?cryptoId=24478&type=past",
+      "note": ""
+     },
+     {
+      "name": "OKX open interest, Pepe (5-minute)",
+      "url": "https://www.okx.com/api/v5/rubik/stat/contracts/open-interest-volume?ccy=PEPE&period=5m",
+      "note": ""
+     },
+     {
+      "name": "OKX liquidations, Pepe",
+      "url": "https://www.okx.com/api/v5/public/liquidation-orders?instType=SWAP&state=filled&uly=PEPE-USDT&limit=100",
+      "note": ""
+     },
+     {
+      "name": "OKX funding, Pepe",
+      "url": "https://www.okx.com/api/v5/public/funding-rate-history?instId=PEPE-USDT-SWAP&limit=100",
+      "note": ""
+     },
+     {
+      "name": "OKX taker flow, Pepe (hourly)",
+      "url": "https://www.okx.com/api/v5/rubik/stat/taker-volume-contract?instId=PEPE-USDT-SWAP&period=1H&unit=2&begin=1794355200000&end=1794362400000",
+      "note": ""
+     },
+     {
+      "name": "Gate liquidations, Pepe",
+      "url": "https://api.gateio.ws/api/v4/futures/usdt/liq_orders?contract=PEPE_USDT&from=1794361800&to=1794365400&limit=1000",
+      "note": ""
+     },
+     {
+      "name": "CoinGecko daily volumes",
+      "url": "https://api.coingecko.com/api/v3/coins/pepe/market_chart?vs_currency=usd&days=8&interval=daily",
+      "note": ""
+     }
+    ],
+    "unread": [
+     {
+      "name": "Upbit listing notices",
+      "why": "not read: its announcements API answered 403 to the desk on October 19, 2026",
+      "url": ""
+     },
+     {
+      "name": "Bybit listing notices",
+      "why": "not read: its announcements API answered 403 (blocked by country) to the desk on October 19, 2026",
+      "url": ""
+     },
+     {
+      "name": "Protocol upgrades and governance votes",
+      "why": "not read: not wired in this step; Snapshot's public hub (hub.snapshot.org) answered the desk on October 19, 2026 with off-chain votes and is not read yet, and the desk has found no free feed for on-chain votes; a wire item that names the coin is read",
+      "url": ""
+     }
+    ]
+   },
+   "verdict": {
+    "what": "The verdict under 'Why it moved': the grade computed by code from the evidence record (why_evidence.py) on the page's window, the graded line built from phrases, and the model's two checked sentences when they passed every check.",
+    "date_et": "2026-11-11",
+    "slot": "evening",
+    "window": {
+     "start_utc": "2026-11-10T23:13:35Z",
+     "end_utc": "2026-11-11T23:13:35Z",
+     "hours": 24
+    },
+    "evidence_made_utc": "2026-11-11T23:18:34Z",
+    "made_utc": "2026-11-11T23:18:34Z",
+    "timing_rule": {
+     "version": "2026-10-20",
+     "source": "AUDIT.md section 3.1; strategist's rulings of October 19, 2026 and October 20, 2026 (J-8)",
+     "lead_min": 60,
+     "done_max_pct": 25.0,
+     "share_min_pct": 40.0
+    },
+    "day": {
+     "basis": "rolling_24h",
+     "BTC": 0.09,
+     "PEPE": -13.87
+    },
+    "coins": {
+     "PEPE": {
+      "sym": "PEPE",
+      "name": "Pepe",
+      "kind": "graded",
+      "grade": "Unclear",
+      "cand": null,
+      "refs": [],
+      "dir": "down",
+      "reasons": [
+       "no candidate passes the timing test"
+      ],
+      "phrases": [
+       "No reported event lines up with this move.",
+       "In the hour the run began, the market readings show none of the four patterns the desk names."
+      ],
+      "phrases_sec": [
+       "No reported event lines up with this move.",
+       ""
+      ],
+      "line": [
+       "No reported event lines up with this move.",
+       "In the hour the run began, the market readings show none of the four patterns the desk names."
+      ],
+      "required": [
+       0
+      ],
+      "readings": {
+       "hour": "onset",
+       "start_utc": "2026-11-11T01:50:00Z",
+       "end_utc": "2026-11-11T02:50:00Z",
+       "rows": [
+        {
+         "key": "BTC",
+         "label": "Bitcoin",
+         "value": -0.13,
+         "unit": "pct"
+        },
+        {
+         "key": "ES=F",
+         "label": "S&P 500 futures",
+         "value": -0.02,
+         "unit": "pct"
+        },
+        {
+         "key": "NQ=F",
+         "label": "Nasdaq 100 futures",
+         "value": -0.01,
+         "unit": "pct"
+        },
+        {
+         "key": "DX-Y.NYB",
+         "label": "Dollar index",
+         "value": 0.02,
+         "unit": "pct"
+        },
+        {
+         "key": "^TNX",
+         "label": "10-year Treasury yield",
+         "value": null,
+         "unit": "bp"
+        },
+        {
+         "key": "ZT=F",
+         "label": "2-year Treasury note futures",
+         "value": 0.01,
+         "unit": "pct"
+        },
+        {
+         "key": "GC=F",
+         "label": "Gold futures",
+         "value": -0.2,
+         "unit": "pct"
+        },
+        {
+         "key": "CL=F",
+         "label": "Oil futures (WTI)",
+         "value": 0.63,
+         "unit": "pct"
+        },
+        {
+         "key": "^VIX",
+         "label": "VIX",
+         "value": null,
+         "unit": "pct"
+        }
+       ],
+       "patterns": [],
+       "shut": false,
+       "onset_rows": [
+        [
+         "PEPE",
+         -1.09
+        ],
+        [
+         "BTC",
+         -0.13
+        ],
+        [
+         "ES=F",
+         -0.02
+        ],
+        [
+         "NQ=F",
+         -0.01
+        ],
+        [
+         "DX-Y.NYB",
+         0.02
+        ],
+        [
+         "^TNX",
+         null
+        ],
+        [
+         "ZT=F",
+         0.01
+        ],
+        [
+         "GC=F",
+         -0.2
+        ],
+        [
+         "CL=F",
+         0.63
+        ],
+        [
+         "^VIX",
+         null
+        ],
+        [
+         "IBIT",
+         null
+        ],
+        [
+         "FBTC",
+         null
+        ],
+        [
+         "oi",
+         0.58
+        ],
+        [
+         "liq",
+         null
+        ],
+        [
+         "taker",
+         null
+        ],
+        [
+         "liq-gate",
+         null
+        ],
+        [
+         "funding",
+         0.0042
+        ]
+       ],
+       "onset_patterns": [],
+       "onset_shut": false
+      },
+      "basis": "rolling_24h",
+      "window_words": "over the last 24 hours",
+      "move_pct": -13.87,
+      "text": [
+       "No reported event lines up with this move.",
+       "In the hour the run began, the market readings show none of the four patterns the desk names."
+      ],
+      "by": "phrases",
+      "fail_reason": "the check failed (verdict_check: model refused the request (whole fallback chain, if any) -> failing closed)",
+      "corrections": [],
+      "url": "/why/2026-11-11-pepe"
+     }
+    },
+    "spend": {
+     "kind": "run",
+     "date": "2026-11-11",
+     "slot": "evening",
+     "t": "2026-11-11T23:18:34Z",
+     "calls": 2,
+     "tokens": 922,
+     "usd": 0.000862,
+     "by_stage": {
+      "verdict_draft": 0.00013,
+      "verdict_check": 0.000732
+     },
+     "models": {
+      "verdict_draft": "claude-haiku-5-5",
+      "verdict_check": "claude-sonnet-5-5"
+     },
+     "day_usd": 0.000862,
+     "cap_usd": 1.5,
+     "coins": {
+      "PEPE": "Unclear (phrases)"
+     }
+    }
+   }
+  },
+  "NIGHT": {
+   "gate": {
+    "sym": "NIGHT",
+    "name": "Midnight",
+    "gecko_id": "midnight-3",
+    "rank": 83,
+    "pos": 68,
+    "move_pct": 12.32,
+    "vol_pct": 4.78,
+    "multiple": 2.58,
+    "beta": 1.695,
+    "btc_pct": 0.09,
+    "predicted_pct": 0.15,
+    "excess_pts": 12.17,
+    "legs": {
+     "move": true,
+     "multiple": true,
+     "excess": true
+    },
+    "pass": true,
+    "history": {
+     "from": "2026-10-10",
+     "through": "2026-11-09"
+    }
+   },
+   "gecko_id": "midnight-3",
+   "name": "Midnight",
+   "rank": 83,
+   "pos": 68,
+   "slug": "midnight-3",
+   "volume_vs_7d": null,
+   "evidence": {
+    "what": "The evidence for a Big mover, by 9.2's rules (why_evidence.py): the coin's series, its own candidates (the wire items, listing and delisting notices, unlocks and hacks that name it), the timing test and the onset hour's readings. Measured by code; no model call; no grade.",
+    "window": {
+     "start_utc": "2026-11-10T23:13:35Z",
+     "end_utc": "2026-11-11T23:13:35Z",
+     "hours": 24
+    },
+    "made_utc": "2026-11-11T23:18:34Z",
+    "candidates": [],
+    "source_cuts": [],
+    "coins": {
+     "NIGHT": {
+      "series": {
+       "source": "OKX 5-minute candles",
+       "url": "https://www.okx.com/api/v5/market/history-candles?instId=NIGHT-USDT&bar=5m&after=1794438815000&limit=300",
+       "bar_min": 5,
+       "points": [
+        [
+         1794352500,
+         0.041826
+        ],
+        [
+         1794352800,
+         0.041764
+        ],
+        [
+         1794353100,
+         0.041716
+        ],
+        [
+         1794353400,
+         0.041646
+        ],
+        [
+         1794353700,
+         0.041551
+        ],
+        [
+         1794354000,
+         0.041543
+        ],
+        [
+         1794354300,
+         0.042088
+        ],
+        [
+         1794354600,
+         0.041763
+        ],
+        [
+         1794354900,
+         0.041796
+        ],
+        [
+         1794355200,
+         0.041844
+        ],
+        [
+         1794355500,
+         0.042101
+        ],
+        [
+         1794355800,
+         0.04199
+        ],
+        [
+         1794356100,
+         0.042105
+        ],
+        [
+         1794356400,
+         0.042179
+        ],
+        [
+         1794356700,
+         0.04227
+        ],
+        [
+         1794357000,
+         0.042238
+        ],
+        [
+         1794357300,
+         0.042293
+        ],
+        [
+         1794357600,
+         0.042362
+        ],
+        [
+         1794357900,
+         0.042242
+        ],
+        [
+         1794358200,
+         0.042137
+        ],
+        [
+         1794358500,
+         0.042297
+        ],
+        [
+         1794358800,
+         0.042195
+        ],
+        [
+         1794359100,
+         0.042011
+        ],
+        [
+         1794359400,
+         0.042116
+        ],
+        [
+         1794359700,
+         0.042254
+        ],
+        [
+         1794360000,
+         0.04237
+        ],
+        [
+         1794360300,
+         0.042405
+        ],
+        [
+         1794360600,
+         0.042495
+        ],
+        [
+         1794360900,
+         0.04265
+        ],
+        [
+         1794361200,
+         0.042705
+        ],
+        [
+         1794361500,
+         0.042624
+        ],
+        [
+         1794361800,
+         0.042488
+        ],
+        [
+         1794362100,
+         0.042342
+        ],
+        [
+         1794362400,
+         0.042264
+        ],
+        [
+         1794362700,
+         0.04237
+        ],
+        [
+         1794363000,
+         0.042609
+        ],
+        [
+         1794363300,
+         0.042479
+        ],
+        [
+         1794363600,
+         0.042572
+        ],
+        [
+         1794363900,
+         0.042457
+        ],
+        [
+         1794364200,
+         0.042516
+        ],
+        [
+         1794364500,
+         0.042592
+        ],
+        [
+         1794364800,
+         0.042673
+        ],
+        [
+         1794365100,
+         0.042879
+        ],
+        [
+         1794365400,
+         0.042907
+        ],
+        [
+         1794365700,
+         0.042665
+        ],
+        [
+         1794366000,
+         0.04266
+        ],
+        [
+         1794366300,
+         0.042896
+        ],
+        [
+         1794366600,
+         0.042907
+        ],
+        [
+         1794366900,
+         0.042929
+        ],
+        [
+         1794367200,
+         0.043011
+        ],
+        [
+         1794367500,
+         0.043164
+        ],
+        [
+         1794367800,
+         0.043021
+        ],
+        [
+         1794368100,
+         0.042902
+        ],
+        [
+         1794368400,
+         0.043026
+        ],
+        [
+         1794368700,
+         0.042962
+        ],
+        [
+         1794369000,
+         0.043079
+        ],
+        [
+         1794369300,
+         0.042973
+        ],
+        [
+         1794369600,
+         0.042987
+        ],
+        [
+         1794369900,
+         0.043087
+        ],
+        [
+         1794370200,
+         0.043082
+        ],
+        [
+         1794370500,
+         0.043146
+        ],
+        [
+         1794370800,
+         0.042937
+        ],
+        [
+         1794371100,
+         0.042966
+        ],
+        [
+         1794371400,
+         0.043152
+        ],
+        [
+         1794371700,
+         0.043311
+        ],
+        [
+         1794372000,
+         0.043045
+        ],
+        [
+         1794372300,
+         0.043277
+        ],
+        [
+         1794372600,
+         0.043308
+        ],
+        [
+         1794372900,
+         0.043252
+        ],
+        [
+         1794373200,
+         0.043073
+        ],
+        [
+         1794373500,
+         0.042778
+        ],
+        [
+         1794373800,
+         0.042713
+        ],
+        [
+         1794374100,
+         0.042752
+        ],
+        [
+         1794374400,
+         0.042932
+        ],
+        [
+         1794374700,
+         0.042943
+        ],
+        [
+         1794375000,
+         0.04292
+        ],
+        [
+         1794375300,
+         0.042994
+        ],
+        [
+         1794375600,
+         0.043044
+        ],
+        [
+         1794375900,
+         0.043131
+        ],
+        [
+         1794376200,
+         0.043244
+        ],
+        [
+         1794376500,
+         0.043277
+        ],
+        [
+         1794376800,
+         0.043287
+        ],
+        [
+         1794377100,
+         0.043122
+        ],
+        [
+         1794377400,
+         0.043055
+        ],
+        [
+         1794377700,
+         0.043058
+        ],
+        [
+         1794378000,
+         0.042977
+        ],
+        [
+         1794378300,
+         0.043012
+        ],
+        [
+         1794378600,
+         0.043033
+        ],
+        [
+         1794378900,
+         0.042827
+        ],
+        [
+         1794379200,
+         0.042876
+        ],
+        [
+         1794379500,
+         0.042652
+        ],
+        [
+         1794379800,
+         0.042723
+        ],
+        [
+         1794380100,
+         0.042808
+        ],
+        [
+         1794380400,
+         0.042813
+        ],
+        [
+         1794380700,
+         0.042753
+        ],
+        [
+         1794381000,
+         0.042787
+        ],
+        [
+         1794381300,
+         0.042736
+        ],
+        [
+         1794381600,
+         0.042855
+        ],
+        [
+         1794381900,
+         0.042995
+        ],
+        [
+         1794382200,
+         0.0432
+        ],
+        [
+         1794382500,
+         0.043192
+        ],
+        [
+         1794382800,
+         0.043057
+        ],
+        [
+         1794383100,
+         0.043153
+        ],
+        [
+         1794383400,
+         0.043152
+        ],
+        [
+         1794383700,
+         0.043262
+        ],
+        [
+         1794384000,
+         0.0435
+        ],
+        [
+         1794384300,
+         0.04345
+        ],
+        [
+         1794384600,
+         0.043755
+        ],
+        [
+         1794384900,
+         0.043972
+        ],
+        [
+         1794385200,
+         0.043869
+        ],
+        [
+         1794385500,
+         0.044063
+        ],
+        [
+         1794385800,
+         0.043849
+        ],
+        [
+         1794386100,
+         0.043617
+        ],
+        [
+         1794386400,
+         0.043599
+        ],
+        [
+         1794386700,
+         0.043817
+        ],
+        [
+         1794387000,
+         0.043809
+        ],
+        [
+         1794387300,
+         0.043725
+        ],
+        [
+         1794387600,
+         0.04358
+        ],
+        [
+         1794387900,
+         0.043648
+        ],
+        [
+         1794388200,
+         0.043857
+        ],
+        [
+         1794388500,
+         0.043667
+        ],
+        [
+         1794388800,
+         0.043777
+        ],
+        [
+         1794389100,
+         0.043917
+        ],
+        [
+         1794389400,
+         0.044035
+        ],
+        [
+         1794389700,
+         0.043918
+        ],
+        [
+         1794390000,
+         0.043831
+        ],
+        [
+         1794390300,
+         0.043845
+        ],
+        [
+         1794390600,
+         0.044012
+        ],
+        [
+         1794390900,
+         0.043977
+        ],
+        [
+         1794391200,
+         0.044104
+        ],
+        [
+         1794391500,
+         0.044195
+        ],
+        [
+         1794391800,
+         0.044087
+        ],
+        [
+         1794392100,
+         0.043868
+        ],
+        [
+         1794392400,
+         0.044055
+        ],
+        [
+         1794392700,
+         0.044125
+        ],
+        [
+         1794393000,
+         0.044257
+        ],
+        [
+         1794393300,
+         0.044577
+        ],
+        [
+         1794393600,
+         0.044457
+        ],
+        [
+         1794393900,
+         0.044304
+        ],
+        [
+         1794394200,
+         0.044337
+        ],
+        [
+         1794394500,
+         0.044447
+        ],
+        [
+         1794394800,
+         0.044318
+        ],
+        [
+         1794395100,
+         0.044198
+        ],
+        [
+         1794395400,
+         0.044135
+        ],
+        [
+         1794395700,
+         0.044262
+        ],
+        [
+         1794396000,
+         0.044203
+        ],
+        [
+         1794396300,
+         0.044133
+        ],
+        [
+         1794396600,
+         0.044016
+        ],
+        [
+         1794396900,
+         0.04382
+        ],
+        [
+         1794397200,
+         0.04406
+        ],
+        [
+         1794397500,
+         0.044048
+        ],
+        [
+         1794397800,
+         0.04417
+        ],
+        [
+         1794398100,
+         0.044133
+        ],
+        [
+         1794398400,
+         0.044022
+        ],
+        [
+         1794398700,
+         0.044279
+        ],
+        [
+         1794399000,
+         0.044438
+        ],
+        [
+         1794399300,
+         0.04436
+        ],
+        [
+         1794399600,
+         0.044542
+        ],
+        [
+         1794399900,
+         0.044278
+        ],
+        [
+         1794400200,
+         0.044127
+        ],
+        [
+         1794400500,
+         0.043877
+        ],
+        [
+         1794400800,
+         0.043932
+        ],
+        [
+         1794401100,
+         0.04385
+        ],
+        [
+         1794401400,
+         0.044092
+        ],
+        [
+         1794401700,
+         0.044118
+        ],
+        [
+         1794402000,
+         0.044057
+        ],
+        [
+         1794402300,
+         0.044106
+        ],
+        [
+         1794402600,
+         0.044255
+        ],
+        [
+         1794402900,
+         0.044377
+        ],
+        [
+         1794403200,
+         0.044249
+        ],
+        [
+         1794403500,
+         0.044341
+        ],
+        [
+         1794403800,
+         0.044505
+        ],
+        [
+         1794404100,
+         0.044789
+        ],
+        [
+         1794404400,
+         0.044486
+        ],
+        [
+         1794404700,
+         0.044687
+        ],
+        [
+         1794405000,
+         0.044835
+        ],
+        [
+         1794405300,
+         0.044996
+        ],
+        [
+         1794405600,
+         0.04493
+        ],
+        [
+         1794405900,
+         0.045308
+        ],
+        [
+         1794406200,
+         0.045228
+        ],
+        [
+         1794406500,
+         0.045198
+        ],
+        [
+         1794406800,
+         0.045182
+        ],
+        [
+         1794407100,
+         0.045301
+        ],
+        [
+         1794407400,
+         0.045296
+        ],
+        [
+         1794407700,
+         0.045029
+        ],
+        [
+         1794408000,
+         0.04553
+        ],
+        [
+         1794408300,
+         0.045427
+        ],
+        [
+         1794408600,
+         0.045449
+        ],
+        [
+         1794408900,
+         0.045279
+        ],
+        [
+         1794409200,
+         0.045174
+        ],
+        [
+         1794409500,
+         0.045188
+        ],
+        [
+         1794409800,
+         0.044993
+        ],
+        [
+         1794410100,
+         0.045383
+        ],
+        [
+         1794410400,
+         0.045239
+        ],
+        [
+         1794410700,
+         0.045185
+        ],
+        [
+         1794411000,
+         0.045747
+        ],
+        [
+         1794411300,
+         0.046213
+        ],
+        [
+         1794411600,
+         0.046408
+        ],
+        [
+         1794411900,
+         0.046674
+        ],
+        [
+         1794412200,
+         0.04688
+        ],
+        [
+         1794412500,
+         0.04706
+        ],
+        [
+         1794412800,
+         0.046839
+        ],
+        [
+         1794413100,
+         0.04666
+        ],
+        [
+         1794413400,
+         0.047094
+        ],
+        [
+         1794413700,
+         0.04725
+        ],
+        [
+         1794414000,
+         0.046919
+        ],
+        [
+         1794414300,
+         0.047353
+        ],
+        [
+         1794414600,
+         0.047662
+        ],
+        [
+         1794414900,
+         0.047311
+        ],
+        [
+         1794415200,
+         0.047241
+        ],
+        [
+         1794415500,
+         0.046939
+        ],
+        [
+         1794415800,
+         0.047307
+        ],
+        [
+         1794416100,
+         0.047378
+        ],
+        [
+         1794416400,
+         0.047972
+        ],
+        [
+         1794416700,
+         0.047961
+        ],
+        [
+         1794417000,
+         0.047676
+        ],
+        [
+         1794417300,
+         0.047859
+        ],
+        [
+         1794417600,
+         0.048209
+        ],
+        [
+         1794417900,
+         0.048479
+        ],
+        [
+         1794418200,
+         0.048634
+        ],
+        [
+         1794418500,
+         0.048446
+        ],
+        [
+         1794418800,
+         0.048292
+        ],
+        [
+         1794419100,
+         0.048196
+        ],
+        [
+         1794419400,
+         0.048031
+        ],
+        [
+         1794419700,
+         0.048051
+        ],
+        [
+         1794420000,
+         0.047981
+        ],
+        [
+         1794420300,
+         0.047985
+        ],
+        [
+         1794420600,
+         0.047949
+        ],
+        [
+         1794420900,
+         0.047871
+        ],
+        [
+         1794421200,
+         0.047974
+        ],
+        [
+         1794421500,
+         0.047317
+        ],
+        [
+         1794421800,
+         0.047641
+        ],
+        [
+         1794422100,
+         0.047564
+        ],
+        [
+         1794422400,
+         0.047579
+        ],
+        [
+         1794422700,
+         0.047494
+        ],
+        [
+         1794423000,
+         0.047635
+        ],
+        [
+         1794423300,
+         0.047453
+        ],
+        [
+         1794423600,
+         0.047594
+        ],
+        [
+         1794423900,
+         0.047188
+        ],
+        [
+         1794424200,
+         0.047048
+        ],
+        [
+         1794424500,
+         0.046973
+        ],
+        [
+         1794424800,
+         0.047118
+        ],
+        [
+         1794425100,
+         0.047148
+        ],
+        [
+         1794425400,
+         0.047094
+        ],
+        [
+         1794425700,
+         0.046983
+        ],
+        [
+         1794426000,
+         0.047026
+        ],
+        [
+         1794426300,
+         0.046992
+        ],
+        [
+         1794426600,
+         0.047105
+        ],
+        [
+         1794426900,
+         0.046839
+        ],
+        [
+         1794427200,
+         0.04689
+        ],
+        [
+         1794427500,
+         0.046831
+        ],
+        [
+         1794427800,
+         0.046923
+        ],
+        [
+         1794428100,
+         0.047299
+        ],
+        [
+         1794428400,
+         0.047109
+        ],
+        [
+         1794428700,
+         0.047223
+        ],
+        [
+         1794429000,
+         0.047384
+        ],
+        [
+         1794429300,
+         0.047355
+        ],
+        [
+         1794429600,
+         0.047257
+        ],
+        [
+         1794429900,
+         0.047378
+        ],
+        [
+         1794430200,
+         0.04736
+        ],
+        [
+         1794430500,
+         0.047322
+        ],
+        [
+         1794430800,
+         0.047332
+        ],
+        [
+         1794431100,
+         0.047377
+        ],
+        [
+         1794431400,
+         0.047529
+        ],
+        [
+         1794431700,
+         0.047461
+        ],
+        [
+         1794432000,
+         0.047432
+        ],
+        [
+         1794432300,
+         0.047285
+        ],
+        [
+         1794432600,
+         0.047347
+        ],
+        [
+         1794432900,
+         0.047188
+        ],
+        [
+         1794433200,
+         0.047453
+        ],
+        [
+         1794433500,
+         0.047608
+        ],
+        [
+         1794433800,
+         0.047811
+        ],
+        [
+         1794434100,
+         0.047873
+        ],
+        [
+         1794434400,
+         0.04797
+        ],
+        [
+         1794434700,
+         0.048008
+        ],
+        [
+         1794435000,
+         0.048133
+        ],
+        [
+         1794435300,
+         0.048071
+        ],
+        [
+         1794435600,
+         0.048021
+        ],
+        [
+         1794435900,
+         0.047947
+        ],
+        [
+         1794436200,
+         0.04788
+        ],
+        [
+         1794436500,
+         0.047646
+        ],
+        [
+         1794436800,
+         0.047626
+        ],
+        [
+         1794437100,
+         0.04733
+        ],
+        [
+         1794437400,
+         0.047371
+        ],
+        [
+         1794437700,
+         0.047278
+        ],
+        [
+         1794438000,
+         0.047284
+        ],
+        [
+         1794438300,
+         0.047349
+        ],
+        [
+         1794438600,
+         0.046964
+        ]
+       ]
+      },
+      "second": {
+       "source": "Binance 5-minute klines (data-api.binance.vision)",
+       "url": "https://data-api.binance.vision/api/v3/klines?symbol=NIGHTUSDT&interval=5m&startTime=1794352115000&endTime=1794438815000&limit=300",
+       "gap_pts": 0.11
+      },
+      "seconds": [
+       {
+        "source": "Binance 5-minute klines (data-api.binance.vision)",
+        "url": "https://data-api.binance.vision/api/v3/klines?symbol=NIGHTUSDT&interval=5m&startTime=1794352115000&endTime=1794438815000&limit=300",
+        "gap_pts": 0.11
+       },
+       {
+        "source": "Kraken 5-minute candles",
+        "url": "https://api.kraken.com/0/public/OHLC?pair=NIGHTUSD&interval=5&since=1794352115",
+        "gap_pts": 0.07
+       }
+      ],
+      "run": {
+       "dir": "up",
+       "start_t": 1794354000,
+       "start_p": 0.041543,
+       "end_t": 1794418200,
+       "end_p": 0.048634,
+       "pct": 17.069
+      },
+      "tests": [],
+      "mechanics": {
+       "hour_start_utc": "2026-11-10T23:40:00Z",
+       "hour_end_utc": "2026-11-11T00:40:00Z",
+       "rows": [
+        {
+         "key": "NIGHT",
+         "label": "Midnight",
+         "value": 1.97,
+         "unit": "pct"
+        },
+        {
+         "key": "BTC",
+         "label": "Bitcoin",
+         "value": -0.12,
+         "unit": "pct"
+        },
+        {
+         "key": "ES=F",
+         "label": "S&P 500 futures",
+         "value": 0.09,
+         "unit": "pct"
+        },
+        {
+         "key": "NQ=F",
+         "label": "Nasdaq 100 futures",
+         "value": 0.05,
+         "unit": "pct"
+        },
+        {
+         "key": "DX-Y.NYB",
+         "label": "Dollar index",
+         "value": null,
+         "unit": "pct"
+        },
+        {
+         "key": "^TNX",
+         "label": "10-year Treasury yield",
+         "value": null,
+         "unit": "bp"
+        },
+        {
+         "key": "ZT=F",
+         "label": "2-year Treasury note futures",
+         "value": -0.02,
+         "unit": "pct"
+        },
+        {
+         "key": "GC=F",
+         "label": "Gold futures",
+         "value": -0.02,
+         "unit": "pct"
+        },
+        {
+         "key": "CL=F",
+         "label": "Oil futures (WTI)",
+         "value": 0.0,
+         "unit": "pct"
+        },
+        {
+         "key": "^VIX",
+         "label": "VIX",
+         "value": null,
+         "unit": "pct"
+        },
+        {
+         "key": "IBIT",
+         "label": "IBIT volume (iShares Bitcoin Trust)",
+         "value": null,
+         "unit": "shares"
+        },
+        {
+         "key": "FBTC",
+         "label": "FBTC volume (Fidelity Wise Origin Bitcoin Fund)",
+         "value": null,
+         "unit": "shares"
+        },
+        {
+         "key": "oi",
+         "label": "Open interest, OKX",
+         "value": 1.28,
+         "unit": "pct"
+        },
+        {
+         "key": "liq",
+         "label": "Liquidations, OKX",
+         "unread": true,
+         "why": "OKX keeps its latest 100 orders, back to Nov 11, 5:31 AM ET"
+        },
+        {
+         "key": "taker",
+         "label": "Taker flow, OKX NIGHT-USDT-SWAP (the hour from 6:00 PM ET, in USDT)",
+         "hour_utc": "2026-11-10T23:00:00Z",
+         "sell_usd": 77288,
+         "buy_usd": 72016
+        },
+        {
+         "key": "liq-gate",
+         "label": "Liquidations, Gate",
+         "longs_usd": 0,
+         "shorts_usd": 0,
+         "orders": 0,
+         "capped": false
+        },
+        {
+         "key": "funding",
+         "label": "Funding, OKX (the 8-hour period that settled 7:00 PM ET)",
+         "value": -0.0055,
+         "unit": "rate"
+        }
+       ],
+       "beta": 1.695,
+       "excess_pts": 2.17,
+       "patterns": [
+        {
+         "label": "coin-specific",
+         "rule": "Midnight moved 1.0 point or more beyond what its 30-day Bitcoin beta (1.695) gives, and that is over half its move"
+        }
+       ]
+      },
+      "event_hours": {}
+     }
+    },
+    "subject": {
+     "sym": "NIGHT",
+     "name": "Midnight",
+     "gecko_id": "midnight-3"
+    },
+    "day": {
+     "stablecoins": null,
+     "etf_btc": null
+    },
+    "read": [
+     {
+      "name": "Bitcoin prices: CoinGecko 5-minute prices",
+      "url": "https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=1",
+      "note": ""
+     },
+     {
+      "name": "Bitcoin prices: Coinbase 5-minute candles",
+      "url": "https://api.exchange.coinbase.com/products/BTC-USD/candles?granularity=300&start=2026-11-10T23:13:35Z&end=2026-11-11T23:13:35Z",
+      "note": ""
+     },
+     {
+      "name": "Bitcoin prices: OKX 5-minute candles",
+      "url": "https://www.okx.com/api/v5/market/history-candles?instId=BTC-USDT&bar=5m&after=1794438815000&limit=300",
+      "note": ""
+     },
+     {
+      "name": "Bitcoin prices: Binance 5-minute klines (data-api.binance.vision)",
+      "url": "https://data-api.binance.vision/api/v3/klines?symbol=BTCUSDT&interval=5m&startTime=1794352115000&endTime=1794438815000&limit=300",
+      "note": ""
+     },
+     {
+      "name": "Bitcoin prices: Kraken 5-minute candles",
+      "url": "https://api.kraken.com/0/public/OHLC?pair=XBTUSD&interval=5&since=1794352115",
+      "note": ""
+     },
+     {
+      "name": "Binance new listings",
+      "url": "https://www.binance.com/bapi/composite/v1/public/cms/article/list/query?type=1&catalogId=48&pageNo=1&pageSize=20",
+      "note": "20 notice(s) in its answer"
+     },
+     {
+      "name": "Binance delistings",
+      "url": "https://www.binance.com/bapi/composite/v1/public/cms/article/list/query?type=1&catalogId=161&pageNo=1&pageSize=20",
+      "note": "20 notice(s) in its answer"
+     },
+     {
+      "name": "OKX new listings",
+      "url": "https://www.okx.com/api/v5/support/announcements?annType=announcements-new-listings",
+      "note": "20 notice(s) in its answer"
+     },
+     {
+      "name": "OKX delistings",
+      "url": "https://www.okx.com/api/v5/support/announcements?annType=announcements-delistings",
+      "note": "18 notice(s) in its answer"
+     },
+     {
+      "name": "KuCoin new listings",
+      "url": "https://api.kucoin.com/api/v3/announcements?annType=new-listings&pageSize=50",
+      "note": "21 notice(s) in its answer"
+     },
+     {
+      "name": "KuCoin delistings",
+      "url": "https://api.kucoin.com/api/v3/announcements?annType=delistings&pageSize=50",
+      "note": "4 notice(s) in its answer"
+     },
+     {
+      "name": "Bitget listings",
+      "url": "https://api.bitget.com/api/v2/public/annoucements?language=en_US&annType=coin_listings",
+      "note": "10 notice(s) in its answer"
+     },
+     {
+      "name": "Kraken blog (listings)",
+      "url": "https://blog.kraken.com/feed",
+      "note": "2 notice(s) in its answer"
+     },
+     {
+      "name": "Coinbase status notices",
+      "url": "https://status.exchange.coinbase.com/history.rss",
+      "note": "7 notice(s) in its answer"
+     },
+     {
+      "name": "DefiLlama hacks",
+      "url": "https://api.llama.fi/hacks",
+      "note": ""
+     },
+     {
+      "name": "Yahoo 5-minute bars, S&P 500 futures",
+      "url": "https://query1.finance.yahoo.com/v8/finance/chart/ES=F?interval=5m&period1=1794352415&period2=1794438815",
+      "note": ""
+     },
+     {
+      "name": "Yahoo 5-minute bars, Nasdaq 100 futures",
+      "url": "https://query1.finance.yahoo.com/v8/finance/chart/NQ=F?interval=5m&period1=1794352415&period2=1794438815",
+      "note": ""
+     },
+     {
+      "name": "Yahoo 5-minute bars, Dollar index",
+      "url": "https://query1.finance.yahoo.com/v8/finance/chart/DX-Y.NYB?interval=5m&period1=1794352415&period2=1794438815",
+      "note": ""
+     },
+     {
+      "name": "Yahoo 5-minute bars, 10-year Treasury yield",
+      "url": "https://query1.finance.yahoo.com/v8/finance/chart/%5ETNX?interval=5m&period1=1794352415&period2=1794438815",
+      "note": ""
+     },
+     {
+      "name": "Yahoo 5-minute bars, 2-year Treasury note futures",
+      "url": "https://query1.finance.yahoo.com/v8/finance/chart/ZT=F?interval=5m&period1=1794352415&period2=1794438815",
+      "note": ""
+     },
+     {
+      "name": "Yahoo 5-minute bars, Gold futures",
+      "url": "https://query1.finance.yahoo.com/v8/finance/chart/GC=F?interval=5m&period1=1794352415&period2=1794438815",
+      "note": ""
+     },
+     {
+      "name": "Yahoo 5-minute bars, Oil futures (WTI)",
+      "url": "https://query1.finance.yahoo.com/v8/finance/chart/CL=F?interval=5m&period1=1794352415&period2=1794438815",
+      "note": ""
+     },
+     {
+      "name": "Yahoo 5-minute bars, VIX",
+      "url": "https://query1.finance.yahoo.com/v8/finance/chart/%5EVIX?interval=5m&period1=1794352415&period2=1794438815",
+      "note": ""
+     },
+     {
+      "name": "Yahoo 5-minute bars, IBIT volume (iShares Bitcoin Trust)",
+      "url": "https://query1.finance.yahoo.com/v8/finance/chart/IBIT?interval=5m&period1=1794352415&period2=1794438815",
+      "note": ""
+     },
+     {
+      "name": "Yahoo 5-minute bars, FBTC volume (Fidelity Wise Origin Bitcoin Fund)",
+      "url": "https://query1.finance.yahoo.com/v8/finance/chart/FBTC?interval=5m&period1=1794352415&period2=1794438815",
+      "note": ""
+     },
+     {
+      "name": "Midnight prices: OKX 5-minute candles",
+      "url": "https://www.okx.com/api/v5/market/history-candles?instId=NIGHT-USDT&bar=5m&after=1794438815000&limit=300",
+      "note": ""
+     },
+     {
+      "name": "Midnight prices: Binance 5-minute klines (data-api.binance.vision)",
+      "url": "https://data-api.binance.vision/api/v3/klines?symbol=NIGHTUSDT&interval=5m&startTime=1794352115000&endTime=1794438815000&limit=300",
+      "note": ""
+     },
+     {
+      "name": "Midnight prices: Kraken 5-minute candles",
+      "url": "https://api.kraken.com/0/public/OHLC?pair=NIGHTUSD&interval=5&since=1794352115",
+      "note": ""
+     },
+     {
+      "name": "OKX open interest, Midnight (5-minute)",
+      "url": "https://www.okx.com/api/v5/rubik/stat/contracts/open-interest-volume?ccy=NIGHT&period=5m",
+      "note": ""
+     },
+     {
+      "name": "OKX liquidations, Midnight",
+      "url": "https://www.okx.com/api/v5/public/liquidation-orders?instType=SWAP&state=filled&uly=NIGHT-USDT&limit=100",
+      "note": ""
+     },
+     {
+      "name": "OKX funding, Midnight",
+      "url": "https://www.okx.com/api/v5/public/funding-rate-history?instId=NIGHT-USDT-SWAP&limit=100",
+      "note": ""
+     },
+     {
+      "name": "OKX taker flow, Midnight (hourly)",
+      "url": "https://www.okx.com/api/v5/rubik/stat/taker-volume-contract?instId=NIGHT-USDT-SWAP&period=1H&unit=2&begin=1794348000000&end=1794355200000",
+      "note": ""
+     },
+     {
+      "name": "Gate liquidations, Midnight",
+      "url": "https://api.gateio.ws/api/v4/futures/usdt/liq_orders?contract=NIGHT_USDT&from=1794354000&to=1794357600&limit=1000",
+      "note": ""
+     }
+    ],
+    "unread": [
+     {
+      "name": "Upbit listing notices",
+      "why": "not read: its announcements API answered 403 to the desk on October 19, 2026",
+      "url": ""
+     },
+     {
+      "name": "Bybit listing notices",
+      "why": "not read: its announcements API answered 403 (blocked by country) to the desk on October 19, 2026",
+      "url": ""
+     },
+     {
+      "name": "Protocol upgrades and governance votes",
+      "why": "not read: not wired in this step; Snapshot's public hub (hub.snapshot.org) answered the desk on October 19, 2026 with off-chain votes and is not read yet, and the desk has found no free feed for on-chain votes; a wire item that names the coin is read",
+      "url": ""
+     },
+     {
+      "name": "Midnight prices: CoinGecko 5-minute prices",
+      "why": "HTTP 429",
+      "url": "https://api.coingecko.com/api/v3/coins/midnight-3/market_chart?vs_currency=usd&days=1"
+     },
+     {
+      "name": "Midnight prices: Coinbase 5-minute candles",
+      "why": "HTTP 404",
+      "url": "https://api.exchange.coinbase.com/products/NIGHT-USD/candles?granularity=300&start=2026-11-10T23:13:35Z&end=2026-11-11T23:13:35Z"
+     },
+     {
+      "name": "CoinMarketCap token unlocks, Midnight",
+      "why": "CoinMarketCap's page at the slug midnight-3 does not carry the ticker NIGHT",
+      "url": "https://api.coinmarketcap.com/data-api/v3/cryptocurrency/detail/lite?slug=midnight-3"
+     },
+     {
+      "name": "CoinGecko daily volumes",
+      "why": "HTTP 429",
+      "url": "https://api.coingecko.com/api/v3/coins/midnight-3/market_chart?vs_currency=usd&days=8&interval=daily"
+     }
+    ]
+   },
+   "verdict": {
+    "what": "The verdict under 'Why it moved': the grade computed by code from the evidence record (why_evidence.py) on the page's window, the graded line built from phrases, and the model's two checked sentences when they passed every check.",
+    "date_et": "2026-11-11",
+    "slot": "evening",
+    "window": {
+     "start_utc": "2026-11-10T23:13:35Z",
+     "end_utc": "2026-11-11T23:13:35Z",
+     "hours": 24
+    },
+    "evidence_made_utc": "2026-11-11T23:18:34Z",
+    "made_utc": "2026-11-11T23:18:34Z",
+    "timing_rule": {
+     "version": "2026-10-20",
+     "source": "AUDIT.md section 3.1; strategist's rulings of October 19, 2026 and October 20, 2026 (J-8)",
+     "lead_min": 60,
+     "done_max_pct": 25.0,
+     "share_min_pct": 40.0
+    },
+    "day": {
+     "basis": "rolling_24h",
+     "BTC": 0.09,
+     "NIGHT": 12.32
+    },
+    "coins": {
+     "NIGHT": {
+      "sym": "NIGHT",
+      "name": "Midnight",
+      "kind": "graded",
+      "grade": "Unclear",
+      "cand": null,
+      "refs": [],
+      "dir": "up",
+      "reasons": [
+       "no candidate passes the timing test"
+      ],
+      "phrases": [
+       "No reported event lines up with this move.",
+       "In the hour the run began, the market readings show coin-specific."
+      ],
+      "phrases_sec": [
+       "No reported event lines up with this move.",
+       ""
+      ],
+      "line": [
+       "No reported event lines up with this move.",
+       "In the hour the run began, the market readings show coin-specific."
+      ],
+      "required": [
+       0
+      ],
+      "readings": {
+       "hour": "onset",
+       "start_utc": "2026-11-10T23:40:00Z",
+       "end_utc": "2026-11-11T00:40:00Z",
+       "rows": [
+        {
+         "key": "BTC",
+         "label": "Bitcoin",
+         "value": -0.12,
+         "unit": "pct"
+        },
+        {
+         "key": "ES=F",
+         "label": "S&P 500 futures",
+         "value": 0.09,
+         "unit": "pct"
+        },
+        {
+         "key": "NQ=F",
+         "label": "Nasdaq 100 futures",
+         "value": 0.05,
+         "unit": "pct"
+        },
+        {
+         "key": "DX-Y.NYB",
+         "label": "Dollar index",
+         "value": null,
+         "unit": "pct"
+        },
+        {
+         "key": "^TNX",
+         "label": "10-year Treasury yield",
+         "value": null,
+         "unit": "bp"
+        },
+        {
+         "key": "ZT=F",
+         "label": "2-year Treasury note futures",
+         "value": -0.02,
+         "unit": "pct"
+        },
+        {
+         "key": "GC=F",
+         "label": "Gold futures",
+         "value": -0.02,
+         "unit": "pct"
+        },
+        {
+         "key": "CL=F",
+         "label": "Oil futures (WTI)",
+         "value": 0.0,
+         "unit": "pct"
+        },
+        {
+         "key": "^VIX",
+         "label": "VIX",
+         "value": null,
+         "unit": "pct"
+        }
+       ],
+       "patterns": [
+        "coin-specific"
+       ],
+       "shut": false,
+       "onset_rows": [
+        [
+         "NIGHT",
+         1.97
+        ],
+        [
+         "BTC",
+         -0.12
+        ],
+        [
+         "ES=F",
+         0.09
+        ],
+        [
+         "NQ=F",
+         0.05
+        ],
+        [
+         "DX-Y.NYB",
+         null
+        ],
+        [
+         "^TNX",
+         null
+        ],
+        [
+         "ZT=F",
+         -0.02
+        ],
+        [
+         "GC=F",
+         -0.02
+        ],
+        [
+         "CL=F",
+         0.0
+        ],
+        [
+         "^VIX",
+         null
+        ],
+        [
+         "IBIT",
+         null
+        ],
+        [
+         "FBTC",
+         null
+        ],
+        [
+         "oi",
+         1.28
+        ],
+        [
+         "liq",
+         null
+        ],
+        [
+         "taker",
+         null
+        ],
+        [
+         "liq-gate",
+         null
+        ],
+        [
+         "funding",
+         -0.0055
+        ]
+       ],
+       "onset_patterns": [
+        "coin-specific"
+       ],
+       "onset_shut": false
+      },
+      "basis": "rolling_24h",
+      "window_words": "over the last 24 hours",
+      "move_pct": 12.32,
+      "text": [
+       "No reported event lines up with this move.",
+       "In the hour the run began, the market readings show coin-specific."
+      ],
+      "by": "model",
+      "fail_reason": null,
+      "corrections": [],
+      "url": "/why/2026-11-11-midnight-3",
+      "check": [
+       {
+        "sentence": 1,
+        "claim": "No reported event lines up with this move.",
+        "why": "The first phrase says exactly this, word for word. Nothing is added or changed in event, time, direction or figure.",
+        "stands": true
+       },
+       {
+        "sentence": 2,
+        "claim": "In the hour the run began, the market readings show coin-specific.",
+        "why": "The second phrase says exactly this, word for word. The sentence adds no cause, figure, prediction or advice beyond what the phrase carries.",
+        "stands": true
+       }
+      ]
+     }
+    },
+    "spend": {
+     "kind": "run",
+     "date": "2026-11-11",
+     "slot": "evening",
+     "t": "2026-11-11T23:18:34Z",
+     "calls": 2,
+     "tokens": 1276,
+     "usd": 0.002667,
+     "by_stage": {
+      "verdict_draft": 0.000229,
+      "verdict_check": 0.002438
+     },
+     "models": {
+      "verdict_draft": "claude-haiku-5-5",
+      "verdict_check": "claude-sonnet-5-5"
+     },
+     "day_usd": 0.003529,
+     "cap_usd": 1.5,
+     "coins": {
+      "NIGHT": "Unclear (model)"
+     }
+    }
+   }
+  }
+ },
+ "shared": {
+  "read": [
+   {
+    "name": "Bitcoin prices: CoinGecko 5-minute prices",
+    "url": "https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=1",
+    "note": ""
+   },
+   {
+    "name": "Bitcoin prices: Coinbase 5-minute candles",
+    "url": "https://api.exchange.coinbase.com/products/BTC-USD/candles?granularity=300&start=2026-11-10T23:13:35Z&end=2026-11-11T23:13:35Z",
+    "note": ""
+   },
+   {
+    "name": "Bitcoin prices: OKX 5-minute candles",
+    "url": "https://www.okx.com/api/v5/market/history-candles?instId=BTC-USDT&bar=5m&after=1794438815000&limit=300",
+    "note": ""
+   },
+   {
+    "name": "Bitcoin prices: Binance 5-minute klines (data-api.binance.vision)",
+    "url": "https://data-api.binance.vision/api/v3/klines?symbol=BTCUSDT&interval=5m&startTime=1794352115000&endTime=1794438815000&limit=300",
+    "note": ""
+   },
+   {
+    "name": "Bitcoin prices: Kraken 5-minute candles",
+    "url": "https://api.kraken.com/0/public/OHLC?pair=XBTUSD&interval=5&since=1794352115",
+    "note": ""
+   },
+   {
+    "name": "Binance new listings",
+    "url": "https://www.binance.com/bapi/composite/v1/public/cms/article/list/query?type=1&catalogId=48&pageNo=1&pageSize=20",
+    "note": "20 notice(s) in its answer"
+   },
+   {
+    "name": "Binance delistings",
+    "url": "https://www.binance.com/bapi/composite/v1/public/cms/article/list/query?type=1&catalogId=161&pageNo=1&pageSize=20",
+    "note": "20 notice(s) in its answer"
+   },
+   {
+    "name": "OKX new listings",
+    "url": "https://www.okx.com/api/v5/support/announcements?annType=announcements-new-listings",
+    "note": "20 notice(s) in its answer"
+   },
+   {
+    "name": "OKX delistings",
+    "url": "https://www.okx.com/api/v5/support/announcements?annType=announcements-delistings",
+    "note": "18 notice(s) in its answer"
+   },
+   {
+    "name": "KuCoin new listings",
+    "url": "https://api.kucoin.com/api/v3/announcements?annType=new-listings&pageSize=50",
+    "note": "21 notice(s) in its answer"
+   },
+   {
+    "name": "KuCoin delistings",
+    "url": "https://api.kucoin.com/api/v3/announcements?annType=delistings&pageSize=50",
+    "note": "4 notice(s) in its answer"
+   },
+   {
+    "name": "Bitget listings",
+    "url": "https://api.bitget.com/api/v2/public/annoucements?language=en_US&annType=coin_listings",
+    "note": "10 notice(s) in its answer"
+   },
+   {
+    "name": "Kraken blog (listings)",
+    "url": "https://blog.kraken.com/feed",
+    "note": "2 notice(s) in its answer"
+   },
+   {
+    "name": "Coinbase status notices",
+    "url": "https://status.exchange.coinbase.com/history.rss",
+    "note": "7 notice(s) in its answer"
+   },
+   {
+    "name": "DefiLlama hacks",
+    "url": "https://api.llama.fi/hacks",
+    "note": ""
+   },
+   {
+    "name": "Yahoo 5-minute bars, S&P 500 futures",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/ES=F?interval=5m&period1=1794352415&period2=1794438815",
+    "note": ""
+   },
+   {
+    "name": "Yahoo 5-minute bars, Nasdaq 100 futures",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/NQ=F?interval=5m&period1=1794352415&period2=1794438815",
+    "note": ""
+   },
+   {
+    "name": "Yahoo 5-minute bars, Dollar index",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/DX-Y.NYB?interval=5m&period1=1794352415&period2=1794438815",
+    "note": ""
+   },
+   {
+    "name": "Yahoo 5-minute bars, 10-year Treasury yield",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/%5ETNX?interval=5m&period1=1794352415&period2=1794438815",
+    "note": ""
+   },
+   {
+    "name": "Yahoo 5-minute bars, 2-year Treasury note futures",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/ZT=F?interval=5m&period1=1794352415&period2=1794438815",
+    "note": ""
+   },
+   {
+    "name": "Yahoo 5-minute bars, Gold futures",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/GC=F?interval=5m&period1=1794352415&period2=1794438815",
+    "note": ""
+   },
+   {
+    "name": "Yahoo 5-minute bars, Oil futures (WTI)",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/CL=F?interval=5m&period1=1794352415&period2=1794438815",
+    "note": ""
+   },
+   {
+    "name": "Yahoo 5-minute bars, VIX",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/%5EVIX?interval=5m&period1=1794352415&period2=1794438815",
+    "note": ""
+   },
+   {
+    "name": "Yahoo 5-minute bars, IBIT volume (iShares Bitcoin Trust)",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/IBIT?interval=5m&period1=1794352415&period2=1794438815",
+    "note": ""
+   },
+   {
+    "name": "Yahoo 5-minute bars, FBTC volume (Fidelity Wise Origin Bitcoin Fund)",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/FBTC?interval=5m&period1=1794352415&period2=1794438815",
+    "note": ""
+   }
+  ],
+  "unread": [
+   {
+    "name": "Upbit listing notices",
+    "why": "not read: its announcements API answered 403 to the desk on October 19, 2026",
+    "url": ""
+   },
+   {
+    "name": "Bybit listing notices",
+    "why": "not read: its announcements API answered 403 (blocked by country) to the desk on October 19, 2026",
+    "url": ""
+   },
+   {
+    "name": "Protocol upgrades and governance votes",
+    "why": "not read: not wired in this step; Snapshot's public hub (hub.snapshot.org) answered the desk on October 19, 2026 with off-chain votes and is not read yet, and the desk has found no free feed for on-chain votes; a wire item that names the coin is read",
+    "url": ""
+   }
+  ],
+  "notices": 4,
+  "hacks": 0
+ },
+ "date_et": "2026-11-11",
+ "slot": "evening"
+}

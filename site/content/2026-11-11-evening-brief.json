@@ -1,0 +1,28 @@
+{
+  "id": "wrap-pm-2026-11-11",
+  "slug": "evening-brief-2026-11-11",
+  "kind": "brief",
+  "title": "The Evening Brief: Markets flat as fear lingers; stablecoin pressure builds",
+  "dek": "Wednesday closed with bitcoin and ether nearly unchanged on the day, but losses mount over the week and month as the Fear & Greed index sits at 29. Whale flows and institutional moves signal competing pressures ahead.",
+  "date": "2026-11-11",
+  "published_utc": "2026-11-11T23:16:56Z",
+  "category": "daily edition",
+  "rank": -3,
+  "author": "GoCheckMyCrypto",
+  "key_fact": "Major coins are down sharply over seven and thirty days despite flat daily action, and the desk's boards show oversold technicals (RSI across the board under 40) paired with heavy long liquidations, suggesting the market is in a damage-control phase rather than a recovery.",
+  "bottom_line": "Wednesday's flat-close surface masks sharp underlying weakness: bitcoin and ether are down sharply over the week and month, technicals are deeply oversold per the desk's RSI readings, and liquidations are punishing long positions overwhelmingly. The desk's Whale Watch board shows a split, retail ETF outflows paired with whale stablecoin inflows to exchanges, a setup that has preceded both reversals and further weakness historically. The coming days will test whether the technical floor holds (bitcoin still above its 200-day moving average, per the boards) and whether those stablecoin reserves translate into buying or preparation for continued selling.",
+  "human_take": "",
+  "body": [
+    "Ether mirrors the pattern, Ether up 0.15% over 24 hours, yet Ether down 9.82% over seven days and Ether down 19.11% over thirty days. The desk's boards show both assets deeply oversold: Bitcoin's RSI sits at 33.9, Ether's at 29.5, below the 30 threshold that marks capitulation territory. Fear & Greed stands at 29, the lowest reading in a 30-day range that peaked at 68, signaling acute market distress.",
+    "Altcoins show even sharper declines. Solana down 10.25% over seven days and Solana down 25.15% over thirty days, trading at $82.87 with an RSI of 23.8. XRP down 17.30% over seven days and XRP down 25.10% over thirty days, hitting $1.049 with an RSI of 23.3. Dogecoin down 9.57% over seven days and Dogecoin down 21.60% over thirty days, at $0.067 with an RSI of 29.8. Cardano down 8.08% over seven days and Cardano down 19.35% over thirty days, despite heavy volatility: per the desk's boards, ADA's 30-day volatility stands at 85.7 percent, the highest among major holdings. Only BNB and bitcoin remain above their 200-day moving averages; ethereum, solana, XRP, dogecoin, and cardano have all slipped below that key support.",
+    "Liquidation pressure is severe and one-sided. The desk's leverage board shows that over the past hour, bitcoin longs suffered $848,691 in liquidations against only $3,723 in short liquidations on OKX, a 228:1 ratio. Ether longs took $1,366,902 in liquidations to $1,457 in shorts. Solana's ratio was 345:1 ($555,068 to $1,606). These cascades suggest leveraged long positioning got trapped as prices slid, and short-side traders have not needed exits.",
+    "Flow data tells a conflicted story. Spot Bitcoin ETFs saw net outflows of $39.1M on the day, November 11, and spot Bitcoin ETFs saw net outflows of $1,177.2M over the week through November 11, after five straight days of outflows. The week-ending-Nov-07 data on the desk's Whale Watch board showed $4,125M moved OFF exchanges, but the current 24-hour window is reversed: $165,021,236 net moved ONTO exchanges in bitcoin alone. The biggest inflow was $103,037,779 in bitcoin to Binance; the largest outflow was $73,717,765 in bitcoin from Crypto.com. The desk's Whale Watch board also shows $206,415,922 net in stablecoins moved ONTO exchanges in the same window, the largest single inflow being $104,553,960 in USDC to Binance. That pattern, whales adding to exchange balances while retail ETF holders exit, can signal preparation for a drop, or it can precede a sharp reversal if those stablecoins deploy.",
+    "Russia's central bank cleared exchanges to begin organized cryptocurrency trading on November 22, ahead of Moscow Exchange's planned December 1 bitcoin launch. None of these moves changed Wednesday's price, but they represent the machinery of institutional adoption and regulatory structure building around crypto even as sentiment contracts."
+  ],
+  "sources": [
+    {
+      "title": "The desk's own market boards (quiet-day edition)",
+      "url": "/"
+    }
+  ]
+}

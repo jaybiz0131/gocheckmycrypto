@@ -186,5 +186,16 @@
   ],
   "detail": "the rest still fails whole: chartmaster: unscoped bitcoin price direction while the windows disagree (day 0.08%, week -4.54%, month -9.48%); name th",
   "t": "2026-11-09T23:16:08Z"
+ },
+ {
+  "date": "2026-11-11",
+  "path": "cut",
+  "tripped": [
+   "belt: chartmaster: bitcoin price claim says pos at the month window but the digest's month number (-11.91%",
+   "belt: chartmaster: funding is stated without naming the venue (OKX); one exchange's funding is not the mar",
+   "belt: chartmaster: an open-interest figure names no venue in its own sentence ('Open interest remains subs"
+  ],
+  "detail": "dropped 5 sentence(s): On the day, Bitcoin is up 0.09%, Ethereum and Solana each up tenths of a percent | Derivatives positioning reveals crowded long exposure with mixed funding signals | Ethereum an",
+  "t": "2026-11-11T23:16:56Z"
  }
 ]

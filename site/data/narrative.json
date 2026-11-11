@@ -1,31 +1,31 @@
 {
- "line": "Bitcoin is holding flat while spot ETFs saw outflows; the news is mixed, led by the courts.",
- "by": "table",
- "written_utc": "2026-11-09T23:16:08Z",
- "written_et": "6:16 PM ET on Nov 9",
+ "line": "Bitcoin drifting flat while fear grips the market; stablecoin flow data shows whales adding to exchanges as retail ETF holders exit.",
+ "by": "edition",
+ "written_utc": "2026-11-11T23:16:56Z",
+ "written_et": "6:16 PM ET on Nov 11",
  "readings": {
-  "stamp_utc": "2026-11-09T23:13:31Z",
-  "btc_24h_pct": 0.08,
-  "etf_net_usd_m": -411.9,
-  "etf_date": "06 Nov 2026",
+  "stamp_utc": "2026-11-11T23:13:35Z",
+  "btc_24h_pct": 0.09,
+  "etf_net_usd_m": -39.1,
+  "etf_date": "11 Nov 2026",
   "fear_greed": 29,
   "fear_greed_band": "Fear",
-  "funding_8h_pct": 0.0062,
+  "funding_8h_pct": 0.0057,
   "funding_band": "calm"
  },
- "small_line": "Written from Bitcoin +0.08% on the day, spot ETF net -411.9M USD (Nov 6, 2026), Fear & Greed 29 (fear), funding +0.0062% per 8h (calm)",
+ "small_line": "Written from Bitcoin +0.09% on the day, spot ETF net -39.1M USD (Nov 11, 2026), Fear & Greed 29 (fear), funding +0.0057% per 8h (calm)",
  "wire_top3": [
   {
-   "id": "c005",
-   "line": "NYSE chose Avalanche as the settlement ledger for its planned 24/7 tokenized stock trading platform."
+   "id": "c010",
+   "line": "Goldman Sachs, Citigroup, BBVA commit $270M to Project Faro, a US dollar stablecoin venture targeting first-half 2027 launch."
   },
   {
-   "id": "c012",
-   "line": "The Office of the Comptroller of the Currency granted Coinbase a full national trust bank charter, enabling expansion of its institutional custody business."
+   "id": "c022",
+   "line": "Bitcoin Core disclosed three patched security vulnerabilities, including a high-severity mining bug affecting block template creation."
   },
   {
-   "id": "c004",
-   "line": "North Korean hackers tied to the $6.3 billion Binance hack created six memecoins on NEAR to move about $430,000 in stolen funds, Elliptic reported."
+   "id": "c055",
+   "line": "Russia's central bank cleared exchanges to begin organized cryptocurrency trading on Nov. 22, ahead of Moscow Exchange's planned December 1 bitcoin launch."
   }
  ],
  "crossed": []

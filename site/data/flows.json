@@ -1,186 +1,222 @@
 {
   "example": false,
-  "generated": "2026-11-09",
-  "generated_utc": "2026-11-09T23:13:31Z",
-  "window_hours": 72,
-  "txn_count": 5,
+  "generated": "2026-11-11",
+  "generated_utc": "2026-11-11T23:13:35Z",
+  "window_hours": 24,
+  "txn_count": 6,
   "volatile": {
-    "inflow_usd": 0,
-    "outflow_usd": 182675346,
-    "net_usd": 182675346,
-    "direction": "off exchanges"
+    "inflow_usd": 238739001,
+    "outflow_usd": 73717765,
+    "net_usd": -165021236,
+    "direction": "onto exchanges"
   },
   "stablecoins": {
-    "inflow_usd": 279830390,
-    "outflow_usd": 196860551,
-    "net_buying_power_usd": 82969839
+    "inflow_usd": 206415922,
+    "outflow_usd": 0,
+    "net_buying_power_usd": 206415922,
+    "net_usd": -206415922
   },
   "by_asset": [
     {
       "symbol": "BTC",
-      "inflow_usd": 0,
-      "outflow_usd": 182675346,
-      "net_usd": 182675346
+      "inflow_usd": 238739001,
+      "outflow_usd": 73717765,
+      "net_usd": -165021236
     }
   ],
   "by_exchange": [
     {
-      "exchange": "poloniex",
-      "inflow_usd": 179793890,
-      "outflow_usd": 196860551,
-      "net_usd": 17066661
-    },
-    {
-      "exchange": "OKX",
-      "inflow_usd": 0,
-      "outflow_usd": 106913178,
-      "net_usd": 106913178
-    },
-    {
-      "exchange": "MEXC",
-      "inflow_usd": 100036500,
+      "exchange": "Binance",
+      "inflow_usd": 383486028,
       "outflow_usd": 0,
-      "net_usd": -100036500
+      "net_usd": -383486028
     },
     {
       "exchange": "cryptocom",
       "inflow_usd": 0,
-      "outflow_usd": 75762168,
-      "net_usd": 75762168
+      "outflow_usd": 73717765,
+      "net_usd": 73717765
+    },
+    {
+      "exchange": "Kraken",
+      "inflow_usd": 61668895,
+      "outflow_usd": 0,
+      "net_usd": -61668895
+    }
+  ],
+  "by_exchange_kind": [
+    {
+      "exchange": "Binance",
+      "kind": "stablecoins",
+      "inflow_usd": 206415922,
+      "outflow_usd": 0,
+      "net_usd": -206415922
+    },
+    {
+      "exchange": "Binance",
+      "kind": "volatile",
+      "inflow_usd": 177070106,
+      "outflow_usd": 0,
+      "net_usd": -177070106
+    },
+    {
+      "exchange": "cryptocom",
+      "kind": "volatile",
+      "inflow_usd": 0,
+      "outflow_usd": 73717765,
+      "net_usd": 73717765
+    },
+    {
+      "exchange": "Kraken",
+      "kind": "volatile",
+      "inflow_usd": 61668895,
+      "outflow_usd": 0,
+      "net_usd": -61668895
     }
   ],
   "top_inflows": [
     {
-      "symbol": "USDT",
-      "amount": 179999990.0,
-      "usd": 179793890.0,
-      "to": "poloniex",
-      "from": "Unknown wallet",
-      "blockchain": "ethereum",
-      "hash": "0x3deda5aa149968b1a30e4cafe1681b0bf34dea7152a6d0111aa0a39b8b72e336",
-      "url": "",
-      "ts": 1794158939.0,
-      "stable": true
-    },
-    {
       "symbol": "USDC",
-      "amount": 100000000.0,
-      "usd": 100036500.0,
-      "to": "MEXC",
+      "amount": 104528925.0,
+      "usd": 104553960.0,
+      "to": "Binance",
       "from": "Unknown wallet",
       "blockchain": "ethereum",
-      "hash": "0x363fc46e6c997bf7e934401c98ec2e7944f6222c3424562f16f2eafe3ded32b0",
+      "hash": "0xa42ef2e596ff3217602ba0970a995dd53512b5e373caafeccd72d0ea9b6fc1c9",
       "url": "",
-      "ts": 1794044507.0,
-      "stable": true
-    }
-  ],
-  "top_outflows": [
-    {
-      "symbol": "USDT",
-      "amount": 197000000.0,
-      "usd": 196860551.0,
-      "to": "aave",
-      "from": "poloniex",
-      "blockchain": "ethereum",
-      "hash": "0x23460300d19dcb2b42d532200f91a1695f0305e8685643bcde309ff81b6a9a18",
-      "url": "",
-      "ts": 1794161135.0,
+      "ts": 1794388367.0,
       "stable": true
     },
     {
       "symbol": "BTC",
-      "amount": 1408.0,
-      "usd": 106913178.0,
-      "to": "Unknown wallet",
-      "from": "OKX",
+      "amount": 1392.0,
+      "usd": 103037779.0,
+      "to": "Binance",
+      "from": "Unknown wallet",
       "blockchain": "bitcoin",
-      "hash": "d335ef004e917bc1d1b9d1497bd89c92a857ffc7858cf8c2af24dfc946654aff",
+      "hash": "0d8e575343fc3a1619883a24b1ead1179f0ffad8f4b126ea71018006d854bb38",
       "url": "",
-      "ts": 1794056520.0,
+      "ts": 1794395910.0,
       "stable": false
+    },
+    {
+      "symbol": "USDT",
+      "amount": 101907464.0,
+      "usd": 101861962.0,
+      "to": "Binance",
+      "from": "Unknown wallet",
+      "blockchain": "ethereum",
+      "hash": "0xeef0525088d78815b5953a21fc66552dae2ac86c2ddd08c3e29e794e56ca860e",
+      "url": "",
+      "ts": 1794388367.0,
+      "stable": true
     },
     {
       "symbol": "BTC",
       "amount": 1000.0,
-      "usd": 75762168.0,
+      "usd": 74032327.0,
+      "to": "Binance",
+      "from": "Unknown wallet",
+      "blockchain": "bitcoin",
+      "hash": "f61727988dcb8c2e7ab6441bf3173e3a99b6973a48a5c4993ba86b8faa5eeffc",
+      "url": "",
+      "ts": 1794397300.0,
+      "stable": false
+    },
+    {
+      "symbol": "BTC",
+      "amount": 833.0,
+      "usd": 61668895.0,
+      "to": "Kraken",
+      "from": "Unknown wallet",
+      "blockchain": "bitcoin",
+      "hash": "b0fc5b54f8dd87fcbe2960b6a73311132ad182f7c9f5b8885848d9ea0baba85b",
+      "url": "",
+      "ts": 1794394930.0,
+      "stable": false
+    }
+  ],
+  "top_outflows": [
+    {
+      "symbol": "BTC",
+      "amount": 1000.0,
+      "usd": 73717765.0,
       "to": "Unknown wallet",
       "from": "cryptocom",
       "blockchain": "bitcoin",
-      "hash": "56d50855c3a6c0769267a2260ea0a07d63fffbcf7c7b5b2d2144958a7fac8978",
+      "hash": "f70fe6785c5f699b77ca0da456872c9b25dffa965f39cd8bc9f3b0506a11bbb6",
       "url": "",
-      "ts": 1794091161.0,
+      "ts": 1794354030.0,
       "stable": false
     }
   ],
   "note": "Data: Whale Alert public alert archive; exchanges identified by name, and only the very large transfers Whale Alert posts (roughly $50M+) appear. For volatile assets, coins moving onto exchanges can precede selling and coins moving off suggests accumulation or self-custody. Stablecoins are the opposite: onto an exchange is money staged to buy, so they are scored separately. Market data, not news, not advice.",
-  "window_widened_from": 24,
   "history": [
     {
-      "week_ending": "Aug 17",
-      "net_usd": -39953121,
-      "moves": 24
+      "week_ending": "Aug 22",
+      "net_usd": -1061859490,
+      "moves": 76
     },
     {
-      "week_ending": "Aug 24",
-      "net_usd": -1414178311,
-      "moves": 81
+      "week_ending": "Aug 29",
+      "net_usd": -659068691,
+      "moves": 82
     },
     {
-      "week_ending": "Aug 31",
-      "net_usd": -323228343,
-      "moves": 90
+      "week_ending": "Sep 05",
+      "net_usd": 493645244,
+      "moves": 79
     },
     {
-      "week_ending": "Sep 07",
-      "net_usd": 347239133,
-      "moves": 62
-    },
-    {
-      "week_ending": "Sep 14",
-      "net_usd": -841708467,
+      "week_ending": "Sep 12",
+      "net_usd": -827424167,
       "moves": 33
     },
     {
-      "week_ending": "Sep 21",
-      "net_usd": -309981283,
-      "moves": 83
+      "week_ending": "Sep 19",
+      "net_usd": -653206944,
+      "moves": 60
     },
     {
-      "week_ending": "Sep 28",
-      "net_usd": -1160750919,
-      "moves": 93
+      "week_ending": "Sep 26",
+      "net_usd": -428014778,
+      "moves": 96
     },
     {
-      "week_ending": "Oct 05",
-      "net_usd": -365154394,
-      "moves": 74
+      "week_ending": "Oct 03",
+      "net_usd": -803669790,
+      "moves": 84
     },
     {
-      "week_ending": "Oct 12",
-      "net_usd": -1435575968,
-      "moves": 93
+      "week_ending": "Oct 10",
+      "net_usd": -1502937027,
+      "moves": 106
     },
     {
-      "week_ending": "Oct 19",
-      "net_usd": 205209406,
-      "moves": 44
+      "week_ending": "Oct 17",
+      "net_usd": 37119974,
+      "moves": 34
     },
     {
-      "week_ending": "Oct 26",
-      "net_usd": -1549465029,
-      "moves": 97
+      "week_ending": "Oct 24",
+      "net_usd": -1423544120,
+      "moves": 80
     },
     {
-      "week_ending": "Nov 02",
-      "net_usd": 5510338135,
-      "moves": 179
+      "week_ending": "Oct 31",
+      "net_usd": 2996644249,
+      "moves": 142
     },
     {
-      "week_ending": "Nov 09",
-      "net_usd": 1568694517,
-      "moves": 103
+      "week_ending": "Nov 07",
+      "net_usd": 4124556926,
+      "moves": 166
+    },
+    {
+      "week_ending": "Nov 14",
+      "net_usd": 709242227,
+      "moves": 50
     }
   ],
-  "weekly_median_abs_usd": 841708467
+  "weekly_median_abs_usd": 815546978
 }

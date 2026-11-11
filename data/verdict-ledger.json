@@ -594,5 +594,117 @@
   "coins": {
    "PIEVERSE": "Unclear (phrases)"
   }
+ },
+ {
+  "kind": "run",
+  "date": "2026-11-11",
+  "slot": "evening",
+  "t": "2026-11-11T23:18:34Z",
+  "calls": 0,
+  "tokens": 0,
+  "usd": 0,
+  "by_stage": {},
+  "models": {
+   "verdict_draft": "claude-haiku-5-5",
+   "verdict_check": "claude-sonnet-5-5"
+  },
+  "day_usd": 0,
+  "cap_usd": 1.5,
+  "coins": {
+   "BTC": "flat",
+   "ETH": "with_btc"
+  }
+ },
+ {
+  "kind": "call",
+  "date": "2026-11-11",
+  "slot": "evening",
+  "t": "2026-11-11T23:19:18Z",
+  "stage": "verdict_draft",
+  "model": "claude-haiku-5-5",
+  "est_usd": 0.001534,
+  "usd": 0.00013,
+  "tokens": 556,
+  "status": "settled"
+ },
+ {
+  "kind": "call",
+  "date": "2026-11-11",
+  "slot": "evening",
+  "t": "2026-11-11T23:19:19Z",
+  "stage": "verdict_check",
+  "model": "claude-sonnet-5-5",
+  "est_usd": 0.060707,
+  "usd": 0.000732,
+  "tokens": 366,
+  "status": "settled"
+ },
+ {
+  "kind": "run",
+  "date": "2026-11-11",
+  "slot": "evening",
+  "t": "2026-11-11T23:18:34Z",
+  "calls": 2,
+  "tokens": 922,
+  "usd": 0.000862,
+  "by_stage": {
+   "verdict_draft": 0.00013,
+   "verdict_check": 0.000732
+  },
+  "models": {
+   "verdict_draft": "claude-haiku-5-5",
+   "verdict_check": "claude-sonnet-5-5"
+  },
+  "day_usd": 0.000862,
+  "cap_usd": 1.5,
+  "coins": {
+   "PEPE": "Unclear (phrases)"
+  }
+ },
+ {
+  "kind": "call",
+  "date": "2026-11-11",
+  "slot": "evening",
+  "t": "2026-11-11T23:19:20Z",
+  "stage": "verdict_draft",
+  "model": "claude-haiku-5-5",
+  "est_usd": 0.001533,
+  "usd": 0.000229,
+  "tokens": 749,
+  "status": "settled"
+ },
+ {
+  "kind": "call",
+  "date": "2026-11-11",
+  "slot": "evening",
+  "t": "2026-11-11T23:19:22Z",
+  "stage": "verdict_check",
+  "model": "claude-sonnet-5-5",
+  "est_usd": 0.060671,
+  "usd": 0.002438,
+  "tokens": 527,
+  "status": "settled"
+ },
+ {
+  "kind": "run",
+  "date": "2026-11-11",
+  "slot": "evening",
+  "t": "2026-11-11T23:18:34Z",
+  "calls": 2,
+  "tokens": 1276,
+  "usd": 0.002667,
+  "by_stage": {
+   "verdict_draft": 0.000229,
+   "verdict_check": 0.002438
+  },
+  "models": {
+   "verdict_draft": "claude-haiku-5-5",
+   "verdict_check": "claude-sonnet-5-5"
+  },
+  "day_usd": 0.003529,
+  "cap_usd": 1.5,
+  "coins": {
+   "NIGHT": "Unclear (model)"
+  }
  }
 ]

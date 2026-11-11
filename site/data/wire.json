@@ -1,171 +1,214 @@
 {
  "what": "the day's ranked clusters, in the desk's own one line, sources counted and linked (Jack, 5 October 2026)",
  "what_a_wire_line_is": "Each line is the desk's own one-line summary of a story it ranked, with its sources counted and linked. It is not a story the desk wrote or checked; only the item with a badge was checked.",
- "ranked_utc": "2026-11-09T23:14:00Z",
- "ranked_et": "6:14 PM ET on Nov 9",
- "refreshed_utc": "2026-11-09T23:14:00Z",
- "refreshed_et": "6:14 PM ET on Nov 9",
+ "ranked_utc": "2026-11-11T23:15:04Z",
+ "ranked_et": "6:15 PM ET on Nov 11",
+ "refreshed_utc": "2026-11-11T23:15:04Z",
+ "refreshed_et": "6:15 PM ET on Nov 11",
  "refreshes": 0,
- "snapshot_stamp_utc": "2026-11-09T23:13:31Z",
+ "snapshot_stamp_utc": "2026-11-11T23:13:35Z",
  "items": [
   {
    "rank": 1,
-   "id": "c005",
-   "line": "NYSE chose Avalanche as the settlement ledger for its planned 24/7 tokenized stock trading platform.",
+   "id": "c010",
+   "line": "Goldman Sachs, Citigroup, BBVA commit $270M to Project Faro, a US dollar stablecoin venture targeting first-half 2027 launch.",
    "titles": [
-    "NYSE picks Avalanche to settle tokenized stocks amid Wall Street's blockchain race",
-    "NYSE to settle tokenized stocks on Avalanche in planned 24/7 market",
-    "NYSE Picks Avalanche for Tokenized Stock Settlement",
-    "NYSE Taps Avalanche to Settle Its Planned Tokenized Stock Platform"
+    "Goldman Sachs, Citi among banks said to commit $270 million to stablecoin venture",
+    "Banks Commit $270 Million to Stablecoin Venture: Report",
+    "Goldman, Citi and Global Banks Commit $270 Million to Challenge Crypto\u2019s Stablecoin Giants",
+    "Global Banks Goldman Sachs, Citigroup and More Commit $270,000,000 to Joint Stablecoin Venture"
    ],
-   "board_reading": "Bitcoin price",
-   "source_count": 4,
-   "primary": false,
-   "standing": "corroborated",
-   "links": [
-    {
-     "url": "https://www.coindesk.com/business/2026/11/09/nyse-picks-avalanche-to-settle-tokenized-stocks-amid-wall-street-s-blockchain-race",
-     "outlet": "CoinDesk",
-     "primary": false
-    },
-    {
-     "url": "https://www.theblock.co/news/business/2026-11-09-nyse-settle-tokenized-stocks-avalanche-planned-24-7-market-436208",
-     "outlet": "The Block",
-     "primary": false
-    },
-    {
-     "url": "https://thedefiant.io/converge/tradfi-and-fintech/nyse-picks-avalanche-for-tokenized-stock-settlement",
-     "outlet": "The Defiant",
-     "primary": false
-    },
-    {
-     "url": "https://decrypt.co/382833/nyse-avalanche-settle-tokenized-stock-platform",
-     "outlet": "Decrypt",
-     "primary": false
-    }
-   ],
-   "reported_utc": "2026-11-09T13:40:06Z",
-   "verdict": "NEEDS-HUMAN-REVIEW",
-   "mark": "wire"
-  },
-  {
-   "rank": 3,
-   "id": "c012",
-   "line": "The Office of the Comptroller of the Currency granted Coinbase a full national trust bank charter, enabling expansion of its institutional custody business.",
-   "titles": [
-    "Coinbase gets full U.S. trust charter from federal banking regulator",
-    "Coinbase Wins Full Federal Trust Charter From OCC"
-   ],
-   "board_reading": "Whale flows",
-   "source_count": 2,
-   "primary": false,
-   "standing": "corroborated",
-   "links": [
-    {
-     "url": "https://www.coindesk.com/policy/2026/11/09/coinbase-gets-full-u-s-trust-charter-from-federal-banking-regulator",
-     "outlet": "CoinDesk",
-     "primary": false
-    },
-    {
-     "url": "https://bitcoinmagazine.com/news/coinbase-full-occ-national-trust-charter",
-     "outlet": "Bitcoin Magazine",
-     "primary": false
-    }
-   ],
-   "reported_utc": "2026-11-09T10:00:00Z",
-   "verdict": "VERIFIED",
-   "mark": "checked"
-  },
-  {
-   "rank": 4,
-   "id": "c004",
-   "line": "North Korean hackers tied to the $6.3 billion Binance hack created six memecoins on NEAR to move about $430,000 in stolen funds, Elliptic reported.",
-   "titles": [
-    "North Korean hackers are creating memecoins to wash loot from $6.3 billion Binance hack",
-    "North Korean hackers create memecoins to launder funds from Binance hack: Elliptic",
-    "Elon Musk, Chimpanzees and \u201cFUK\u201d: North Korean Hackers Behind $6.4 Billion Binance Heist Mint Memecoins To Launder Funds: Elliptic"
-   ],
-   "board_reading": "Whale flows",
+   "board_reading": "Stablecoin supply",
    "source_count": 5,
    "primary": false,
    "standing": "corroborated",
    "links": [
     {
-     "url": "https://www.coindesk.com/business/2026/11/09/north-korean-hackers-are-creating-memecoins-to-wash-loot-from-usd6-3-billion-binance-hack",
+     "url": "https://www.coindesk.com/business/2026/11/10/goldman-sachs-citi-among-banks-said-to-commit-usd270-million-to-stablecoin-venture",
      "outlet": "CoinDesk",
      "primary": false
     },
     {
-     "url": "https://cointelegraph.com/news/north-korean-hackers-memecoins-launder-binance-hack-elliptic?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
-     "outlet": "Cointelegraph",
+     "url": "https://thedefiant.io/converge/tradfi-and-fintech/banks-commit-270-million-to-stablecoin-venture-report",
+     "outlet": "The Defiant",
      "primary": false
     },
     {
-     "url": "https://www.theblock.co/news/ecosystems/2026-11-09-binance-hack-launderers-mint-homemade-elon-musk-animal-memecoins-move-stolen-funds-elliptic-436440",
-     "outlet": "theblock.co",
+     "url": "https://decrypt.co/382953/goldman-citi-global-banks-270-million-challenge-crypto-stablecoin-giants",
+     "outlet": "Decrypt",
      "primary": false
     },
     {
-     "url": "https://dailyhodl.com/2026/11/09/elon-musk-chimpanzees-and-fuk-north-korean-hackers-behind-6-4-billion-binance-heist-mint-memecoins-to-launder-funds-elliptic/",
+     "url": "https://dailyhodl.com/2026/11/11/global-banks-goldman-sachs-citigroup-and-more-commit-270000000-to-joint-stablecoin-venture/",
      "outlet": "The Daily Hodl",
      "primary": false
     }
    ],
-   "reported_utc": "2026-11-09T15:00:44Z",
-   "verdict": "VERIFIED",
+   "reported_utc": "2026-11-10T17:32:22Z",
+   "verdict": "NEEDS-HUMAN-REVIEW",
    "mark": "wire"
   },
   {
-   "rank": 6,
+   "rank": 2,
    "id": "c022",
-   "line": "Incoming Senate Banking Committee chair Elizabeth Warren said she plans to scrutinize prediction markets and Trump family crypto ventures.",
+   "line": "Bitcoin Core disclosed three patched security vulnerabilities, including a high-severity mining bug affecting block template creation.",
    "titles": [
-    "Elizabeth Warren vows scrutiny of prediction markets, Trump family crypto ventures as Senate Banking chair"
+    "Bitcoin Core discloses three patched security flaws, including high-severity mining bug",
+    "A High-Severity Bug Could Have Stalled Bitcoin Mining\u2014Bitcoin Core Has a Fix",
+    "Bitcoin Core Breaks Silence on Three Patched Security Vulnerabilities"
    ],
-   "board_reading": "",
+   "board_reading": "Bitcoin price",
+   "source_count": 3,
+   "primary": false,
+   "standing": "corroborated",
+   "links": [
+    {
+     "url": "https://www.theblock.co/news/ecosystems/2026-11-11-bitcoin-core-discloses-three-patched-security-flaws-including-high-severity-mining-bug-437862",
+     "outlet": "The Block",
+     "primary": false
+    },
+    {
+     "url": "https://decrypt.co/383044/bitcoin-core-patches-bug-could-have-stalled-btc-mining",
+     "outlet": "Decrypt",
+     "primary": false
+    },
+    {
+     "url": "https://u.today/bitcoin-core-breaks-silence-on-three-patched-security-vulnerabilities",
+     "outlet": "U.Today",
+     "primary": false
+    }
+   ],
+   "reported_utc": "2026-11-11T12:50:08Z",
+   "verdict": "VERIFIED",
+   "mark": "checked"
+  },
+  {
+   "rank": 3,
+   "id": "c055",
+   "line": "Russia's central bank cleared exchanges to begin organized cryptocurrency trading on Nov. 22, ahead of Moscow Exchange's planned December 1 bitcoin launch.",
+   "titles": [
+    "Russia\u2019s Central Bank Clears Exchange to Open Bitcoin and Crypto Trading on Nov. 22"
+   ],
+   "board_reading": "Whale flows",
    "source_count": 1,
    "primary": false,
    "standing": "single",
    "links": [
     {
-     "url": "https://www.theblock.co/news/regulation/2026-11-09-senate-banking-elizabeth-warren-scrutiny-prediction-markets-trump-crypto-ventures-436898",
-     "outlet": "The Block",
+     "url": "https://bitcoinmagazine.com/news/russia-clears-exchange-crypto-trading",
+     "outlet": "Bitcoin Magazine",
      "primary": false
     }
    ],
-   "reported_utc": "2026-11-09T20:04:49Z",
+   "reported_utc": "2026-11-11T15:54:08Z",
    "verdict": "VERIFIED",
+   "mark": "wire"
+  },
+  {
+   "rank": 4,
+   "id": "c024",
+   "line": "Deutsche Bank switched on digital asset custody service for institutional and corporate clients in Europe, holding Bitcoin, Ethereum, and select stablecoins.",
+   "titles": [
+    "Deutsche Bank goes live with digital asset custody service, signs asset management deal"
+   ],
+   "board_reading": "Stablecoin supply",
+   "source_count": 3,
+   "primary": false,
+   "standing": "corroborated",
+   "links": [
+    {
+     "url": "https://www.theblock.co/news/business/2026-11-11-deutsche-bank-goes-live-with-digital-asset-custody-service-signs-asset-management-deal-437851",
+     "outlet": "The Block",
+     "primary": false
+    },
+    {
+     "url": "https://decrypt.co/383067/deutsche-bank-goes-live-with-crypto-custody-after-a-five-year-buildup",
+     "outlet": "decrypt.co",
+     "primary": false
+    },
+    {
+     "url": "https://bitcoinmagazine.com/news/deutsche-bank-bitcoin-custody-live",
+     "outlet": "bitcoinmagazine.com",
+     "primary": false
+    }
+   ],
+   "reported_utc": "2026-11-11T11:46:34Z",
+   "verdict": "VERIFIED",
+   "mark": "wire"
+  },
+  {
+   "rank": 5,
+   "id": "c106",
+   "line": "Nvidia stock fell after New York Times reported CEO Jensen Huang had an affair with internal executive Kimberly Powell, escalating governance concerns.",
+   "titles": [
+    "Nvidia Falls After Report of Huang Affair With Executive",
+    "Nvidia stock falls 4.5% after reports of another Jensen Huang affair: NYT",
+    "Nvidia stock drops 4% after-hours amid CEO Jensen Huang affair reports",
+    "Nvidia Stock Sinks Nearly 10% on Second Jensen Huang Affair Report: Is He Out as CEO?"
+   ],
+   "board_reading": "",
+   "source_count": 3,
+   "primary": false,
+   "standing": "corroborated",
+   "links": [
+    {
+     "url": "https://thedefiant.io/frontier/ai/nvidia-falls-after-report-of-huang-affair-with-executive",
+     "outlet": "The Defiant",
+     "primary": false
+    },
+    {
+     "url": "https://cryptobriefing.com/nvidia-ceo-scandal-market-impact/",
+     "outlet": "Crypto Briefing",
+     "primary": false
+    },
+    {
+     "url": "https://beincrypto.com/nvidia-stock-second-jensen-huang-affair-report/",
+     "outlet": "BeInCrypto",
+     "primary": false
+    },
+    {
+     "url": "https://cryptobriefing.com/nvidia-stock-drops-4-after-hours-amid-ceo-jensen-huang-affair-reports/",
+     "outlet": "Crypto Briefing",
+     "primary": false
+    }
+   ],
+   "reported_utc": "2026-11-11T22:45:14Z",
+   "verdict": "NEEDS-HUMAN-REVIEW",
+   "mark": "wire"
+  },
+  {
+   "rank": 6,
+   "id": "c005",
+   "line": "Bitcoin spot ETF outflows extended to a fourth day as hot CPI lifted rate-hike odds to 90%, while liquidations jumped and BTC held near $74,000.",
+   "titles": [
+    "Bitcoin sits out stock rebound as ETF outflows extend to fourth day"
+   ],
+   "board_reading": "ETF flows",
+   "source_count": 1,
+   "primary": false,
+   "standing": "single",
+   "links": [
+    {
+     "url": "https://www.coindesk.com/markets/2026/11/11/bitcoin-sits-out-stock-rebound-as-etf-outflows-extend-to-fourth-day",
+     "outlet": "CoinDesk",
+     "primary": false
+    }
+   ],
+   "reported_utc": "2026-11-11T11:37:04Z",
+   "verdict": "NEEDS-HUMAN-REVIEW",
    "mark": "wire"
   }
  ],
  "checked": {
-  "id": "c012",
-  "rank": 3,
-  "says": "Bitcoin Magazine reports Coinbase won a full national trust bank charter from the OCC on November 6, upgrading from the conditional approval received in April.",
-  "unconfirmed": "The specific timeline of interim operational preparations between April and November remains partially detailed in the source.",
+  "id": "c022",
+  "rank": 2,
+  "says": "U.Today reports Bitcoin Core disclosed three patched security flaws including high-severity CVE-2025-62861 that could disrupt mining by creating inconsistent mempool state after blockchain reorganization.",
+  "unconfirmed": "The exact impact scope and number of affected nodes in production, and whether the bug was ever exploited in the wild before patching.",
   "badge": "Verified",
   "standing": "corroborated",
-  "source": "https://bitcoinmagazine.com/news/coinbase-full-occ-national-trust-charter",
-  "outlet": "Bitcoin Magazine"
+  "source": "https://u.today/bitcoin-core-breaks-silence-on-three-patched-security-vulnerabilities",
+  "outlet": "U.Today"
  },
- "dropped": [
-  {
-   "rank": 2,
-   "id": "c006",
-   "why": "the wire line runs 165 characters, over 160"
-  },
-  {
-   "rank": 5,
-   "id": "c021",
-   "why": "the source check left no clause its sources support"
-  }
- ],
- "source_cuts": [
-  {
-   "rank": 5,
-   "id": "c021",
-   "clause": "Bitcoin miner Marathon sold 13,597 BTC to repay $750 million in debt and posted $634 million Q3 net profit driven by unrealized ETH gains",
-   "why": "its sources do not carry the cause it names (marath)"
-  }
- ]
+ "dropped": [],
+ "source_cuts": []
 }

@@ -1,0 +1,203 @@
+{
+ "date_et": "2026-11-11",
+ "slot": "evening",
+ "published_utc": "2026-11-11T23:16:56Z",
+ "first_utc": "2026-11-11T23:16:56Z",
+ "direction": "flat",
+ "direction_basis": "et_day",
+ "title": "Crypto today: flat. Wednesday, November 11, 2026",
+ "h1": "Crypto today: flat. Wednesday, November 11, 2026",
+ "stamp_label": "Evening Brief, 6:16 PM ET",
+ "composed_utc": "2026-11-11T23:17:56Z",
+ "board_stamp_et": "6:13 PM ET on Nov 11",
+ "answer": [
+  "On Wednesday, November 11, Bitcoin was flat since midnight ET, at $73,626, a change of +0.08%.",
+  "Over the last 24 hours it was up 0.09%.",
+  "Ether was up 0.15% over the same 24 hours.",
+  "Among the Top 100, NIGHT gained 12.32% and PEPE lost 13.87% over 24 hours."
+ ],
+ "answer_by": "template",
+ "fallback": false,
+ "btc": {
+  "price": 73626,
+  "chg": 0.09,
+  "chg_day": 0.08
+ },
+ "eth": {
+  "price": 2047.83,
+  "chg": 0.15
+ },
+ "cap": null,
+ "gainers": [
+  {
+   "symbol": "NIGHT",
+   "name": "Midnight",
+   "chg": 12.32,
+   "slug": "night"
+  },
+  {
+   "symbol": "XMR",
+   "name": "Monero",
+   "chg": 3.74,
+   "slug": "xmr"
+  },
+  {
+   "symbol": "ASTER",
+   "name": "Aster",
+   "chg": 3.14,
+   "slug": "aster"
+  }
+ ],
+ "losers": [
+  {
+   "symbol": "PEPE",
+   "name": "Pepe",
+   "chg": -13.87,
+   "slug": "pepe"
+  },
+  {
+   "symbol": "LIT",
+   "name": "Lighter",
+   "chg": -7.17,
+   "slug": "lit"
+  },
+  {
+   "symbol": "ZEC",
+   "name": "Zcash",
+   "chg": -6.56,
+   "slug": "zec"
+  }
+ ],
+ "reported": [
+  {
+   "line": "Bitcoin Core disclosed three patched security vulnerabilities, including a high-severity mining bug affecting block template creation.",
+   "time": "7:50 AM ET",
+   "source_count": 3,
+   "primary": false,
+   "links": [
+    {
+     "outlet": "The Block",
+     "url": "https://www.theblock.co/news/ecosystems/2026-11-11-bitcoin-core-discloses-three-patched-security-flaws-including-high-severity-mining-bug-437862"
+    },
+    {
+     "outlet": "Decrypt",
+     "url": "https://decrypt.co/383044/bitcoin-core-patches-bug-could-have-stalled-btc-mining"
+    },
+    {
+     "outlet": "U.Today",
+     "url": "https://u.today/bitcoin-core-breaks-silence-on-three-patched-security-vulnerabilities"
+    }
+   ]
+  },
+  {
+   "line": "Russia's central bank cleared exchanges to begin organized cryptocurrency trading on Nov. 22, ahead of Moscow Exchange's planned December 1 bitcoin launch.",
+   "time": "10:54 AM ET",
+   "source_count": 1,
+   "primary": false,
+   "links": [
+    {
+     "outlet": "Bitcoin Magazine",
+     "url": "https://bitcoinmagazine.com/news/russia-clears-exchange-crypto-trading"
+    }
+   ]
+  },
+  {
+   "line": "Deutsche Bank switched on digital asset custody service for institutional and corporate clients in Europe, holding Bitcoin, Ethereum, and select stablecoins.",
+   "time": "6:46 AM ET",
+   "source_count": 3,
+   "primary": false,
+   "links": [
+    {
+     "outlet": "The Block",
+     "url": "https://www.theblock.co/news/business/2026-11-11-deutsche-bank-goes-live-with-digital-asset-custody-service-signs-asset-management-deal-437851"
+    },
+    {
+     "outlet": "decrypt.co",
+     "url": "https://decrypt.co/383067/deutsche-bank-goes-live-with-crypto-custody-after-a-five-year-buildup"
+    },
+    {
+     "outlet": "bitcoinmagazine.com",
+     "url": "https://bitcoinmagazine.com/news/deutsche-bank-bitcoin-custody-live"
+    }
+   ]
+  },
+  {
+   "line": "Nvidia stock fell after New York Times reported CEO Jensen Huang had an affair with internal executive Kimberly Powell, escalating governance concerns.",
+   "time": "5:45 PM ET",
+   "source_count": 3,
+   "primary": false,
+   "links": [
+    {
+     "outlet": "The Defiant",
+     "url": "https://thedefiant.io/frontier/ai/nvidia-falls-after-report-of-huang-affair-with-executive"
+    },
+    {
+     "outlet": "Crypto Briefing",
+     "url": "https://cryptobriefing.com/nvidia-ceo-scandal-market-impact/"
+    },
+    {
+     "outlet": "BeInCrypto",
+     "url": "https://beincrypto.com/nvidia-stock-second-jensen-huang-affair-report/"
+    },
+    {
+     "outlet": "Crypto Briefing",
+     "url": "https://cryptobriefing.com/nvidia-stock-drops-4-after-hours-amid-ceo-jensen-huang-affair-reports/"
+    }
+   ]
+  },
+  {
+   "line": "Bitcoin spot ETF outflows extended to a fourth day as hot CPI lifted rate-hike odds to 90%, while liquidations jumped and BTC held near $74,000.",
+   "time": "6:37 AM ET",
+   "source_count": 1,
+   "primary": false,
+   "links": [
+    {
+     "outlet": "CoinDesk",
+     "url": "https://www.coindesk.com/markets/2026/11/11/bitcoin-sits-out-stock-rebound-as-etf-outflows-extend-to-fourth-day"
+    }
+   ]
+  }
+ ],
+ "board": [
+  {
+   "key": "etf",
+   "label": "Bitcoin ETF flows",
+   "value": -39.1,
+   "window": "one trading day, 11 Nov 2026",
+   "source": "Farside Investors",
+   "stamp": "6:13 PM ET on Nov 11",
+   "directional": true
+  },
+  {
+   "key": "liq",
+   "label": "Bitcoin liquidations",
+   "longs": 848691,
+   "shorts": 3723,
+   "window": "last 1 hour",
+   "source": "OKX",
+   "stamp": "6:13 PM ET on Nov 11",
+   "directional": false
+  },
+  {
+   "key": "funding",
+   "label": "Bitcoin funding",
+   "value": 0.0057,
+   "window": "current 8-hour period",
+   "source": "OKX",
+   "stamp": "6:13 PM ET on Nov 11",
+   "directional": false
+  },
+  {
+   "key": "fng",
+   "label": "Fear & Greed",
+   "value": 29,
+   "word": "Fear",
+   "window": "today",
+   "source": "alternative.me",
+   "stamp": "6:13 PM ET on Nov 11",
+   "directional": false
+  }
+ ],
+ "next": "Next update: Morning Brief, tomorrow at 8:15 AM ET",
+ "corrections": []
+}
