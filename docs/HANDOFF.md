@@ -17,10 +17,21 @@ in `HANDOFF-2026-09-23-to-10-01.md`; 4 to 8 October in `HANDOFF-2026-10-04.md` t
 
 No attribution trailers on any commit. Desk configuration, model assignments, publishing rules, the home page section order,
 the primary nav, coin page layout, Learn and cold storage were not touched (Sprint C). The workflows were not edited.
-**Every Sprint B commit is on the branch `claude/relaxed-bell-moc8g4`, not on `main`.** The scheduled runs read `main`, so
-nothing below is live, and tonight's Brief and tomorrow's 8:15 AM read are not fixed, until that branch is merged. Each commit
-carries `[skip netlify]`, as Sprint A's did; the first build after the merge (the next Brief or morning read) deploys all of it.
-Canary: `python3 verify_pipeline.py canary` printed `LAYER 1 CANARY: PASS` on the exact tree of the last commit below.
+**Standing rule from Jack (Nov 11, every future sprint): when the canary passes on the exact tree, the desk merges its own
+branch into `main` and pushes; no branch or PR is left for Jack.** Sprint B was merged that way: fast-forward, one commit per
+item kept, `main` at `966555c`, local equal to origin and 0 ahead. Every commit carries `[skip netlify]`, so the merge alone
+built nothing; the Nov 11 Brief run was the build. Canary: `python3 verify_pipeline.py canary` printed `LAYER 1 CANARY: PASS`
+on the exact tree of `966555c` (17:57 ET), before the push.
+
+**Result of the 6:08 PM ET Brief run (Nov 11, run 520, started 6:11 PM on `966555c`): green.** Step 5, the offline canary,
+passed on live data (23:11:24 to 23:13:33 UTC); the slot guard, boards, Chart Master read and Edition all passed; the Brief
+published (`site/content/2026-11-11-evening-brief.json`, commit `771f17a`); "Verify the deploy actually served" passed; both gap
+steps skipped; the run ended green. This is the first green Brief run since Nov 9.
+
+**Second proof, for Jack: tomorrow's 8:16 AM ET morning read (Nov 12).** A Morning Brief should be on
+https://gocheckmycrypto.com/bottom-line and the home page should show the verdict line above the data lead by 8:30 AM ET. If
+it is not there, the morning run's failing step is the first thing to pull (`gh run view <id> --log-failed`); the Nov 10 and
+11 reads died at the same canary step as the Brief.
 
 ### 1. Why the Brief missed Nov 10 and why the morning read never published (B0a, B0b)
 
@@ -53,18 +64,18 @@ cause either miss and was left alone. It stays red until the 10-day hole leaves 
 | B3 | `37a86ef` | "$0" reads "none" (Whale Watch tiles, liquidations). `snapshot.fmt_funding`: two decimals with a sign, or "flat" (no "-0%"). The open interest tile says which figure is current and which is prior. `sma_pair`: identical 50 and 200-day averages to four decimals read "n/a" and the module stays up (DOGE trips it on today's real data). Test pins for the home's golden markup were masked for B2 and B3 in the same commit. |
 | B4 | `2ef34fe` | "no reading kept for yesterday" now reads "first reading"; the API's "the desk's wire" label reworded; a "Show all columns" control is dropped unless the table after it has a column to reveal (`prune_fit_toggles`). Word-bounded grep of the built tree outside article bodies: see section 3. |
 | B5 | `7ce62d4` | The newest bar on the 13-week whale chart is hatched and lighter, its row says "(week to date)", the chart's accessible label and the caption say so; same word on the Living Tables whale table. Pins updated for the stylesheet hash. |
+| B5 follow-up | `966555c` | Jack's ruling: whale weeks are calendar weeks ending Saturday (ET), matching the site's "week ending" labels (`whale_flows.weekly_history`). The current partial week is the last row, labeled with the Saturday it ends on, hatched and "week to date"; it is left out of the 13-week median baseline. The stored history is still the old rolling kind until the next `whale_flows.py` run rewrites it. |
 | B6 | `f894b40` | Axis labels no longer run together, tags on article pages and cards are separated, and the pace line reads "about 0.9x the 13-week median week's pace". |
 
 ### 3. Left for Jack
 
-- **Merge `claude/relaxed-bell-moc8g4` into `main`.** That is what makes tonight's Brief and tomorrow's 8:15 AM read publish. Until then both keep failing at the canary. I could not verify "tonight's Brief publishes and the run ends green" or "tomorrow's 8:15 AM run publishes a morning read" from here; the cause is reproduced and fixed locally, the live proof is the first run after the merge.
-- The new By exchange rows exist only after the next `whale_flows.py` run (the Netlify build runs it). Until then the page shows the older per-exchange rows with the new direction words, and the build assertion has no rows to check. The first live board with rows is where to read it.
-- "Week to date" is the label you asked for. The whale history is built from rolling 7-day buckets ending at the build, not calendar weeks, so the newest bar is a full 7 days that still moves with each build. Say if you want the buckets cut on calendar weeks.
-- "Show all columns" on Whale Watch and the Chart data card stays: each table has two columns that wait behind it at 375 px (they do reveal). If you saw it reveal nothing at a wider width, it is not drawn there.
-- Left because Learn is Sprint C: `learn.html` still says a close "is kept for yesterday", and `learn/bitcoin-posture.html` mentions "the last build". Published Brief and Edition bodies still say "the desk's boards" (stored copy, not rewritten). `verify` remains in ordinary prose on /counterfeit-devices and /terms; no page shows it as a flag.
-- Still red until the gap rule's window clears: the Brief's last step, "Fail the run if the edition gap breached". It reports only.
+- Nothing to merge or run: Sprint B is on `main` and was proven by the Nov 11 Brief run. The morning read tomorrow is the second proof (above).
+- The new By exchange rows and the calendar-week history exist only after the next `whale_flows.py` run (the Netlify build runs it). Until then the page shows the older per-exchange rows and rolling weeks, with the new direction words; the build assertion has nothing to check. Read the first live board after that run.
+- Rulings recorded: "Show all columns" stays wherever it hides phone-width columns (Whale Watch, the Chart data card); Learn copy and stored Brief and Edition bodies stay as they are until Sprint C.
+- Left as ruled for Sprint C: `learn.html` still says a close "is kept for yesterday", and `learn/bitcoin-posture.html` mentions "the last build". Published Brief and Edition bodies still say "the desk's boards" (stored copy, not rewritten). `verify` remains in ordinary prose on /counterfeit-devices and /terms; no page shows it as a flag.
+- The edition-gap step skipped on the Nov 11 run (the gap is no longer breached), so it no longer turns the Brief red.
 
-### 4. Live URLs to check after the first build that follows the merge
+### 4. Live URLs to check (the Nov 11 evening build carried Sprint B)
 
 https://gocheckmycrypto.com/flows.html (tiles carry "+/-$ ... off/onto", the 13-week bar, "Stablecoins, net", By exchange rows), https://gocheckmycrypto.com/ (data lead above the lead story, funding "+0.01%" style, OI tile current and prior), https://gocheckmycrypto.com/today/ (data lead present), https://gocheckmycrypto.com/pulse/movers (ZEC and XMR "No checked story yet."), https://gocheckmycrypto.com/pulse/leverage , https://gocheckmycrypto.com/pulse/posture (DOGE averages "n/a"), https://gocheckmycrypto.com/chartmaster (the read's date is the ET day), https://gocheckmycrypto.com/bottom-line (the morning read), and the Brief at https://gocheckmycrypto.com/articles/evening-brief-2026-11-11 once tonight's Brief has run.
 
