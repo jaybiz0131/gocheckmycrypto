@@ -7875,10 +7875,23 @@ def _movers_board_html(snap, items):
     if not top20 and not beyond:
         return ""
     stories = [i for i in (items or []) if not _is_wrap(i)]
+    # SPRINT B, B0c: a coin's checked story shows only when it is 7 days old or newer, counted from the snapshot's ET day
+    # (the build clock when the snapshot has none); older reads "No checked story yet."
+    try:
+        _ref = _dtmod.datetime.strptime(str((snap or {}).get("stamp_utc") or ""), "%Y-%m-%dT%H:%M:%SZ").replace(
+            tzinfo=_dtmod.timezone.utc).astimezone(_ET).date()
+    except ValueError:
+        _ref = _dtmod.datetime.now(_ET).date()
+
+    def _recent(i):
+        try:
+            return 0 <= (_ref - _dtmod.date.fromisoformat(str(i.get("date") or "")[:10])).days <= 7
+        except ValueError:
+            return False
 
     def row(r):
         href = _mv.coin_href(r["symbol"], r["name"]) or f'/coins/{esc(str(r["symbol"]).lower())}.html'
-        st = _coin_stories({"name": r["name"], "symbol": r["symbol"]}, stories, n=1)
+        st = _coin_stories({"name": r["name"], "symbol": r["symbol"]}, [i for i in stories if _recent(i)], n=1)
         line = (f'<a href="/articles/{esc(st[0]["slug"])}.html">{esc(st[0].get("title") or "")}</a>, '
                 f'{esc(fmt_date(st[0].get("date")) if st[0].get("date") else "")}' if st else "No checked story yet.")
         return (f'<li class="td-row"><span class="td-n"><a href="{esc(href)}">{esc(r["name"])}</a> '
