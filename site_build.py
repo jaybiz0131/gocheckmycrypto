@@ -2281,7 +2281,7 @@ def render_article(item, all_items=None):
     dateline = fmt_date(item.get("date"))
     badge = verdict_badge(item.get("verdict"), item)
     tag = f'<span class="tag">{esc(item.get("category","news"))}</span>' if item.get("category") else ""
-    topic_chips = "".join(f'<span class="tag topic">{esc(t)}</span>' for t in tags_for(item))
+    topic_chips = " ".join(f'<span class="tag topic">{esc(t)}</span>' for t in tags_for(item))   # B6: spaced, so the text never runs together
     ribbon = ""
     if item.get("example"):
         ribbon = ('<div class="callout"><b>Example, not a real story.</b> This page shows the '
@@ -2443,7 +2443,7 @@ def render_article(item, all_items=None):
         author = esc(NAME)
     body = f"""<main class="wrap narrow">
   <article class="article">
-    <div class="ey">{badge}{tag}{topic_chips}<span class="dateline">{fmt_when(item)}</span></div>
+    <div class="ey">{badge} {tag} {topic_chips} <span class="dateline">{fmt_when(item)}</span></div>
     <h1>{esc(item.get("title"))}</h1>
     {f'<p class="dek">{esc(item["dek"])}</p>' if item.get("dek") else ""}
     <div class="byline">By {author}</div>
@@ -2524,7 +2524,7 @@ def dek_for(item, limit):
 def card(item):
     badge = verdict_badge(item.get("verdict"), item)
     tag = f'<span class="tag">{esc(item.get("category","news"))}</span>' if item.get("category") else ""
-    tag += "".join(f'<span class="tag topic">{esc(t)}</span>' for t in tags_for(item)[:2])
+    tag += " " + " ".join(f'<span class="tag topic">{esc(t)}</span>' for t in tags_for(item)[:2])
     href = f'/articles/{esc(item["slug"])}.html'
     summ = dek_for(item, 180)
     if isinstance(summ, dict):
@@ -6654,7 +6654,7 @@ def flows_chart_svg(by_asset, narrow=False):
             parts.append(f'<text x="{W:.0f}" y="{cy+5:.0f}" text-anchor="end" class="val">'
                          f'{esc(flow_tag(net))}</text>')
     parts.append("</svg>")
-    return "".join(parts)
+    return "\n".join(parts)   # B6: the two axis labels were joined with nothing between them
 
 
 def ww_hero():
@@ -6809,7 +6809,7 @@ def render_flows(flows, dateline):
     win_h = flows.get("window_hours", 24) or 24
     if med and net is not None:
         pace = abs(net) / (med * win_h / 168)
-        pace_html = f' &middot; about {pace:.1f}x a typical week&rsquo;s pace'
+        pace_html = f' &middot; about {pace:.1f}x the 13-week median week&rsquo;s pace'
     biggest = max(ww["moves"], key=lambda m: m.get("usd", 0), default=None)
     big_html = ""
     if biggest:
