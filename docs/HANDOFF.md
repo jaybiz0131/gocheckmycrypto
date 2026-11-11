@@ -7,11 +7,66 @@ before inventing (V-15).
 
 Public repo. No tokens, keys or secret values in this file, ever.
 
-Last updated: 7 November 2026, 10:00 PM ET, Sprint A of the Nov 7 site audit (section 0, below). Before it: 14 October 2026, Program 7 Sprint 7.3 MERGED `5bb4df7`, 8:44 AM ET (section 13). Before it, Sprints 6.5, 6.4, 7.2 and 7.1 merged (sections 9 to 12, moved). Before it, Sprint 7.1 merged (section 9). Before it, Program 6 Sprint 6.3 merged (section 7e, moved). Before it, Sprint 6.2 (section 7d), Sprint 6.1 (section 7c, moved). Earlier that day, 9:20 AM EDT: Sprint 2's close (section 7b) and the band-ink merge `aa64f08`. Before that, the close of 8 October (section 7), written late: the 8 October
+Last updated: 11 November 2026, Sprint B of the Nov 7 site audit (section 0b, below). Before it: 7 November 2026, 10:00 PM ET, Sprint A of the Nov 7 site audit (section 0, below). Before it: 14 October 2026, Program 7 Sprint 7.3 MERGED `5bb4df7`, 8:44 AM ET (section 13). Before it, Sprints 6.5, 6.4, 7.2 and 7.1 merged (sections 9 to 12, moved). Before it, Sprint 7.1 merged (section 9). Before it, Program 6 Sprint 6.3 merged (section 7e, moved). Before it, Sprint 6.2 (section 7d), Sprint 6.1 (section 7c, moved). Earlier that day, 9:20 AM EDT: Sprint 2's close (section 7b) and the band-ink merge `aa64f08`. Before that, the close of 8 October (section 7), written late: the 8 October
 evening wake-up reached the session on 11 October. `main` ends at the close commit on top of
 `a5bea57`. Days before 23 September live in `HANDOFF-2026-08-17.md`; 23 September to 1 October
 in `HANDOFF-2026-09-23-to-10-01.md`; 4 to 8 October in `HANDOFF-2026-10-04.md` to `-10-08.md`
 (U-1).
+
+## 0b. Sprint B of the Nov 7 2026 site audit (11 November 2026)
+
+No attribution trailers on any commit. Desk configuration, model assignments, publishing rules, the home page section order,
+the primary nav, coin page layout, Learn and cold storage were not touched (Sprint C). The workflows were not edited.
+**Every Sprint B commit is on the branch `claude/relaxed-bell-moc8g4`, not on `main`.** The scheduled runs read `main`, so
+nothing below is live, and tonight's Brief and tomorrow's 8:15 AM read are not fixed, until that branch is merged. Each commit
+carries `[skip netlify]`, as Sprint A's did; the first build after the merge (the next Brief or morning read) deploys all of it.
+Canary: `python3 verify_pipeline.py canary` printed `LAYER 1 CANARY: PASS` on the exact tree of the last commit below.
+
+### 1. Why the Brief missed Nov 10 and why the morning read never published (B0a, B0b)
+
+One cause, both times, and not the edition-gap check. The failing step in every Nov 10 and Nov 11 run is step 5, the offline
+canary ("Offline canary (hard gate)"), which runs before the slot guard and before any model call. Runs 516, 517, 518 (Nov 10
+23:11, 23:41 and 00:41 UTC dispatches) and 519 (the 02:42 UTC late tick) of the Brief ended red at step 5 with every later
+step skipped, so no ledger row and no edition; morning runs 84 (Nov 10) and 87 (Nov 11), the 8:16 AM dispatches, died at their
+step 5 the same way, and the backstop ticks that followed went green only because they stand down outside 8 to 11 AM ET. The
+canary case that failed is Sprint 9.4's "ONE RANK: Big movers prints TIA at #80" (`scripts/sprint94_test.py`). It asserted that
+the string `#99` appears nowhere on the whole /pulse/movers page. Sprint A's movers board (A4) now prints the stored live
+snapshot's top 100 on that page, and on Nov 10 a real coin sat at rank 99 (Pieverse, "Top 100 beyond 5%"), so the assertion
+failed on live data, the same class of lock as the Oct 28 stop: a fixture test reading live stored data. Nov 8 and Nov 9 were
+green because no coin held rank 99 then. Fix `8488f39`: the assertion is scoped to TIA's own row. Proved by reproducing the
+failure locally, fixing it and running the canary to PASS.
+
+**The edition-gap step does not block anything.** "Fail the run if the edition gap breached" is the last step, after publish;
+nothing in the workflows or `slot_guard.py` reads a previous run's conclusion, so a red final step only reports. It did not
+cause either miss and was left alone. It stays red until the 10-day hole leaves its window; it clears itself.
+
+### 2. What shipped, one commit per item
+
+| Item | Commit | What |
+|---|---|---|
+| B0a, B0b | `8488f39` | The canary fix above. Both the Brief and the morning read run again once on `main`. |
+| B0c | `fd637bf` | A mover's checked story shows only when 7 days old or newer (counted from the snapshot's ET day); older reads "No checked story yet." Built locally: ZEC and XMR read it. The home strip has no story line, so the rule lives on /pulse/movers. |
+| B0d | `3e307b6` | `today.body_html`: the data lead draws whether or not a written read exists. It stands down only when the answer already is the lead. If the stored record is another day's, the lead names its own day. |
+| B0e | `7e1b136` | `chartmaster.py`: the read's `date` is the ET date of the moment it was written. Only the stamp; `data_date` still feeds the prompt. |
+| B1 | `a4311ec` | One sign convention: positive is off exchanges, negative is onto, everywhere. Stablecoins no longer run the other way (`stable_net`, `stable_flow_words` now follow it; `net_buying_power_usd` stays in the file as the same fact with the opposite sign and nothing displays it). `whale_flows.py` writes `by_exchange_kind` (one row per exchange and class, remaining exchanges folded into "All other exchanges") and `stablecoins.net_usd`. Every figure prints its direction word (`flow_tag`: "+$201.1M off"). Build assertion `flows_assert`: the stablecoin and volatile tiles equal the sums of their rows; on a mismatch the build warns and the tiles draw the rows' sums. The Chart Master is handed `stablecoin_net_usd` in the same sign. Regression case for the Nov 7 numbers in `scripts/sprint91_test.py`. |
+| B2 | `e6e4bb8` | `snapshot.sma200_gap` is the one 200-day gap (home sentence, home tile, coin page, Chart Master data). The Nov 7 "25% above" was the gap bar's scale limit printed as if it were a value; it now reads "bar scale ends at 25%". Dominance and the 7-day high and low already came from one snapshot field each. |
+| B3 | `37a86ef` | "$0" reads "none" (Whale Watch tiles, liquidations). `snapshot.fmt_funding`: two decimals with a sign, or "flat" (no "-0%"). The open interest tile says which figure is current and which is prior. `sma_pair`: identical 50 and 200-day averages to four decimals read "n/a" and the module stays up (DOGE trips it on today's real data). Test pins for the home's golden markup were masked for B2 and B3 in the same commit. |
+| B4 | `2ef34fe` | "no reading kept for yesterday" now reads "first reading"; the API's "the desk's wire" label reworded; a "Show all columns" control is dropped unless the table after it has a column to reveal (`prune_fit_toggles`). Word-bounded grep of the built tree outside article bodies: see section 3. |
+| B5 | `7ce62d4` | The newest bar on the 13-week whale chart is hatched and lighter, its row says "(week to date)", the chart's accessible label and the caption say so; same word on the Living Tables whale table. Pins updated for the stylesheet hash. |
+| B6 | `f894b40` | Axis labels no longer run together, tags on article pages and cards are separated, and the pace line reads "about 0.9x the 13-week median week's pace". |
+
+### 3. Left for Jack
+
+- **Merge `claude/relaxed-bell-moc8g4` into `main`.** That is what makes tonight's Brief and tomorrow's 8:15 AM read publish. Until then both keep failing at the canary. I could not verify "tonight's Brief publishes and the run ends green" or "tomorrow's 8:15 AM run publishes a morning read" from here; the cause is reproduced and fixed locally, the live proof is the first run after the merge.
+- The new By exchange rows exist only after the next `whale_flows.py` run (the Netlify build runs it). Until then the page shows the older per-exchange rows with the new direction words, and the build assertion has no rows to check. The first live board with rows is where to read it.
+- "Week to date" is the label you asked for. The whale history is built from rolling 7-day buckets ending at the build, not calendar weeks, so the newest bar is a full 7 days that still moves with each build. Say if you want the buckets cut on calendar weeks.
+- "Show all columns" on Whale Watch and the Chart data card stays: each table has two columns that wait behind it at 375 px (they do reveal). If you saw it reveal nothing at a wider width, it is not drawn there.
+- Left because Learn is Sprint C: `learn.html` still says a close "is kept for yesterday", and `learn/bitcoin-posture.html` mentions "the last build". Published Brief and Edition bodies still say "the desk's boards" (stored copy, not rewritten). `verify` remains in ordinary prose on /counterfeit-devices and /terms; no page shows it as a flag.
+- Still red until the gap rule's window clears: the Brief's last step, "Fail the run if the edition gap breached". It reports only.
+
+### 4. Live URLs to check after the first build that follows the merge
+
+https://gocheckmycrypto.com/flows.html (tiles carry "+/-$ ... off/onto", the 13-week bar, "Stablecoins, net", By exchange rows), https://gocheckmycrypto.com/ (data lead above the lead story, funding "+0.01%" style, OI tile current and prior), https://gocheckmycrypto.com/today/ (data lead present), https://gocheckmycrypto.com/pulse/movers (ZEC and XMR "No checked story yet."), https://gocheckmycrypto.com/pulse/leverage , https://gocheckmycrypto.com/pulse/posture (DOGE averages "n/a"), https://gocheckmycrypto.com/chartmaster (the read's date is the ET day), https://gocheckmycrypto.com/bottom-line (the morning read), and the Brief at https://gocheckmycrypto.com/articles/evening-brief-2026-11-11 once tonight's Brief has run.
 
 ## 0. Sprint A of the Nov 7 2026 site audit (7 November 2026)
 
