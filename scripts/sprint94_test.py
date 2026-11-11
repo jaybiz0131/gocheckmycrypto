@@ -717,11 +717,13 @@ def review1_cases(fails):
                 lambda: not re.search(r"\bbecause\b", t.visible(h), re.I))
         # one rank, from one named source, with its stamp: the Board's Top 100 position the coin page prints
         bm = _bm(h)
+        # SPRINT B (B0): the old check was a bare "#99" over the whole page; since Sprint A the page also carries the live
+        # movers board, so any coin at rank 99 in the stored snapshot (Pieverse, Nov 10) failed the canary. Scoped to TIA's row.
         cp = _coin_page("TIA", r)
         guarded(fails, "ONE RANK: Big movers prints TIA at #80, its place in the Board's Top 100, as /coins/tia does, "
                        "with the source and the Board's stamp named",
                 lambda: re.search(r'<td class="bm-rk">#80</td>', bm) and "Rank 80 of the Top 100" in cp
-                and "#99" not in t.visible(h) and "place in the desk's Top 100" in t.visible(bm))
+                and not re.search(r"Celestia[^#]{0,40}#99", t.visible(bm)) and "place in the desk's Top 100" in t.visible(bm))
         b101 = copy.deepcopy(board)
         tia_row = next(x for x in b101["movers"]["top100"] if x["symbol"] == "TIA")
         b101["movers"]["top100"].append(dict(tia_row, symbol="SYN101", name="Synthetic 101", gecko_id="celestia",
