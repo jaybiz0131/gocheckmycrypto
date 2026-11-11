@@ -6863,7 +6863,7 @@ def render_flows(flows, dateline):
           [(w.get("week_ending", ""), w.get("net_usd", 0),
             f'{w.get("moves", 0)} exchange-size moves') for w in flows.get("history", [])],
           aria="Weekly net exchange flow, last 13 weeks", compact=True, fmt=flow_tag, partial_last=True)}</div>
-      <p class="pc-note" style="margin-top:8px">Weekly net flow for volatile assets,
+      <p class="pc-note" style="margin-top:8px">Weekly net flow for volatile assets, calendar weeks ending Saturday (Eastern),
       newest first. The newest bar, drawn hatched, is the week to date: it is still filling in and will change.</p>''' if flows.get("history") else ""}
       {f'''<div class="sec-head" style="margin-top:18px"><h2>By exchange</h2><span class="bar"></span></div>
       {fit_toggle("fit-ex")}<div class="movetable fit-tbl" tabindex="0" role="region" aria-label="Net flow by exchange (scrollable)"><table>

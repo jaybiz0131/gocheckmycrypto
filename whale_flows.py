@@ -376,16 +376,24 @@ FALLBACK_NOTE = ("Data: Blockscout public explorer, shown while Whale Alert's fe
 
 
 def weekly_history(txns, weeks=HISTORY_WEEKS, now=None):
-    """Roll exchange-relevant transfers into 7-day buckets (oldest -> newest): net volatile
-    flow (the accumulation/sell-pressure signal, same scoring as the board) plus the count
-    of exchange-relevant moves. The trend view for 'have whales been accumulating lately'."""
+    """Roll exchange-relevant transfers into CALENDAR weeks ending Saturday, Eastern time (oldest -> newest): net volatile
+    flow (the accumulation/sell-pressure signal, same scoring as the board) plus the count of exchange-relevant moves.
+    SPRINT B (Jack's ruling, Nov 11): calendar weeks, to match the "week ending Nov 07" labels the site already uses. The
+    last row is the CURRENT week, still in progress, labeled with the Saturday it will end on; the page draws it hatched
+    as "week to date". The trend view for 'have whales been accumulating lately'."""
     import time as _time
+    from datetime import timedelta
+    from zoneinfo import ZoneInfo
+    et = ZoneInfo("America/New_York")
     now = now or _time.time()
+    today = datetime.fromtimestamp(now, et).date()
+    cur_end = today + timedelta(days=(5 - today.weekday()) % 7)      # Monday=0, Saturday=5
     buckets = [{"net_usd": 0.0, "moves": 0} for _ in range(weeks)]
     for t in txns:
-        age = max(0.0, now - float(t.get("timestamp") or 0))
-        idx = int(age // (7 * 24 * 3600))
-        if idx >= weeks:
+        d = datetime.fromtimestamp(float(t.get("timestamp") or 0), et).date()
+        e = d + timedelta(days=(5 - d.weekday()) % 7)
+        idx = (cur_end - e).days // 7
+        if idx < 0 or idx >= weeks:
             continue
         kind = classify(t)
         if kind in ("internal", "wallet"):
@@ -398,7 +406,7 @@ def weekly_history(txns, weeks=HISTORY_WEEKS, now=None):
         b["net_usd"] += usd if kind == "outflow" else -usd
     out = []
     for i in range(weeks - 1, -1, -1):
-        end = datetime.fromtimestamp(now - i * 7 * 24 * 3600, timezone.utc).strftime("%b %d")
+        end = (cur_end - timedelta(days=7 * i)).strftime("%b %d")
         out.append({"week_ending": end, "net_usd": round(buckets[i]["net_usd"]),
                     "moves": buckets[i]["moves"]})
     return out
@@ -482,7 +490,7 @@ def run(fixture=None, window=None, example=False):
         # baseline: the median week's |net| lets the page say whether the current window
         # is running hot or quiet relative to the last quarter
         import statistics
-        abs_nets = sorted(abs(w["net_usd"]) for w in history)
+        abs_nets = sorted(abs(w["net_usd"]) for w in history[:-1] or history)   # the partial current week is not a baseline week
         result["weekly_median_abs_usd"] = round(statistics.median(abs_nets)) if abs_nets else 0
     if source == "blockscout":
         # the page must attribute the data honestly, and the 13-week trend cannot be
