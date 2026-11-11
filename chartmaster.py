@@ -120,7 +120,9 @@ def digest():
                           # is the 90-day high; pairing it with the 12-month percentage is
                           # the mistake the 2026-07-28 edition made. See market_pulse.py.
                           "high_12m_usd", "vol30_pct",
-                          "spark_high", "spark_low")}, **_window_changes(a))
+                          "spark_high", "spark_low")}, **_window_changes(a),
+                  # B2: the gap to the 200-day, computed once, so the read quotes it instead of working it out
+                  pct_vs_sma200=_snapshot.sma200_gap(a.get("price"), a.get("sma200")))
                    for a in pulse.get("assets", [])],
         "leverage": [{k: a.get(k) for k in
                       ("symbol", "venue", "funding_8h_pct", "funding_annual_pct",

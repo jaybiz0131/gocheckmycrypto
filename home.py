@@ -547,7 +547,7 @@ def gap_bar(gap):
     return (f'<span class="h-gap {d}" role="img" aria-label="{abs(gap):.1f} percent {word} '
             f'the 200-day average, on a scale to {scale} percent">'
             f'<span class="h-gap-t"><i style="width:{w}%"></i></span>'
-            f'<span class="h-gap-e"><span>200-day</span><span>{scale}% {word}</span></span>'
+            f'<span class="h-gap-e"><span>200-day average</span><span>bar scale ends at {scale}%</span></span>'
             f'</span>')
 
 
@@ -557,11 +557,12 @@ def since(pulse, deltas, card=""):
     the whole market. No day change here: Bitcoin's prints on the tape's line only, the whole market's
     beside the other coins, and Fear & Greed's in the sentiment block."""
     import site_build as sb
+    import snapshot
     rows = []
     btc = sb._btc(pulse) or {}
     px, sma = btc.get("price"), btc.get("sma200")
-    if isinstance(px, (int, float)) and isinstance(sma, (int, float)) and sma:
-        gap = (px / sma - 1) * 100
+    gap = snapshot.sma200_gap(px, sma)   # B2: the one gap
+    if gap is not None:
         thru = sb._series_stamp(btc, pulse, html=False)
         thru = f' <span class="h-thru">({_e(thru)})</span>' if thru else ""
         rows.append(f'<li>Bitcoin is <span class="h-d">{abs(gap):.1f}%</span> '
@@ -830,8 +831,8 @@ def t_bitcoin(snap, pulse, deltas):
     ch = c.get("chg_24h_pct")
     win = "24 hours"
     sma = btc.get("sma200")
-    if isinstance(sma, (int, float)) and sma:
-        gap = (c["price"] / sma - 1) * 100
+    gap = snapshot.sma200_gap(c.get("price"), sma)   # B2: the one gap
+    if gap is not None:
         since_t += f"; {abs(gap):.1f}% {'above' if gap >= 0 else 'below'} its 200-day average"
         thru = sb._series_stamp(btc, pulse, html=False)
         if thru:

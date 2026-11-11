@@ -135,6 +135,15 @@ def whale_cases(fails):
     h3 = sb.render_flows(f3, "FRIDAY")
     guarded(fails, "B1: a tile that disagrees with its rows is caught, and the page draws the rows' figure",
             lambda: sb.flows_assert(f3) and "+$201.1M" in h3 and "-$201.1M" not in h3)
+
+    # SPRINT B, B2: one 200-day gap, and the bar's scale limit is never printed as if it were the gap
+    import snapshot as _sn2
+    guarded(fails, "B2: one function gives the 200-day gap, rounded once, None for a missing or zero average",
+            lambda: _sn2.sma200_gap(75103, 73161.15) == 2.7 and _sn2.sma200_gap(None, 1) is None
+            and _sn2.sma200_gap(5, 0) is None)
+    import home as _hm
+    guarded(fails, "B2: the gap bar prints its scale as a scale, not '25% above'",
+            lambda: "25% above" not in _hm.gap_bar(3.4) and "bar scale ends at 25%" in _hm.gap_bar(3.4))
     import chartmaster
     guarded(fails, "the Chart Master is handed the stablecoin convention in words",
             lambda: "stablecoin_convention" in open(os.path.join(HERE, "chartmaster.py"), encoding="utf-8").read())

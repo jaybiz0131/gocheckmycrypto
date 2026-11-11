@@ -134,9 +134,10 @@ def reading_tiles(c, pos, asset, stamp, source="CoinGecko"):
         share = f"{vol / mcap * 100:.1f}% of market cap" if mcap else "Traded in the last 24 hours"
         add("coin-volume", sb.fmt_usd(vol), window="Last 24 hours", since=share)
     if asset:
+        import snapshot as _snapshot
         sma200 = asset.get("sma200")
-        if isinstance(sma200, (int, float)) and sma200 and price:
-            dist = (price - sma200) / sma200 * 100
+        dist = _snapshot.sma200_gap(price, sma200)   # B2: the one gap
+        if dist is not None:
             add("coin-200d", signed_pct(dist, 1), window="Price against its 200-day average",
                 direction=_dir(dist), since=f"200-day line {sb._price_fmt(sma200)}",
                 source=f"{source}, daily closes")

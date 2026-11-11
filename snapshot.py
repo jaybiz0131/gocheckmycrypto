@@ -447,6 +447,17 @@ def movers(coins):
                     f"way; stablecoins excluded"}
 
 
+def sma200_gap(price, sma):
+    """SPRINT B, B2: THE ONE 200-day gap. Percent above (+) or below (-) the 200-day average, one decimal, or None. The home's
+    sentence, the home's tile, the coin page's tile and the Chart Master's data all call this, so two surfaces can no longer
+    print two figures for the same gap (Nov 7: 3.4% in the sentence, 25% in the tile)."""
+    if isinstance(price, bool) or isinstance(sma, bool):
+        return None
+    if not isinstance(price, (int, float)) or not isinstance(sma, (int, float)) or not sma or sma < 0:
+        return None
+    return round((price / sma - 1) * 100, 1)
+
+
 def value(snap, field):
     return (((snap or {}).get("fields") or {}).get(field) or {}).get("value")
 
