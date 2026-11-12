@@ -1,283 +1,223 @@
 {
  "what": "the day's ranked clusters, in the desk's own one line, sources counted and linked (Jack, 5 October 2026)",
  "what_a_wire_line_is": "Each line is the desk's own one-line summary of a story it ranked, with its sources counted and linked. It is not a story the desk wrote or checked; only the item with a badge was checked.",
- "ranked_utc": "2026-11-11T23:15:04Z",
- "ranked_et": "6:15 PM ET on Nov 11",
- "refreshed_utc": "2026-11-12T13:18:52Z",
- "refreshed_et": "8:18 AM ET on Nov 12",
- "refreshes": 1,
- "snapshot_stamp_utc": "2026-11-11T23:13:35Z",
+ "ranked_utc": "2026-11-12T23:13:53Z",
+ "ranked_et": "6:13 PM ET on Nov 12",
+ "refreshed_utc": "2026-11-12T23:13:53Z",
+ "refreshed_et": "6:13 PM ET on Nov 12",
+ "refreshes": 0,
+ "snapshot_stamp_utc": "2026-11-12T23:13:32Z",
  "items": [
   {
-   "rank": 5,
-   "id": "c106",
-   "line": "Nvidia stock fell after New York Times reported CEO Jensen Huang had an affair with internal executive Kimberly Powell, escalating governance concerns.",
-   "titles": [
-    "Nvidia Falls After Report of Huang Affair With Executive",
-    "Nvidia stock falls 4.5% after reports of another Jensen Huang affair: NYT",
-    "Nvidia stock drops 4% after-hours amid CEO Jensen Huang affair reports",
-    "Nvidia Stock Sinks Nearly 10% on Second Jensen Huang Affair Report: Is He Out as CEO?"
-   ],
-   "board_reading": "",
-   "source_count": 9,
-   "primary": false,
-   "standing": "corroborated",
-   "links": [
-    {
-     "url": "https://thedefiant.io/frontier/ai/nvidia-falls-after-report-of-huang-affair-with-executive",
-     "outlet": "The Defiant",
-     "primary": false
-    },
-    {
-     "url": "https://cryptobriefing.com/nvidia-ceo-scandal-market-impact/",
-     "outlet": "Crypto Briefing",
-     "primary": false
-    },
-    {
-     "url": "https://beincrypto.com/nvidia-stock-second-jensen-huang-affair-report/",
-     "outlet": "BeInCrypto",
-     "primary": false
-    },
-    {
-     "url": "https://cryptobriefing.com/nvidia-stock-drops-4-after-hours-amid-ceo-jensen-huang-affair-reports/",
-     "outlet": "Crypto Briefing",
-     "primary": false
-    },
-    {
-     "url": "https://www.coindesk.com/tech/2026/11/12/live-news-strategy-kicked-out-of-msci-indexes-as-nvidia-slump-rattles-markets",
-     "outlet": "CoinDesk",
-     "primary": false
-    },
-    {
-     "url": "https://www.coindesk.com/markets/2026/11/12/bitcoin-listless-nvidia-perps-crash-7-as-ceo-jensen-huang-reportedly-faces-the-axe",
-     "outlet": "CoinDesk",
-     "primary": false
-    },
-    {
-     "url": "https://www.theblock.co/news/business/2026-11-11-nvidia-perps-board-weighs-ousting-jensen-huang-438447",
-     "outlet": "The Block",
-     "primary": false
-    },
-    {
-     "url": "https://decrypt.co/383114/pressure-mounts-on-nvidias-jensen-huang-amid-reports-of-second-affair",
-     "outlet": "Decrypt",
-     "primary": false
-    },
-    {
-     "url": "https://bitcoinmagazine.com/news/ice-okx-nov-23-tokenized-stock-launch",
-     "outlet": "Bitcoin Magazine",
-     "primary": false
-    },
-    {
-     "url": "https://decrypt.co/383040/okx-ice-tokenized-stock-venue-sets-launch-crypto-companies-big-tech-opts-out",
-     "outlet": "Decrypt",
-     "primary": false
-    },
-    {
-     "url": "https://decrypt.co/382991/nvidia-sheds-430b-in-two-days-as-jensen-huang-faces-calls-to-resign",
-     "outlet": "Decrypt",
-     "primary": false
-    },
-    {
-     "url": "https://thedefiant.io/frontier/ai/nvidia-board-to-discuss-huang-s-future-ft-reports",
-     "outlet": "The Defiant",
-     "primary": false
-    },
-    {
-     "url": "https://cointelegraph.com/news/nvidia-preparing-to-oust-ceo-jensen-huang-reports?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
-     "outlet": "Cointelegraph",
-     "primary": false
-    },
-    {
-     "url": "https://www.marketwatch.com/story/nvidias-jensen-huang-dilemma-is-a-test-of-the-ai-industrys-dependence-on-one-flawed-man-a9a1d99c?mod=mw_rss_topstories",
-     "outlet": "MarketWatch",
-     "primary": false
-    },
-    {
-     "url": "https://cryptobriefing.com/investors-worry-ai-trade-nvidia-huang/",
-     "outlet": "Crypto Briefing",
-     "primary": false
-    },
-    {
-     "url": "https://cryptobriefing.com/nvidia-stock-drops-over-8-in-pre-market-on-ceo-huang-ouster-reports/",
-     "outlet": "Crypto Briefing",
-     "primary": false
-    }
-   ],
-   "reported_utc": "2026-11-11T22:45:14Z",
-   "verdict": "NEEDS-HUMAN-REVIEW",
-   "mark": "wire"
-  },
-  {
    "rank": 1,
-   "id": "c010",
-   "line": "Goldman Sachs, Citigroup, BBVA commit $270M to Project Faro, a US dollar stablecoin venture targeting first-half 2027 launch.",
+   "id": "c048",
+   "line": "Nvidia CEO Jensen Huang resigns after board investigation; CFO Kress named interim chief as chipmaker searches for successor.",
    "titles": [
-    "Goldman Sachs, Citi among banks said to commit $270 million to stablecoin venture",
-    "Banks Commit $270 Million to Stablecoin Venture: Report",
-    "Goldman, Citi and Global Banks Commit $270 Million to Challenge Crypto\u2019s Stablecoin Giants",
-    "Global Banks Goldman Sachs, Citigroup and More Commit $270,000,000 to Joint Stablecoin Venture"
+    "Jensen Huang Resigns; Nvidia Names Kress Interim CEO",
+    "Jensen Huang Resigns as Nvidia CEO, With CFO Colette Kress Named Interim Chief",
+    "Who Is Colette Kress, Jensen Huang\u2019s Successor as Nvidia CEO?",
+    "Jensen Huang resigns as Nvidia CEO, exits board; shares plunge",
+    "Nvidia CEO Jensen Huang resigns amid US export control push",
+    "Nvidia CEO Jensen Huang resigns amid misconduct reports, interim CEO named"
    ],
-   "board_reading": "Stablecoin supply",
+   "board_reading": "Bitcoin price",
    "source_count": 5,
    "primary": false,
    "standing": "corroborated",
    "links": [
     {
-     "url": "https://www.coindesk.com/business/2026/11/10/goldman-sachs-citi-among-banks-said-to-commit-usd270-million-to-stablecoin-venture",
-     "outlet": "CoinDesk",
-     "primary": false
-    },
-    {
-     "url": "https://thedefiant.io/converge/tradfi-and-fintech/banks-commit-270-million-to-stablecoin-venture-report",
+     "url": "https://thedefiant.io/frontier/ai/jensen-huang-resigns-nvidia-names-kress-interim-ceo",
      "outlet": "The Defiant",
      "primary": false
     },
     {
-     "url": "https://decrypt.co/382953/goldman-citi-global-banks-270-million-challenge-crypto-stablecoin-giants",
+     "url": "https://decrypt.co/383134/jensen-huang-resigns-as-nvidia-ceo-with-cfo-colette-kress-named-interim-chief",
      "outlet": "Decrypt",
      "primary": false
     },
     {
-     "url": "https://dailyhodl.com/2026/11/11/global-banks-goldman-sachs-citigroup-and-more-commit-270000000-to-joint-stablecoin-venture/",
-     "outlet": "The Daily Hodl",
+     "url": "https://www.coindesk.com/markets/2026/11/12/nvidia-shares-plunge-10-as-jensen-huang-resigns",
+     "outlet": "coindesk.com",
+     "primary": false
+    },
+    {
+     "url": "https://decrypt.co/383189/who-colette-kress-jensen-huang-successor-nvidia-ceo",
+     "outlet": "Decrypt",
+     "primary": false
+    },
+    {
+     "url": "https://cointelegraph.com/news/jensen-huang-resigns-nvidia-ceo-board-member?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+     "outlet": "Cointelegraph",
+     "primary": false
+    },
+    {
+     "url": "https://cryptobriefing.com/nvidia-ceo-jensen-huang-resigns-amid-us-export-control-push/",
+     "outlet": "Crypto Briefing",
+     "primary": false
+    },
+    {
+     "url": "https://cryptobriefing.com/nvidia-ceo-jensen-huang-resigns-amid-misconduct-reports-interim-ceo-named/",
+     "outlet": "Crypto Briefing",
      "primary": false
     }
    ],
-   "reported_utc": "2026-11-10T17:32:22Z",
+   "reported_utc": "2026-11-12T14:09:47Z",
+   "verdict": "NEEDS-HUMAN-REVIEW",
+   "mark": "wire"
+  },
+  {
+   "rank": 2,
+   "id": "c000",
+   "line": "DOJ wins court order to seize $1.2B from North Korea's Binance hack; disrupts FaceStealer deepfake scheme that used AI to steal $400M in crypto.",
+   "titles": [
+    "North Korea's Binance hack faces U.S. crackdown as DOJ targets $1.2 billion in stolen crypto"
+   ],
+   "board_reading": "Whale flows",
+   "source_count": 2,
+   "primary": false,
+   "standing": "corroborated",
+   "links": [
+    {
+     "url": "https://www.coindesk.com/policy/2026/11/12/north-korea-s-binance-hack-faces-u-s-crackdown-as-doj-targets-usd1-2-billion-in-stolen-crypto",
+     "outlet": "CoinDesk",
+     "primary": false
+    },
+    {
+     "url": "https://thedefiant.io/news/security/doj-disrupts-north-korean-fake-call-crypto-theft-scheme",
+     "outlet": "thedefiant.io",
+     "primary": false
+    }
+   ],
+   "reported_utc": "2026-11-12T22:55:52Z",
+   "verdict": "NEEDS-HUMAN-REVIEW",
+   "mark": "wire"
+  },
+  {
+   "rank": 3,
+   "id": "c001",
+   "line": "Trump names CFTC and SEC commissioner nominees for first time in a year, setting stage for regulatory reshaping.",
+   "titles": [
+    "U.S. President names CFTC, SEC nominees for first time in a year"
+   ],
+   "board_reading": "",
+   "source_count": 1,
+   "primary": false,
+   "standing": "single",
+   "links": [
+    {
+     "url": "https://www.coindesk.com/policy/2026/11/12/u-s-president-names-cftc-sec-nominees-for-first-time-in-a-year",
+     "outlet": "CoinDesk",
+     "primary": false
+    }
+   ],
+   "reported_utc": "2026-11-12T22:47:41Z",
    "verdict": "NEEDS-HUMAN-REVIEW",
    "mark": "wire"
   },
   {
    "rank": 4,
-   "id": "c024",
-   "line": "Deutsche Bank switched on digital asset custody service for institutional and corporate clients in Europe, holding Bitcoin, Ethereum, and select stablecoins.",
+   "id": "c035",
+   "line": "DTCC plans to launch tokenized stocks and Treasuries on Solana in second half of 2027, expanding from Canton.",
    "titles": [
-    "Deutsche Bank goes live with digital asset custody service, signs asset management deal"
+    "DTCC to Bring Tokenized Stocks and Treasuries to Solana in 2027",
+    "DTCC Plans Solana Support for Tokenized Assets in 2027",
+    "DTCC plans to bring tokenized securities to Solana in second half of 2027"
    ],
-   "board_reading": "Stablecoin supply",
-   "source_count": 5,
-   "primary": false,
-   "standing": "corroborated",
-   "links": [
-    {
-     "url": "https://www.theblock.co/news/business/2026-11-11-deutsche-bank-goes-live-with-digital-asset-custody-service-signs-asset-management-deal-437851",
-     "outlet": "The Block",
-     "primary": false
-    },
-    {
-     "url": "https://decrypt.co/383067/deutsche-bank-goes-live-with-crypto-custody-after-a-five-year-buildup",
-     "outlet": "decrypt.co",
-     "primary": false
-    },
-    {
-     "url": "https://bitcoinmagazine.com/news/deutsche-bank-bitcoin-custody-live",
-     "outlet": "bitcoinmagazine.com",
-     "primary": false
-    },
-    {
-     "url": "https://u.today/deutsche-bank-opens-digital-asset-custody-to-paying-institutional-clients",
-     "outlet": "U.Today",
-     "primary": false
-    },
-    {
-     "url": "https://cointelegraph.com/news/deutsche-bank-debuts-digital-asset-custody-services-eu?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
-     "outlet": "Cointelegraph",
-     "primary": false
-    }
-   ],
-   "reported_utc": "2026-11-11T11:46:34Z",
-   "verdict": "VERIFIED",
-   "mark": "wire"
-  },
-  {
-   "rank": 2,
-   "id": "c022",
-   "line": "Bitcoin Core disclosed three patched security vulnerabilities, including a high-severity mining bug affecting block template creation.",
-   "titles": [
-    "Bitcoin Core discloses three patched security flaws, including high-severity mining bug",
-    "A High-Severity Bug Could Have Stalled Bitcoin Mining\u2014Bitcoin Core Has a Fix",
-    "Bitcoin Core Breaks Silence on Three Patched Security Vulnerabilities"
-   ],
-   "board_reading": "Bitcoin price",
+   "board_reading": "",
    "source_count": 3,
    "primary": false,
    "standing": "corroborated",
    "links": [
     {
-     "url": "https://www.theblock.co/news/ecosystems/2026-11-11-bitcoin-core-discloses-three-patched-security-flaws-including-high-severity-mining-bug-437862",
-     "outlet": "The Block",
-     "primary": false
-    },
-    {
-     "url": "https://decrypt.co/383044/bitcoin-core-patches-bug-could-have-stalled-btc-mining",
+     "url": "https://decrypt.co/383132/dtcc-to-bring-tokenized-stocks-and-treasuries-to-solana-in-2027",
      "outlet": "Decrypt",
      "primary": false
     },
     {
-     "url": "https://u.today/bitcoin-core-breaks-silence-on-three-patched-security-vulnerabilities",
-     "outlet": "U.Today",
+     "url": "https://thedefiant.io/converge/tradfi-and-fintech/dtcc-plans-solana-support-for-tokenized-assets-in-2027",
+     "outlet": "The Defiant",
+     "primary": false
+    },
+    {
+     "url": "https://www.theblock.co/news/business/2026-11-12-dtcc-plans-bring-tokenized-securities-solana-second-half-of-2027-438559",
+     "outlet": "The Block",
      "primary": false
     }
    ],
-   "reported_utc": "2026-11-11T12:50:08Z",
+   "reported_utc": "2026-11-12T13:25:47Z",
    "verdict": "VERIFIED",
    "mark": "checked"
   },
   {
-   "rank": 3,
-   "id": "c055",
-   "line": "Russia's central bank cleared exchanges to begin organized cryptocurrency trading on Nov. 22, ahead of Moscow Exchange's planned December 1 bitcoin launch.",
+   "rank": 5,
+   "id": "c015",
+   "line": "India's Enforcement Directorate raids CoinDCX, Delta over alleged illegal cross-border crypto transfers violating forex law.",
    "titles": [
-    "Russia\u2019s Central Bank Clears Exchange to Open Bitcoin and Crypto Trading on Nov. 22"
+    "India\u2019s financial crimes watchdog raids crypto exchanges CoinDCX and Delta over alleged illegal cross-border trades",
+    "India's Financial Crimes Agency Searches CoinDCX, Delta Exchange Over Offshore Trades"
    ],
    "board_reading": "Whale flows",
-   "source_count": 1,
+   "source_count": 2,
    "primary": false,
-   "standing": "single",
+   "standing": "corroborated",
    "links": [
     {
-     "url": "https://bitcoinmagazine.com/news/russia-clears-exchange-crypto-trading",
-     "outlet": "Bitcoin Magazine",
+     "url": "https://www.coindesk.com/policy/2026/11/12/india-s-financial-crimes-watchdog-raids-crypto-exchanges-coindcx-and-delta-over-alleged-illegal-cross-border-trades",
+     "outlet": "CoinDesk",
+     "primary": false
+    },
+    {
+     "url": "https://decrypt.co/383126/indias-financial-crimes-agency-searches-coindcx-delta-exchange-over-offshore-trades",
+     "outlet": "Decrypt",
      "primary": false
     }
    ],
-   "reported_utc": "2026-11-11T15:54:08Z",
+   "reported_utc": "2026-11-12T10:10:48Z",
    "verdict": "VERIFIED",
    "mark": "wire"
   },
   {
    "rank": 6,
-   "id": "c005",
-   "line": "Bitcoin spot ETF outflows extended to a fourth day as hot CPI lifted rate-hike odds to 90%, while liquidations jumped and BTC held near $74,000.",
+   "id": "c069",
+   "line": "Binance says it has fully covered $6.34B hack from company funds; zero-knowledge proof of reserves pending.",
    "titles": [
-    "Bitcoin sits out stock rebound as ETF outflows extend to fourth day"
+    "Binance Says It Has Fully Covered the $6.34 Billion Hack With Company Funds"
    ],
-   "board_reading": "ETF flows",
-   "source_count": 1,
+   "board_reading": "Whale flows",
+   "source_count": 3,
    "primary": false,
-   "standing": "single",
+   "standing": "corroborated",
    "links": [
     {
-     "url": "https://www.coindesk.com/markets/2026/11/11/bitcoin-sits-out-stock-rebound-as-etf-outflows-extend-to-fourth-day",
-     "outlet": "CoinDesk",
+     "url": "https://bitcoinmagazine.com/news/binance-covers-6-34-billion-hack",
+     "outlet": "Bitcoin Magazine",
+     "primary": false
+    },
+    {
+     "url": "https://thedefiant.io/news/hacks/binance-says-hack-assets-covered-reserve-proof-pending",
+     "outlet": "thedefiant.io",
+     "primary": false
+    },
+    {
+     "url": "https://beincrypto.com/binance-customers-fully-repaid-after-hack/",
+     "outlet": "beincrypto.com",
      "primary": false
     }
    ],
-   "reported_utc": "2026-11-11T11:37:04Z",
-   "verdict": "NEEDS-HUMAN-REVIEW",
+   "reported_utc": "2026-11-12T19:12:14Z",
+   "verdict": "VERIFIED",
    "mark": "wire"
   }
  ],
  "checked": {
-  "id": "c022",
-  "rank": 2,
-  "says": "U.Today reports Bitcoin Core disclosed three patched security flaws including high-severity CVE-2025-62861 that could disrupt mining by creating inconsistent mempool state after blockchain reorganization.",
-  "unconfirmed": "The exact impact scope and number of affected nodes in production, and whether the bug was ever exploited in the wild before patching.",
+  "id": "c035",
+  "rank": 4,
+  "says": "Decrypt reports Wall Street's main settlement firm will add Solana to its tokenization service, which went live in October on Canton and a private network.",
+  "unconfirmed": "The specific H2 2027 target date rests on Decrypt's reporting, as other readable sources (The Block, The Defiant) are blocked.",
   "badge": "Verified",
   "standing": "corroborated",
-  "source": "https://u.today/bitcoin-core-breaks-silence-on-three-patched-security-vulnerabilities",
-  "outlet": "U.Today"
+  "source": "https://decrypt.co/383132/dtcc-to-bring-tokenized-stocks-and-treasuries-to-solana-in-2027",
+  "outlet": "Decrypt"
  },
  "dropped": [],
  "source_cuts": []

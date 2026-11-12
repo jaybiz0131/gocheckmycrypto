@@ -1,15 +1,60 @@
 {
-  "date": "2026-11-11",
+  "date": "2026-11-12",
   "generated_by": "chartmaster.py (auto, from the live boards)",
   "mode": "live",
-  "path": "cut",
-  "headline": "Majors pinned near oversold on the day as traditional flows drain steady, but whale positioning just reversed hard onto exchanges.",
-  "paragraphs": [
-    "The regime is split: Bitcoin holds above its 200-day line at 73,626 (0.7% over the SMA200) with a golden cross intact, while Ethereum, Solana, XRP, Dogecoin, and Cardano all sit below their 200-day averages, ranging from 4.8% below (Ethereum) to 17.4% below (Cardano). Bitcoin and BNB, the two assets still above the 200-day, are the only survivors in a six-of-eight downtrend. All majors show golden crosses on the books, but those crosses are increasingly academic when prices sit deep underwater: Ethereum is 56.3% down from its 12-month high, Solana 64.4% down, and XRP 64.9% down. Bitcoin, softer in the drawdown at 41%, still carries the regime weight.",
-    "Momentum across the board signals capitulation without reversal. RSI-14 for Bitcoin sits at 33.9, Ethereum at 29.5, Solana at 23.8, and XRP at 23.3: all are in oversold territory below 30, the kind of reading that prints after multi-week selloffs. Every asset has MACD below its signal line, confirming bearish structure. The pattern is consistent: intraday bounce into a downtrend, no divergence yet between price action and momentum, just continued decay.",
-    "Bitcoin's long-to-short ratio on OKX sits at 2.71 with funding at 6.3% annualized, positive and paying longs to hold, though at levels well below extremes. That concentration of long pain in a heavily long-biased position is a detail worth watching.",
-    "Spot ETF flows are a steady drain on traditional finance engagement. On 11 November, Bitcoin ETFs recorded an outflow of 39.1 million USD, and over the last five sessions the outflow totals 1,177.2 million USD with all five days in the same direction. Ethereum ETF outflows are lighter but consistent, a 1.3 million USD drain on the latest date and 326.1 million USD over the past four days in the same direction. These flows are not dramatic reversals, but they read as institutional disengagement at a moment when retail fear (the Fear & Greed gauge at 29, within its 30-day range of 25 to 68) is already peaked. Stablecoin supply on the sidelines sits at 289.46 billion USD, down 4.77% over the past month, suggesting dry powder has been deployed or held at lower levels.",
-    "Whale positioning just reversed direction sharply. Over the last 24 hours, 165.02 million USD in net value (Bitcoin, altcoins, and stablecoins combined) moved onto exchanges, with the largest single move a 103.04 million USD Bitcoin inflow to Binance and a 104.55 million USD USDC transfer to the same venue. This is supply side accumulation at the exchange margin, the opposite of what happened over the preceding two weeks: the week ending 31 October saw 2.997 billion USD move off exchanges, and the week ending 7 November saw 4.125 billion USD move off, classic accumulation into cold storage. The reversal on the most recent weekly (ending 14 November) shows 709 million USD still moving off exchanges, but the intraday whale move onto Binance is the first crack in that pattern. It reads as either distribution into the bid or hedging activity, not capitulation; the timing against oversold technicals and ETF outflows suggests testing the floor rather than panic selling.",
-    "What to watch: Bitcoin's ability to hold above the 200-day line (currently 0.7% overhead) and whether the RSI can escape the 30 zone without a fresh lower low. On the flow side, track whether the intraday whale move onto exchanges persists into tomorrow or reverses back into cold storage; two to three consecutive days of outflow reversal would signal a regime shift. ETF outflows have persisted for five straight sessions for Bitcoin, so a single day of inflow would be the first relief. XRP's liquidation skew deserves attention if price approaches the lows of the range; that level of long pain concentrated in high leverage is a potential trigger point if shorts sense blood."
+  "path": "data-only",
+  "headline": "Chart data card: levels, 50-day and 200-day lines, RSI",
+  "paragraphs": [],
+  "data_only": true,
+  "levels": [
+    {
+      "symbol": "BTC",
+      "price": 71396,
+      "sma50": 80881.7,
+      "sma200": 73088.83,
+      "rsi14": 29.8
+    },
+    {
+      "symbol": "ETH",
+      "price": 2015.35,
+      "sma50": 2429.3,
+      "sma200": 2149.36,
+      "rsi14": 28.2
+    },
+    {
+      "symbol": "SOL",
+      "price": 81.6,
+      "sma50": 104.64,
+      "sma200": 88.94,
+      "rsi14": 22.5
+    },
+    {
+      "symbol": "XRP",
+      "price": 1.038,
+      "sma50": 1.34,
+      "sma200": 1.26,
+      "rsi14": 22.6
+    },
+    {
+      "symbol": "BNB",
+      "price": 654.43,
+      "sma50": 734.66,
+      "sma200": 658.31,
+      "rsi14": 31.8
+    },
+    {
+      "symbol": "DOGE",
+      "price": 0.066339,
+      "sma50": 0.08,
+      "sma200": 0.08,
+      "rsi14": 28.8
+    },
+    {
+      "symbol": "ADA",
+      "price": 0.173402,
+      "sma50": 0.22,
+      "sma200": 0.21,
+      "rsi14": 30.9
+    }
   ]
 }

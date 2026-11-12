@@ -197,5 +197,15 @@
   ],
   "detail": "dropped 5 sentence(s): On the day, Bitcoin is up 0.09%, Ethereum and Solana each up tenths of a percent | Derivatives positioning reveals crowded long exposure with mixed funding signals | Ethereum an",
   "t": "2026-11-11T23:16:56Z"
+ },
+ {
+  "date": "2026-11-12",
+  "path": "data-only",
+  "tripped": [
+   "belt: chartmaster: an open-interest figure names no venue in its own sentence ('Open interest is substanti",
+   "belt: chartmaster: funding is stated without naming the venue (OKX); one exchange's funding is not the mar"
+  ],
+  "detail": "the rest still fails whole: chartmaster: missing/oversized headline",
+  "t": "2026-11-12T23:16:26Z"
  }
 ]

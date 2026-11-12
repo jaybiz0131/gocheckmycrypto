@@ -1,9 +1,9 @@
 {
- "generated_utc": "2026-11-11T23:17:50Z",
- "stamp_et": "6:17 PM ET on Nov 11",
+ "generated_utc": "2026-11-12T23:17:01Z",
+ "stamp_et": "6:17 PM ET on Nov 12",
  "window": {
-  "from": "2026-11-11",
-  "to": "2027-03-11"
+  "from": "2026-11-12",
+  "to": "2027-03-12"
  },
  "sources": [
   {
@@ -45,21 +45,21 @@
  "placeholders": [],
  "dropped_without_source": 0,
  "today": {
-  "date": "2026-11-11",
+  "date": "2026-11-12",
   "entries": [],
   "line": "nothing scheduled"
  },
  "entries": [
   {
    "date": "2026-11-13",
-   "time_et": "4:03 PM ET",
-   "title": "Bitcoin difficulty adjustment, estimated -7.08%, 255 blocks to go",
+   "time_et": "6:06 PM ET",
+   "title": "Bitcoin difficulty adjustment, estimated -7.61%, 132 blocks to go",
    "kind": "difficulty",
    "source": {
     "name": "mempool.space",
     "url": "https://mempool.space/api/v1/difficulty-adjustment"
    },
-   "read_utc": "2026-11-11T23:17:54Z",
+   "read_utc": "2026-11-12T23:17:04Z",
    "computed": true,
    "computed_from": "mempool.space's estimate (estimatedRetargetDate, difficultyChange, remainingBlocks)",
    "next_retarget_height": 975744
@@ -73,7 +73,7 @@
     "name": "FRED release dates",
     "url": "https://fred.stlouisfed.org/releases/calendar?rid=9"
    },
-   "read_utc": "2026-11-11T23:17:50Z",
+   "read_utc": "2026-11-12T23:17:02Z",
    "computed": false,
    "computed_from": null,
    "release_id": 9,
@@ -88,7 +88,7 @@
     "name": "FRED release dates",
     "url": "https://fred.stlouisfed.org/releases/calendar?rid=54"
    },
-   "read_utc": "2026-11-11T23:17:50Z",
+   "read_utc": "2026-11-12T23:17:01Z",
    "computed": false,
    "computed_from": null,
    "release_id": 54,
@@ -103,7 +103,7 @@
     "name": "FRED release dates",
     "url": "https://fred.stlouisfed.org/releases/calendar?rid=53"
    },
-   "read_utc": "2026-11-11T23:17:50Z",
+   "read_utc": "2026-11-12T23:17:02Z",
    "computed": false,
    "computed_from": null,
    "release_id": 53,
@@ -125,32 +125,32 @@
   {
    "date": "2026-11-27",
    "time_et": "3:00 AM ET",
-   "title": "Deribit Bitcoin monthly options expiry, open interest 79,808 BTC",
+   "title": "Deribit Bitcoin monthly options expiry, open interest 81,067 BTC",
    "kind": "expiry",
    "source": {
     "name": "Deribit public API",
     "url": "https://www.deribit.com/api/v2/public/get_book_summary_by_currency?currency=BTC&kind=option"
    },
-   "read_utc": "2026-11-11T23:17:51Z",
+   "read_utc": "2026-11-12T23:17:02Z",
    "computed": false,
    "computed_from": null,
-   "open_interest": 79808.0,
+   "open_interest": 81066.6,
    "unit": "BTC",
    "fields_read": "get_instruments: instrument_name, expiration_timestamp; get_book_summary_by_currency: instrument_name, open_interest"
   },
   {
    "date": "2026-11-27",
    "time_et": "3:00 AM ET",
-   "title": "Deribit Ether monthly options expiry, open interest 259,398 ETH",
+   "title": "Deribit Ether monthly options expiry, open interest 263,899 ETH",
    "kind": "expiry",
    "source": {
     "name": "Deribit public API",
     "url": "https://www.deribit.com/api/v2/public/get_book_summary_by_currency?currency=ETH&kind=option"
    },
-   "read_utc": "2026-11-11T23:17:52Z",
+   "read_utc": "2026-11-12T23:17:03Z",
    "computed": false,
    "computed_from": null,
-   "open_interest": 259398.0,
+   "open_interest": 263899.0,
    "unit": "ETH",
    "fields_read": "get_instruments: instrument_name, expiration_timestamp; get_book_summary_by_currency: instrument_name, open_interest"
   },
@@ -176,7 +176,7 @@
     "name": "FRED release dates",
     "url": "https://fred.stlouisfed.org/releases/calendar?rid=50"
    },
-   "read_utc": "2026-11-11T23:17:50Z",
+   "read_utc": "2026-11-12T23:17:01Z",
    "computed": false,
    "computed_from": null,
    "release_id": 50,
@@ -217,7 +217,7 @@
     "name": "FRED release dates",
     "url": "https://fred.stlouisfed.org/releases/calendar?rid=10"
    },
-   "read_utc": "2026-11-11T23:17:50Z",
+   "read_utc": "2026-11-12T23:17:01Z",
    "computed": false,
    "computed_from": null,
    "release_id": 10,
@@ -232,7 +232,7 @@
     "name": "FRED release dates",
     "url": "https://fred.stlouisfed.org/releases/calendar?rid=9"
    },
-   "read_utc": "2026-11-11T23:17:50Z",
+   "read_utc": "2026-11-12T23:17:02Z",
    "computed": false,
    "computed_from": null,
    "release_id": 9,
@@ -247,7 +247,7 @@
     "name": "FRED release dates",
     "url": "https://fred.stlouisfed.org/releases/calendar?rid=54"
    },
-   "read_utc": "2026-11-11T23:17:50Z",
+   "read_utc": "2026-11-12T23:17:01Z",
    "computed": false,
    "computed_from": null,
    "release_id": 54,
@@ -262,7 +262,7 @@
     "name": "FRED release dates",
     "url": "https://fred.stlouisfed.org/releases/calendar?rid=53"
    },
-   "read_utc": "2026-11-11T23:17:50Z",
+   "read_utc": "2026-11-12T23:17:02Z",
    "computed": false,
    "computed_from": null,
    "release_id": 53,
@@ -297,32 +297,32 @@
   {
    "date": "2026-12-25",
    "time_et": "3:00 AM ET",
-   "title": "Deribit Bitcoin quarterly options expiry, open interest 142,804 BTC",
+   "title": "Deribit Bitcoin quarterly options expiry, open interest 143,559 BTC",
    "kind": "expiry",
    "source": {
     "name": "Deribit public API",
     "url": "https://www.deribit.com/api/v2/public/get_book_summary_by_currency?currency=BTC&kind=option"
    },
-   "read_utc": "2026-11-11T23:17:51Z",
+   "read_utc": "2026-11-12T23:17:02Z",
    "computed": false,
    "computed_from": null,
-   "open_interest": 142804.0,
+   "open_interest": 143558.7,
    "unit": "BTC",
    "fields_read": "get_instruments: instrument_name, expiration_timestamp; get_book_summary_by_currency: instrument_name, open_interest"
   },
   {
    "date": "2026-12-25",
    "time_et": "3:00 AM ET",
-   "title": "Deribit Ether quarterly options expiry, open interest 646,515 ETH",
+   "title": "Deribit Ether quarterly options expiry, open interest 648,865 ETH",
    "kind": "expiry",
    "source": {
     "name": "Deribit public API",
     "url": "https://www.deribit.com/api/v2/public/get_book_summary_by_currency?currency=ETH&kind=option"
    },
-   "read_utc": "2026-11-11T23:17:52Z",
+   "read_utc": "2026-11-12T23:17:03Z",
    "computed": false,
    "computed_from": null,
-   "open_interest": 646515.0,
+   "open_interest": 648865.0,
    "unit": "ETH",
    "fields_read": "get_instruments: instrument_name, expiration_timestamp; get_book_summary_by_currency: instrument_name, open_interest"
   },

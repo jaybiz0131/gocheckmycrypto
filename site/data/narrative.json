@@ -1,31 +1,31 @@
 {
- "line": "Bitcoin retreats with ETF outflows and fear sentiment elevated; institutional infrastructure builds out across custody and stablecoin rails.",
+ "line": "Bitcoin drifted lower on oversold RSI and fear-band sentiment, a day of liquidation-driven weakness and renewed exchange inflows.",
  "by": "edition",
- "written_utc": "2026-11-12T13:18:52Z",
- "written_et": "8:18 AM ET on Nov 12",
+ "written_utc": "2026-11-12T23:16:26Z",
+ "written_et": "6:16 PM ET on Nov 12",
  "readings": {
-  "stamp_utc": "2026-11-12T13:17:11Z",
-  "btc_24h_pct": -1.94,
+  "stamp_utc": "2026-11-12T23:13:32Z",
+  "btc_24h_pct": -2.88,
   "etf_net_usd_m": -299.8,
   "etf_date": "11 Nov 2026",
   "fear_greed": 28,
   "fear_greed_band": "Fear",
-  "funding_8h_pct": 0.0073,
-  "funding_band": "calm"
+  "funding_8h_pct": 0.01,
+  "funding_band": "warm"
  },
- "small_line": "Written from Bitcoin -1.94% on the day, spot ETF net -299.8M USD (Nov 11, 2026), Fear & Greed 28 (fear), funding +0.0073% per 8h (calm)",
+ "small_line": "Written from Bitcoin -2.88% on the day, spot ETF net -299.8M USD (Nov 11, 2026), Fear & Greed 28 (fear), funding +0.0100% per 8h (warm)",
  "wire_top3": [
   {
-   "id": "c106",
-   "line": "Nvidia stock fell after New York Times reported CEO Jensen Huang had an affair with internal executive Kimberly Powell, escalating governance concerns."
+   "id": "c048",
+   "line": "Nvidia CEO Jensen Huang resigns after board investigation; CFO Kress named interim chief as chipmaker searches for successor."
   },
   {
-   "id": "c010",
-   "line": "Goldman Sachs, Citigroup, BBVA commit $270M to Project Faro, a US dollar stablecoin venture targeting first-half 2027 launch."
+   "id": "c000",
+   "line": "DOJ wins court order to seize $1.2B from North Korea's Binance hack; disrupts FaceStealer deepfake scheme that used AI to steal $400M in crypto."
   },
   {
-   "id": "c024",
-   "line": "Deutsche Bank switched on digital asset custody service for institutional and corporate clients in Europe, holding Bitcoin, Ethereum, and select stablecoins."
+   "id": "c001",
+   "line": "Trump names CFTC and SEC commissioner nominees for first time in a year, setting stage for regulatory reshaping."
   }
  ],
  "crossed": []

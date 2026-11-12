@@ -1,0 +1,28 @@
+{
+  "id": "wrap-pm-2026-11-12",
+  "slug": "evening-brief-2026-11-12",
+  "kind": "brief",
+  "title": "The Evening Brief: Liquidations mount as leverage stays warm amid retreat",
+  "dek": "Thursday's tape shows broad asset weakness with Bitcoin and Ether both down sharply on the day, while the desk's boards reveal elevated liquidations concentrated in longs and funding rates remaining warm across major pairs. Whale flows have reversed into exchanges over the past 48 hours.",
+  "date": "2026-11-12",
+  "published_utc": "2026-11-12T23:16:26Z",
+  "category": "daily edition",
+  "rank": -3,
+  "author": "GoCheckMyCrypto",
+  "key_fact": "The combination of steep intraday declines, persistent long-biased leverage liquidations, and renewed inflows of both stablecoins and bitcoin to exchanges suggests a market re-testing support levels under elevated long positioning.",
+  "bottom_line": "Thursday brought broad asset weakness, Bitcoin and Ether down sharply on the day under fear-band sentiment, while the desk's leverage boards show concentrated long-side liquidations and funding rates remaining warm despite the retreat. Whale flows reversed into exchanges, with stablecoins and bitcoin both flowing inbound to Binance in the largest quantities, a setup typical of accumulation during oversold conditions or liquidation cascades. Spot Bitcoin ETF outflows persisted on the day and cumulatively over the week.",
+  "human_take": "",
+  "body": [
+    "The desk has no published stories today. The evening tape tells the story instead.",
+    "Bitcoin down 2.88% over 24 hours, down 8.04% over seven days, and down 9.56% over thirty days. Ether down 1.19% over 24 hours, down 15.18% over seven days, and down 15.97% over thirty days. Across the board, per the desk's boards, RSI readings sit deep in oversold territory: Bitcoin at 29.8, Ether at 28.2, Solana at 22.5, and XRP at 22.6. Fear and Greed sits at 28, labeled \"Fear,\" with the 30-day range between 25 and 68; the current reading is near the low.",
+    "Price weakness has come with liquidations. The desk's leverage board shows 100 liquidations on Bitcoin in a four-hour window, all longs, totaling $735,887 in liquidated value. Ethereum saw 100 liquidations over five hours split between longs ($490,666) and shorts ($347,381); Solana and XRP saw similar 100-count windows with longs bearing the brunt. Funding rates remain warm: Bitcoin at 0.01% over eight hours (11.0% annualized on OKX), Ether at 0.0062% (6.8% annualized), SOL at 0.0098% (10.8% annualized). Long-to-short ratios remain lopsided, ranging from 3.28 on Bitcoin to 4.81 on Dogecoin, indicating heavy long-side leverage concentration across the board.",
+    "Exchange flows have reversed direction over the past 48 hours. The desk's Whale Watch board shows $165,021,236 net moving onto exchanges in that window, driven by $206,415,922 in stablecoins flowing inbound alongside bitcoin. The largest single movements were $104,553,960 in USDC, $103,037,779 in bitcoin, and $101,861,962 in USDT all moving to Binance. Separately, spot Bitcoin ETFs saw net outflows of $299.8M on the day, November 11, and net outflows of $1,437.9M over the week through November 11.",
+    "Small-cap movers showed some separation from the broader weakness. M up 5.09% over 24 hours, JUP up 4.80% over 24 hours, and PYTH up 4.56% over 24 hours led gainers, while STX down 7.56% over 24 hours, GT down 5.90% over 24 hours, and XMR down 5.71% over 24 hours led losers per the desk's boards. Stablecoin market cap sits at $289.0 billion, down 4.9% over thirty days, consistent with the liquidation and outflow environment."
+  ],
+  "sources": [
+    {
+      "title": "The desk's own market boards (quiet-day edition)",
+      "url": "/"
+    }
+  ]
+}

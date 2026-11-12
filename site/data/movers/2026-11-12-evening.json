@@ -1,0 +1,47 @@
+{
+ "what": "Big movers, checked: the gate on the Board's top 100 (AUDIT.md 3.1 and 3.2), and for each coin past it the evidence by 9.2's rules with the coin's own candidates. Measured by code.",
+ "window": {
+  "start_utc": "2026-11-11T23:13:32Z",
+  "end_utc": "2026-11-12T23:13:32Z",
+  "hours": 24
+ },
+ "made_utc": "2026-11-12T23:17:52Z",
+ "gate": {
+  "rule": {
+   "version": "2026-10-19",
+   "source": "AUDIT.md section 3.1, the row 'Any top-100 coin', and section 3.2",
+   "move_min_pct": 10.0,
+   "vol_multiple_min": 2.5,
+   "excess_min_pts": 6.0,
+   "history_days": 30,
+   "per_slot": 8,
+   "per_day": 10
+  },
+  "board_utc": "2026-11-12T23:13:32Z",
+  "before_day": "2026-11-11",
+  "btc_24h_pct": -2.88,
+  "passed": [],
+  "over_cap": [],
+  "failed": [],
+  "left_out": [],
+  "own_card": [],
+  "log": [
+   "movers: 0 coin(s) passed one leg and failed another (the per-coin log ran through 2026-11-02)",
+   "movers: no top-100 coin passed the gate (8 measured, 0 left out for history)"
+  ],
+  "crash": {
+   "day": false,
+   "why": [],
+   "btc_pct": -2.88,
+   "market_pct": -2.11,
+   "past_move": 0,
+   "measured_past_move": 0,
+   "with_market": 0
+  },
+  "used_today": 1
+ },
+ "coins": {},
+ "shared": {},
+ "date_et": "2026-11-12",
+ "slot": "evening"
+}

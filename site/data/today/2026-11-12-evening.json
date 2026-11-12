@@ -1,0 +1,203 @@
+{
+ "date_et": "2026-11-12",
+ "slot": "evening",
+ "published_utc": "2026-11-12T23:16:26Z",
+ "first_utc": "2026-11-12T23:16:26Z",
+ "direction": "down",
+ "direction_basis": "et_day",
+ "title": "Why is crypto down today? Thursday, November 12, 2026",
+ "h1": "Why is crypto down today? Thursday, November 12, 2026",
+ "stamp_label": "Evening Brief, 6:16 PM ET",
+ "composed_utc": "2026-11-12T23:17:06Z",
+ "board_stamp_et": "6:13 PM ET on Nov 12",
+ "answer": [
+  "On Thursday, November 12, Bitcoin was down 3.16% since midnight ET, to $71,396.",
+  "Over the last 24 hours it was down 2.88%.",
+  "Ether was down 1.19% over the same 24 hours.",
+  "Among the Top 100, M gained 5.09% and STX lost 7.56% over 24 hours."
+ ],
+ "answer_by": "template",
+ "fallback": false,
+ "btc": {
+  "price": 71396,
+  "chg": -2.88,
+  "chg_day": -3.16
+ },
+ "eth": {
+  "price": 2015.35,
+  "chg": -1.19
+ },
+ "cap": null,
+ "gainers": [
+  {
+   "symbol": "M",
+   "name": "MemeCore",
+   "chg": 5.09,
+   "slug": "m"
+  },
+  {
+   "symbol": "JUP",
+   "name": "Jupiter",
+   "chg": 4.8,
+   "slug": "jup"
+  },
+  {
+   "symbol": "PYTH",
+   "name": "Pyth Network",
+   "chg": 4.56,
+   "slug": "pyth"
+  }
+ ],
+ "losers": [
+  {
+   "symbol": "STX",
+   "name": "Stacks",
+   "chg": -7.56,
+   "slug": "stx"
+  },
+  {
+   "symbol": "GT",
+   "name": "Gate",
+   "chg": -5.9,
+   "slug": "gt"
+  },
+  {
+   "symbol": "XMR",
+   "name": "Monero",
+   "chg": -5.71,
+   "slug": "xmr"
+  }
+ ],
+ "reported": [
+  {
+   "line": "Nvidia CEO Jensen Huang resigns after board investigation; CFO Kress named interim chief as chipmaker searches for successor.",
+   "time": "9:09 AM ET",
+   "source_count": 5,
+   "primary": false,
+   "links": [
+    {
+     "outlet": "The Defiant",
+     "url": "https://thedefiant.io/frontier/ai/jensen-huang-resigns-nvidia-names-kress-interim-ceo"
+    },
+    {
+     "outlet": "Decrypt",
+     "url": "https://decrypt.co/383134/jensen-huang-resigns-as-nvidia-ceo-with-cfo-colette-kress-named-interim-chief"
+    },
+    {
+     "outlet": "coindesk.com",
+     "url": "https://www.coindesk.com/markets/2026/11/12/nvidia-shares-plunge-10-as-jensen-huang-resigns"
+    },
+    {
+     "outlet": "Decrypt",
+     "url": "https://decrypt.co/383189/who-colette-kress-jensen-huang-successor-nvidia-ceo"
+    }
+   ]
+  },
+  {
+   "line": "DOJ wins court order to seize $1.2B from North Korea's Binance hack; disrupts FaceStealer deepfake scheme that used AI to steal $400M in crypto.",
+   "time": "5:55 PM ET",
+   "source_count": 2,
+   "primary": false,
+   "links": [
+    {
+     "outlet": "CoinDesk",
+     "url": "https://www.coindesk.com/policy/2026/11/12/north-korea-s-binance-hack-faces-u-s-crackdown-as-doj-targets-usd1-2-billion-in-stolen-crypto"
+    },
+    {
+     "outlet": "thedefiant.io",
+     "url": "https://thedefiant.io/news/security/doj-disrupts-north-korean-fake-call-crypto-theft-scheme"
+    }
+   ]
+  },
+  {
+   "line": "Trump names CFTC and SEC commissioner nominees for first time in a year, setting stage for regulatory reshaping.",
+   "time": "5:47 PM ET",
+   "source_count": 1,
+   "primary": false,
+   "links": [
+    {
+     "outlet": "CoinDesk",
+     "url": "https://www.coindesk.com/policy/2026/11/12/u-s-president-names-cftc-sec-nominees-for-first-time-in-a-year"
+    }
+   ]
+  },
+  {
+   "line": "DTCC plans to launch tokenized stocks and Treasuries on Solana in second half of 2027, expanding from Canton.",
+   "time": "8:25 AM ET",
+   "source_count": 3,
+   "primary": false,
+   "links": [
+    {
+     "outlet": "Decrypt",
+     "url": "https://decrypt.co/383132/dtcc-to-bring-tokenized-stocks-and-treasuries-to-solana-in-2027"
+    },
+    {
+     "outlet": "The Defiant",
+     "url": "https://thedefiant.io/converge/tradfi-and-fintech/dtcc-plans-solana-support-for-tokenized-assets-in-2027"
+    },
+    {
+     "outlet": "The Block",
+     "url": "https://www.theblock.co/news/business/2026-11-12-dtcc-plans-bring-tokenized-securities-solana-second-half-of-2027-438559"
+    }
+   ]
+  },
+  {
+   "line": "India's Enforcement Directorate raids CoinDCX, Delta over alleged illegal cross-border crypto transfers violating forex law.",
+   "time": "5:10 AM ET",
+   "source_count": 2,
+   "primary": false,
+   "links": [
+    {
+     "outlet": "CoinDesk",
+     "url": "https://www.coindesk.com/policy/2026/11/12/india-s-financial-crimes-watchdog-raids-crypto-exchanges-coindcx-and-delta-over-alleged-illegal-cross-border-trades"
+    },
+    {
+     "outlet": "Decrypt",
+     "url": "https://decrypt.co/383126/indias-financial-crimes-agency-searches-coindcx-delta-exchange-over-offshore-trades"
+    }
+   ]
+  }
+ ],
+ "board": [
+  {
+   "key": "etf",
+   "label": "Bitcoin ETF flows",
+   "value": -299.8,
+   "window": "one trading day, 11 Nov 2026",
+   "source": "Farside Investors",
+   "stamp": "6:13 PM ET on Nov 12",
+   "directional": true
+  },
+  {
+   "key": "liq",
+   "label": "Bitcoin liquidations",
+   "longs": 735887,
+   "shorts": 0,
+   "window": "last 4 hours",
+   "source": "OKX",
+   "stamp": "6:13 PM ET on Nov 12",
+   "directional": false
+  },
+  {
+   "key": "funding",
+   "label": "Bitcoin funding",
+   "value": 0.01,
+   "window": "current 8-hour period",
+   "source": "OKX",
+   "stamp": "6:13 PM ET on Nov 12",
+   "directional": false
+  },
+  {
+   "key": "fng",
+   "label": "Fear & Greed",
+   "value": 28,
+   "word": "Fear",
+   "window": "today",
+   "source": "alternative.me",
+   "stamp": "6:13 PM ET on Nov 12",
+   "directional": false
+  }
+ ],
+ "next": "Next update: Morning Brief, tomorrow at 8:15 AM ET",
+ "corrections": []
+}
