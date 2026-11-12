@@ -1,0 +1,114 @@
+{
+ "date_et": "2026-11-12",
+ "slot": "morning",
+ "published_utc": "2026-11-12T13:18:52Z",
+ "first_utc": "2026-11-12T13:18:52Z",
+ "direction": "down",
+ "direction_basis": "et_day",
+ "title": "Why is crypto down today? Thursday, November 12, 2026",
+ "h1": "Why is crypto down today? Thursday, November 12, 2026",
+ "stamp_label": "Morning Brief, 8:18 AM ET",
+ "composed_utc": "2026-11-12T13:18:55Z",
+ "board_stamp_et": "8:17 AM ET on Nov 12",
+ "answer": [
+  "On Thursday, November 12, Bitcoin was down 1.78% since midnight ET, to $72,416.",
+  "Over the last 24 hours it was down 1.94%.",
+  "Ether was down 2.45% over the same 24 hours.",
+  "Among the Top 100, NIGHT gained 4.59% and PEPE lost 12.67% over 24 hours."
+ ],
+ "answer_by": "template",
+ "fallback": false,
+ "btc": {
+  "price": 72416,
+  "chg": -1.94,
+  "chg_day": -1.78
+ },
+ "eth": {
+  "price": 2000.54,
+  "chg": -2.45
+ },
+ "cap": null,
+ "gainers": [
+  {
+   "symbol": "NIGHT",
+   "name": "Midnight",
+   "chg": 4.59,
+   "slug": "night"
+  },
+  {
+   "symbol": "GRAM",
+   "name": "Gram (prev. Toncoin)",
+   "chg": 2.11,
+   "slug": "gram"
+  },
+  {
+   "symbol": "MNT",
+   "name": "Mantle",
+   "chg": 0.95,
+   "slug": "mnt"
+  }
+ ],
+ "losers": [
+  {
+   "symbol": "PEPE",
+   "name": "Pepe",
+   "chg": -12.67,
+   "slug": "pepe"
+  },
+  {
+   "symbol": "AAVE",
+   "name": "Aave",
+   "chg": -10.32,
+   "slug": "aave"
+  },
+  {
+   "symbol": "NEAR",
+   "name": "NEAR Protocol",
+   "chg": -10.04,
+   "slug": "near"
+  }
+ ],
+ "reported": [],
+ "board": [
+  {
+   "key": "etf",
+   "label": "Bitcoin ETF flows",
+   "value": -299.8,
+   "window": "one trading day, 11 Nov 2026",
+   "source": "Farside Investors",
+   "stamp": "8:17 AM ET on Nov 12",
+   "directional": true
+  },
+  {
+   "key": "liq",
+   "label": "Bitcoin liquidations",
+   "longs": 679670,
+   "shorts": 0,
+   "window": "last 1 hour",
+   "source": "OKX",
+   "stamp": "8:17 AM ET on Nov 12",
+   "directional": false
+  },
+  {
+   "key": "funding",
+   "label": "Bitcoin funding",
+   "value": 0.0073,
+   "window": "current 8-hour period",
+   "source": "OKX",
+   "stamp": "8:17 AM ET on Nov 12",
+   "directional": false
+  },
+  {
+   "key": "fng",
+   "label": "Fear & Greed",
+   "value": 28,
+   "word": "Fear",
+   "window": "today",
+   "source": "alternative.me",
+   "stamp": "8:17 AM ET on Nov 12",
+   "directional": false
+  }
+ ],
+ "next": "Next update: Evening Brief, tonight at 6:08 PM ET",
+ "corrections": []
+}

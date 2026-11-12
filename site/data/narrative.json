@@ -1,31 +1,31 @@
 {
- "line": "Bitcoin drifting flat while fear grips the market; stablecoin flow data shows whales adding to exchanges as retail ETF holders exit.",
+ "line": "Bitcoin retreats with ETF outflows and fear sentiment elevated; institutional infrastructure builds out across custody and stablecoin rails.",
  "by": "edition",
- "written_utc": "2026-11-11T23:16:56Z",
- "written_et": "6:16 PM ET on Nov 11",
+ "written_utc": "2026-11-12T13:18:52Z",
+ "written_et": "8:18 AM ET on Nov 12",
  "readings": {
-  "stamp_utc": "2026-11-11T23:13:35Z",
-  "btc_24h_pct": 0.09,
-  "etf_net_usd_m": -39.1,
+  "stamp_utc": "2026-11-12T13:17:11Z",
+  "btc_24h_pct": -1.94,
+  "etf_net_usd_m": -299.8,
   "etf_date": "11 Nov 2026",
-  "fear_greed": 29,
+  "fear_greed": 28,
   "fear_greed_band": "Fear",
-  "funding_8h_pct": 0.0057,
+  "funding_8h_pct": 0.0073,
   "funding_band": "calm"
  },
- "small_line": "Written from Bitcoin +0.09% on the day, spot ETF net -39.1M USD (Nov 11, 2026), Fear & Greed 29 (fear), funding +0.0057% per 8h (calm)",
+ "small_line": "Written from Bitcoin -1.94% on the day, spot ETF net -299.8M USD (Nov 11, 2026), Fear & Greed 28 (fear), funding +0.0073% per 8h (calm)",
  "wire_top3": [
+  {
+   "id": "c106",
+   "line": "Nvidia stock fell after New York Times reported CEO Jensen Huang had an affair with internal executive Kimberly Powell, escalating governance concerns."
+  },
   {
    "id": "c010",
    "line": "Goldman Sachs, Citigroup, BBVA commit $270M to Project Faro, a US dollar stablecoin venture targeting first-half 2027 launch."
   },
   {
-   "id": "c022",
-   "line": "Bitcoin Core disclosed three patched security vulnerabilities, including a high-severity mining bug affecting block template creation."
-  },
-  {
-   "id": "c055",
-   "line": "Russia's central bank cleared exchanges to begin organized cryptocurrency trading on Nov. 22, ahead of Moscow Exchange's planned December 1 bitcoin launch."
+   "id": "c024",
+   "line": "Deutsche Bank switched on digital asset custody service for institutional and corporate clients in Europe, holding Bitcoin, Ethereum, and select stablecoins."
   }
  ],
  "crossed": []
