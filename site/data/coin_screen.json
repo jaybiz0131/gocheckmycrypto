@@ -1,6 +1,6 @@
 {
- "checked": 81,
- "cmc_fetched_utc": "2026-11-09T17:17:32Z",
+ "checked": 86,
+ "cmc_fetched_utc": "2026-11-16T16:52:56Z",
  "cmc_symbols": [
   "AAVE",
   "ADA",
@@ -13,7 +13,6 @@
   "ASTER",
   "ATOM",
   "AVAX",
-  "AXS",
   "BAT",
   "BCH",
   "BEAM",
@@ -36,7 +35,6 @@
   "DCR",
   "DOGE",
   "DOT",
-  "EDGE",
   "EIGEN",
   "ENA",
   "ENS",
@@ -78,11 +76,11 @@
   "LTC",
   "LUNC",
   "M",
-  "MANA",
   "MET",
   "MNT",
   "MON",
   "MORPHO",
+  "MX",
   "NEAR",
   "NEXO",
   "NFT",
@@ -106,6 +104,7 @@
   "RLUSD",
   "RUNE",
   "SEI",
+  "SENT",
   "SHIB",
   "SKY",
   "SOL",
@@ -141,6 +140,7 @@
   "WLD",
   "WLFI",
   "XAUT",
+  "XCN",
   "XDC",
   "XLM",
   "XMR",
@@ -159,27 +159,41 @@
   "a7a5": {
    "detail": {
     "top": "Uniswap V2 (Ethereum)",
-    "top_share": 1.0,
-    "total_usd": 1410.97,
-    "venues": 1
+    "top_share": 0.9917783388360198,
+    "total_usd": 154.47,
+    "venues": 2
    },
-   "market_cap": 471397678,
+   "market_cap": 460364940,
    "name": "A7A5",
-   "rank": 110,
+   "rank": 106,
    "reason": "untraded",
    "symbol": "A7A5",
    "why": "no meaningful reported trading"
+  },
+  "apxusd": {
+   "detail": {
+    "top": "Uniswap V4 (Ethereum)",
+    "top_share": 0.9168356985706387,
+    "total_usd": 4465207.35,
+    "venues": 9
+   },
+   "market_cap": 295151669,
+   "name": "apxUSD",
+   "rank": 128,
+   "reason": "captive",
+   "symbol": "APXUSD",
+   "why": "one venue accounts for nearly all reported volume"
   },
   "bfusd": {
    "detail": {
     "top": "Binance",
     "top_share": 1.0,
-    "total_usd": 3406491,
+    "total_usd": 5569221,
     "venues": 1
    },
-   "market_cap": 1318867845,
+   "market_cap": 1318431125,
    "name": "BFUSD",
-   "rank": 65,
+   "rank": 58,
    "reason": "captive",
    "symbol": "BFUSD",
    "why": "one venue accounts for nearly all reported volume"
@@ -191,12 +205,40 @@
     "total_usd": 0.0,
     "venues": 0
    },
-   "market_cap": 1775584680,
+   "market_cap": 1637150776,
    "name": "BlackRock USD Institutional Digital Liquidity Fund",
-   "rank": 52,
+   "rank": 49,
    "reason": "untraded",
    "symbol": "BUIDL",
    "why": "no meaningful reported trading"
+  },
+  "bnb48-club-token": {
+   "detail": {
+    "top": "PancakeSwap (v2)",
+    "top_share": 0.9628217433591149,
+    "total_usd": 12523.18,
+    "venues": 4
+   },
+   "market_cap": 188387600,
+   "name": "KOGE",
+   "rank": 158,
+   "reason": "untraded",
+   "symbol": "KOGE",
+   "why": "no meaningful reported trading"
+  },
+  "btse-token": {
+   "detail": {
+    "top": "BTSE",
+    "top_share": 0.9948373748272052,
+    "total_usd": 328648.69,
+    "venues": 2
+   },
+   "market_cap": 188491520,
+   "name": "BTSE Token",
+   "rank": 157,
+   "reason": "captive",
+   "symbol": "BTSE",
+   "why": "one venue accounts for nearly all reported volume"
   },
   "eutbl": {
    "detail": {
@@ -205,35 +247,21 @@
     "total_usd": 0.0,
     "venues": 0
    },
-   "market_cap": 475171117,
+   "market_cap": 471419102,
    "name": "Spiko EU T-Bills Money Market Fund",
-   "rank": 109,
+   "rank": 104,
    "reason": "untraded",
    "symbol": "EUTBL",
    "why": "no meaningful reported trading"
-  },
-  "falcon-finance": {
-   "detail": {
-    "top": "MEXC",
-    "top_share": 0.9677817848803089,
-    "total_usd": 707016.82,
-    "venues": 5
-   },
-   "market_cap": 1823749173,
-   "name": "Falcon USD",
-   "rank": 50,
-   "reason": "captive",
-   "symbol": "USDF",
-   "why": "one venue accounts for nearly all reported volume"
   },
   "figure-heloc": {
    "detail": {
     "top": "Figure Markets",
     "top_share": 1.0,
-    "total_usd": 2144168,
+    "total_usd": 7365447,
     "venues": 1
    },
-   "market_cap": 27835521670,
+   "market_cap": 28380829252,
    "name": "Figure Heloc",
    "rank": 9,
    "reason": "captive",
@@ -243,13 +271,13 @@
   "hash-2": {
    "detail": {
     "top": "Figure Markets",
-    "top_share": 0.5184733171081295,
-    "total_usd": 2818.66,
+    "top_share": 0.9213971267595428,
+    "total_usd": 5519.900000000001,
     "venues": 2
    },
-   "market_cap": 372588248,
+   "market_cap": 387430493,
    "name": "Provenance Blockchain",
-   "rank": 118,
+   "rank": 112,
    "reason": "untraded",
    "symbol": "HASH",
    "why": "no meaningful reported trading"
@@ -261,9 +289,9 @@
     "total_usd": 0.0,
     "venues": 0
    },
-   "market_cap": 2100317446,
+   "market_cap": 2018305711,
    "name": "Circle USYC",
-   "rank": 43,
+   "rank": 42,
    "reason": "untraded",
    "symbol": "USYC",
    "why": "no meaningful reported trading"
@@ -275,9 +303,9 @@
     "total_usd": 0.0,
     "venues": 0
    },
-   "market_cap": 578010457,
+   "market_cap": 576231667,
    "name": "Janus Henderson Anemoy AAA CLO Fund",
-   "rank": 97,
+   "rank": 92,
    "reason": "untraded",
    "symbol": "JAAA",
    "why": "no meaningful reported trading"
@@ -286,12 +314,12 @@
    "detail": {
     "top": "Kinesis Money",
     "top_share": 1.0,
-    "total_usd": 55937.791872999995,
+    "total_usd": 201894.37,
     "venues": 1
    },
-   "market_cap": 362645078,
+   "market_cap": 339217042,
    "name": "Kinesis Gold",
-   "rank": 120,
+   "rank": 117,
    "reason": "captive",
    "symbol": "KAU",
    "why": "one venue accounts for nearly all reported volume"
@@ -299,27 +327,41 @@
   "kucoin-shares": {
    "detail": {
     "top": "KuCoin",
-    "top_share": 0.9625202897239563,
-    "total_usd": 4437375.55,
+    "top_share": 0.9749945784560593,
+    "total_usd": 4094728.41,
     "venues": 7
    },
-   "market_cap": 956996163,
+   "market_cap": 866136948,
    "name": "KuCoin",
-   "rank": 75,
+   "rank": 73,
    "reason": "captive",
    "symbol": "KCS",
    "why": "one venue accounts for nearly all reported volume"
   },
+  "midas-fasanara-global-open": {
+   "detail": {
+    "top": null,
+    "top_share": null,
+    "total_usd": 0.0,
+    "venues": 0
+   },
+   "market_cap": 188947351,
+   "name": "Midas Fasanara Global Open",
+   "rank": 155,
+   "reason": "untraded",
+   "symbol": "MGLO",
+   "why": "no meaningful reported trading"
+  },
   "olympus": {
    "detail": {
     "top": "Uniswap V3 (Ethereum)",
-    "top_share": 0.9605071959474009,
-    "total_usd": 270502.95,
+    "top_share": 0.9379741869830792,
+    "total_usd": 217801.74000000002,
     "venues": 8
    },
-   "market_cap": 253374196,
+   "market_cap": 234031989,
    "name": "Olympus",
-   "rank": 143,
+   "rank": 144,
    "reason": "captive",
    "symbol": "OHM",
    "why": "one venue accounts for nearly all reported volume"
@@ -331,12 +373,26 @@
     "total_usd": 0.0,
     "venues": 0
    },
-   "market_cap": 317032511,
+   "market_cap": 312854615,
    "name": "Ondo Short-Term U.S. Government Bond Fund",
-   "rank": 128,
+   "rank": 120,
    "reason": "untraded",
    "symbol": "OUSG",
    "why": "no meaningful reported trading"
+  },
+  "re-protocol-reusd": {
+   "detail": {
+    "top": "Fluid (Ethereum)",
+    "top_share": 0.9071980305576816,
+    "total_usd": 1692540.05,
+    "venues": 5
+   },
+   "market_cap": 365912983,
+   "name": "Re Protocol reUSD",
+   "rank": 114,
+   "reason": "captive",
+   "symbol": "REUSD",
+   "why": "one venue accounts for nearly all reported volume"
   },
   "safo": {
    "detail": {
@@ -345,9 +401,9 @@
     "total_usd": 0.0,
     "venues": 0
    },
-   "market_cap": 243682577,
+   "market_cap": 251861649,
    "name": "Spiko Amundi Overnight Swap Fund",
-   "rank": 146,
+   "rank": 139,
    "reason": "untraded",
    "symbol": "SAFO",
    "why": "no meaningful reported trading"
@@ -359,9 +415,9 @@
     "total_usd": 0.0,
     "venues": 0
    },
-   "market_cap": 1928560691,
+   "market_cap": 1955222688,
    "name": "Spiko Amundi Overnight Swap Fund (EUR)",
-   "rank": 47,
+   "rank": 44,
    "reason": "untraded",
    "symbol": "EURSAFO",
    "why": "no meaningful reported trading"
@@ -373,9 +429,9 @@
     "total_usd": 0.0,
     "venues": 0
    },
-   "market_cap": 636389106,
+   "market_cap": 684303844,
    "name": "Invesco Short Duration US Government Securities Fund",
-   "rank": 90,
+   "rank": 84,
    "reason": "untraded",
    "symbol": "USTB",
    "why": "no meaningful reported trading"
@@ -389,7 +445,7 @@
    },
    "market_cap": 227500000,
    "name": "Tradable NA Rent Financing Platform SSTN",
-   "rank": 148,
+   "rank": 146,
    "reason": "untraded",
    "symbol": "PC0000031",
    "why": "no meaningful reported trading"
@@ -397,13 +453,13 @@
   "usdgo": {
    "detail": {
     "top": "Bitget",
-    "top_share": 0.9867072322703442,
-    "total_usd": 30473357.26,
+    "top_share": 0.9657536295465954,
+    "total_usd": 14013263.41,
     "venues": 5
    },
-   "market_cap": 1089161501,
+   "market_cap": 1032836908,
    "name": "USDGO",
-   "rank": 71,
+   "rank": 67,
    "reason": "captive",
    "symbol": "USDGO",
    "why": "one venue accounts for nearly all reported volume"
@@ -411,13 +467,13 @@
   "usds": {
    "detail": {
     "top": "Uniswap V4 (Ethereum)",
-    "top_share": 0.9873686463735724,
-    "total_usd": 250196374.90750703,
+    "top_share": 0.9873241205815771,
+    "total_usd": 238142064.18,
     "venues": 28
    },
-   "market_cap": 8631545278,
+   "market_cap": 8429871196,
    "name": "USDS",
-   "rank": 14,
+   "rank": 15,
    "reason": "captive",
    "symbol": "USDS",
    "why": "one venue accounts for nearly all reported volume"
@@ -425,13 +481,13 @@
   "usual-usd": {
    "detail": {
     "top": "Uniswap V3 (Ethereum)",
-    "top_share": 0.9941168142869119,
-    "total_usd": 3038894.38,
+    "top_share": 0.9939368114193257,
+    "total_usd": 1037746.0499999999,
     "venues": 3
    },
-   "market_cap": 538868839,
+   "market_cap": 537854515,
    "name": "Usual USD",
-   "rank": 100,
+   "rank": 95,
    "reason": "captive",
    "symbol": "USD0",
    "why": "one venue accounts for nearly all reported volume"
@@ -439,13 +495,13 @@
   "whitebit": {
    "detail": {
     "top": "WhiteBIT",
-    "top_share": 0.9979053285540694,
-    "total_usd": 214195620.45,
+    "top_share": 0.9983334353477278,
+    "total_usd": 189110077.17,
     "venues": 5
    },
-   "market_cap": 8566516123,
+   "market_cap": 7404948309,
    "name": "WhiteBIT Coin",
-   "rank": 15,
+   "rank": 16,
    "reason": "captive",
    "symbol": "WBT",
    "why": "one venue accounts for nearly all reported volume"
@@ -454,16 +510,16 @@
    "detail": {
     "top": "Figure Markets",
     "top_share": 1.0,
-    "total_usd": 11102369,
+    "total_usd": 7714115,
     "venues": 1
    },
-   "market_cap": 466985011,
+   "market_cap": 487741185,
    "name": "YLDS",
-   "rank": 111,
+   "rank": 101,
    "reason": "captive",
    "symbol": "YLDS",
    "why": "one venue accounts for nearly all reported volume"
   }
  },
- "generated_utc": "2026-11-09T16:49:32Z"
+ "generated_utc": "2026-11-16T16:21:45Z"
 }
