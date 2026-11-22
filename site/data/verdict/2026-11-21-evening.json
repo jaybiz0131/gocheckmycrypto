@@ -1,0 +1,278 @@
+{
+ "what": "The verdict under 'Why it moved': the grade computed by code from the evidence record (why_evidence.py) on the page's window, the graded line built from phrases, and the model's two checked sentences when they passed every check.",
+ "date_et": "2026-11-21",
+ "slot": "evening",
+ "window": {
+  "start_utc": "2026-11-21T01:33:46Z",
+  "end_utc": "2026-11-22T01:33:46Z",
+  "hours": 24
+ },
+ "evidence_made_utc": "2026-11-22T01:36:52Z",
+ "made_utc": "2026-11-22T01:37:31Z",
+ "timing_rule": {
+  "version": "2026-10-20",
+  "source": "AUDIT.md section 3.1; strategist's rulings of October 19, 2026 and October 20, 2026 (J-8)",
+  "lead_min": 60,
+  "done_max_pct": 25.0,
+  "share_min_pct": 40.0
+ },
+ "day": {
+  "basis": "et_day",
+  "date": "2026-11-21",
+  "BTC": 2.56,
+  "ETH": 3.97
+ },
+ "coins": {
+  "BTC": {
+   "sym": "BTC",
+   "name": "Bitcoin",
+   "kind": "graded",
+   "grade": "Unclear",
+   "cand": {
+    "id": "wire-c003",
+    "kind": "wire",
+    "line": "Bitcoin Core shipped fixes for medium-severity bug that could stall nodes via ID repetition; vulnerability discovered by Block's Spiral AI scanner.",
+    "t_utc": "2026-11-21T06:16:42Z",
+    "timing": "share",
+    "stated": false,
+    "outlets": 2,
+    "primary": false,
+    "readings": "silent",
+    "readings_hour": "after",
+    "patterns": []
+   },
+   "refs": [
+    {
+     "id": "wire-c003",
+     "text": "the Bitcoin Core report",
+     "key": [
+      "Bitcoin Core"
+     ]
+    }
+   ],
+   "dir": "up",
+   "reasons": [
+    "an event passes the timing test, but the market readings do not agree with it"
+   ],
+   "phrases": [
+    "A reported event lines up in time, but the market readings do not match it.",
+    "The event: the Bitcoin Core report (reported 1:16 AM ET).",
+    "In the hour after it, the market readings show none of the four patterns the desk names."
+   ],
+   "phrases_sec": [
+    "A reported event lines up in time, but the market readings do not match it.",
+    "The event: the Bitcoin Core report.",
+    "In the hour after it, the market readings read as they did in the hour the run began."
+   ],
+   "line": [
+    "A reported event lines up in time, but the market readings do not match it.",
+    "The event: the Bitcoin Core report (reported 1:16 AM ET)."
+   ],
+   "required": [
+    0,
+    1
+   ],
+   "readings": {
+    "hour": "after",
+    "start_utc": "2026-11-21T06:16:42Z",
+    "end_utc": "2026-11-21T07:16:42Z",
+    "rows": [
+     {
+      "key": "ETH",
+      "label": "Ether",
+      "value": 4.88,
+      "unit": "pct"
+     },
+     {
+      "key": "ES=F",
+      "label": "S&P 500 futures",
+      "value": null,
+      "unit": "pct"
+     },
+     {
+      "key": "NQ=F",
+      "label": "Nasdaq 100 futures",
+      "value": null,
+      "unit": "pct"
+     },
+     {
+      "key": "DX-Y.NYB",
+      "label": "Dollar index",
+      "value": null,
+      "unit": "pct"
+     },
+     {
+      "key": "^TNX",
+      "label": "10-year Treasury yield",
+      "value": null,
+      "unit": "bp"
+     },
+     {
+      "key": "ZT=F",
+      "label": "2-year Treasury note futures",
+      "value": null,
+      "unit": "pct"
+     },
+     {
+      "key": "GC=F",
+      "label": "Gold futures",
+      "value": null,
+      "unit": "pct"
+     },
+     {
+      "key": "CL=F",
+      "label": "Oil futures (WTI)",
+      "value": null,
+      "unit": "pct"
+     },
+     {
+      "key": "^VIX",
+      "label": "VIX",
+      "value": null,
+      "unit": "pct"
+     }
+    ],
+    "patterns": [],
+    "shut": false,
+    "onset_rows": [
+     [
+      "BTC",
+      4.47
+     ],
+     [
+      "ETH",
+      4.88
+     ],
+     [
+      "ES=F",
+      null
+     ],
+     [
+      "NQ=F",
+      null
+     ],
+     [
+      "DX-Y.NYB",
+      null
+     ],
+     [
+      "^TNX",
+      null
+     ],
+     [
+      "ZT=F",
+      null
+     ],
+     [
+      "GC=F",
+      null
+     ],
+     [
+      "CL=F",
+      null
+     ],
+     [
+      "^VIX",
+      null
+     ],
+     [
+      "IBIT",
+      null
+     ],
+     [
+      "FBTC",
+      null
+     ],
+     [
+      "oi",
+      1.05
+     ],
+     [
+      "liq",
+      null
+     ],
+     [
+      "taker",
+      null
+     ],
+     [
+      "liq-gate",
+      null
+     ],
+     [
+      "kalshi-KXFED-26DEC-T4.00",
+      null
+     ],
+     [
+      "funding",
+      -0.0046
+     ]
+    ],
+    "onset_patterns": [],
+    "onset_shut": false
+   },
+   "basis": "et_day",
+   "window_words": "since midnight ET",
+   "move_pct": 2.56,
+   "text": [
+    "A reported event lines up in time, but the market readings do not match it.",
+    "The event: the Bitcoin Core report (reported 1:16 AM ET)."
+   ],
+   "by": "phrases",
+   "fail_reason": "the check failed (verdict_check: model refused the request (whole fallback chain, if any) -> failing closed)",
+   "corrections": [],
+   "url": "/why/2026-11-21-bitcoin"
+  },
+  "ETH": {
+   "sym": "ETH",
+   "name": "Ether",
+   "kind": "with_btc",
+   "grade": null,
+   "cand": null,
+   "refs": [],
+   "dir": null,
+   "reasons": [
+    "within 2 points of Bitcoin since midnight ET"
+   ],
+   "phrases": [],
+   "phrases_sec": [],
+   "line": [
+    "Ether moved with Bitcoin."
+   ],
+   "required": [],
+   "readings": null,
+   "basis": "et_day",
+   "window_words": "since midnight ET",
+   "text": [
+    "Ether moved with Bitcoin."
+   ],
+   "by": "phrases",
+   "fail_reason": null,
+   "corrections": [],
+   "url": null
+  }
+ },
+ "spend": {
+  "kind": "run",
+  "date": "2026-11-21",
+  "slot": "evening",
+  "t": "2026-11-22T01:37:31Z",
+  "calls": 2,
+  "tokens": 1158,
+  "usd": 0.00102,
+  "by_stage": {
+   "verdict_draft": 0.000194,
+   "verdict_check": 0.000826
+  },
+  "models": {
+   "verdict_draft": "claude-haiku-5-5",
+   "verdict_check": "claude-sonnet-5-5"
+  },
+  "day_usd": 0.00102,
+  "cap_usd": 1.5,
+  "coins": {
+   "BTC": "Unclear (phrases)",
+   "ETH": "with_btc"
+  }
+ }
+}

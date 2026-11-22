@@ -1,0 +1,175 @@
+{
+ "date_et": "2026-11-21",
+ "slot": "evening",
+ "published_utc": "2026-11-21T23:35:59Z",
+ "first_utc": "2026-11-21T23:35:59Z",
+ "direction": "up",
+ "direction_basis": "et_day",
+ "title": "Why is crypto up today? Saturday, November 21, 2026",
+ "h1": "Why is crypto up today? Saturday, November 21, 2026",
+ "stamp_label": "Numbers as of 8:33 PM ET \u00b7 Evening Brief, 6:35 PM ET",
+ "composed_utc": "2026-11-22T01:36:52Z",
+ "board_stamp_et": "8:33 PM ET on Nov 21",
+ "answer": [
+  "On Saturday, November 21, Bitcoin was up 2.56% since midnight ET, to $60,011.",
+  "Over the last 24 hours it was up 1.96%.",
+  "Ether was up 3.97% over the same 24 hours.",
+  "Among the Top 100, VVV gained 16.71% and M lost 11.15% over 24 hours."
+ ],
+ "answer_by": "template",
+ "fallback": false,
+ "btc": {
+  "price": 60011,
+  "chg": 1.96,
+  "chg_day": 2.56
+ },
+ "eth": {
+  "price": 1681.92,
+  "chg": 3.97
+ },
+ "cap": null,
+ "gainers": [
+  {
+   "symbol": "VVV",
+   "name": "Venice Token",
+   "chg": 16.71,
+   "slug": "vvv"
+  },
+  {
+   "symbol": "PIEVERSE",
+   "name": "Pieverse",
+   "chg": 11.89,
+   "slug": "pieverse"
+  },
+  {
+   "symbol": "XMR",
+   "name": "Monero",
+   "chg": 8.89,
+   "slug": "xmr"
+  }
+ ],
+ "losers": [
+  {
+   "symbol": "M",
+   "name": "MemeCore",
+   "chg": -11.15,
+   "slug": "m"
+  },
+  {
+   "symbol": "INJ",
+   "name": "Injective",
+   "chg": -6.15,
+   "slug": "inj"
+  },
+  {
+   "symbol": "ICP",
+   "name": "Internet Computer",
+   "chg": -4.5,
+   "slug": "icp"
+  }
+ ],
+ "reported": [
+  {
+   "line": "Chainflip halted swaps after attacker drained $4.86M from vault with valid signature, indicating potential validator key compromise.",
+   "time": "11:41 AM ET",
+   "source_count": 2,
+   "primary": false,
+   "links": [
+    {
+     "outlet": "CoinDesk",
+     "url": "https://www.coindesk.com/business/2026/11/21/cross-chain-protocol-chainflip-s-flip-tanks-30-after-suspected-usd4-86-million-vault-drain"
+    },
+    {
+     "outlet": "theblock.co",
+     "url": "https://www.theblock.co/news/defi/2026-11-21-chainflips-flip-drops-34-after-attacker-drains-4-86-million-from-vault-with-suspected-key-compromise-444804"
+    }
+   ]
+  },
+  {
+   "line": "Cyber bridge exploit minted 5.21M tokens; South Korean exchanges Upbit and Bithumb froze CYBER deposits and withdrawals.",
+   "time": "1:51 PM ET",
+   "source_count": 2,
+   "primary": false,
+   "links": [
+    {
+     "outlet": "The Block",
+     "url": "https://www.theblock.co/news/defi/2026-11-21-cyber-investigating-suspected-1-million-bridge-exploit-as-upbit-bithumb-freeze-transfers-444810"
+    },
+    {
+     "outlet": "Crypto Briefing",
+     "url": "https://cryptobriefing.com/cyber-bridge-exploit-upbit-bithumb-freeze/"
+    }
+   ]
+  },
+  {
+   "line": "SEC alleges eight Colorado-registered entities posed as crypto advisers and platforms, forged SEC documents to defraud $37M from US investors.",
+   "time": "12:01 PM ET",
+   "source_count": 1,
+   "primary": false,
+   "links": [
+    {
+     "outlet": "Decrypt",
+     "url": "https://decrypt.co/383752/fraudsters-fake-crypto-exchanges-steal-37-million-sec"
+    }
+   ]
+  },
+  {
+   "line": "Bitcoin Core shipped fixes for medium-severity bug that could stall nodes via ID repetition; vulnerability discovered by Block's Spiral AI scanner.",
+   "time": "1:16 AM ET",
+   "source_count": 2,
+   "primary": false,
+   "links": [
+    {
+     "outlet": "CoinDesk",
+     "url": "https://www.coindesk.com/markets/2026/11/21/bitcoin-nodes-could-be-stalled-by-repeating-one-id-50-000-times-ai-found-the-bug"
+    },
+    {
+     "outlet": "thedefiant.io",
+     "url": "https://thedefiant.io/news/security/bitcoin-core-fixes-ai-found-bug-that-could-stall-nodes"
+    }
+   ]
+  }
+ ],
+ "board": [
+  {
+   "key": "etf",
+   "label": "Bitcoin ETF flows",
+   "value": -124.5,
+   "window": "one trading day, 20 Nov 2026",
+   "source": "Farside Investors",
+   "stamp": "8:33 PM ET on Nov 21",
+   "directional": true
+  },
+  {
+   "key": "liq",
+   "label": "Bitcoin liquidations",
+   "longs": 425440,
+   "shorts": 54396,
+   "window": "last 4 hours",
+   "source": "OKX",
+   "stamp": "8:33 PM ET on Nov 21",
+   "directional": false
+  },
+  {
+   "key": "funding",
+   "label": "Bitcoin funding",
+   "value": -0.0015,
+   "window": "current 8-hour period",
+   "source": "OKX",
+   "stamp": "8:33 PM ET on Nov 21",
+   "directional": false
+  },
+  {
+   "key": "fng",
+   "label": "Fear & Greed",
+   "value": 11,
+   "word": "Extreme Fear",
+   "window": "today",
+   "source": "alternative.me",
+   "stamp": "8:33 PM ET on Nov 21",
+   "directional": false
+  }
+ ],
+ "next": "Next update: Morning Brief, tomorrow at 8:15 AM ET",
+ "corrections": []
+}

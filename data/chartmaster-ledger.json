@@ -207,5 +207,16 @@
   ],
   "detail": "the rest still fails whole: chartmaster: missing/oversized headline",
   "t": "2026-11-12T23:16:26Z"
+ },
+ {
+  "date": "2026-11-21",
+  "path": "cut",
+  "tripped": [
+   "headline: belt: chartmaster: unscoped whale flow direction while the board reports off exchanges over the last 7 day",
+   "belt: chartmaster: funding is stated without naming the venue (OKX); one exchange's funding is not the mar",
+   "belt: chartmaster: an open-interest figure names no venue in its own sentence (\"Bitcoin's open interest of"
+  ],
+  "detail": "dropped 5 sentence(s): Bitcoin funding stands at negative 1.6% annualized, with Ethereum at negative 1. | This imbalance, combined with negative funding, is a friction point: longs are l | Bitcoin's o",
+  "t": "2026-11-22T01:35:58Z"
  }
 ]

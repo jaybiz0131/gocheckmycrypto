@@ -1,0 +1,24 @@
+{
+ "key": "2026-11-21-evening-bitcoin-013731",
+ "date_et": "2026-11-21",
+ "slot": "evening",
+ "made_utc": "2026-11-22T01:37:31Z",
+ "coin_sym": "BTC",
+ "coin_slug": "bitcoin",
+ "coin_name": "Bitcoin",
+ "grade": "Unclear",
+ "events": [
+  "wire-c003"
+ ],
+ "links": [
+  "coindesk.com/markets/2026/11/21/bitcoin-nodes-could-be-stalled-by-repeating-one-id-50-000-times-ai-found-the-bug",
+  "thedefiant.io/news/security/bitcoin-core-fixes-ai-found-bug-that-could-stall-nodes"
+ ],
+ "url": "/why/2026-11-21-bitcoin",
+ "source": "verdict",
+ "window_words": "since midnight ET",
+ "move_pct": 2.56,
+ "timing_rule_version": "2026-10-20",
+ "corrected": false,
+ "kind": "verdict"
+}
