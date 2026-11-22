@@ -1,135 +1,41 @@
 {
  "what": "the day's ranked clusters, in the desk's own one line, sources counted and linked (Jack, 5 October 2026)",
  "what_a_wire_line_is": "Each line is the desk's own one-line summary of a story it ranked, with its sources counted and linked. It is not a story the desk wrote or checked; only the item with a badge was checked.",
- "ranked_utc": "2026-11-22T01:34:13Z",
- "ranked_et": "8:34 PM ET on Nov 21",
- "refreshed_utc": "2026-11-22T13:17:53Z",
- "refreshed_et": "8:17 AM ET on Nov 22",
- "refreshes": 1,
- "snapshot_stamp_utc": "2026-11-22T01:33:45Z",
+ "ranked_utc": "2026-11-22T23:13:08Z",
+ "ranked_et": "6:13 PM ET on Nov 22",
+ "refreshed_utc": "2026-11-22T23:13:08Z",
+ "refreshed_et": "6:13 PM ET on Nov 22",
+ "refreshes": 0,
+ "snapshot_stamp_utc": "2026-11-22T23:12:41Z",
  "items": [
   {
-   "rank": 4,
-   "id": "c006",
-   "line": "Prediction market exchange Kalshi seeks emergency hearing to block New York court order that company says would shut down its platform.",
+   "rank": 1,
+   "id": "c004",
+   "line": "Chainflip disclosed theft of 122.9 BTC and other assets totaling $12M, offering a 10% bounty for return by Nov. 24.",
    "titles": [
-    "Kalshi races to get ahead of New York order that could shut down exchange",
-    "Kalshi faces Monday hearing on New York order it says would shut down its exchange nationwide",
-    "Kalshi faces New York court hearing on order that could shut down its exchange"
+    "Chainflip\u2019s losses climb to $12 million after protocol discloses 122.9 BTC theft, offers hacker bounty"
    ],
-   "board_reading": "Whale flows",
-   "source_count": 3,
+   "board_reading": "Bitcoin price",
+   "source_count": 1,
    "primary": false,
-   "standing": "corroborated",
+   "standing": "single",
    "links": [
     {
-     "url": "https://www.coindesk.com/policy/2026/11/20/kalshi-races-to-get-ahead-of-new-york-order-that-could-shut-down-exchange",
-     "outlet": "CoinDesk",
-     "primary": false
-    },
-    {
-     "url": "https://www.theblock.co/news/regulation/2026-11-21-kalshi-faces-monday-hearing-on-new-york-order-it-says-would-shut-down-its-exchange-nationwide-444813",
+     "url": "https://www.theblock.co/news/defi/2026-11-22-chainflips-losses-climb-to-12-million-after-protocol-discloses-122-9-btc-theft-offers-hacker-bounty-444829",
      "outlet": "The Block",
      "primary": false
-    },
-    {
-     "url": "https://cryptobriefing.com/kalshi-new-york-hearing-shutdown-order/",
-     "outlet": "Crypto Briefing",
-     "primary": false
     }
    ],
-   "reported_utc": "2026-11-20T22:51:14Z",
+   "reported_utc": "2026-11-22T18:58:57Z",
    "verdict": "VERIFIED",
-   "mark": "wire"
-  },
-  {
-   "rank": 1,
-   "id": "c001",
-   "line": "Chainflip halted swaps after attacker drained $4.86M from vault with valid signature, indicating potential validator key compromise.",
-   "titles": [
-    "Cross-chain protocol Chainflip's FLIP tanks 30% after suspected $4.86 million vault drain"
-   ],
-   "board_reading": "Ether price",
-   "source_count": 2,
-   "primary": false,
-   "standing": "corroborated",
-   "links": [
-    {
-     "url": "https://www.coindesk.com/business/2026/11/21/cross-chain-protocol-chainflip-s-flip-tanks-30-after-suspected-usd4-86-million-vault-drain",
-     "outlet": "CoinDesk",
-     "primary": false
-    },
-    {
-     "url": "https://www.theblock.co/news/defi/2026-11-21-chainflips-flip-drops-34-after-attacker-drains-4-86-million-from-vault-with-suspected-key-compromise-444804",
-     "outlet": "theblock.co",
-     "primary": false
-    }
-   ],
-   "reported_utc": "2026-11-21T16:41:00Z",
-   "verdict": "NEEDS-HUMAN-REVIEW",
    "mark": "wire"
   },
   {
    "rank": 2,
-   "id": "c008",
-   "line": "Cyber bridge exploit minted 5.21M tokens; South Korean exchanges Upbit and Bithumb froze CYBER deposits and withdrawals.",
+   "id": "c005",
+   "line": "Kalshi heads to court Monday on New York AG order that the exchange claims would shut it down nationwide, contradicting AG's stated intent.",
    "titles": [
-    "Cyber investigating suspected $1 million bridge exploit as Upbit, Bithumb freeze transfers",
-    "Cyber bridge exploit mints 5.21 million CYBER tokens, Upbit and Bithumb freeze transfers"
-   ],
-   "board_reading": "Whale flows",
-   "source_count": 2,
-   "primary": false,
-   "standing": "corroborated",
-   "links": [
-    {
-     "url": "https://www.theblock.co/news/defi/2026-11-21-cyber-investigating-suspected-1-million-bridge-exploit-as-upbit-bithumb-freeze-transfers-444810",
-     "outlet": "The Block",
-     "primary": false
-    },
-    {
-     "url": "https://cryptobriefing.com/cyber-bridge-exploit-upbit-bithumb-freeze/",
-     "outlet": "Crypto Briefing",
-     "primary": false
-    }
-   ],
-   "reported_utc": "2026-11-21T18:51:14Z",
-   "verdict": "VERIFIED",
-   "mark": "checked"
-  },
-  {
-   "rank": 5,
-   "id": "c003",
-   "line": "Bitcoin Core shipped fixes for medium-severity bug that could stall nodes via ID repetition; vulnerability discovered by Block's Spiral AI scanner.",
-   "titles": [
-    "Bitcoin nodes could be stalled by repeating one ID 50,000 times. AI found the bug"
-   ],
-   "board_reading": "Bitcoin price",
-   "source_count": 2,
-   "primary": false,
-   "standing": "corroborated",
-   "links": [
-    {
-     "url": "https://www.coindesk.com/markets/2026/11/21/bitcoin-nodes-could-be-stalled-by-repeating-one-id-50-000-times-ai-found-the-bug",
-     "outlet": "CoinDesk",
-     "primary": false
-    },
-    {
-     "url": "https://thedefiant.io/news/security/bitcoin-core-fixes-ai-found-bug-that-could-stall-nodes",
-     "outlet": "thedefiant.io",
-     "primary": false
-    }
-   ],
-   "reported_utc": "2026-11-21T06:16:42Z",
-   "verdict": "NEEDS-HUMAN-REVIEW",
-   "mark": "wire"
-  },
-  {
-   "rank": 3,
-   "id": "c014",
-   "line": "SEC alleges eight Colorado-registered entities posed as crypto advisers and platforms, forged SEC documents to defraud $37M from US investors.",
-   "titles": [
-    "Fraudsters Used Fake Crypto Exchanges to Steal $37 Million, SEC Alleges"
+    "Kalshi faces Monday hearing on New York order it says would shut down its exchange nationwide"
    ],
    "board_reading": "Whale flows",
    "source_count": 1,
@@ -137,32 +43,105 @@
    "standing": "single",
    "links": [
     {
-     "url": "https://decrypt.co/383752/fraudsters-fake-crypto-exchanges-steal-37-million-sec",
-     "outlet": "Decrypt",
+     "url": "https://www.theblock.co/news/regulation/2026-11-21-kalshi-faces-monday-hearing-on-new-york-order-it-says-would-shut-down-its-exchange-nationwide-444813",
+     "outlet": "The Block",
      "primary": false
     }
    ],
-   "reported_utc": "2026-11-21T17:01:02Z",
+   "reported_utc": "2026-11-21T21:17:36Z",
+   "verdict": "NEEDS-HUMAN-REVIEW",
+   "mark": "wire"
+  },
+  {
+   "rank": 3,
+   "id": "c006",
+   "line": "Cyber bridge exploit prompted Upbit and Bithumb to halt CYBER deposits and withdrawals; unexpected token minting on Solana followed by bridge lockbox outflows.",
+   "titles": [
+    "Cyber investigating suspected $1 million bridge exploit as Upbit, Bithumb freeze transfers"
+   ],
+   "board_reading": "",
+   "source_count": 1,
+   "primary": false,
+   "standing": "single",
+   "links": [
+    {
+     "url": "https://www.theblock.co/news/defi/2026-11-21-cyber-investigating-suspected-1-million-bridge-exploit-as-upbit-bithumb-freeze-transfers-444810",
+     "outlet": "The Block",
+     "primary": false
+    }
+   ],
+   "reported_utc": "2026-11-21T18:51:14Z",
+   "verdict": "VERIFIED",
+   "mark": "wire"
+  },
+  {
+   "rank": 4,
+   "id": "c002",
+   "line": "Bitcoin rebounded above $60K after $1.8 billion in leveraged crypto liquidations, mostly bullish positions closed in the selloff.",
+   "titles": [
+    "Bitcoin rebounds above $60,000 after $1.8 billion crypto liquidation wave"
+   ],
+   "board_reading": "Bitcoin price",
+   "source_count": 1,
+   "primary": false,
+   "standing": "single",
+   "links": [
+    {
+     "url": "https://www.coindesk.com/markets/2026/11/21/bitcoin-bounces-9-from-two-year-low-to-retake-usd60-000-as-traders-eye-monday-s-stock-open",
+     "outlet": "CoinDesk",
+     "primary": false
+    }
+   ],
+   "reported_utc": "2026-11-21T17:50:00Z",
+   "verdict": "NEEDS-HUMAN-REVIEW",
+   "mark": "wire"
+  },
+  {
+   "rank": 5,
+   "id": "c078",
+   "line": "UK bans crypto exchanges from making markets on their own platforms; spot Bitcoin market makers on qualifying venues exempt from principal-dealing permission.",
+   "titles": [
+    "UK to ban crypto exchanges from making markets on their own platforms as Bitcoin rules change"
+   ],
+   "board_reading": "Whale flows",
+   "source_count": 1,
+   "primary": false,
+   "standing": "single",
+   "links": [
+    {
+     "url": "https://cryptoslate.com/uk-to-ban-crypto-exchanges-from-making-markets-on-their-own-platforms-as-bitcoin-rules-change/",
+     "outlet": "CryptoSlate",
+     "primary": false
+    }
+   ],
+   "reported_utc": "2026-11-22T18:05:49Z",
+   "verdict": "VERIFIED",
+   "mark": "wire"
+  },
+  {
+   "rank": 6,
+   "id": "c074",
+   "line": "Senate letter backs state-licensed stablecoin issuers continuing after Jan. 18, with Treasury proposal recognizing waivers for eligible federal applicants.",
+   "titles": [
+    "Senators want state-licensed firms to keep issuing stablecoins after Jan. 18"
+   ],
+   "board_reading": "Stablecoin supply",
+   "source_count": 1,
+   "primary": false,
+   "standing": "single",
+   "links": [
+    {
+     "url": "https://cryptoslate.com/senators-want-state-licensed-firms-to-keep-issuing-stablecoins-after-jan-18/",
+     "outlet": "CryptoSlate",
+     "primary": false
+    }
+   ],
+   "reported_utc": "2026-11-22T22:05:49Z",
    "verdict": "VERIFIED",
    "mark": "wire"
   }
  ],
- "checked": {
-  "id": "c008",
-  "rank": 2,
-  "says": "Crypto Briefing reports the attack released 5.21 million unbacked CYBER tokens on Solana and the attacker swapped the minted tokens for roughly 575 ETH, valued at approximately $968,000, prompting Upbit and Bithumb to freeze CYBER transfers.",
-  "unconfirmed": "The exact $1 million figure is approximated from the $968,000 ETH swap value reported; whether additional real tokens were drained from escrow and their exact value rests on a single source.",
-  "badge": "Verified",
-  "standing": "corroborated",
-  "source": "https://cryptobriefing.com/cyber-bridge-exploit-upbit-bithumb-freeze/",
-  "outlet": "Crypto Briefing"
- },
- "dropped": [
-  {
-   "rank": 6,
-   "id": "c108",
-   "why": "the wire line runs 190 characters, over 160"
-  }
- ],
+ "checked": null,
+ "dropped": [],
  "source_cuts": []
 }

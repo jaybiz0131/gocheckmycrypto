@@ -1,0 +1,151 @@
+{
+ "date_et": "2026-11-22",
+ "slot": "evening",
+ "published_utc": "2026-11-22T23:14:40Z",
+ "first_utc": "2026-11-22T23:14:40Z",
+ "direction": "up",
+ "direction_basis": "et_day",
+ "title": "Why is crypto up today? Sunday, November 22, 2026",
+ "h1": "Why is crypto up today? Sunday, November 22, 2026",
+ "stamp_label": "Evening Brief, 6:14 PM ET",
+ "composed_utc": "2026-11-22T23:15:50Z",
+ "board_stamp_et": "6:12 PM ET on Nov 22",
+ "answer": [
+  "On Sunday, November 22, Bitcoin was up 2.37% since midnight ET, to $60,792.",
+  "Over the last 24 hours it was up 1.03%.",
+  "Ether was up 1.99% over the same 24 hours.",
+  "Among the Top 100, NIGHT gained 11.11% and SKY lost 4.96% over 24 hours."
+ ],
+ "answer_by": "template",
+ "fallback": false,
+ "btc": {
+  "price": 60792,
+  "chg": 1.03,
+  "chg_day": 2.37
+ },
+ "eth": {
+  "price": 1714.02,
+  "chg": 1.99
+ },
+ "cap": null,
+ "gainers": [
+  {
+   "symbol": "NIGHT",
+   "name": "Midnight",
+   "chg": 11.11,
+   "slug": "night"
+  },
+  {
+   "symbol": "PUMP",
+   "name": "Pump.fun",
+   "chg": 9.39,
+   "slug": "pump"
+  },
+  {
+   "symbol": "PIEVERSE",
+   "name": "Pieverse",
+   "chg": 7.5,
+   "slug": "pieverse"
+  }
+ ],
+ "losers": [
+  {
+   "symbol": "SKY",
+   "name": "Sky",
+   "chg": -4.96,
+   "slug": "sky"
+  },
+  {
+   "symbol": "CC",
+   "name": "Canton",
+   "chg": -4.92,
+   "slug": "cc"
+  },
+  {
+   "symbol": "XDC",
+   "name": "XDC Network",
+   "chg": -1.76,
+   "slug": "xdc"
+  }
+ ],
+ "reported": [
+  {
+   "line": "Chainflip disclosed theft of 122.9 BTC and other assets totaling $12M, offering a 10% bounty for return by Nov. 24.",
+   "time": "1:58 PM ET",
+   "source_count": 1,
+   "primary": false,
+   "links": [
+    {
+     "outlet": "The Block",
+     "url": "https://www.theblock.co/news/defi/2026-11-22-chainflips-losses-climb-to-12-million-after-protocol-discloses-122-9-btc-theft-offers-hacker-bounty-444829"
+    }
+   ]
+  },
+  {
+   "line": "UK bans crypto exchanges from making markets on their own platforms; spot Bitcoin market makers on qualifying venues exempt from principal-dealing permission.",
+   "time": "1:05 PM ET",
+   "source_count": 1,
+   "primary": false,
+   "links": [
+    {
+     "outlet": "CryptoSlate",
+     "url": "https://cryptoslate.com/uk-to-ban-crypto-exchanges-from-making-markets-on-their-own-platforms-as-bitcoin-rules-change/"
+    }
+   ]
+  },
+  {
+   "line": "Senate letter backs state-licensed stablecoin issuers continuing after Jan. 18, with Treasury proposal recognizing waivers for eligible federal applicants.",
+   "time": "5:05 PM ET",
+   "source_count": 1,
+   "primary": false,
+   "links": [
+    {
+     "outlet": "CryptoSlate",
+     "url": "https://cryptoslate.com/senators-want-state-licensed-firms-to-keep-issuing-stablecoins-after-jan-18/"
+    }
+   ]
+  }
+ ],
+ "board": [
+  {
+   "key": "etf",
+   "label": "Bitcoin ETF flows",
+   "value": -124.5,
+   "window": "one trading day, 20 Nov 2026",
+   "source": "Farside Investors",
+   "stamp": "6:12 PM ET on Nov 22",
+   "directional": true
+  },
+  {
+   "key": "liq",
+   "label": "Bitcoin liquidations",
+   "longs": 37399,
+   "shorts": 1026400,
+   "window": "last 2 hours",
+   "source": "OKX",
+   "stamp": "6:12 PM ET on Nov 22",
+   "directional": false
+  },
+  {
+   "key": "funding",
+   "label": "Bitcoin funding",
+   "value": 0.0023,
+   "window": "current 8-hour period",
+   "source": "OKX",
+   "stamp": "6:12 PM ET on Nov 22",
+   "directional": false
+  },
+  {
+   "key": "fng",
+   "label": "Fear & Greed",
+   "value": 11,
+   "word": "Extreme Fear",
+   "window": "today",
+   "source": "alternative.me",
+   "stamp": "6:12 PM ET on Nov 22",
+   "directional": false
+  }
+ ],
+ "next": "Next update: Morning Brief, tomorrow at 8:15 AM ET",
+ "corrections": []
+}
