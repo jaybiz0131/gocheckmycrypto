@@ -23,9 +23,9 @@
 name: Morning read (8:15 AM Eastern)
 
 on:
-  schedule:
-    - cron: "17 12 * * *"   # backstop, 8:17 AM EDT
-    - cron: "17 13 * * *"   # backstop, 8:17 AM EST
+  # N-1 (2026-11-22): ONE TRIGGER. The Worker dispatches this at 8:15 AM and again at 8:45 AM
+  # America/New_York (the guard stands the second down once the read is written), and at noon
+  # it fires the build hook if no morning run is confirmed. The two backstop crons are removed.
   workflow_dispatch: {}
 
 permissions:

@@ -1,0 +1,172 @@
+N-1. the stored wire's own reported line is a warning, never a wiring fault
+Traceback (most recent call last):
+  File "/home/user/gocheckmycrypto/scripts/n1_canary_test.py", line 83, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/home/user/gocheckmycrypto/scripts/n1_canary_test.py", line 77, in main
+    fails = unit()
+  File "/home/user/gocheckmycrypto/scripts/n1_canary_test.py", line 56, in unit
+    live = s97.wire_lines(wire)
+           ^^^^^^^^^^^^^^
+AttributeError: module 'sprint97_test' has no attribute 'wire_lines'
+N-1. the stored wire's own reported line is a warning, never a wiring fault
+  ok   the premise: the November 12 wire carries the FaceStealer line and the plain scan finds its AI word
+  ok   the canary's scan passes the November 12 news feed when that wire is the stored one
+  ok   and names the line it let through, so the run can say so
+  ok   the same line NOT in the stored wire still fails (a line the pipeline makes today is still scanned)
+  FAIL a disclosure that IS a stored wire line still fails
+  ok   the dash scan is untouched: a dash in a stored wire line still fails
+
+N-1 canary: FAIL (1 failure(s))
+N-1. the stored wire's own reported line is a warning, never a wiring fault
+  ok   the premise: the November 12 wire carries the FaceStealer line and the plain scan finds its AI word
+  FAIL the canary's scan passes the November 12 news feed when that wire is the stored one
+  ok   and names the line it let through, so the run can say so
+  ok   the same line NOT in the stored wire still fails (a line the pipeline makes today is still scanned)
+  ok   a disclosure that IS a stored wire line still fails
+  ok   the dash scan is untouched: a dash in a stored wire line still fails
+
+N-1 canary: FAIL (1 failure(s))
+N-1. the stored wire's own reported line is a warning, never a wiring fault
+  ok   the premise: the November 12 wire carries the FaceStealer line and the plain scan finds its AI word
+  ok   the canary's scan passes the November 12 news feed when that wire is the stored one
+  ok   and names the line it let through, so the run can say so
+  ok   the same line NOT in the stored wire still fails (a line the pipeline makes today is still scanned)
+  ok   a disclosure that IS a stored wire line still fails
+  ok   the dash scan is untouched: a dash in a stored wire line still fails
+
+N-1 canary: PASS (0 failure(s))
+N-1 health gate
+Traceback (most recent call last):
+  File "/home/user/gocheckmycrypto/scripts/health_gate_test.py", line 75, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/home/user/gocheckmycrypto/scripts/health_gate_test.py", line 69, in main
+    fails = unit()
+  File "/home/user/gocheckmycrypto/scripts/health_gate_test.py", line 33, in unit
+    import health_gate as hg
+ModuleNotFoundError: No module named 'health_gate'
+PLANT 1: BOARD_HOURS = 24
+N-1 health gate
+  ok   Nov 22: the Brief of Nov 12 is a finding, named with its ET time
+  ok   a Brief from last evening is no finding
+  ok   a Brief 23 hours old is no finding; 25 hours is
+  FAIL the Board 18 hours old at its build (a CoinGecko refusal) is a finding
+  ok   the Board 5 hours old at its build is no finding (six is the line)
+  ok   the Board's wall-clock age is not the rule: 19 hours after a fresh build is no finding
+  ok   a site that has not built for 25 hours is a finding, and an unreadable stamp is one
+  ok   one gate a day: 6:03 AM ET stands down, 7:03 runs, a second 7 AM run stands down, a dispatch runs
+  ok   in summer the 11:03 UTC tick is 7:03 AM EDT and runs
+
+N-1 health gate: FAIL (1 failure(s))
+rc=1
+PLANT 2: the already-ran-today guard removed
+N-1 health gate
+  ok   Nov 22: the Brief of Nov 12 is a finding, named with its ET time
+  ok   a Brief from last evening is no finding
+  ok   a Brief 23 hours old is no finding; 25 hours is
+  ok   the Board 18 hours old at its build (a CoinGecko refusal) is a finding
+  ok   the Board 5 hours old at its build is no finding (six is the line)
+  ok   the Board's wall-clock age is not the rule: 19 hours after a fresh build is no finding
+  ok   a site that has not built for 25 hours is a finding, and an unreadable stamp is one
+  FAIL one gate a day: 6:03 AM ET stands down, 7:03 runs, a second 7 AM run stands down, a dispatch runs
+  ok   in summer the 11:03 UTC tick is 7:03 AM EDT and runs
+
+N-1 health gate: FAIL (1 failure(s))
+rc=1
+RESTORED from the saved copy
+N-1 health gate
+  ok   Nov 22: the Brief of Nov 12 is a finding, named with its ET time
+  ok   a Brief from last evening is no finding
+  ok   a Brief 23 hours old is no finding; 25 hours is
+  ok   the Board 18 hours old at its build (a CoinGecko refusal) is a finding
+  ok   the Board 5 hours old at its build is no finding (six is the line)
+  ok   the Board's wall-clock age is not the rule: 19 hours after a fresh build is no finding
+  ok   a site that has not built for 25 hours is a finding, and an unreadable stamp is one
+  ok   one gate a day: 6:03 AM ET stands down, 7:03 runs, a second 7 AM run stands down, a dispatch runs
+  ok   in summer the 11:03 UTC tick is 7:03 AM EDT and runs
+
+N-1 health gate: PASS (0 failure(s))
+rc=0
+N-1 workflows
+  FAIL crypto-news-brief.yml: the Worker dispatches it, so it has no GitHub cron and no schedule: key
+  ok   crypto-news-brief.yml: it still takes workflow_dispatch
+  FAIL morning-read.yml: the Worker dispatches it, so it has no GitHub cron and no schedule: key
+  ok   morning-read.yml: it still takes workflow_dispatch
+  FAIL watcher.yml: the Worker dispatches it, so it has no GitHub cron and no schedule: key
+  ok   watcher.yml: it still takes workflow_dispatch
+  FAIL the edition-gap step warns and never sets the run failed
+  ok   the Edition stage failing still fails the run (the desk did not publish its Edition)
+  ok   coin-screen.yml: pushes to main, so it holds the crypto-publish group
+  ok   crypto-aging.yml: pushes to main, so it holds the crypto-publish group
+  ok   crypto-news-brief.yml: pushes to main, so it holds the crypto-publish group
+  FAIL depth-backfill.yml: pushes to main, so it holds the crypto-publish group
+  ok   morning-read.yml: pushes to main, so it holds the crypto-publish group
+  ok   publicist.yml: pushes to main, so it holds the crypto-publish group
+  FAIL health.yml exists, runs scripts/health_gate.py on a daily cron at 7 AM Eastern (11:58 and 12:58 UTC, the script keeps the one that is 7 AM ET)
+  FAIL health.yml pushes nothing and holds no publish lock
+
+N-1 workflows: FAIL (7 failure(s))
+PLANT 1: the watcher's cron put back
+N-1 workflows
+  ok   crypto-news-brief.yml: the Worker dispatches it, so it has no GitHub cron and no schedule: key
+  ok   crypto-news-brief.yml: it still takes workflow_dispatch
+  ok   morning-read.yml: the Worker dispatches it, so it has no GitHub cron and no schedule: key
+  ok   morning-read.yml: it still takes workflow_dispatch
+  FAIL watcher.yml: the Worker dispatches it, so it has no GitHub cron and no schedule: key
+  ok   watcher.yml: it still takes workflow_dispatch
+  ok   the edition-gap step warns and never sets the run failed
+  ok   the Edition stage failing still fails the run (the desk did not publish its Edition)
+  ok   coin-screen.yml: pushes to main, so it holds the crypto-publish group
+  ok   crypto-aging.yml: pushes to main, so it holds the crypto-publish group
+  ok   crypto-news-brief.yml: pushes to main, so it holds the crypto-publish group
+  ok   depth-backfill.yml: pushes to main, so it holds the crypto-publish group
+  ok   morning-read.yml: pushes to main, so it holds the crypto-publish group
+  ok   publicist.yml: pushes to main, so it holds the crypto-publish group
+  ok   health.yml exists, runs scripts/health_gate.py on a daily cron at 7 AM Eastern (11:03 and 12:03 UTC, one per offset; the script stands down before 7 AM ET and after the day's first gate)
+  ok   health.yml pushes nothing and holds no publish lock
+
+N-1 workflows: FAIL (1 failure(s))
+rc=1
+PLANT 2: the gap step fails the run again
+N-1 workflows
+  ok   crypto-news-brief.yml: the Worker dispatches it, so it has no GitHub cron and no schedule: key
+  ok   crypto-news-brief.yml: it still takes workflow_dispatch
+  ok   morning-read.yml: the Worker dispatches it, so it has no GitHub cron and no schedule: key
+  ok   morning-read.yml: it still takes workflow_dispatch
+  ok   watcher.yml: the Worker dispatches it, so it has no GitHub cron and no schedule: key
+  ok   watcher.yml: it still takes workflow_dispatch
+  FAIL the edition-gap step warns and never sets the run failed
+  ok   the Edition stage failing still fails the run (the desk did not publish its Edition)
+  ok   coin-screen.yml: pushes to main, so it holds the crypto-publish group
+  ok   crypto-aging.yml: pushes to main, so it holds the crypto-publish group
+  ok   crypto-news-brief.yml: pushes to main, so it holds the crypto-publish group
+  ok   depth-backfill.yml: pushes to main, so it holds the crypto-publish group
+  ok   morning-read.yml: pushes to main, so it holds the crypto-publish group
+  ok   publicist.yml: pushes to main, so it holds the crypto-publish group
+  ok   health.yml exists, runs scripts/health_gate.py on a daily cron at 7 AM Eastern (11:03 and 12:03 UTC, one per offset; the script stands down before 7 AM ET and after the day's first gate)
+  ok   health.yml pushes nothing and holds no publish lock
+
+N-1 workflows: FAIL (1 failure(s))
+rc=1
+RESTORED
+N-1 workflows
+  ok   crypto-news-brief.yml: the Worker dispatches it, so it has no GitHub cron and no schedule: key
+  ok   crypto-news-brief.yml: it still takes workflow_dispatch
+  ok   morning-read.yml: the Worker dispatches it, so it has no GitHub cron and no schedule: key
+  ok   morning-read.yml: it still takes workflow_dispatch
+  ok   watcher.yml: the Worker dispatches it, so it has no GitHub cron and no schedule: key
+  ok   watcher.yml: it still takes workflow_dispatch
+  ok   the edition-gap step warns and never sets the run failed
+  ok   the Edition stage failing still fails the run (the desk did not publish its Edition)
+  ok   coin-screen.yml: pushes to main, so it holds the crypto-publish group
+  ok   crypto-aging.yml: pushes to main, so it holds the crypto-publish group
+  ok   crypto-news-brief.yml: pushes to main, so it holds the crypto-publish group
+  ok   depth-backfill.yml: pushes to main, so it holds the crypto-publish group
+  ok   morning-read.yml: pushes to main, so it holds the crypto-publish group
+  ok   publicist.yml: pushes to main, so it holds the crypto-publish group
+  ok   health.yml exists, runs scripts/health_gate.py on a daily cron at 7 AM Eastern (11:03 and 12:03 UTC, one per offset; the script stands down before 7 AM ET and after the day's first gate)
+  ok   health.yml pushes nothing and holds no publish lock
+
+N-1 workflows: PASS (0 failure(s))
+rc=0

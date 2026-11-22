@@ -1,0 +1,34 @@
+# N-1 (2026-11-22): THE ONE MAIL. Once a day at 7 AM Eastern this reads the last 24 hours of run
+# conclusions and the public site's own stamps, and fails (one "Run failed" mail to Jack) only when
+# the desk has not published a Brief or morning read for a full day, the site has not built for a
+# full day, or the Board's prices were more than six hours old when the site last built. Every other
+# workflow reaches "failure" only when it did not do its job. What each mail means and what Jack
+# does about it: docs/HEALTH.md in gcm-newsroom.
+#
+# Two crons, one per offset (7:03 AM EDT and 7:03 AM EST); the script keeps the first tick at or
+# after 7 AM ET and stands the other down. A GitHub cron, not the Worker: the gate must still mail
+# on the day the Worker or its token is what failed. It pushes nothing and holds no publish lock.
+name: Health gate (7 AM Eastern)
+
+on:
+  schedule:
+    - cron: "3 11 * * *"    # 7:03 AM EDT
+    - cron: "3 12 * * *"    # 7:03 AM EST
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  health:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with: { python-version: "3.12" }
+      - name: Read the stamps and the runs, fail only when the desk is down
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 scripts/health_gate.py
