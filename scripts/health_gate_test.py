@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """N-1: the health gate's rules on fixed inputs (no network, no token, no model call).
 
-The crypto case is the desk's own November 22 morning: the live feeds read at 1:00 AM ET that day
-said the newest Brief was the Evening Brief of November 12 (as_of 2026-11-12T23:16:26Z) and the
-Board's prices were stamped one second before the noon build of November 21. The gate at 7 AM ET
-would have sent one mail, for the Brief, and none for the Board.
+The crypto case is the desk's own November 22 morning: the live feeds, read at about 8:00 PM ET on
+November 21, said the newest Brief was the Evening Brief of November 12 (as_of 2026-11-12T23:16:26Z)
+and the Board's prices were stamped 27 seconds before the noon build of November 21. The gate at 7 AM
+ET on November 22 would have sent one mail, for the Brief, and none for the Board.
 
   python3 scripts/health_gate_test.py      # exit 1 on any failure
 """
