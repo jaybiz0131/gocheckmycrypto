@@ -14,7 +14,7 @@ on:
         default: "250"
 
 concurrency:
-  group: news-publish     # queue behind any in-flight desk run; never race a publish
+  group: crypto-publish   # N-1: the desk's one publish lock (was news-publish, a group no other crypto run holds)
   cancel-in-progress: false
 
 permissions:

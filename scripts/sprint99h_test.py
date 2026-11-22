@@ -197,8 +197,11 @@ def case_6_sourced_event_text(fails):
     guarded(fails, "today's why feeds, built from the stored records, pass the AI-word scan",
             lambda: all(not scan(f) for f in feeds.values()))
     news = api_feeds.news_feed(wire, now)
+    # N-1: a stored wire line with an AI word and no disclosure is published data, named as a warning (scripts/n1_canary_test.py)
+    live = s97.wire_lines(wire)
     guarded(fails, "the news feed built from the stored wire passes the AI-word scan",
-            lambda: not scan(news))
+            lambda: not s97.hard_ai_hits(news, live))
+    s97.warn_reported([news], live, "canary hotfix 9.9h")
     def cand(kind, line, link=""):
         return {"data": {"evidence": {"candidates": [{"id": "x", "kind": kind, "line": line,
                                                        "links": [{"outlet": "O", "url": link}] if link else []}]}}}

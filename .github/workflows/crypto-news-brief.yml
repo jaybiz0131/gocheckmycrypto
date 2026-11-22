@@ -16,37 +16,11 @@
 name: Crypto Cronkite daily brief
 
 on:
-  schedule:
-    # THREE-SLOT DAY (owner directive 2026-07-14, Eastern audience clock): the flagship
-    # cadence. Later slots prefer updating/extending the day over repeating it (editor
-    # prompt + deterministic dedup guard). Crons drift 1h later on Jack's clock when DST
-    # ends Nov 1.
-    # Odd minutes on purpose: GitHub's scheduler drifts worst on :00/:30 (observed slots
-    # firing 3-7 hours late). The watcher's slot-recovery re-fires any slot that still
-    # misses its deadline.
-    # PROGRAM 4, T-1 (2026-09-16). ONE BRIEF RUN A DAY. The evening slot survives and
-    # becomes the one Edition run a day (part 5); morning and midday are off.
-    #
-    # THEIR RETRIES GO WITH THEM. The slot guard stands a retry down only when that
-    # slot's edition is already on disk. With the primaries disabled those editions are
-    # never written, so every retry tick would pass the guard and spend a full run.
-    # Keeping them would have made T-1 a no-op. The evening slot's backstop is the
-    # Worker dispatch (T-2), which names the slot.
-    # - cron: "40 10 * * *"   # Morning Brief slot - DISABLED T-1
-    # - cron: "8 17 * * *"    # Midday Update slot - DISABLED T-1
-    - cron: "8 23 * * *"    # Evening Wrap slot, 23:08 UTC = 7:08pm Eastern
-    # RETRY TICKS (ported from the sports desk 2026-08-31: crypto was the only desk
-    # of the three without them, and in the Aug 26-31 window its slot crons fired
-    # hours late or never while the siblings' retries kept them at 3/3). Each retry
-    # is inside its slot's edition window and COST-NEUTRAL: the slot guard below
-    # stands the run down before any model call when the slot's edition already
-    # exists, so a retry only spends when the primary was skipped or failed. Keep
-    # these in sync with CRON_SLOT in wrap.py. The evening slot has no retry: its
-    # window ends at midnight, and the watcher's recovery (which now follows a
-    # missed evening slot across midnight to 05:00) covers it.
-    # - cron: "55 10 * * *"   # Morning retry - DISABLED T-1 (its slot is off)
-    # - cron: "23 17 * * *"   # Midday retry - DISABLED T-1 (its slot is off)
-    # - cron: "25 11 * * *"   # Second morning retry - DISABLED T-1 (its slot is off)
+  # N-1 (2026-11-22): ONE TRIGGER. The Worker (gcm-newsroom/slot-trigger) dispatches the evening
+  # slot at 23:08, 23:38 and 00:38 UTC with slot=evening-brief, and the watcher recovers a missed
+  # slot through 05:00 UTC. The GitHub cron "8 23 * * *" was a second trigger on the same slot:
+  # 30 extra runs in 30 days, each a second red run and a second mail while the canary was red.
+  # It is removed, not commented out (a commented cron kept firing its old registration, X-1).
   # AN EXTERNAL TRIGGER NEEDS TO NAME THE SLOT (2026-09-04). GitHub's scheduler has been
   # delivering this workflow's crons 1.5 to 4 hours late every day this week, so the fix
   # is a trigger that does not depend on it. A dispatch carries no schedule, so without
@@ -1006,9 +980,13 @@ jobs:
       # correctly abstained on zero stories every slot and only the gap counter noticed.
       # Runs dead last so stories, the deploy probe, artifacts, the ping and the ledger
       # all complete first; the gap issue itself is filed by edition_check.
-      - name: Fail the run if the edition gap breached
+      # N-1 (2026-11-22): A WARNING, NOT A FAILURE. This step runs after publish and reports a gap
+      # the run cannot close; 17 of the last 30 days' red runs were this step on runs that had done
+      # their job. The gap issue edition_check files is unchanged, and the daily health gate
+      # (health.yml, docs/HEALTH.md in gcm-newsroom) is the one mail for a desk dark a full day.
+      - name: Warn if the edition gap breached
         if: always() && steps.edgap.outputs.breach != '' && steps.edgap.outputs.breach != '0'
         uses: actions/github-script@v9
         with:
           script: |
-            core.setFailed("Edition gap over threshold; stories were unaffected. See the open 'Edition gap' issue.");
+            core.warning("Edition gap over threshold; stories were unaffected. See the open 'Edition gap' issue.");

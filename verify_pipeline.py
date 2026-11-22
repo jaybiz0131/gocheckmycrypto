@@ -2071,6 +2071,7 @@ def _stamp_canary():
             fails.extend(_sprint97_canary(out))
             fails.extend(_sprint98_canary(out))
             fails.extend(_sprint99h_canary())
+            fails.extend(_n1_canary())
             fails.extend(_sprint991_canary(out))
             _ip = _o.path.join(out, "index.html")
             if _o.path.exists(_ip):
@@ -3475,6 +3476,30 @@ def _sprint98_canary(out):
         fails += ["sprint 9.8: " + f for f in _s98.tree(out)]
     finally:
         for m in ("sprint98_test", "sprint94_test", "sprint93_test", "sprint92_test"):
+            _sys.modules.pop(m, None)
+        if _sd in _sys.path:
+            _sys.path.remove(_sd)
+    return fails
+
+
+def _n1_canary():
+    """N-1 (22 November 2026): the runs stop failing and the stamps stop lying. scripts/n1_canary_test.py (the stored wire's
+    own reported line is a warning, never a wiring fault), scripts/n1_workflows_test.py (one trigger per workflow, the
+    edition gap a warning, one publish group, the health gate's shape) and scripts/health_gate_test.py (the gate's rules on
+    the November 22 morning). The helpers are taken out of sys.modules again (U-11)."""
+    import sys as _sys
+    _sd = os.path.join(os.path.dirname(os.path.abspath(__file__)), "scripts")
+    _sys.path.insert(0, _sd)
+    fails = []
+    try:
+        import n1_canary_test as _a
+        import n1_workflows_test as _b
+        import health_gate_test as _c
+        for tag, mod in (("n1 canary", _a), ("n1 workflows", _b), ("n1 health", _c)):
+            fails += [f"{tag}: " + f for f in mod.unit()]
+    finally:
+        for m in ("n1_canary_test", "n1_workflows_test", "health_gate_test", "health_gate", "sprint97_test", "sprint96_test",
+                  "sprint95_test", "sprint94_test", "sprint93_test", "sprint92_test"):
             _sys.modules.pop(m, None)
         if _sd in _sys.path:
             _sys.path.remove(_sd)

@@ -169,6 +169,52 @@ def feed_prose(feed, titles=None):
     return json.dumps(strip(own_words(news_lines(feed))))
 
 
+def wire_lines(wire=None):
+    """N-1: the set of lines of the stored live wire (site/data/wire.json), or of `wire` when given."""
+    if wire is None:
+        try:
+            wire = json.load(open(os.path.join(HERE, "site", "data", "wire.json"), encoding="utf-8"))
+        except (OSError, ValueError):
+            wire = {}
+    return {i["line"] for i in (wire or {}).get("items") or [] if isinstance(i, dict) and isinstance(i.get("line"), str)}
+
+
+def _reported(feed, live):
+    """N-1: the news items of `feed` whose line is verbatim a stored live wire line with no disclosure phrasing."""
+    if not (isinstance(feed, dict) and feed.get("name") == "news" and isinstance(feed.get("data"), dict)):
+        return []
+    return [i for i in feed["data"].get("items") or [] if isinstance(i, dict) and isinstance(i.get("line"), str)
+            and i["line"] in live and not AI_DISCLOSURE.search(i["line"])]
+
+
+def reported_ai_lines(feed, live):
+    """N-1: the stored wire lines in `feed` that carry an AI word and no disclosure: yesterday's published data, which the
+    canary names as a warning. The Brief that rotates the wire is the run the canary stands in front of."""
+    return [i["line"] for i in _reported(feed, live) if AI.search(i["line"])]
+
+
+def hard_ai_hits(feed, live, titles=None):
+    """N-1: the AI-word scan the canary FAILS on. Every rule of feed_prose stands; the one change is that a news line which is
+    verbatim a stored live wire line, with no disclosure phrasing, is read as published data (a warning), not as wiring."""
+    keep = {id(i) for i in _reported(feed, live)}
+    if keep:
+        feed = dict(feed, data=dict(feed["data"], items=[dict(i, line="") if id(i) in keep else i
+                                                          for i in feed["data"]["items"]]))
+    return AI.search(feed_prose(feed, titles=titles))
+
+
+def warn_reported(feeds, live, where):
+    """N-1: print one warning annotation per stored wire line the canary let through, so the run log says so."""
+    seen = []
+    for f in feeds:
+        for line in reported_ai_lines(f, live):
+            if line not in seen:
+                seen.append(line)
+                print(f"::warning::{where}: the stored wire carries an AI word in a published line (not a wiring fault; "
+                      f"the next Brief rotates the wire): {line[:160]}")
+    return seen
+
+
 FEEDS = ("index", "top100", "markets", "movers", "whales", "news", "brief/latest", "why/today", "events",
          "why/record")   # Sprint 9.8: the verdict record's feed, which the index now lists
 NOW15 = dt.datetime(2026, 10, 15, 23, 50, tzinfo=UTC)
@@ -902,6 +948,7 @@ def tree(root, expect_pages=False, with_browser=False):
     every = [n[:-5] for n in sorted(os.listdir(pub("api/v1/coins")))] if os.path.isdir(pub("api/v1/coins")) else []
     allf = {n: feed(n) for n in names if feed(n)}
     allf.update({"coins/" + n: feed("coins/" + n) for n in every})
+    _live = wire_lines()   # N-1: the stored live wire, whose own published lines are a warning, not a wiring fault
     why_days = sorted(n[:-5] for n in os.listdir(pub("api/v1/why")) if re.fullmatch(r"\d{4}-\d{2}-\d{2}\.json", n)) if os.path.isdir(pub("api/v1/why")) else []
     allf.update({"why/" + d: feed("why/" + d) for d in why_days})
     guarded(fails, "every feed has schema, version 1, as_of_utc (or null), built_utc, a boolean stale and its sources",
@@ -989,7 +1036,8 @@ def tree(root, expect_pages=False, with_browser=False):
             lambda: not gone)
     guarded(fails, "no feed has a dash; none but the coin identity feeds (a coin's name may be 'Artificial ...') has an AI word",
             lambda: not any(DASH.search(json.dumps(f, ensure_ascii=False)) for f in allf.values())
-            and not any(AI.search(feed_prose(f)) for n, f in allf.items() if n != "top100" and not n.startswith("coins/")))
+            and not any(hard_ai_hits(f, _live) for n, f in allf.items() if n != "top100" and not n.startswith("coins/")))
+    warn_reported([f for n, f in allf.items() if n == "news"], _live, "canary sprint 9.7")
     guarded(fails, "'because' is in a verdict feed only where a Confirmed grade stands (the law of 16 October), and in no event title",
             lambda: all(not BECAUSE.search(json.dumps(f["data"].get("coins") or {})) or any(
                 c.get("grade") == "Confirmed" for c in (f["data"].get("coins") or {}).values() if isinstance(c, dict))
