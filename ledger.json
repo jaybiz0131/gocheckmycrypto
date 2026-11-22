@@ -3723,6 +3723,48 @@
    "usd": 0.0,
    "wf": "Breaking-news watcher",
    "wrap": "synthesis"
+  },
+  {
+   "breaking": false,
+   "cap_usd": 1.5,
+   "chartmaster_calls": 2,
+   "chartmaster_published": true,
+   "chartmaster_tokens": 14229,
+   "chartmaster_usd": 0.0266,
+   "coingecko_429": 0,
+   "coingecko_calls": 3,
+   "cron": "",
+   "edition_published": true,
+   "ev": "workflow_dispatch",
+   "guard": "true",
+   "outcome": "ran",
+   "path": "wire",
+   "pinged": false,
+   "pushed": true,
+   "run": "44971801349",
+   "slot": "evening-brief",
+   "slot_day": "2026-11-21",
+   "stage_tokens": {
+    "editor": 39704,
+    "verifier": 8173
+   },
+   "stage_usd": {
+    "editor": 0.0465,
+    "verifier": 0.0149
+   },
+   "stages_absent": [
+    "3.5-researcher",
+    "4-writer",
+    "4.5-approver",
+    "5-digest"
+   ],
+   "t": "2026-11-22T01:38:14Z",
+   "tokens": 47877,
+   "twins_drops": 0,
+   "twins_unparsed": 0,
+   "usd": 0.0614,
+   "wf": "Breaking-news watcher",
+   "wrap": "synthesis"
   }
  ],
  "since": "2026-09-16T16:27Z"
