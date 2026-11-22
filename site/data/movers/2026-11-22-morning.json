@@ -1,0 +1,120 @@
+{
+ "what": "Big movers, checked: the gate on the Board's top 100 (AUDIT.md 3.1 and 3.2), and for each coin past it the evidence by 9.2's rules with the coin's own candidates. Measured by code.",
+ "window": {
+  "start_utc": "2026-11-21T13:17:24Z",
+  "end_utc": "2026-11-22T13:17:24Z",
+  "hours": 24
+ },
+ "made_utc": "2026-11-22T13:18:37Z",
+ "gate": {
+  "rule": {
+   "version": "2026-10-19",
+   "source": "AUDIT.md section 3.1, the row 'Any top-100 coin', and section 3.2",
+   "move_min_pct": 10.0,
+   "vol_multiple_min": 2.5,
+   "excess_min_pts": 6.0,
+   "history_days": 30,
+   "per_slot": 8,
+   "per_day": 10
+  },
+  "board_utc": "2026-11-22T13:17:24Z",
+  "before_day": "2026-11-21",
+  "btc_24h_pct": 2.63,
+  "passed": [],
+  "over_cap": [],
+  "failed": [
+   {
+    "sym": "NIGHT",
+    "name": "Midnight",
+    "gecko_id": "midnight-3",
+    "rank": 77,
+    "pos": 62,
+    "move_pct": 12.96,
+    "vol_pct": 5.43,
+    "multiple": 2.39,
+    "beta": 1.183,
+    "btc_pct": 2.63,
+    "predicted_pct": 3.11,
+    "excess_pts": 9.85,
+    "legs": {
+     "move": true,
+     "multiple": false,
+     "excess": true
+    },
+    "pass": false,
+    "history": {
+     "from": "2026-10-21",
+     "through": "2026-11-20"
+    }
+   },
+   {
+    "sym": "PIEVERSE",
+    "name": "Pieverse",
+    "gecko_id": "pieverse",
+    "rank": 70,
+    "pos": 56,
+    "move_pct": 11.33,
+    "vol_pct": 15.61,
+    "multiple": 0.73,
+    "beta": -0.212,
+    "btc_pct": 2.63,
+    "predicted_pct": -0.56,
+    "excess_pts": 11.89,
+    "legs": {
+     "move": true,
+     "multiple": false,
+     "excess": true
+    },
+    "pass": false,
+    "history": {
+     "from": "2026-10-21",
+     "through": "2026-11-20"
+    }
+   },
+   {
+    "sym": "VVV",
+    "name": "Venice Token",
+    "gecko_id": "venice-token",
+    "rank": 60,
+    "pos": 49,
+    "move_pct": 10.68,
+    "vol_pct": 5.75,
+    "multiple": 1.86,
+    "beta": 1.136,
+    "btc_pct": 2.63,
+    "predicted_pct": 2.99,
+    "excess_pts": 7.69,
+    "legs": {
+     "move": true,
+     "multiple": false,
+     "excess": true
+    },
+    "pass": false,
+    "history": {
+     "from": "2026-10-21",
+     "through": "2026-11-20"
+    }
+   }
+  ],
+  "left_out": [],
+  "own_card": [],
+  "log": [
+   "movers: 3 coin(s) passed one leg and failed another (the per-coin log ran through 2026-11-02)",
+   "movers: no top-100 coin passed the gate (4 measured, 0 left out for history)"
+  ],
+  "crash": {
+   "day": false,
+   "why": [],
+   "btc_pct": 2.63,
+   "market_pct": 2.14,
+   "past_move": 3,
+   "measured_past_move": 3,
+   "with_market": 0
+  },
+  "used_today": 0
+ },
+ "coins": {},
+ "shared": {},
+ "date_et": "2026-11-22",
+ "slot": "morning"
+}

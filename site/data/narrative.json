@@ -1,20 +1,24 @@
 {
- "line": "Bitcoin drifting higher on extreme fear and capitulation-level technical extremes, as whales accumulate and leverage unwinds violently.",
+ "line": "Price strength meets extreme fear and protocol vulnerabilities; regulatory pressure mounts as security incidents ripple across exchanges and infrastructure.",
  "by": "edition",
- "written_utc": "2026-11-21T23:35:59Z",
- "written_et": "6:35 PM ET on Nov 21",
+ "written_utc": "2026-11-22T13:17:53Z",
+ "written_et": "8:17 AM ET on Nov 22",
  "readings": {
-  "stamp_utc": "2026-11-22T01:33:45Z",
-  "btc_24h_pct": 1.96,
+  "stamp_utc": "2026-11-22T13:17:24Z",
+  "btc_24h_pct": 2.63,
   "etf_net_usd_m": -124.5,
   "etf_date": "20 Nov 2026",
   "fear_greed": 11,
   "fear_greed_band": "Extreme fear",
-  "funding_8h_pct": -0.0015,
+  "funding_8h_pct": 0.0036,
   "funding_band": "calm"
  },
- "small_line": "Written from Bitcoin +1.96% on the day, spot ETF net -124.5M USD (Nov 20, 2026), Fear & Greed 11 (extreme fear), funding -0.0015% per 8h (calm)",
+ "small_line": "Written from Bitcoin +2.63% on the day, spot ETF net -124.5M USD (Nov 20, 2026), Fear & Greed 11 (extreme fear), funding +0.0036% per 8h (calm)",
  "wire_top3": [
+  {
+   "id": "c006",
+   "line": "Prediction market exchange Kalshi seeks emergency hearing to block New York court order that company says would shut down its platform."
+  },
   {
    "id": "c001",
    "line": "Chainflip halted swaps after attacker drained $4.86M from vault with valid signature, indicating potential validator key compromise."
@@ -22,10 +26,6 @@
   {
    "id": "c008",
    "line": "Cyber bridge exploit minted 5.21M tokens; South Korean exchanges Upbit and Bithumb froze CYBER deposits and withdrawals."
-  },
-  {
-   "id": "c014",
-   "line": "SEC alleges eight Colorado-registered entities posed as crypto advisers and platforms, forged SEC documents to defraud $37M from US investors."
   }
  ],
  "crossed": []

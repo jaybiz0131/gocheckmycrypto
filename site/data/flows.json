@@ -1,7 +1,7 @@
 {
   "example": false,
   "generated": "2026-11-22",
-  "generated_utc": "2026-11-22T01:33:45Z",
+  "generated_utc": "2026-11-22T13:17:24Z",
   "window_hours": 168,
   "txn_count": 36,
   "volatile": {
@@ -567,11 +567,6 @@
   "window_widened_from": 24,
   "history": [
     {
-      "week_ending": "Aug 29",
-      "net_usd": -659068691,
-      "moves": 82
-    },
-    {
       "week_ending": "Sep 05",
       "net_usd": 493645244,
       "moves": 79
@@ -630,6 +625,11 @@
       "week_ending": "Nov 21",
       "net_usd": 404343503,
       "moves": 36
+    },
+    {
+      "week_ending": "Nov 28",
+      "net_usd": 0,
+      "moves": 0
     }
   ],
   "weekly_median_abs_usd": 815546978

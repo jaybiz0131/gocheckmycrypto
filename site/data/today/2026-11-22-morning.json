@@ -1,0 +1,114 @@
+{
+ "date_et": "2026-11-22",
+ "slot": "morning",
+ "published_utc": "2026-11-22T13:17:53Z",
+ "first_utc": "2026-11-22T13:17:53Z",
+ "direction": "up",
+ "direction_basis": "et_day",
+ "title": "Why is crypto up today? Sunday, November 22, 2026",
+ "h1": "Why is crypto up today? Sunday, November 22, 2026",
+ "stamp_label": "Morning Brief, 8:17 AM ET",
+ "composed_utc": "2026-11-22T13:17:56Z",
+ "board_stamp_et": "8:17 AM ET on Nov 22",
+ "answer": [
+  "On Sunday, November 22, Bitcoin was up 2.19% since midnight ET, to $60,685.",
+  "Over the last 24 hours it was up 2.63%.",
+  "Ether was up 2.04% over the same 24 hours.",
+  "Among the Top 100, NIGHT gained 12.96% and M lost 1.72% over 24 hours."
+ ],
+ "answer_by": "template",
+ "fallback": false,
+ "btc": {
+  "price": 60685,
+  "chg": 2.63,
+  "chg_day": 2.19
+ },
+ "eth": {
+  "price": 1702.52,
+  "chg": 2.04
+ },
+ "cap": null,
+ "gainers": [
+  {
+   "symbol": "NIGHT",
+   "name": "Midnight",
+   "chg": 12.96,
+   "slug": "night"
+  },
+  {
+   "symbol": "PIEVERSE",
+   "name": "Pieverse",
+   "chg": 11.33,
+   "slug": "pieverse"
+  },
+  {
+   "symbol": "VVV",
+   "name": "Venice Token",
+   "chg": 10.68,
+   "slug": "vvv"
+  }
+ ],
+ "losers": [
+  {
+   "symbol": "M",
+   "name": "MemeCore",
+   "chg": -1.72,
+   "slug": "m"
+  },
+  {
+   "symbol": "LIT",
+   "name": "Lighter",
+   "chg": -1.48,
+   "slug": "lit"
+  },
+  {
+   "symbol": "CC",
+   "name": "Canton",
+   "chg": -1.27,
+   "slug": "cc"
+  }
+ ],
+ "reported": [],
+ "board": [
+  {
+   "key": "etf",
+   "label": "Bitcoin ETF flows",
+   "value": -124.5,
+   "window": "one trading day, 20 Nov 2026",
+   "source": "Farside Investors",
+   "stamp": "8:17 AM ET on Nov 22",
+   "directional": true
+  },
+  {
+   "key": "liq",
+   "label": "Bitcoin liquidations",
+   "longs": 465223,
+   "shorts": 313737,
+   "window": "last 1 hour",
+   "source": "OKX",
+   "stamp": "8:17 AM ET on Nov 22",
+   "directional": false
+  },
+  {
+   "key": "funding",
+   "label": "Bitcoin funding",
+   "value": 0.0036,
+   "window": "current 8-hour period",
+   "source": "OKX",
+   "stamp": "8:17 AM ET on Nov 22",
+   "directional": false
+  },
+  {
+   "key": "fng",
+   "label": "Fear & Greed",
+   "value": 11,
+   "word": "Extreme Fear",
+   "window": "today",
+   "source": "alternative.me",
+   "stamp": "8:17 AM ET on Nov 22",
+   "directional": false
+  }
+ ],
+ "next": "Next update: Evening Brief, tonight at 6:08 PM ET",
+ "corrections": []
+}
