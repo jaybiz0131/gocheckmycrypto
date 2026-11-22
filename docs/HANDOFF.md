@@ -7,6 +7,8 @@ before inventing (V-15).
 
 Public repo. No tokens, keys or secret values in this file, ever.
 
+**Health (N-1, November 21, 2026).** What a newsroom email means and what to do about it: `docs/HEALTH.md` in gcm-newsroom. This desk's one mail is `.github/workflows/health.yml` (7 AM ET); the Worker is the only trigger for the Brief, the morning read and the watcher; the report is `docs/REPORTS/N-1-REPORT.md` in gcm-newsroom.
+
 Last updated: 11 November 2026, Sprint B of the Nov 7 site audit (section 0b, below). Before it: 7 November 2026, 10:00 PM ET, Sprint A of the Nov 7 site audit (section 0, below). Before it: 14 October 2026, Program 7 Sprint 7.3 MERGED `5bb4df7`, 8:44 AM ET (section 13). Before it, Sprints 6.5, 6.4, 7.2 and 7.1 merged (sections 9 to 12, moved). Before it, Sprint 7.1 merged (section 9). Before it, Program 6 Sprint 6.3 merged (section 7e, moved). Before it, Sprint 6.2 (section 7d), Sprint 6.1 (section 7c, moved). Earlier that day, 9:20 AM EDT: Sprint 2's close (section 7b) and the band-ink merge `aa64f08`. Before that, the close of 8 October (section 7), written late: the 8 October
 evening wake-up reached the session on 11 October. `main` ends at the close commit on top of
 `a5bea57`. Days before 23 September live in `HANDOFF-2026-08-17.md`; 23 September to 1 October
