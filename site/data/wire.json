@@ -3,11 +3,70 @@
  "what_a_wire_line_is": "Each line is the desk's own one-line summary of a story it ranked, with its sources counted and linked. It is not a story the desk wrote or checked; only the item with a badge was checked.",
  "ranked_utc": "2026-11-22T23:13:08Z",
  "ranked_et": "6:13 PM ET on Nov 22",
- "refreshed_utc": "2026-11-22T23:13:08Z",
- "refreshed_et": "6:13 PM ET on Nov 22",
- "refreshes": 0,
+ "refreshed_utc": "2026-11-23T13:17:51Z",
+ "refreshed_et": "8:17 AM ET on Nov 23",
+ "refreshes": 1,
  "snapshot_stamp_utc": "2026-11-22T23:12:41Z",
  "items": [
+  {
+   "rank": 4,
+   "id": "c002",
+   "line": "Bitcoin rebounded above $60K after $1.8 billion in leveraged crypto liquidations, mostly bullish positions closed in the selloff.",
+   "titles": [
+    "Bitcoin rebounds above $60,000 after $1.8 billion crypto liquidation wave"
+   ],
+   "board_reading": "Bitcoin price",
+   "source_count": 3,
+   "primary": false,
+   "standing": "single",
+   "links": [
+    {
+     "url": "https://www.coindesk.com/markets/2026/11/21/bitcoin-bounces-9-from-two-year-low-to-retake-usd60-000-as-traders-eye-monday-s-stock-open",
+     "outlet": "CoinDesk",
+     "primary": false
+    },
+    {
+     "url": "https://www.theblock.co/news/markets/2026-11-23-spot-bitcoin-etfs-shed-1-79-billion-in-past-week-444857",
+     "outlet": "The Block",
+     "primary": false
+    },
+    {
+     "url": "https://cryptoslate.com/bitcoins-plunge-below-60000-triggers-20-million-buying-spree-at-twenty-one-capital/",
+     "outlet": "CryptoSlate",
+     "primary": false
+    }
+   ],
+   "reported_utc": "2026-11-21T17:50:00Z",
+   "verdict": "NEEDS-HUMAN-REVIEW",
+   "mark": "wire"
+  },
+  {
+   "rank": 3,
+   "id": "c006",
+   "line": "Cyber bridge exploit prompted Upbit and Bithumb to halt CYBER deposits and withdrawals; unexpected token minting on Solana followed by bridge lockbox outflows.",
+   "titles": [
+    "Cyber investigating suspected $1 million bridge exploit as Upbit, Bithumb freeze transfers"
+   ],
+   "board_reading": "",
+   "source_count": 2,
+   "primary": false,
+   "standing": "single",
+   "links": [
+    {
+     "url": "https://www.theblock.co/news/defi/2026-11-21-cyber-investigating-suspected-1-million-bridge-exploit-as-upbit-bithumb-freeze-transfers-444810",
+     "outlet": "The Block",
+     "primary": false
+    },
+    {
+     "url": "https://cryptobriefing.com/upbit-bithumb-flag-sky-usds-caution/",
+     "outlet": "Crypto Briefing",
+     "primary": false
+    }
+   ],
+   "reported_utc": "2026-11-21T18:51:14Z",
+   "verdict": "VERIFIED",
+   "mark": "wire"
+  },
   {
    "rank": 1,
    "id": "c004",
@@ -49,50 +108,6 @@
     }
    ],
    "reported_utc": "2026-11-21T21:17:36Z",
-   "verdict": "NEEDS-HUMAN-REVIEW",
-   "mark": "wire"
-  },
-  {
-   "rank": 3,
-   "id": "c006",
-   "line": "Cyber bridge exploit prompted Upbit and Bithumb to halt CYBER deposits and withdrawals; unexpected token minting on Solana followed by bridge lockbox outflows.",
-   "titles": [
-    "Cyber investigating suspected $1 million bridge exploit as Upbit, Bithumb freeze transfers"
-   ],
-   "board_reading": "",
-   "source_count": 1,
-   "primary": false,
-   "standing": "single",
-   "links": [
-    {
-     "url": "https://www.theblock.co/news/defi/2026-11-21-cyber-investigating-suspected-1-million-bridge-exploit-as-upbit-bithumb-freeze-transfers-444810",
-     "outlet": "The Block",
-     "primary": false
-    }
-   ],
-   "reported_utc": "2026-11-21T18:51:14Z",
-   "verdict": "VERIFIED",
-   "mark": "wire"
-  },
-  {
-   "rank": 4,
-   "id": "c002",
-   "line": "Bitcoin rebounded above $60K after $1.8 billion in leveraged crypto liquidations, mostly bullish positions closed in the selloff.",
-   "titles": [
-    "Bitcoin rebounds above $60,000 after $1.8 billion crypto liquidation wave"
-   ],
-   "board_reading": "Bitcoin price",
-   "source_count": 1,
-   "primary": false,
-   "standing": "single",
-   "links": [
-    {
-     "url": "https://www.coindesk.com/markets/2026/11/21/bitcoin-bounces-9-from-two-year-low-to-retake-usd60-000-as-traders-eye-monday-s-stock-open",
-     "outlet": "CoinDesk",
-     "primary": false
-    }
-   ],
-   "reported_utc": "2026-11-21T17:50:00Z",
    "verdict": "NEEDS-HUMAN-REVIEW",
    "mark": "wire"
   },

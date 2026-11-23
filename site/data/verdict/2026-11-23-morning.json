@@ -1,0 +1,273 @@
+{
+ "what": "The verdict under 'Why it moved': the grade computed by code from the evidence record (why_evidence.py) on the page's window, the graded line built from phrases, and the model's two checked sentences when they passed every check.",
+ "date_et": "2026-11-23",
+ "slot": "morning",
+ "window": {
+  "start_utc": "2026-11-22T13:16:47Z",
+  "end_utc": "2026-11-23T13:16:47Z",
+  "hours": 24
+ },
+ "evidence_made_utc": "2026-11-23T13:17:54Z",
+ "made_utc": "2026-11-23T13:18:29Z",
+ "timing_rule": {
+  "version": "2026-10-20",
+  "source": "AUDIT.md section 3.1; strategist's rulings of October 19, 2026 and October 20, 2026 (J-8)",
+  "lead_min": 60,
+  "done_max_pct": 25.0,
+  "share_min_pct": 40.0
+ },
+ "day": {
+  "basis": "et_day",
+  "date": "2026-11-23",
+  "BTC": 1.21,
+  "ETH": 1.11
+ },
+ "coins": {
+  "BTC": {
+   "sym": "BTC",
+   "name": "Bitcoin",
+   "kind": "graded",
+   "grade": "Unclear",
+   "cand": null,
+   "refs": [],
+   "dir": "up",
+   "reasons": [
+    "no candidate passes the timing test"
+   ],
+   "phrases": [
+    "No reported event lines up with this move.",
+    "In the hour the run began, the market readings show risk-on across assets."
+   ],
+   "phrases_sec": [
+    "No reported event lines up with this move.",
+    ""
+   ],
+   "line": [
+    "No reported event lines up with this move.",
+    "In the hour the run began, the market readings show risk-on across assets."
+   ],
+   "required": [
+    0
+   ],
+   "readings": {
+    "hour": "onset",
+    "start_utc": "2026-11-23T02:50:00Z",
+    "end_utc": "2026-11-23T03:50:00Z",
+    "rows": [
+     {
+      "key": "ETH",
+      "label": "Ether",
+      "value": 1.78,
+      "unit": "pct"
+     },
+     {
+      "key": "ES=F",
+      "label": "S&P 500 futures",
+      "value": 0.41,
+      "unit": "pct"
+     },
+     {
+      "key": "NQ=F",
+      "label": "Nasdaq 100 futures",
+      "value": 0.78,
+      "unit": "pct"
+     },
+     {
+      "key": "DX-Y.NYB",
+      "label": "Dollar index",
+      "value": 0.02,
+      "unit": "pct"
+     },
+     {
+      "key": "^TNX",
+      "label": "10-year Treasury yield",
+      "value": null,
+      "unit": "bp"
+     },
+     {
+      "key": "ZT=F",
+      "label": "2-year Treasury note futures",
+      "value": -0.02,
+      "unit": "pct"
+     },
+     {
+      "key": "GC=F",
+      "label": "Gold futures",
+      "value": 0.58,
+      "unit": "pct"
+     },
+     {
+      "key": "CL=F",
+      "label": "Oil futures (WTI)",
+      "value": 0.41,
+      "unit": "pct"
+     },
+     {
+      "key": "^VIX",
+      "label": "VIX",
+      "value": null,
+      "unit": "pct"
+     }
+    ],
+    "patterns": [
+     "risk-on across assets"
+    ],
+    "shut": false,
+    "onset_rows": [
+     [
+      "BTC",
+      1.25
+     ],
+     [
+      "ETH",
+      1.78
+     ],
+     [
+      "ES=F",
+      0.41
+     ],
+     [
+      "NQ=F",
+      0.78
+     ],
+     [
+      "DX-Y.NYB",
+      0.02
+     ],
+     [
+      "^TNX",
+      null
+     ],
+     [
+      "ZT=F",
+      -0.02
+     ],
+     [
+      "GC=F",
+      0.58
+     ],
+     [
+      "CL=F",
+      0.41
+     ],
+     [
+      "^VIX",
+      null
+     ],
+     [
+      "IBIT",
+      null
+     ],
+     [
+      "FBTC",
+      null
+     ],
+     [
+      "oi",
+      -0.02
+     ],
+     [
+      "liq",
+      null
+     ],
+     [
+      "taker",
+      null
+     ],
+     [
+      "liq-gate",
+      null
+     ],
+     [
+      "kalshi-KXFED-26DEC-T4.00",
+      null
+     ],
+     [
+      "funding",
+      -0.0005
+     ]
+    ],
+    "onset_patterns": [
+     "risk-on across assets"
+    ],
+    "onset_shut": false
+   },
+   "basis": "et_day",
+   "window_words": "since midnight ET",
+   "move_pct": 1.21,
+   "text": [
+    "No reported event lines up with this move.",
+    "In the hour the run began, the market readings show risk-on across assets."
+   ],
+   "by": "model",
+   "fail_reason": null,
+   "corrections": [],
+   "url": "/why/2026-11-23-bitcoin",
+   "check": [
+    {
+     "sentence": 1,
+     "claim": "No reported event lines up with this move.",
+     "why": "The first phrase says exactly this, and the sentence repeats it word for word, adding no cause, time, figure, direction, prediction or advice.",
+     "stands": true
+    },
+    {
+     "sentence": 2,
+     "claim": "In the hour the run began, the market readings show risk-on across assets.",
+     "why": "The second phrase states the same time (the hour the run began) and the same finding (risk-on across assets), and the sentence repeats it without adding anything.",
+     "stands": true
+    }
+   ]
+  },
+  "ETH": {
+   "sym": "ETH",
+   "name": "Ether",
+   "kind": "with_btc",
+   "grade": null,
+   "cand": null,
+   "refs": [],
+   "dir": null,
+   "reasons": [
+    "within 2 points of Bitcoin since midnight ET"
+   ],
+   "phrases": [],
+   "phrases_sec": [],
+   "line": [
+    "Ether moved with Bitcoin."
+   ],
+   "required": [],
+   "readings": null,
+   "basis": "et_day",
+   "window_words": "since midnight ET",
+   "text": [
+    "Ether moved with Bitcoin."
+   ],
+   "by": "phrases",
+   "fail_reason": null,
+   "corrections": [],
+   "url": null
+  }
+ },
+ "spend": {
+  "kind": "run",
+  "date": "2026-11-23",
+  "slot": "morning",
+  "t": "2026-11-23T13:18:29Z",
+  "calls": 2,
+  "tokens": 1139,
+  "usd": 0.002726,
+  "by_stage": {
+   "verdict_draft": 0.00015,
+   "verdict_check": 0.002576
+  },
+  "models": {
+   "verdict_draft": "claude-haiku-5-5",
+   "verdict_check": "claude-sonnet-5-5"
+  },
+  "day_usd": 0.002726,
+  "cap_usd": 1.5,
+  "coins": {
+   "BTC": "Unclear (model)",
+   "ETH": "with_btc"
+  }
+ }
+}

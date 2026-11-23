@@ -1,31 +1,31 @@
 {
- "line": "Bitcoin drifting higher by one percent on the day but trading deep underwater on the week and month, while the market sits in extreme fear with heavy long liquidations crossing leverage desks.",
+ "line": "Bitcoin rebounds on liquidation cascade while spot ETFs post outflows and sentiment sits at extreme fear.",
  "by": "edition",
- "written_utc": "2026-11-22T23:14:40Z",
- "written_et": "6:14 PM ET on Nov 22",
+ "written_utc": "2026-11-23T13:17:51Z",
+ "written_et": "8:17 AM ET on Nov 23",
  "readings": {
-  "stamp_utc": "2026-11-22T23:12:41Z",
-  "btc_24h_pct": 1.03,
-  "etf_net_usd_m": -124.5,
+  "stamp_utc": "2026-11-23T13:16:47Z",
+  "btc_24h_pct": 0.83,
+  "etf_net_usd_m": -669.2,
   "etf_date": "20 Nov 2026",
   "fear_greed": 11,
   "fear_greed_band": "Extreme fear",
-  "funding_8h_pct": 0.0023,
+  "funding_8h_pct": 0.0004,
   "funding_band": "calm"
  },
- "small_line": "Written from Bitcoin +1.03% on the day, spot ETF net -124.5M USD (Nov 20, 2026), Fear & Greed 11 (extreme fear), funding +0.0023% per 8h (calm)",
+ "small_line": "Written from Bitcoin +0.83% on the day, spot ETF net -669.2M USD (Nov 20, 2026), Fear & Greed 11 (extreme fear), funding +0.0004% per 8h (calm)",
  "wire_top3": [
   {
-   "id": "c004",
-   "line": "Chainflip disclosed theft of 122.9 BTC and other assets totaling $12M, offering a 10% bounty for return by Nov. 24."
-  },
-  {
-   "id": "c005",
-   "line": "Kalshi heads to court Monday on New York AG order that the exchange claims would shut it down nationwide, contradicting AG's stated intent."
+   "id": "c002",
+   "line": "Bitcoin rebounded above $60K after $1.8 billion in leveraged crypto liquidations, mostly bullish positions closed in the selloff."
   },
   {
    "id": "c006",
    "line": "Cyber bridge exploit prompted Upbit and Bithumb to halt CYBER deposits and withdrawals; unexpected token minting on Solana followed by bridge lockbox outflows."
+  },
+  {
+   "id": "c004",
+   "line": "Chainflip disclosed theft of 122.9 BTC and other assets totaling $12M, offering a 10% bounty for return by Nov. 24."
   }
  ],
  "crossed": []

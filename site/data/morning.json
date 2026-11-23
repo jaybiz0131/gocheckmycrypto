@@ -1,17 +1,17 @@
 {
- "date_et": "2026-11-22",
+ "date_et": "2026-11-23",
  "slot": "morning",
- "published_utc": "2026-11-22T13:17:53Z",
- "published_et": "8:17 AM ET on Nov 22",
- "headline": "Bitcoin higher as spot ETFs post outflows; security incidents dominate wire",
+ "published_utc": "2026-11-23T13:17:51Z",
+ "published_et": "8:17 AM ET on Nov 23",
+ "headline": "Bitcoin higher as liquidations clear; fear index at extreme",
  "headline_by": "model",
  "sentences": [
-  "Bitcoin higher over the past 24 hours as spot Bitcoin ETFs saw net outflows of $124.5M on the day, November 20, with the Fear & Greed index reads 11, extreme fear.",
-  "The wire carries security incidents across protocols: Chainflip halted swaps after an attacker drained $4.86M from vault with valid signature, indicating potential validator key compromise; a Cyber bridge exploit minted 5.21M tokens, prompting South Korean exchanges Upbit and Bithumb to freeze CYBER deposits and withdrawals."
+  "Bitcoin higher over the past 24 hours as $1.8 billion in leveraged crypto liquidations, mostly bullish positions closed in the selloff, according to the wire's top line.",
+  "Markets show spot Bitcoin ETFs saw net outflows of $669.2M on the day, November 20, while the Fear & Greed index reads 11, extreme fear."
  ],
- "line": "Price strength meets extreme fear and protocol vulnerabilities; regulatory pressure mounts as security incidents ripple across exchanges and infrastructure.",
+ "line": "Bitcoin rebounds on liquidation cascade while spot ETFs post outflows and sentiment sits at extreme fear.",
  "line_by": "edition",
- "tokens": 1121,
- "usd": 0.0022,
+ "tokens": 1007,
+ "usd": 0.0016,
  "generated_by": "morning.py (one model call; copy law and twins gate)"
 }

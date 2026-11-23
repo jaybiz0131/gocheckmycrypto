@@ -1,0 +1,68 @@
+{
+ "what": "Big movers, checked: the gate on the Board's top 100 (AUDIT.md 3.1 and 3.2), and for each coin past it the evidence by 9.2's rules with the coin's own candidates. Measured by code.",
+ "window": {
+  "start_utc": "2026-11-22T13:16:47Z",
+  "end_utc": "2026-11-23T13:16:47Z",
+  "hours": 24
+ },
+ "made_utc": "2026-11-23T13:18:33Z",
+ "gate": {
+  "rule": {
+   "version": "2026-10-19",
+   "source": "AUDIT.md section 3.1, the row 'Any top-100 coin', and section 3.2",
+   "move_min_pct": 10.0,
+   "vol_multiple_min": 2.5,
+   "excess_min_pts": 6.0,
+   "history_days": 30,
+   "per_slot": 8,
+   "per_day": 10
+  },
+  "board_utc": "2026-11-23T13:16:47Z",
+  "before_day": "2026-11-22",
+  "btc_24h_pct": 0.83,
+  "passed": [],
+  "over_cap": [],
+  "failed": [],
+  "left_out": [
+   {
+    "sym": "QNT",
+    "name": "Quant",
+    "gecko_id": "quant-network",
+    "rank": 37,
+    "pos": 33,
+    "move_pct": 10.78,
+    "why": "the desk holds no stored daily closes for it"
+   },
+   {
+    "sym": "ALGO",
+    "name": "Algorand",
+    "gecko_id": "algorand",
+    "rank": 80,
+    "pos": 64,
+    "move_pct": 12.25,
+    "why": "the desk holds no stored daily closes for it"
+   }
+  ],
+  "own_card": [],
+  "log": [
+   "movers: left out QNT +10.78%: the desk holds no stored daily closes for it; never estimated",
+   "movers: left out ALGO +12.25%: the desk holds no stored daily closes for it; never estimated",
+   "movers: 0 coin(s) passed one leg and failed another (the per-coin log ran through 2026-11-02)",
+   "movers: no top-100 coin passed the gate (6 measured, 2 left out for history)"
+  ],
+  "crash": {
+   "day": false,
+   "why": [],
+   "btc_pct": 0.83,
+   "market_pct": 0.86,
+   "past_move": 2,
+   "measured_past_move": 0,
+   "with_market": 0
+  },
+  "used_today": 0
+ },
+ "coins": {},
+ "shared": {},
+ "date_et": "2026-11-23",
+ "slot": "morning"
+}
