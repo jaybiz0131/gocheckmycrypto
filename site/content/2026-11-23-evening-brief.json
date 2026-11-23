@@ -1,0 +1,28 @@
+{
+  "id": "wrap-pm-2026-11-23",
+  "slug": "evening-brief-2026-11-23",
+  "kind": "brief",
+  "title": "The Evening Brief: Market holds rebound as calendar tightens",
+  "dek": "Monday evening finds crypto holding Monday's liquidation-driven rebound, but institutional flows remain negative and volatility stays elevated. The week ahead brings economic data and a Bitcoin difficulty adjustment, with the tape in extreme fear.",
+  "date": "2026-11-23",
+  "published_utc": "2026-11-23T23:15:54Z",
+  "category": "daily edition",
+  "rank": -3,
+  "author": "GoCheckMyCrypto",
+  "key_fact": "Bitcoin rebounded on liquidation cascades but spot ETF outflows persisted; whale behavior shows deceleration in the week-long outflow trend, while leverage positioning remains stretched and the difficulty adjustment looms.",
+  "bottom_line": "Monday rebounded on liquidations and held into the evening, but institutional flows remained negative and leverage positioning stayed stretched. The desk's Whale Watch board shows whale outflows have decelerated sharply from $4.1 billion the week of November 7 to $404 million the week ending November 21, a signal that some accumulation may be stabilizing the market, though spot Bitcoin ETF outflows of $1,790.0M over the week show institutional selling persisted. Bitcoin prices sit 50.8% below their 12-month high as extreme fear grips the tape. The week ahead will test these levels against Wednesday's PCE data release and the Bitcoin difficulty adjustment at an estimated increase of 8.94%, with 643 blocks to retarget.",
+  "human_take": "",
+  "body": [
+    "Monday's rebound held into the evening after a sharp liquidation-driven rally earlier in the day. Bitcoin up 0.82% over 24 hours, though the weekly picture remains under pressure: Bitcoin down 6.33% over seven days and down 24.57% over thirty days. Ether little changed over 24 hours but Ether down 6.15% over seven days and down 27.81% over thirty days. Solana up 2.44% over 24 hours, Solana down 2.89% over seven days and down 31.27% over thirty days. Altcoins posted scattered gains, with QNT up 9.44% over 24 hours, ATOM up 8.29% over 24 hours, and ALGO up 8.06% over 24 hours; losers included VVV down 6.65% over 24 hours, WLFI down 4.27% over 24 hours, and SKY down 3.34% over 24 hours.",
+    "Institutional flows tell a different story. Spot Bitcoin ETFs saw net outflows of $669.2M on the day, November 20, extending a streak of selling pressure: spot Bitcoin ETFs saw net outflows of $1,790.0M over the week through November 20. Yet the desk's Whale Watch board shows the week-long outflow trend has begun to decelerate: the week ending November 21 saw $404M moved off exchanges, down sharply from $1,551M the week of November 14 and $4,125M the week ending November 7. Within that total, bitcoin itself saw $396,319,648 moving off exchanges over the week, the largest whale flow, though Ether has reversed course with $177,624,547 moving onto exchanges. Stablecoins have continued to drain: stablecoin supply fell 5.96% over the last thirty days, with the latest inflows showing $77.9M net moving onto exchanges over the week.",
+    "Leverage remains unsettled. On OKX, Bitcoin's funding rate stands at 0.0057% per 8-hour interval, annualizing to 6.2%, with longs heavily favored at a 2.68-to-1 ratio; the most recent 4-hour window saw 100 liquidations for $715,456 in long positions against $178,388 in short positions. Ether's funding has turned negative at negative 0.0076% per 8-hour interval, annualizing to negative 8.3%, a signal longs are overextended; that 1-hour window recorded 100 liquidations with $1,415,294 in long positions liquidated against $3,096 in shorts. Solana and XRP show similar patterns: both have negative funding and long-dominant positioning, with Solana's last 2-hour window showing 100 liquidations in longs for $529,349 and no short liquidations.",
+    "The Fear and Greed Index stands at 11, labeled Extreme Fear, the lowest reading in a 30-day range that peaked at 54. The desk's boards show Bitcoin at 61329, trading 50.8% below its 12-month high of 124,739.81. All major coins sit well below their 200-day moving averages: Bitcoin down 15.1% from its 200-day SMA, Ether down 19.1%, Solana down 18.4%, and Cardano down 29.9%. Golden cross signals have appeared on Bitcoin, Ether, Solana, Cardano, and BNB, though both MACD and RSI readings remain deeply depressed across the board.",
+    "The week ahead will test these conditions against scheduled economic releases. Wednesday, November 25 brings the PCE: Personal Income and Outlays report, the desk's calendar shows. The desk also reports that Bitcoin difficulty adjustment is estimated at an increase of 8.94%, with 643 blocks remaining until retarget. Network fees remain minimal, with the fastest rate at 1 satoshi per byte."
+  ],
+  "sources": [
+    {
+      "title": "The Week Ahead: PCE: Personal Income and Outlays; GDP: Gross Domestic Product; Bitcoin difficulty adjustment, estimated +8.94%, 643 blocks to go",
+      "url": "/articles/week-ahead-2026-11-23.html"
+    }
+  ]
+}

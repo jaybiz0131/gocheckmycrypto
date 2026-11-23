@@ -2,59 +2,14 @@
   "date": "2026-11-23",
   "generated_by": "chartmaster.py (auto, from the live boards)",
   "mode": "live",
-  "path": "data-only",
-  "headline": "Chart data card: levels, 50-day and 200-day lines, RSI",
-  "paragraphs": [],
-  "data_only": true,
-  "levels": [
-    {
-      "symbol": "BTC",
-      "price": 63888,
-      "sma50": 76237.05,
-      "sma200": 72253.75,
-      "rsi14": 36.0
-    },
-    {
-      "symbol": "ETH",
-      "price": 1825.48,
-      "sma50": 2228.55,
-      "sma200": 2120.18,
-      "rsi14": 39.0
-    },
-    {
-      "symbol": "SOL",
-      "price": 77.48,
-      "sma50": 94.34,
-      "sma200": 88.28,
-      "rsi14": 42.4
-    },
-    {
-      "symbol": "XRP",
-      "price": 1.01,
-      "sma50": 1.21,
-      "sma200": 1.24,
-      "rsi14": 42.3
-    },
-    {
-      "symbol": "BNB",
-      "price": 582.11,
-      "sma50": 692.07,
-      "sma200": 655.89,
-      "rsi14": 36.3
-    },
-    {
-      "symbol": "DOGE",
-      "price": 0.05972,
-      "sma50": 0.08,
-      "sma200": 0.08,
-      "rsi14": 22.1
-    },
-    {
-      "symbol": "ADA",
-      "price": 0.155358,
-      "sma50": 0.22,
-      "sma200": 0.21,
-      "rsi14": 24.0
-    }
+  "path": "cut",
+  "headline": "Majors sit below their 200-day lines",
+  "paragraphs": [
+    "Start with regime: Bitcoin at 61,329 is 15.1% below its 200-day simple moving average, Ethereum at 1,715.6 sits 19.1% under, Solana 18.4% under, XRP 24.1% under, BNB 15.1% under, Dogecoin 29.7% under, and Cardano 29.9% under. All seven majors trade below the 200-day line. That is a full bear structure. Complicating it slightly: Bitcoin and five others show golden crosses (the 50-day above the 200-day), suggesting at least some technical grounds for mean reversion have been seeded, but price has not yet reclaimed the longer average. XRP and Dogecoin lack even that cross. The picture is downtrend with the smallest of internal setup cracks.",
+    "Momentum reads flat to divided. Bitcoin's RSI-14 sits at 27.3, Ethereum at 29.6, BNB at 27.8, Cardano at 21.8, and Dogecoin at 29.0, all deep in oversold territory where reversals can begin but do not guarantee them. MACD tells a different story: Bitcoin, Ethereum, BNB, Cardano, and Dogecoin all print MACD below signal (bearish configuration), while Solana and XRP show MACD above signal (bullish). That split is worth noting. On the day, up +0.8% for Bitcoin, flat +0.0% for Ethereum, up +2.4% for Solana, up +1.8% for XRP, up +0.1% for BNB, up +2.1% for Dogecoin, up +2.3% for Cardano. But over the week, all seven are red: Bitcoin down -6.3%, Ethereum down -6.2%, Solana down -2.9%, XRP down -4.8%, BNB down -6.3%, Dogecoin down -7.6%, Cardano down -11.6%. Over the month, the damage widens: Bitcoin down -24.6%, Ethereum down -27.8%, Solana down -31.3%, XRP down -28.3%, BNB down -24.4%, Dogecoin down -29.6%, Cardano down -25.1%. The contradiction is real: intraday tick-ups against week and month declines. Realized volatility runs hot across the board, with Cardano at 77.1%, Ethereum at 66.4%, and others in the 56-66% range. This is a grinding, choppy bear market with enough chop to trigger quick reversals inside the larger trend.",
+    "Bitcoin open interest at OKX stands at 1.8 billion dollars with a long-to-short ratio of 2.68 to 1, meaning nearly three dollars in long bets for every dollar in short. Over the last four hours, Bitcoin saw 100 liquidations with 715k dollars of longs liquidated versus 178k of shorts, a 4-to-1 long cleanup. In the last hour, Ethereum saw 100 liquidations with 1.4 million dollars of longs liquidated and only 3k of shorts. When shorts are paid to hold, it often signals conviction in lower prices from certain market participants. Neither conviction looks durable.",
+    "Flow data reveals ongoing institutional de-risking and a split in whale behavior. Bitcoin spot ETF flows show outflows of 669.2 million on November 20 and a net outflow of 1,790 million over the last five sessions, with four of those five days pointing the same direction. Ethereum ETF flows are parallel: 97.3 million out on November 20 and 305.8 million out over five sessions, all five days negative. This is consistent institutional exit. Over the same period, whales moved 218.7 million dollars net off exchanges over the last 168 hours, led by Bitcoin: 396.3 million net moving off exchanges while Ethereum saw 177.6 million net moving onto exchanges. The biggest single Bitcoin moves were outflows from Kraken (318.7 million and 212.4 million), and the biggest Ethereum moves were inflows to Binance (162.5 million) and Kraken (148.8 million). The weekly whale flow trend reinforces de-risking: week ending November 7 saw 4,125 million move off exchanges, week ending November 14 saw 1,551 million off, and week ending November 21 saw 404 million off. The deceleration is sharp. Stablecoin supply stands at 282.7 billion, down 5.96% over 30 days, meaning dollars available to buy the dip are shrinking even as whales pull Bitcoin to cold storage and institutions exit via spot ETF. That is a signal worth reading: the marginal buyer is thinning.",
+    "Sentiment sits at Extreme Fear, a value of 11 on the gauge, within a 30-day range of 10 to 54. The crowd is terrified, but the tape does not show panic selling; it shows managed exit and accumulation into cold storage, the reverse of what max fear often precedes. That disconnect, if it holds, is a floor being laid.",
+    "Each is a data point, not a forecast. Until one of them shows, the regime remains: bear structure, leverage inverted, flows out, dollars shrinking, fear high, and the tape dry."
   ]
 }

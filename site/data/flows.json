@@ -1,13 +1,13 @@
 {
   "example": false,
   "generated": "2026-11-23",
-  "generated_utc": "2026-11-23T14:33:54Z",
+  "generated_utc": "2026-11-23T23:12:55Z",
   "window_hours": 168,
-  "txn_count": 27,
+  "txn_count": 21,
   "volatile": {
-    "inflow_usd": 841512034,
-    "outflow_usd": 1116866479,
-    "net_usd": 275354445,
+    "inflow_usd": 622090041,
+    "outflow_usd": 840785142,
+    "net_usd": 218695101,
     "direction": "off exchanges"
   },
   "stablecoins": {
@@ -19,9 +19,9 @@
   "by_asset": [
     {
       "symbol": "BTC",
-      "inflow_usd": 530195403,
-      "outflow_usd": 983174395,
-      "net_usd": 452978992
+      "inflow_usd": 310773410,
+      "outflow_usd": 707093058,
+      "net_usd": 396319648
     },
     {
       "symbol": "ETH",
@@ -33,21 +33,21 @@
   "by_exchange": [
     {
       "exchange": "Kraken",
-      "inflow_usd": 292596227,
-      "outflow_usd": 859894393,
-      "net_usd": 567298166
-    },
-    {
-      "exchange": "Coinbase Institutional",
-      "inflow_usd": 325933266,
-      "outflow_usd": 123280002,
-      "net_usd": -202653264
+      "inflow_usd": 148818693,
+      "outflow_usd": 707093058,
+      "net_usd": 558274365
     },
     {
       "exchange": "OKX",
       "inflow_usd": 145568729,
       "outflow_usd": 193959211,
       "net_usd": 48390482
+    },
+    {
+      "exchange": "Coinbase Institutional",
+      "inflow_usd": 250288807,
+      "outflow_usd": 0,
+      "net_usd": -250288807
     },
     {
       "exchange": "Binance",
@@ -66,16 +66,9 @@
     {
       "exchange": "Kraken",
       "kind": "volatile",
-      "inflow_usd": 292596227,
-      "outflow_usd": 859894393,
-      "net_usd": 567298166
-    },
-    {
-      "exchange": "Coinbase Institutional",
-      "kind": "volatile",
-      "inflow_usd": 325933266,
-      "outflow_usd": 123280002,
-      "net_usd": -202653264
+      "inflow_usd": 148818693,
+      "outflow_usd": 707093058,
+      "net_usd": 558274365
     },
     {
       "exchange": "OKX",
@@ -83,6 +76,13 @@
       "inflow_usd": 145568729,
       "outflow_usd": 193959211,
       "net_usd": 48390482
+    },
+    {
+      "exchange": "Coinbase Institutional",
+      "kind": "volatile",
+      "inflow_usd": 250288807,
+      "outflow_usd": 0,
+      "net_usd": -250288807
     },
     {
       "exchange": "Binance",
@@ -151,18 +151,6 @@
       "stable": true
     },
     {
-      "symbol": "BTC",
-      "amount": 2219.0,
-      "usd": 143777534.0,
-      "to": "Kraken",
-      "from": "Unknown wallet",
-      "blockchain": "bitcoin",
-      "hash": "15a319c817c933ad3072e4a8029ecb896cb1504d53fd83d4989d92790758c179",
-      "url": "",
-      "ts": 1794846353.0,
-      "stable": false
-    },
-    {
       "symbol": "USDT",
       "amount": 126300000.0,
       "usd": 126253079.0,
@@ -196,18 +184,6 @@
       "hash": "5e00d4b04808b761fef7cb7b28ff255263ed254451e2827cbd5291b4313df5ab",
       "url": "",
       "ts": 1794945493.0,
-      "stable": false
-    },
-    {
-      "symbol": "BTC",
-      "amount": 1176.0,
-      "usd": 75644459.0,
-      "to": "Coinbase Institutional",
-      "from": "Unknown wallet",
-      "blockchain": "bitcoin",
-      "hash": "23efb53b69a734483961211b2e1ce2ba4767aa59855fe94bc0444199fa6470bc",
-      "url": "",
-      "ts": 1794845472.0,
       "stable": false
     },
     {
@@ -274,18 +250,6 @@
     },
     {
       "symbol": "BTC",
-      "amount": 1533.0,
-      "usd": 99486387.0,
-      "to": "Unknown wallet",
-      "from": "Kraken",
-      "blockchain": "bitcoin",
-      "hash": "3ceeeb74c30c22a42b2b310818f7a9d850f9942d5a40a8a28ecbb6df247cff48",
-      "url": "",
-      "ts": 1794862079.0,
-      "stable": false
-    },
-    {
-      "symbol": "BTC",
       "amount": 1103.0,
       "usd": 70993452.0,
       "to": "Unknown wallet",
@@ -294,42 +258,6 @@
       "hash": "303e5b6edf61016b92d4890fa5d8fb7ef1d579efb99948bae3cb256c34872646",
       "url": "",
       "ts": 1794910662.0,
-      "stable": false
-    },
-    {
-      "symbol": "BTC",
-      "amount": 1086.0,
-      "usd": 70256572.0,
-      "to": "Unknown wallet",
-      "from": "Coinbase Institutional",
-      "blockchain": "bitcoin",
-      "hash": "162387e6f1a1a7181aca95ac10fcfbc12d55a8055b4fe3ef423169313e783e6b",
-      "url": "",
-      "ts": 1794846121.0,
-      "stable": false
-    },
-    {
-      "symbol": "BTC",
-      "amount": 829.0,
-      "usd": 53314948.0,
-      "to": "Unknown wallet",
-      "from": "Kraken",
-      "blockchain": "bitcoin",
-      "hash": "a258630df814d0d6214d4e219cf05c1053914a65fd3dec155051baf72688d556",
-      "url": "",
-      "ts": 1794843122.0,
-      "stable": false
-    },
-    {
-      "symbol": "BTC",
-      "amount": 814.0,
-      "usd": 53023430.0,
-      "to": "Unknown wallet",
-      "from": "Coinbase Institutional",
-      "blockchain": "bitcoin",
-      "hash": "cffeaac43935fc31d957b80fcc6a3fc5018184a8808e80d5e1d0dca681b75cf7",
-      "url": "",
-      "ts": 1794849931.0,
       "stable": false
     },
     {

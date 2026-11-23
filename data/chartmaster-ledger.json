@@ -242,5 +242,19 @@
   ],
   "detail": "the rest still fails whole: chartmaster: missing/oversized headline",
   "t": "2026-11-23T14:38:22Z"
+ },
+ {
+  "date": "2026-11-23",
+  "path": "cut",
+  "tripped": [
+   "headline: belt: chartmaster: funding is stated without naming the venue (OKX); one exchange's funding is not the mar",
+   "belt: chartmaster: funding is stated without naming the venue (OKX); one exchange's funding is not the mar",
+   "belt: chartmaster: an eight-hour funding rate of 0.0057% is stated with no annual figure beside it. State ",
+   "belt: chartmaster: an eight-hour funding rate of 0.0076% is stated with no annual figure beside it. State ",
+   "belt: chartmaster: an eight-hour funding rate of 0.94% is stated with no annual figure beside it. State th",
+   "advice: bleed"
+  ],
+  "detail": "dropped 8 sentence(s): Derivatives positioning shows heavy leverage in the long direction and negative  | BTC funding sits at +0.0057% per 8 hours, or +6.2% annualized, positive but mode | Ethereum is",
+  "t": "2026-11-23T23:15:54Z"
  }
 ]

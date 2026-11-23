@@ -1,162 +1,69 @@
 {
  "what": "the day's ranked clusters, in the desk's own one line, sources counted and linked (Jack, 5 October 2026)",
  "what_a_wire_line_is": "Each line is the desk's own one-line summary of a story it ranked, with its sources counted and linked. It is not a story the desk wrote or checked; only the item with a badge was checked.",
- "ranked_utc": "2026-11-22T23:13:08Z",
- "ranked_et": "6:13 PM ET on Nov 22",
- "refreshed_utc": "2026-11-23T13:17:51Z",
- "refreshed_et": "8:17 AM ET on Nov 23",
- "refreshes": 1,
- "snapshot_stamp_utc": "2026-11-22T23:12:41Z",
+ "ranked_utc": "2026-11-23T23:14:16Z",
+ "ranked_et": "6:14 PM ET on Nov 23",
+ "refreshed_utc": "2026-11-23T23:14:16Z",
+ "refreshed_et": "6:14 PM ET on Nov 23",
+ "refreshes": 0,
+ "snapshot_stamp_utc": "2026-11-23T23:12:55Z",
  "items": [
   {
-   "rank": 4,
-   "id": "c002",
-   "line": "Bitcoin rebounded above $60K after $1.8 billion in leveraged crypto liquidations, mostly bullish positions closed in the selloff.",
-   "titles": [
-    "Bitcoin rebounds above $60,000 after $1.8 billion crypto liquidation wave"
-   ],
-   "board_reading": "Bitcoin price",
-   "source_count": 3,
-   "primary": false,
-   "standing": "single",
-   "links": [
-    {
-     "url": "https://www.coindesk.com/markets/2026/11/21/bitcoin-bounces-9-from-two-year-low-to-retake-usd60-000-as-traders-eye-monday-s-stock-open",
-     "outlet": "CoinDesk",
-     "primary": false
-    },
-    {
-     "url": "https://www.theblock.co/news/markets/2026-11-23-spot-bitcoin-etfs-shed-1-79-billion-in-past-week-444857",
-     "outlet": "The Block",
-     "primary": false
-    },
-    {
-     "url": "https://cryptoslate.com/bitcoins-plunge-below-60000-triggers-20-million-buying-spree-at-twenty-one-capital/",
-     "outlet": "CryptoSlate",
-     "primary": false
-    }
-   ],
-   "reported_utc": "2026-11-21T17:50:00Z",
-   "verdict": "NEEDS-HUMAN-REVIEW",
-   "mark": "wire"
-  },
-  {
    "rank": 3,
-   "id": "c006",
-   "line": "Cyber bridge exploit prompted Upbit and Bithumb to halt CYBER deposits and withdrawals; unexpected token minting on Solana followed by bridge lockbox outflows.",
+   "id": "c001",
+   "line": "CFTC published final rule requiring data reporting for certain event contracts, advancing regulatory framework for prediction markets.",
    "titles": [
-    "Cyber investigating suspected $1 million bridge exploit as Upbit, Bithumb freeze transfers"
+    "CFTC Publishes Final Rule Concerning Data Reporting Requirements for Certain Event Contracts",
+    "CFTC proposes data reporting rule for event contracts"
    ],
    "board_reading": "",
    "source_count": 2,
-   "primary": false,
-   "standing": "single",
+   "primary": true,
+   "standing": "corroborated",
    "links": [
     {
-     "url": "https://www.theblock.co/news/defi/2026-11-21-cyber-investigating-suspected-1-million-bridge-exploit-as-upbit-bithumb-freeze-transfers-444810",
-     "outlet": "The Block",
-     "primary": false
+     "url": "https://www.cftc.gov/PressRoom/PressReleases/9330-26",
+     "outlet": "CFTC Press Releases",
+     "primary": true
     },
     {
-     "url": "https://cryptobriefing.com/upbit-bithumb-flag-sky-usds-caution/",
+     "url": "https://cryptobriefing.com/cftc-final-rule-event-contracts-reporting/",
      "outlet": "Crypto Briefing",
      "primary": false
     }
    ],
-   "reported_utc": "2026-11-21T18:51:14Z",
-   "verdict": "VERIFIED",
-   "mark": "wire"
-  },
-  {
-   "rank": 1,
-   "id": "c004",
-   "line": "Chainflip disclosed theft of 122.9 BTC and other assets totaling $12M, offering a 10% bounty for return by Nov. 24.",
-   "titles": [
-    "Chainflip\u2019s losses climb to $12 million after protocol discloses 122.9 BTC theft, offers hacker bounty"
-   ],
-   "board_reading": "Bitcoin price",
-   "source_count": 1,
-   "primary": false,
-   "standing": "single",
-   "links": [
-    {
-     "url": "https://www.theblock.co/news/defi/2026-11-22-chainflips-losses-climb-to-12-million-after-protocol-discloses-122-9-btc-theft-offers-hacker-bounty-444829",
-     "outlet": "The Block",
-     "primary": false
-    }
-   ],
-   "reported_utc": "2026-11-22T18:58:57Z",
-   "verdict": "VERIFIED",
-   "mark": "wire"
-  },
-  {
-   "rank": 2,
-   "id": "c005",
-   "line": "Kalshi heads to court Monday on New York AG order that the exchange claims would shut it down nationwide, contradicting AG's stated intent.",
-   "titles": [
-    "Kalshi faces Monday hearing on New York order it says would shut down its exchange nationwide"
-   ],
-   "board_reading": "Whale flows",
-   "source_count": 1,
-   "primary": false,
-   "standing": "single",
-   "links": [
-    {
-     "url": "https://www.theblock.co/news/regulation/2026-11-21-kalshi-faces-monday-hearing-on-new-york-order-it-says-would-shut-down-its-exchange-nationwide-444813",
-     "outlet": "The Block",
-     "primary": false
-    }
-   ],
-   "reported_utc": "2026-11-21T21:17:36Z",
-   "verdict": "NEEDS-HUMAN-REVIEW",
-   "mark": "wire"
-  },
-  {
-   "rank": 5,
-   "id": "c078",
-   "line": "UK bans crypto exchanges from making markets on their own platforms; spot Bitcoin market makers on qualifying venues exempt from principal-dealing permission.",
-   "titles": [
-    "UK to ban crypto exchanges from making markets on their own platforms as Bitcoin rules change"
-   ],
-   "board_reading": "Whale flows",
-   "source_count": 1,
-   "primary": false,
-   "standing": "single",
-   "links": [
-    {
-     "url": "https://cryptoslate.com/uk-to-ban-crypto-exchanges-from-making-markets-on-their-own-platforms-as-bitcoin-rules-change/",
-     "outlet": "CryptoSlate",
-     "primary": false
-    }
-   ],
-   "reported_utc": "2026-11-22T18:05:49Z",
-   "verdict": "VERIFIED",
-   "mark": "wire"
-  },
-  {
-   "rank": 6,
-   "id": "c074",
-   "line": "Senate letter backs state-licensed stablecoin issuers continuing after Jan. 18, with Treasury proposal recognizing waivers for eligible federal applicants.",
-   "titles": [
-    "Senators want state-licensed firms to keep issuing stablecoins after Jan. 18"
-   ],
-   "board_reading": "Stablecoin supply",
-   "source_count": 1,
-   "primary": false,
-   "standing": "single",
-   "links": [
-    {
-     "url": "https://cryptoslate.com/senators-want-state-licensed-firms-to-keep-issuing-stablecoins-after-jan-18/",
-     "outlet": "CryptoSlate",
-     "primary": false
-    }
-   ],
-   "reported_utc": "2026-11-22T22:05:49Z",
+   "reported_utc": "2026-11-23T21:00:00Z",
    "verdict": "VERIFIED",
    "mark": "wire"
   }
  ],
  "checked": null,
- "dropped": [],
+ "dropped": [
+  {
+   "rank": 1,
+   "id": "c174",
+   "why": "the wire line runs 198 characters, over 160"
+  },
+  {
+   "rank": 2,
+   "id": "c000",
+   "why": "the wire line runs 212 characters, over 160"
+  },
+  {
+   "rank": 4,
+   "id": "c002",
+   "why": "the wire line runs 186 characters, over 160"
+  },
+  {
+   "rank": 5,
+   "id": "c038",
+   "why": "the wire line runs 177 characters, over 160"
+  },
+  {
+   "rank": 6,
+   "id": "c173",
+   "why": "the wire line runs 169 characters, over 160"
+  }
+ ],
  "source_cuts": []
 }

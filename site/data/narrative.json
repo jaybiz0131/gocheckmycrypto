@@ -1,31 +1,23 @@
 {
- "line": "Bitcoin drifting higher on liquidation-driven positioning relief, with the day's rebound led by long closures; the news today is a corrective bounce against persistent multi-week selling pressure.",
+ "line": "Bitcoin drifting higher on liquidation unwinds as leverage positions begin to clear, while regulatory and calendar events focus the week's attention.",
  "by": "edition",
- "written_utc": "2026-11-23T14:38:23Z",
- "written_et": "9:38 AM ET on Nov 23",
+ "written_utc": "2026-11-23T23:15:54Z",
+ "written_et": "6:15 PM ET on Nov 23",
  "readings": {
-  "stamp_utc": "2026-11-23T14:33:54Z",
-  "btc_24h_pct": 5.33,
+  "stamp_utc": "2026-11-23T23:12:55Z",
+  "btc_24h_pct": 0.82,
   "etf_net_usd_m": -669.2,
   "etf_date": "20 Nov 2026",
   "fear_greed": 11,
   "fear_greed_band": "Extreme fear",
-  "funding_8h_pct": 0.0033,
+  "funding_8h_pct": 0.0057,
   "funding_band": "calm"
  },
- "small_line": "Written from Bitcoin +5.33% on the day, spot ETF net -669.2M USD (Nov 20, 2026), Fear & Greed 11 (extreme fear), funding +0.0033% per 8h (calm)",
+ "small_line": "Written from Bitcoin +0.82% on the day, spot ETF net -669.2M USD (Nov 20, 2026), Fear & Greed 11 (extreme fear), funding +0.0057% per 8h (calm)",
  "wire_top3": [
   {
-   "id": "c002",
-   "line": "Bitcoin rebounded above $60K after $1.8 billion in leveraged crypto liquidations, mostly bullish positions closed in the selloff."
-  },
-  {
-   "id": "c006",
-   "line": "Cyber bridge exploit prompted Upbit and Bithumb to halt CYBER deposits and withdrawals; unexpected token minting on Solana followed by bridge lockbox outflows."
-  },
-  {
-   "id": "c004",
-   "line": "Chainflip disclosed theft of 122.9 BTC and other assets totaling $12M, offering a 10% bounty for return by Nov. 24."
+   "id": "c001",
+   "line": "CFTC published final rule requiring data reporting for certain event contracts, advancing regulatory framework for prediction markets."
   }
  ],
  "crossed": []
