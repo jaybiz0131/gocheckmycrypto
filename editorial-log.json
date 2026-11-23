@@ -1,31 +1,6 @@
 [
  {
   "date": "2026-08-21",
-  "approved": 1,
-  "rejected": [
-   {
-    "id": "c018",
-    "headline": "CFTC Chair signals unilateral crypto regulation if Congress stalls on Clarity Act",
-    "category": "accuracy",
-    "reasons": [
-     "No research brief was provided for this story. The instruction is absolute: 'no fact exists outside the brief.' Without a brief, every factual claim in the draft must be independently verified against the cited source URL. The approver cannot access URLs; the rule mandates that facts come from research briefs, not from draft citations. This violates the foundational protocol.",
-     "The draft cites a single CoinDesk URL but makes multiple specific claims: (1) that Selig delivered a message to the Innovation Advisory Committee at its 'inaugural gathering'; (2) that Selig said the CFTC will move 'unilaterally' if Congress does not pass Clarity Act; (3) that the CFTC has 'existing authority over commodity derivatives'; (4) that Selig did not specify a timeline; (5) that the committee's role 'remains unclear.' None of these claims appear in a research brief, so they cannot be verified by the approval protocol."
-    ]
-   },
-   {
-    "id": "c041",
-    "headline": "Trump Backs Clarity Act; CFTC, SEC Move Independently on Crypto Regulation",
-    "category": "accuracy",
-    "reasons": [
-     "No research brief was provided for this story. The instruction is absolute: 'no fact exists outside the brief.' Without a brief, every factual claim must trace to research, but the approver cannot access external URLs. The protocol cannot function.",
-     "The draft cites a single Decrypt URL and makes multiple specific claims across three separate actors: (1) Trump urged tech executives to support a 'fair version' of Clarity Act in a 'private setting'; (2) CFTC warned it would write rulemaking if bill stalls; (3) SEC 'advanced its first crypto fundraising framework'; (4) the Clarity Act 'has stalled in Congress'; (5) no coordination among the three actors was reported. Without a brief containing data_points with confidence labels and sources, these claims cannot be checked for accuracy, source attribution, or confidence level.",
-     "The draft also attributes claims to 'Decrypt reported' multiple times, but Decrypt is the only source cited. The draft does not state which facts come from which Decrypt story or which claims are present in the single URL provided. This creates orphaned attributions that cannot be verified."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-21",
   "approved": 2,
   "rejected": [
    {
@@ -5084,5 +5059,10 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-11-23",
+  "approved": 3,
+  "rejected": []
  }
 ]

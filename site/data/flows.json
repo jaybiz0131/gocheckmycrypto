@@ -1,9 +1,9 @@
 {
   "example": false,
   "generated": "2026-11-23",
-  "generated_utc": "2026-11-23T13:16:47Z",
+  "generated_utc": "2026-11-23T14:33:54Z",
   "window_hours": 168,
-  "txn_count": 30,
+  "txn_count": 27,
   "volatile": {
     "inflow_usd": 841512034,
     "outflow_usd": 1116866479,
@@ -11,10 +11,10 @@
     "direction": "off exchanges"
   },
   "stablecoins": {
-    "inflow_usd": 787800537,
-    "outflow_usd": 294054710,
-    "net_buying_power_usd": 493745827,
-    "net_usd": -493745827
+    "inflow_usd": 271821808,
+    "outflow_usd": 193959211,
+    "net_buying_power_usd": 77862597,
+    "net_usd": -77862597
   },
   "by_asset": [
     {
@@ -38,12 +38,6 @@
       "net_usd": 567298166
     },
     {
-      "exchange": "Binance",
-      "inflow_usd": 578451318,
-      "outflow_usd": 0,
-      "net_usd": -578451318
-    },
-    {
       "exchange": "Coinbase Institutional",
       "inflow_usd": 325933266,
       "outflow_usd": 123280002,
@@ -56,10 +50,16 @@
       "net_usd": 48390482
     },
     {
-      "exchange": "Coinbase",
-      "inflow_usd": 160509952,
-      "outflow_usd": 100095499,
-      "net_usd": -60414453
+      "exchange": "Binance",
+      "inflow_usd": 162497938,
+      "outflow_usd": 0,
+      "net_usd": -162497938
+    },
+    {
+      "exchange": "binance hack 2026",
+      "inflow_usd": 0,
+      "outflow_usd": 133692084,
+      "net_usd": 133692084
     }
   ],
   "by_exchange_kind": [
@@ -78,25 +78,11 @@
       "net_usd": -202653264
     },
     {
-      "exchange": "Binance",
-      "kind": "stablecoins",
-      "inflow_usd": 415953380,
-      "outflow_usd": 0,
-      "net_usd": -415953380
-    },
-    {
       "exchange": "OKX",
       "kind": "stablecoins",
       "inflow_usd": 145568729,
       "outflow_usd": 193959211,
       "net_usd": 48390482
-    },
-    {
-      "exchange": "Coinbase",
-      "kind": "stablecoins",
-      "inflow_usd": 100025349,
-      "outflow_usd": 100095499,
-      "net_usd": 70150
     },
     {
       "exchange": "Binance",
@@ -106,14 +92,7 @@
       "net_usd": -162497938
     },
     {
-      "exchange": "Coinbase",
-      "kind": "volatile",
-      "inflow_usd": 60484603,
-      "outflow_usd": 0,
-      "net_usd": -60484603
-    },
-    {
-      "exchange": "All other exchanges",
+      "exchange": "binance hack 2026",
       "kind": "volatile",
       "inflow_usd": 0,
       "outflow_usd": 133692084,
@@ -125,21 +104,16 @@
       "inflow_usd": 126253079,
       "outflow_usd": 0,
       "net_usd": -126253079
+    },
+    {
+      "exchange": "All other exchanges",
+      "kind": "volatile",
+      "inflow_usd": 60484603,
+      "outflow_usd": 0,
+      "net_usd": -60484603
     }
   ],
   "top_inflows": [
-    {
-      "symbol": "USDT",
-      "amount": 416105050.0,
-      "usd": 415953380.0,
-      "to": "Binance",
-      "from": "Unknown wallet",
-      "blockchain": "plasma",
-      "hash": "0x681be051aad1d4e2553448b7176cf3f04f56ed09da733c5c009a17458544dffa",
-      "url": "",
-      "ts": 1794838028.0,
-      "stable": true
-    },
     {
       "symbol": "ETH",
       "amount": 90500.0,
@@ -198,18 +172,6 @@
       "hash": "0xff73efceddb91ea526ad1d38203f52854dd60c58768110d0fd2bfc5ea874ee6f",
       "url": "",
       "ts": 1794942059.0,
-      "stable": true
-    },
-    {
-      "symbol": "USDC",
-      "amount": 100000000.0,
-      "usd": 100025349.0,
-      "to": "Coinbase",
-      "from": "usdc treasury",
-      "blockchain": "solana",
-      "hash": "223crBLHurY5rA8w2u26Lj9xDKZZ5rtQEB1ds3XGhPnYi7TKrNuUZRkWo3EqSnvtBefiRK3g9Ym9hEkQqGbQQgLz",
-      "url": "",
-      "ts": 1794837258.0,
       "stable": true
     },
     {
@@ -308,18 +270,6 @@
       "hash": "0x5b8b918cfc68a7544ce8aead8c5c4fd379b8813fa3a921f949fc92396cda5f9b",
       "url": "",
       "ts": 1794887843.0,
-      "stable": true
-    },
-    {
-      "symbol": "USDC",
-      "amount": 100000000.0,
-      "usd": 100095499.0,
-      "to": "Unknown wallet",
-      "from": "Coinbase",
-      "blockchain": "solana",
-      "hash": "xDuosshMnUWFiVxcf19Pexx8UKiUCVKQRrJ3a6aZVdapYmPbiyKHJgKhiuuvJ94dfhanSQmCwo9dhxTpGnDy1Eu",
-      "url": "",
-      "ts": 1794837542.0,
       "stable": true
     },
     {

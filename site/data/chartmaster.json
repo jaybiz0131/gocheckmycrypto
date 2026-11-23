@@ -1,15 +1,60 @@
 {
-  "date": "2026-11-22",
+  "date": "2026-11-23",
   "generated_by": "chartmaster.py (auto, from the live boards)",
   "mode": "live",
-  "path": "cut",
-  "headline": "Majors sit below their 200-day lines",
-  "paragraphs": [
-    "The regime is uniform downside: all seven majors sit below their 200-day moving averages, with Bitcoin 16.0% below, Ethereum 19.2% below, and the worst performers like Dogecoin and Cardano trading 31.2% and 31.4% below respectively. No golden cross has materialized into a price reclaim; five of seven assets show confirmed golden crosses on their daily charts, yet price action has not followed. This tells you the momentum reversal signal has not yet translated into trend change. RSI across the board confirms the depth of the drawdown: Bitcoin at 25.3, Ethereum at 29.1, Solana at 27.2, and both Dogecoin and XRP in the high teens (19.0 and 17.1). These are deep-oversold readings. MACD is below signal on all seven. Distance from 12-month highs runs severe: Cardano off 83.5%, Dogecoin off 79.4%, Solana off 69.8%, Ethereum off 63.5%, and even Bitcoin, the strongest, is off 51.3%. The tape shows a market in a drawdown regime without relief momentum or trend confirmation from price.",
-    "Positioning in derivatives reveals the crowd has not capitulated, though the market is thinning conviction. Across Bitcoin, Ethereum, Solana, XRP, and Dogecoin, every single asset shows long dominance: Bitcoin's long-to-short ratio sits at 2.2, Solana at 2.54, and Dogecoin at 3.6 to 1. That is not balanced; it is crowded on the long side. Liquidation flows over the last 2 hours for Bitcoin show 100 events: 37,399 USD in longs wiped out versus 1,026,400 in shorts, a ratio of roughly 1 to 27. For Ethereum, 99,987 in longs versus 726,685 in shorts (1 to 7). The asymmetry is stark: shorts are being cleared far more than longs. That suggests the market has not yet flushed the long bias and longs retain price support.",
-    "Spot flows tell a divergent story. Bitcoin ETF outflows totaled 124.5 million on 20 November and 1,245.3 million over the last five sessions, with four of five days showing outflows in the same direction. Ethereum saw 13.2 million out on 20 November and 221.7 million net out over five sessions, with all five days consistently negative. This is traditional-finance redemption: institutions are reducing exposure. At the same time, whale movements over the last seven days (168 hours) show 311.3 million net moving off exchanges, primarily Bitcoin moving out of exchanges (488.9 million off) while Ethereum flows in the opposite direction (177.6 million onto exchanges). The largest single Bitcoin moves came off Kraken: 318.7 million and 212.4 million in separate withdrawals. The largest inflows were Ethereum onto Binance (162.5 million) and Kraken (148.8 million). This split is a tension: traditional finance is exiting, yet Bitcoin holders are moving coins to self-custody while Ethereum holders are moving coins toward exchanges.",
-    "Stablecoin supply offers a window into available dry powder. Total stablecoins stand at 282.5 billion, down 6.19% over the last 30 days. Over the past seven days, the data shows 493.7 million in net stablecoin outflows (moving onto exchanges), yet weekly flows reveal deceleration: 4,125 million moved off exchanges in the week ending 7 November, 1,551 million in the week ending 14 November, and only 404 million in the week ending 21 November. The trend in weekly net movement is declining. Stablecoins onto exchanges signal some intent to deploy, but the weekly pattern shows that intent is weakening. Sentiment reads extreme fear at 11, with the 30-day range from 10 to 54, confirming the crowd is as pessimistic as it has been in this cycle.",
-    "On the day, Bitcoin is up 1.0%, Ethereum up 2.0%, and Solana flat (0.0%), but over the week all three are down (Bitcoin down 6.2%, Ethereum down 4.8%, Solana down 0.1%), and over the month all are severely down (Bitcoin down 26.1%, Ethereum down 29.5%, Solana down 32.2%). This three-window disagreement is the core tension: today has seen small bounces across the board, but the week and month reveal the drawdown is real and persistent. Bitcoin realized volatility stands at 46.8%, Ethereum at 66.1%, and Dogecoin at 82.2%, all elevated. Bitcoin's trading range over the measurement period ran from 86,596 to 58,817, a 31% swing, with current price in the lower half. Network difficulty on Bitcoin has increased 9.0% with 643 blocks until retarget, confirming miners remain committed despite price.",
-    "Until those conditions show, the tape reads as a downtrend with temporary day-to-day recoveries, long-biased positioning still intact but under pressure, and traditional finance stepping aside while some large players move Bitcoin to cold storage and position Ethereum for execution."
+  "path": "data-only",
+  "headline": "Chart data card: levels, 50-day and 200-day lines, RSI",
+  "paragraphs": [],
+  "data_only": true,
+  "levels": [
+    {
+      "symbol": "BTC",
+      "price": 63888,
+      "sma50": 76237.05,
+      "sma200": 72253.75,
+      "rsi14": 36.0
+    },
+    {
+      "symbol": "ETH",
+      "price": 1825.48,
+      "sma50": 2228.55,
+      "sma200": 2120.18,
+      "rsi14": 39.0
+    },
+    {
+      "symbol": "SOL",
+      "price": 77.48,
+      "sma50": 94.34,
+      "sma200": 88.28,
+      "rsi14": 42.4
+    },
+    {
+      "symbol": "XRP",
+      "price": 1.01,
+      "sma50": 1.21,
+      "sma200": 1.24,
+      "rsi14": 42.3
+    },
+    {
+      "symbol": "BNB",
+      "price": 582.11,
+      "sma50": 692.07,
+      "sma200": 655.89,
+      "rsi14": 36.3
+    },
+    {
+      "symbol": "DOGE",
+      "price": 0.05972,
+      "sma50": 0.08,
+      "sma200": 0.08,
+      "rsi14": 22.1
+    },
+    {
+      "symbol": "ADA",
+      "price": 0.155358,
+      "sma50": 0.22,
+      "sma200": 0.21,
+      "rsi14": 24.0
+    }
   ]
 }

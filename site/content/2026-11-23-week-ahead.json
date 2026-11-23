@@ -1,0 +1,55 @@
+{
+ "id": "week-ahead-2026-11-23",
+ "slug": "week-ahead-2026-11-23",
+ "kind": "brief",
+ "date": "2026-11-23",
+ "published_utc": "2026-11-23T14:39:04Z",
+ "category": "week ahead",
+ "rank": -1,
+ "author": "GoCheckMyCrypto",
+ "title": "The Week Ahead: PCE: Personal Income and Outlays; GDP: Gross Domestic Product; Bitcoin difficulty adjustment, estimated +8.94%, 643 blocks to go",
+ "dek": "What is on the calendar for the week of November 23: scheduled events only, no predictions.",
+ "key_fact": "Wednesday, November 25: PCE: Personal Income and Outlays.",
+ "body": [
+  "This is the week's known calendar: scheduled dates only, published in advance by the institutions involved. What happens at them is the week's news; this story only tells you when to watch.",
+  "Wednesday, November 25: PCE: Personal Income and Outlays.",
+  "Wednesday, November 25: GDP: Gross Domestic Product.",
+  "Thursday, November 26: Bitcoin difficulty adjustment, estimated +8.94%, 643 blocks to go.",
+  "Thursday, November 26: US stock markets closed: Thanksgiving Day.",
+  "Friday, November 27: Deribit Bitcoin monthly options expiry, open interest 111,779 BTC.",
+  "Friday, November 27: Deribit Ether monthly options expiry, open interest 326,304 ETH.",
+  "Friday, November 27: US stock markets close early."
+ ],
+ "bottom_line": "",
+ "human_take": "",
+ "sources": [
+  {
+   "url": "https://fred.stlouisfed.org/releases/calendar?rid=54",
+   "name": "FRED release dates"
+  },
+  {
+   "url": "https://fred.stlouisfed.org/releases/calendar?rid=53",
+   "name": "FRED release dates"
+  },
+  {
+   "url": "https://mempool.space/api/v1/difficulty-adjustment",
+   "name": "mempool.space"
+  },
+  {
+   "url": "https://www.nyse.com/trade/hours-calendars",
+   "name": "NYSE, Holidays and Trading Hours"
+  },
+  {
+   "url": "https://www.deribit.com/api/v2/public/get_book_summary_by_currency?currency=BTC&kind=option",
+   "name": "Deribit public API"
+  },
+  {
+   "url": "https://www.deribit.com/api/v2/public/get_book_summary_by_currency?currency=ETH&kind=option",
+   "name": "Deribit public API"
+  },
+  {
+   "url": "https://www.nyse.com/trade/hours-calendars",
+   "name": "NYSE, Holidays and Trading Hours"
+  }
+ ]
+}

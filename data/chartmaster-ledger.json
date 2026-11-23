@@ -229,5 +229,18 @@
   ],
   "detail": "dropped 4 sentence(s): Bitcoin funding stands at 2.5% annualized and positive, with 8-hour funding at 0 | Ethereum's funding is negative at minus 3.9% annualized and minus 0.0036% over 8 | Open intere",
   "t": "2026-11-22T23:14:40Z"
+ },
+ {
+  "date": "2026-11-23",
+  "path": "data-only",
+  "tripped": [
+   "belt: chartmaster: funding is stated without naming the venue (OKX); one exchange's funding is not the mar",
+   "belt: chartmaster: an open-interest figure names no venue in its own sentence ('BTC open interest sits at ",
+   "belt: chartmaster: an eight-hour funding rate of 0.0033% is stated with no annual figure beside it. State ",
+   "advice: bleeding",
+   "belt: chartmaster: ETF flow claim says pos at the day window but the digest's day number points the other "
+  ],
+  "detail": "the rest still fails whole: chartmaster: missing/oversized headline",
+  "t": "2026-11-23T14:38:22Z"
  }
 ]
