@@ -3939,6 +3939,56 @@
    "usd": 0.2142,
    "wf": "Breaking-news watcher",
    "wrap": "synthesis"
+  },
+  {
+   "breaking": false,
+   "cap_usd": 1.5,
+   "chartmaster_calls": 2,
+   "chartmaster_published": true,
+   "chartmaster_tokens": 14216,
+   "chartmaster_usd": 0.0265,
+   "coingecko_429": 0,
+   "coingecko_calls": 2,
+   "cron": "",
+   "edition_published": true,
+   "ev": "workflow_dispatch",
+   "guard": "true",
+   "outcome": "ran",
+   "path": "wire",
+   "pinged": false,
+   "pushed": true,
+   "run": "45507657192",
+   "slot": "evening-brief",
+   "slot_day": "2026-11-24",
+   "stage_tokens": {
+    "editor": 63006,
+    "verifier": 12482
+   },
+   "stage_usd": {
+    "editor": 0.0738,
+    "verifier": 0.0198
+   },
+   "stages_absent": [
+    "3.5-researcher",
+    "4-writer",
+    "4.5-approver",
+    "5-digest"
+   ],
+   "t": "2026-11-24T23:21:08Z",
+   "tokens": 75488,
+   "twins_drops": 1,
+   "twins_log": [
+    {
+     "k": "wrong",
+     "s": "wire line #6",
+     "t": "Bitcoin spot ETF outflows surge to record $4.71 billion in November as BTC slides below $60,000.",
+     "why": "'outflows' about spot ETF net in our text while the snapshot reads BTC spot ETF net +4.0M USD (24 Nov 2026)"
+    }
+   ],
+   "twins_unparsed": 0,
+   "usd": 0.0936,
+   "wf": "Crypto Cronkite daily brief",
+   "wrap": "synthesis"
   }
  ],
  "since": "2026-09-16T16:27Z"
