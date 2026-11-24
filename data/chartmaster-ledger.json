@@ -268,5 +268,16 @@
   ],
   "detail": "dropped 6 sentence(s): Leverage funding reveals a market of crowded longs funded at a clip. | Bitcoin perpetual funding on okx stands at 0.004% per 8 hours, or 4.4% annualize | Solana and ethereum sho",
   "t": "2026-11-24T14:37:27Z"
+ },
+ {
+  "date": "2026-11-24",
+  "path": "data-only",
+  "tripped": [
+   "belt: chartmaster: an eight-hour funding rate of 0.65% is stated with no annual figure beside it. State th",
+   "belt: chartmaster: an open-interest figure names no venue in its own sentence ('Open interest remains subs",
+   "belt: chartmaster: ETF flow claim says neg at the day window but the digest's day number points the other "
+  ],
+  "detail": "the rest still fails whole: chartmaster: missing/oversized headline",
+  "t": "2026-11-24T23:15:43Z"
  }
 ]

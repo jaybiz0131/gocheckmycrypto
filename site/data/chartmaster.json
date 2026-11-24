@@ -2,14 +2,59 @@
   "date": "2026-11-24",
   "generated_by": "chartmaster.py (auto, from the live boards)",
   "mode": "live",
-  "path": "cut",
-  "headline": "Every major below its 200-day line, momentum deep in capitulation, longs crowded on leverage while whales move bitcoin to cold storage and stablecoins shrink.",
-  "paragraphs": [
-    "The regime is unified in one direction: all seven majors sit below their 200-day moving averages, with bitcoin 16.1% below, ethereum 19.6% below, and solana 20.3% below. The only cross that matters is the golden cross, the upslope of the 50-day over the 200-day, and it fires for bitcoin, ethereum, solana, and bnb. For xrp, doge, and ada it does not. This is a down market with the first technical signal of recovery flashing in the structure of two moving averages, not yet validated by price. Bitcoin holds a 51.5% drawdown from its 12-month high of 124,739.81; ethereum sits 63.7% lower. The whole market is broken and acknowledged to be so.",
-    "Momentum is at capitulation levels across the board. Bitcoin rsi-14 sits at 25.9, ethereum at 29.0, solana at 29.7. All are below 30, the classic oversold floor. Macd tells a split story: bitcoin and ethereum have macd below signal line, the bearish configuration, while solana and ada show macd above signal. This is a market where RSI bottoming has not yet matched a full momentum turn across all assets. When RSI fires low like this and macd is mixed, the first move off the floor tends to be tentative, vulnerable to shakeouts. Solana posted positive 0.7% over the week despite being down 9.5% on the day, a gap the other majors do not show, suggesting today's selloff hit solana harder than the drift of the past five sessions. The tape is showing capitulation in the near term against a longer-term structure still broken.",
-    "That is not extreme, but it is positive and paid by longs. The long-short ratio for bitcoin is 2.58, meaning 2.58 dollars of long leverage for every dollar of short leverage. For ethereum it is 2.95, for solana 2.89, for doge 4.17. These are heavily skewed markets. Liquidations over the past hour to four hours show longs getting wiped cleanly: bitcoin liquidated 279,742 usd in long leverage against 938,426 usd in shorts, an asymmetry that favors shorts. Ethereum liquidated 577,208 usd in longs versus only 17,134 usd in shorts. Solana liquidated 554,737 usd in longs and only 20,575 in shorts. This is a one-sided wash of overextended longs.",
-    "Spot flow data shows traction against the panic. Bitcoin etf experienced outflow of 569.7 million usd on 23 nov 2026, with net outflow of 2.37 billion usd over the last five sessions. Same direction all five days, the data says explicitly. Ethereum etf has outflow of 84.9 million usd on the day, 382.3 million net over five sessions, also consistent direction. The traditional finance bid has stopped; it is leaving. Stablecoin supply stands at 283.2 billion usd, down 5.73% over thirty days, meaning dollars on the sidelines are fewer. Whale flows tell the deeper story: net 176.5 million usd moved off exchanges over the past 168 hours, driven by bitcoin exodus of 325.3 million usd moving into cold storage. Kraken shows 318.7 million, 212.4 million, and 52.7 million usd of bitcoin moving off in the recent tape, the hallmark of institutional or informed accumulation into custody. Ethereum flows contradict this: 148.8 million usd flowed onto kraken, a sale signal. Stablecoins show net 126.3 million usd moved onto bitfinex, suggesting dry powder arriving for the next bid. Weekly whale flows show the deceleration: week ending nov 7 saw 4.125 billion usd move off exchanges, week ending nov 14 saw 1.551 billion, week ending nov 21 saw only 404 million. The accumulation pace is slowing.",
-    "Sentiment is at extreme fear with a Fear & Greed index value of 11, in a 30-day range of 10 to 51. This is as low as the gauge goes, the crowd pegged in terror. The tape beneath it shows real work: longs liquidated, spot flows negative, but whales acquiring bitcoin into self-custody while stablecoins move onto exchanges. The disagreement is live. Bitcoin difficulty is set to increase 9.3% at retarget in 381 blocks, a signal that hashrate has not capitulated, the network continues to earn through the drawdown.",
-    "Watch for three conditions: first, whether ethereum's 325 million usd inflow to kraken reverses, a sign of whether the top-two asset is being sold or accumulated. Second, whether bitcoin's weekly whale flow reverses from the decelerating pattern, since four billion became one-and-a-half became 400 million; the next week's print will show if accumulation has stalled or will resume. All three are in the data stream now."
+  "path": "data-only",
+  "headline": "Chart data card: levels, 50-day and 200-day lines, RSI",
+  "paragraphs": [],
+  "data_only": true,
+  "levels": [
+    {
+      "symbol": "BTC",
+      "price": 59958,
+      "sma50": 75667.59,
+      "sma200": 72139.25,
+      "rsi14": 25.1
+    },
+    {
+      "symbol": "ETH",
+      "price": 1682.12,
+      "sma50": 2205.66,
+      "sma200": 2116.47,
+      "rsi14": 28.2
+    },
+    {
+      "symbol": "SOL",
+      "price": 69.89,
+      "sma50": 93.21,
+      "sma200": 88.14,
+      "rsi14": 29.3
+    },
+    {
+      "symbol": "XRP",
+      "price": 0.925451,
+      "sma50": 1.2,
+      "sma200": 1.23,
+      "rsi14": 30.2
+    },
+    {
+      "symbol": "BNB",
+      "price": 549.11,
+      "sma50": 686.8,
+      "sma200": 655.26,
+      "rsi14": 26.6
+    },
+    {
+      "symbol": "DOGE",
+      "price": 0.05528,
+      "sma50": 0.07,
+      "sma200": 0.08,
+      "rsi14": 28.0
+    },
+    {
+      "symbol": "ADA",
+      "price": 0.144433,
+      "sma50": 0.2,
+      "sma200": 0.2,
+      "rsi14": 29.4
+    }
   ]
 }

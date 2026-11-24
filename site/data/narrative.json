@@ -1,23 +1,31 @@
 {
- "line": "Bitcoin drifting lower on extreme fear readings and persistent ETF outflows; the day brings capitulation-pattern technicals alongside persistent accumulation in whale custody.",
- "by": "edition",
- "written_utc": "2026-11-24T14:37:27Z",
- "written_et": "9:37 AM ET on Nov 24",
+ "line": "Bitcoin is drifting lower while spot ETFs saw inflows; the news is mostly stablecoins.",
+ "by": "table",
+ "written_utc": "2026-11-24T23:15:43Z",
+ "written_et": "6:15 PM ET on Nov 24",
  "readings": {
-  "stamp_utc": "2026-11-24T14:32:49Z",
-  "btc_24h_pct": -5.27,
-  "etf_net_usd_m": -569.7,
-  "etf_date": "23 Nov 2026",
+  "stamp_utc": "2026-11-24T23:12:59Z",
+  "btc_24h_pct": -2.29,
+  "etf_net_usd_m": 4.0,
+  "etf_date": "24 Nov 2026",
   "fear_greed": 11,
   "fear_greed_band": "Extreme fear",
-  "funding_8h_pct": 0.004,
+  "funding_8h_pct": 0.0065,
   "funding_band": "calm"
  },
- "small_line": "Written from Bitcoin -5.27% on the day, spot ETF net -569.7M USD (Nov 23, 2026), Fear & Greed 11 (extreme fear), funding +0.0040% per 8h (calm)",
+ "small_line": "Written from Bitcoin -2.29% on the day, spot ETF net +4.0M USD (Nov 24, 2026), Fear & Greed 11 (extreme fear), funding +0.0065% per 8h (calm)",
  "wire_top3": [
   {
-   "id": "c001",
-   "line": "CFTC published final rule requiring data reporting for certain event contracts, advancing regulatory framework for prediction markets."
+   "id": "c012",
+   "line": "US Justice Department files to forfeit $1.1 billion in USDC stolen by North Korea in Binance hack; authorities have helped freeze."
+  },
+  {
+   "id": "c005",
+   "line": "South Korea proposes lifting 2017 ICO ban with new disclosure requirements, and backing bank-controlled stablecoins."
+  },
+  {
+   "id": "c000",
+   "line": "CFTC staff guidance allows Bitcoin, Ethereum, and stablecoins to count toward US derivatives exchange and clearinghouse operating reserves."
   }
  ],
  "crossed": []

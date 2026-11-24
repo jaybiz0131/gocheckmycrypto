@@ -1,0 +1,183 @@
+{
+ "date_et": "2026-11-24",
+ "slot": "evening",
+ "published_utc": "2026-11-24T23:15:43Z",
+ "first_utc": "2026-11-24T23:15:43Z",
+ "direction": "flat",
+ "direction_basis": "et_day",
+ "title": "Crypto today: flat. Tuesday, November 24, 2026",
+ "h1": "Crypto today: flat. Tuesday, November 24, 2026",
+ "stamp_label": "Evening Brief, 6:15 PM ET",
+ "composed_utc": "2026-11-24T23:16:50Z",
+ "board_stamp_et": "6:12 PM ET on Nov 24",
+ "answer": [
+  "On Tuesday, November 24, Bitcoin was flat since midnight ET, at $59,958, a change of -0.17%.",
+  "Over the last 24 hours it was down 2.29%.",
+  "Ether was down 1.93% over the same 24 hours.",
+  "Among the Top 100, XMR gained 4.80% and PIEVERSE lost 13.98% over 24 hours."
+ ],
+ "answer_by": "template",
+ "fallback": false,
+ "btc": {
+  "price": 59958,
+  "chg": -2.29,
+  "chg_day": -0.17
+ },
+ "eth": {
+  "price": 1682.12,
+  "chg": -1.93
+ },
+ "cap": null,
+ "gainers": [
+  {
+   "symbol": "XMR",
+   "name": "Monero",
+   "chg": 4.8,
+   "slug": "xmr"
+  },
+  {
+   "symbol": "PEPE",
+   "name": "Pepe",
+   "chg": 1.9,
+   "slug": "pepe"
+  },
+  {
+   "symbol": "VVV",
+   "name": "Venice Token",
+   "chg": 1.83,
+   "slug": "vvv"
+  }
+ ],
+ "losers": [
+  {
+   "symbol": "PIEVERSE",
+   "name": "Pieverse",
+   "chg": -13.98,
+   "slug": "pieverse"
+  },
+  {
+   "symbol": "MNT",
+   "name": "Mantle",
+   "chg": -9.12,
+   "slug": "mnt"
+  },
+  {
+   "symbol": "INJ",
+   "name": "Injective",
+   "chg": -6.29,
+   "slug": "inj"
+  }
+ ],
+ "reported": [
+  {
+   "line": "US Justice Department files to forfeit $1.1 billion in USDC stolen by North Korea in Binance hack; authorities have helped freeze.",
+   "time": "5:58 AM ET",
+   "source_count": 2,
+   "primary": false,
+   "links": [
+    {
+     "outlet": "CoinDesk",
+     "url": "https://www.coindesk.com/policy/2026/11/24/u-s-seeks-usd1-1-billion-seized-in-binance-hack-as-north-korean-funds-keep-moving"
+    },
+    {
+     "outlet": "U.Today",
+     "url": "https://u.today/us-strikes-back-after-6-billion-binance-hack"
+    }
+   ]
+  },
+  {
+   "line": "South Korea proposes lifting 2017 ICO ban with new disclosure requirements, and backing bank-controlled stablecoins.",
+   "time": "9:40 AM ET",
+   "source_count": 2,
+   "primary": false,
+   "links": [
+    {
+     "outlet": "CoinDesk",
+     "url": "https://www.coindesk.com/policy/2026/11/24/south-korea-proposes-ending-2017-ico-ban-to-boost-jobs-and-onshore-crypto-investment"
+    },
+    {
+     "outlet": "theblock.co",
+     "url": "https://www.theblock.co/news/regulation/2026-11-24-south-korea-new-crypto-bill-445494"
+    }
+   ]
+  },
+  {
+   "line": "Ethereum Foundation doubles protocol security team as AI advances pose more urgent threat than quantum computing to cryptographic systems.",
+   "time": "6:53 AM ET",
+   "source_count": 3,
+   "primary": false,
+   "links": [
+    {
+     "outlet": "The Block",
+     "url": "https://www.theblock.co/news/ecosystems/2026-11-24-ethereum-foundation-doubles-protocol-security-team-calls-ai-a-more-urgent-risk-than-quantum-445497"
+    },
+    {
+     "outlet": "Decrypt",
+     "url": "https://decrypt.co/383927/ethereum-foundation-ai-more-urgent-threat-quantum-computing"
+    },
+    {
+     "outlet": "Cointelegraph",
+     "url": "https://cointelegraph.com/news/ethereum-foundation-doubles-protocol-security-team-amid-ai-quantum-overhaul?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound"
+    }
+   ]
+  },
+  {
+   "line": "JPMorgan, HSBC, and StoneX complete first digital gold trades in London, testing blockchain settlement for fractional gold without physical movement.",
+   "time": "7:04 AM ET",
+   "source_count": 2,
+   "primary": false,
+   "links": [
+    {
+     "outlet": "CoinDesk",
+     "url": "https://www.coindesk.com/business/2026/11/24/jpmorgan-hsbc-and-stonex-complete-first-digital-gold-trades-in-london"
+    },
+    {
+     "outlet": "The Defiant",
+     "url": "https://thedefiant.io/converge/tradfi-and-fintech/jpmorgan-hsbc-test-digital-gold-settlement-in-london"
+    }
+   ]
+  }
+ ],
+ "board": [
+  {
+   "key": "etf",
+   "label": "Bitcoin ETF flows",
+   "value": 4.0,
+   "window": "one trading day, 24 Nov 2026",
+   "source": "Farside Investors",
+   "stamp": "6:12 PM ET on Nov 24",
+   "directional": true
+  },
+  {
+   "key": "liq",
+   "label": "Bitcoin liquidations",
+   "longs": 868076,
+   "shorts": 89645,
+   "window": "last 3 hours",
+   "source": "OKX",
+   "stamp": "6:12 PM ET on Nov 24",
+   "directional": false
+  },
+  {
+   "key": "funding",
+   "label": "Bitcoin funding",
+   "value": 0.0065,
+   "window": "current 8-hour period",
+   "source": "OKX",
+   "stamp": "6:12 PM ET on Nov 24",
+   "directional": false
+  },
+  {
+   "key": "fng",
+   "label": "Fear & Greed",
+   "value": 11,
+   "word": "Extreme Fear",
+   "window": "today",
+   "source": "alternative.me",
+   "stamp": "6:12 PM ET on Nov 24",
+   "directional": false
+  }
+ ],
+ "next": "Next update: Morning Brief, tomorrow at 8:15 AM ET",
+ "corrections": []
+}
