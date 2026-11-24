@@ -1,21 +1,6 @@
 [
  {
   "date": "2026-08-21",
-  "approved": 2,
-  "rejected": [
-   {
-    "id": "c018",
-    "headline": "CFTC Chief Signals Unilateral Rulemaking if Clarity Act Stalls",
-    "category": "accuracy",
-    "reasons": [
-     "No research brief was provided for this story. The instructions state 'every draft fact must then trace to the draft's own cited sources or be rejected.' The draft cites only one CoinDesk source URL, but makes multiple factual claims that cannot be verified against that single link without access to its content. Critical claims\u2014including the name 'Mike Selig' as CFTC Chairman, the existence and specific provisions of the Clarity Act, and the CFTC's stated willingness to move unilaterally\u2014are presented as fact but have no research brief to anchor them. The draft violates the hard rule that 'no fact exists outside the brief' by relying on a source the approval process cannot read.",
-     "The draft attributes claims to 'CoinDesk's reporting' but provides only one URL. Without access to verify that source independently and without a research brief, the attribution chain is broken."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-21",
   "approved": 4,
   "rejected": [
    {
@@ -5064,5 +5049,40 @@
   "date": "2026-11-23",
   "approved": 3,
   "rejected": []
+ },
+ {
+  "date": "2026-11-24",
+  "approved": 2,
+  "rejected": [
+   {
+    "id": "c037",
+    "headline": "CFTC Staff Permits Bitcoin and Ether to Count Toward Derivatives Firms' Financial Reserves",
+    "category": "accuracy",
+    "reasons": [
+     "The draft asserts facts not supported by the brief's data_points. The brief explicitly notes that 'The Block article (source URL 1) returned a 403 error; CoinDesk article (source URL 2) was not fetched; full details of the official CFTC staff advisory or letter are not in the available source texts.' This means the sources cited in the draft were not successfully retrieved or reviewed.",
+     "The brief is marked 'thin': true with only 2 data_points and 340 source_chars, and multiple open_questions remain unanswered (which stablecoins qualify, valuation haircuts, retroactivity). The draft presents these clarifications as settled fact without indicating the sparseness of sourcing.",
+     "The draft states 'The clarification removes ambiguity' and 'formally integrates digital assets' as though an official CFTC guidance document was reviewed and confirmed, but the brief documents that the actual guidance text was not accessible to research.",
+     "The rule is: no fact exists outside the brief. A claim derived from reporting of a source that the brief could not independently verify is smuggled. The desk cannot publish a story about regulatory guidance when the actual guidance was not reviewed."
+    ]
+   },
+   {
+    "id": "c005",
+    "headline": "JPMorgan, HSBC, StoneX Complete First Digital Gold Trades in London (Nov 24, 2026)",
+    "category": "accuracy",
+    "reasons": [
+     "The bottom_line contains the phrase 'What remains unreported' which violates the rule against narrating absence. The brief's open_questions should not appear as assertions about what 'remains unreported' in the desk's own voice; this reads as the desk claiming knowledge of gaps rather than simply not covering them. The sentence restates open_questions as a negative fact.",
+     "The brief's bear_case is empty, which is correct, but the bottom_line construction ('What remains unreported...') creates a false impression of investigation beyond the brief's scope. This violates accuracy because it implies the desk has attempted to verify information not in the brief."
+    ]
+   },
+   {
+    "id": "c031",
+    "headline": "BlackRock Opens Hong Kong Fund to Stablecoin Payments (Nov 24, 2026)",
+    "category": "accuracy",
+    "reasons": [
+     "The bottom_line contains 'Unresolved:' followed by open questions, which violates the rule against narrating absence in the desk's own voice. Similar to c005, this construction presents the brief's open_questions as gaps the desk has investigated rather than simply not covered.",
+     "The currency of the AUM is stated as '$100 million' in the body but the brief specifies the fund holds assets without currency denomination. The data_point says 'The fund has 100 million in assets under management' without specifying USD. The draft presents this as '$100 million USD' (implied by the $ symbol), which may not match the source."
+    ]
+   }
+  ]
  }
 ]
