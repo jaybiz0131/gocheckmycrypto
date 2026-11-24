@@ -1,47 +1,41 @@
 {
   "example": false,
-  "generated": "2026-11-23",
-  "generated_utc": "2026-11-23T23:12:55Z",
+  "generated": "2026-11-24",
+  "generated_utc": "2026-11-24T13:17:05Z",
   "window_hours": 168,
-  "txn_count": 21,
+  "txn_count": 10,
   "volatile": {
-    "inflow_usd": 622090041,
-    "outflow_usd": 840785142,
-    "net_usd": 218695101,
+    "inflow_usd": 459592103,
+    "outflow_usd": 636099606,
+    "net_usd": 176507503,
     "direction": "off exchanges"
   },
   "stablecoins": {
-    "inflow_usd": 271821808,
-    "outflow_usd": 193959211,
-    "net_buying_power_usd": 77862597,
-    "net_usd": -77862597
+    "inflow_usd": 126253079,
+    "outflow_usd": 0,
+    "net_buying_power_usd": 126253079,
+    "net_usd": -126253079
   },
   "by_asset": [
     {
       "symbol": "BTC",
       "inflow_usd": 310773410,
-      "outflow_usd": 707093058,
-      "net_usd": 396319648
+      "outflow_usd": 636099606,
+      "net_usd": 325326196
     },
     {
       "symbol": "ETH",
-      "inflow_usd": 311316631,
-      "outflow_usd": 133692084,
-      "net_usd": -177624547
+      "inflow_usd": 148818693,
+      "outflow_usd": 0,
+      "net_usd": -148818693
     }
   ],
   "by_exchange": [
     {
       "exchange": "Kraken",
       "inflow_usd": 148818693,
-      "outflow_usd": 707093058,
-      "net_usd": 558274365
-    },
-    {
-      "exchange": "OKX",
-      "inflow_usd": 145568729,
-      "outflow_usd": 193959211,
-      "net_usd": 48390482
+      "outflow_usd": 636099606,
+      "net_usd": 487280913
     },
     {
       "exchange": "Coinbase Institutional",
@@ -50,16 +44,16 @@
       "net_usd": -250288807
     },
     {
-      "exchange": "Binance",
-      "inflow_usd": 162497938,
+      "exchange": "Bitfinex",
+      "inflow_usd": 126253079,
       "outflow_usd": 0,
-      "net_usd": -162497938
+      "net_usd": -126253079
     },
     {
-      "exchange": "binance hack 2026",
-      "inflow_usd": 0,
-      "outflow_usd": 133692084,
-      "net_usd": 133692084
+      "exchange": "Coinbase",
+      "inflow_usd": 60484603,
+      "outflow_usd": 0,
+      "net_usd": -60484603
     }
   ],
   "by_exchange_kind": [
@@ -67,15 +61,8 @@
       "exchange": "Kraken",
       "kind": "volatile",
       "inflow_usd": 148818693,
-      "outflow_usd": 707093058,
-      "net_usd": 558274365
-    },
-    {
-      "exchange": "OKX",
-      "kind": "stablecoins",
-      "inflow_usd": 145568729,
-      "outflow_usd": 193959211,
-      "net_usd": 48390482
+      "outflow_usd": 636099606,
+      "net_usd": 487280913
     },
     {
       "exchange": "Coinbase Institutional",
@@ -85,28 +72,14 @@
       "net_usd": -250288807
     },
     {
-      "exchange": "Binance",
-      "kind": "volatile",
-      "inflow_usd": 162497938,
-      "outflow_usd": 0,
-      "net_usd": -162497938
-    },
-    {
-      "exchange": "binance hack 2026",
-      "kind": "volatile",
-      "inflow_usd": 0,
-      "outflow_usd": 133692084,
-      "net_usd": 133692084
-    },
-    {
-      "exchange": "All other exchanges",
+      "exchange": "Bitfinex",
       "kind": "stablecoins",
       "inflow_usd": 126253079,
       "outflow_usd": 0,
       "net_usd": -126253079
     },
     {
-      "exchange": "All other exchanges",
+      "exchange": "Coinbase",
       "kind": "volatile",
       "inflow_usd": 60484603,
       "outflow_usd": 0,
@@ -114,18 +87,6 @@
     }
   ],
   "top_inflows": [
-    {
-      "symbol": "ETH",
-      "amount": 90500.0,
-      "usd": 162497938.0,
-      "to": "Binance",
-      "from": "Unknown wallet",
-      "blockchain": "ethereum",
-      "hash": "0x5ae355fb4fd3320e8cc1c3f5ea80b60e0b29ea3cb8a99e8827b16dc6cde70d51",
-      "url": "",
-      "ts": 1794912047.0,
-      "stable": false
-    },
     {
       "symbol": "ETH",
       "amount": 83000.0,
@@ -137,18 +98,6 @@
       "url": "",
       "ts": 1794931799.0,
       "stable": false
-    },
-    {
-      "symbol": "USDT",
-      "amount": 145641550.0,
-      "usd": 145568729.0,
-      "to": "OKX",
-      "from": "Unknown wallet",
-      "blockchain": "ethereum",
-      "hash": "0x823018d46d990d61a623fd15cd42ca77ee8e81eed71a5c08fa969acd0e2ccded",
-      "url": "",
-      "ts": 1794881303.0,
-      "stable": true
     },
     {
       "symbol": "USDT",
@@ -237,30 +186,6 @@
       "stable": false
     },
     {
-      "symbol": "USDT",
-      "amount": 194064911.0,
-      "usd": 193959211.0,
-      "to": "Unknown wallet",
-      "from": "OKX",
-      "blockchain": "ethereum",
-      "hash": "0x5b8b918cfc68a7544ce8aead8c5c4fd379b8813fa3a921f949fc92396cda5f9b",
-      "url": "",
-      "ts": 1794887843.0,
-      "stable": true
-    },
-    {
-      "symbol": "BTC",
-      "amount": 1103.0,
-      "usd": 70993452.0,
-      "to": "Unknown wallet",
-      "from": "Kraken",
-      "blockchain": "bitcoin",
-      "hash": "303e5b6edf61016b92d4890fa5d8fb7ef1d579efb99948bae3cb256c34872646",
-      "url": "",
-      "ts": 1794910662.0,
-      "stable": false
-    },
-    {
       "symbol": "BTC",
       "amount": 823.0,
       "usd": 52734888.0,
@@ -282,90 +207,6 @@
       "hash": "b49a22f0ab11b341ea03642071336263bd890bf19d82e84c7dbff9a142bc0420",
       "url": "",
       "ts": 1794945493.0,
-      "stable": false
-    },
-    {
-      "symbol": "ETH",
-      "amount": 12000.0,
-      "usd": 21960282.0,
-      "to": "Unknown wallet",
-      "from": "binance hack 2026",
-      "blockchain": "ethereum",
-      "hash": "0x337774ab59a2d5c04e04c337953750307285b538d9baf9dc408af329edca53f5",
-      "url": "",
-      "ts": 1794902831.0,
-      "stable": false
-    },
-    {
-      "symbol": "ETH",
-      "amount": 12000.0,
-      "usd": 21959569.0,
-      "to": "Unknown wallet",
-      "from": "binance hack 2026",
-      "blockchain": "ethereum",
-      "hash": "0x91d580c2193fbaff3c3950b5316464e75b45866a61c12d078f6b2676f468bf0b",
-      "url": "",
-      "ts": 1794902699.0,
-      "stable": false
-    },
-    {
-      "symbol": "ETH",
-      "amount": 12000.0,
-      "usd": 21956113.0,
-      "to": "Unknown wallet",
-      "from": "binance hack 2026",
-      "blockchain": "ethereum",
-      "hash": "0xfb40b274526779aebf955935636a7acfd37df43a32cd25f780436674e1b2f293",
-      "url": "",
-      "ts": 1794902771.0,
-      "stable": false
-    },
-    {
-      "symbol": "ETH",
-      "amount": 12000.0,
-      "usd": 21883027.0,
-      "to": "Unknown wallet",
-      "from": "binance hack 2026",
-      "blockchain": "ethereum",
-      "hash": "0xc51b7fc4f46de200d473204ba65a5081e894fef19859eace333d2b0c35f90034",
-      "url": "",
-      "ts": 1794898799.0,
-      "stable": false
-    },
-    {
-      "symbol": "ETH",
-      "amount": 12000.0,
-      "usd": 21876128.0,
-      "to": "Unknown wallet",
-      "from": "binance hack 2026",
-      "blockchain": "ethereum",
-      "hash": "0xcd7a591142ba2544835a46d42dbba102caa86e4393a32506f4781e87136ecdbe",
-      "url": "",
-      "ts": 1794898511.0,
-      "stable": false
-    },
-    {
-      "symbol": "ETH",
-      "amount": 10279.0,
-      "usd": 18783103.0,
-      "to": "Unknown wallet",
-      "from": "binance hack 2026",
-      "blockchain": "ethereum",
-      "hash": "0x5c2230f96e9524736cc7199fd7cff2c448d3f83573eaa93b73af799797f21768",
-      "url": "",
-      "ts": 1794898919.0,
-      "stable": false
-    },
-    {
-      "symbol": "ETH",
-      "amount": 2879.0,
-      "usd": 5273862.0,
-      "to": "Unknown wallet",
-      "from": "binance hack 2026",
-      "blockchain": "ethereum",
-      "hash": "0x79a8ca59a4220b1447ac24bc8154cc1bb4a631655896cfe5032701b661a6abf6",
-      "url": "",
-      "ts": 1794903035.0,
       "stable": false
     }
   ],

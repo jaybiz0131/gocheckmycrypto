@@ -1,0 +1,83 @@
+{
+ "what": "Big movers, checked: the gate on the Board's top 100 (AUDIT.md 3.1 and 3.2), and for each coin past it the evidence by 9.2's rules with the coin's own candidates. Measured by code.",
+ "window": {
+  "start_utc": "2026-11-23T13:17:05Z",
+  "end_utc": "2026-11-24T13:17:05Z",
+  "hours": 24
+ },
+ "made_utc": "2026-11-24T13:19:23Z",
+ "gate": {
+  "rule": {
+   "version": "2026-10-19",
+   "source": "AUDIT.md section 3.1, the row 'Any top-100 coin', and section 3.2",
+   "move_min_pct": 10.0,
+   "vol_multiple_min": 2.5,
+   "excess_min_pts": 6.0,
+   "history_days": 30,
+   "per_slot": 8,
+   "per_day": 10
+  },
+  "board_utc": "2026-11-24T13:17:05Z",
+  "before_day": "2026-11-23",
+  "btc_24h_pct": -2.2,
+  "passed": [],
+  "over_cap": [],
+  "failed": [
+   {
+    "sym": "PIEVERSE",
+    "name": "Pieverse",
+    "gecko_id": "pieverse",
+    "rank": 73,
+    "pos": 59,
+    "move_pct": -9.93,
+    "vol_pct": 15.58,
+    "multiple": 0.64,
+    "beta": -0.175,
+    "btc_pct": -2.2,
+    "predicted_pct": 0.39,
+    "excess_pts": -10.31,
+    "legs": {
+     "move": false,
+     "multiple": false,
+     "excess": true
+    },
+    "pass": false,
+    "history": {
+     "from": "2026-10-22",
+     "through": "2026-11-21"
+    }
+   }
+  ],
+  "left_out": [
+   {
+    "sym": "ZRO",
+    "name": "LayerZero",
+    "gecko_id": "layerzero",
+    "rank": 108,
+    "pos": 85,
+    "move_pct": -16.69,
+    "why": "the desk holds no stored daily closes for it"
+   }
+  ],
+  "own_card": [],
+  "log": [
+   "movers: left out ZRO -16.69%: the desk holds no stored daily closes for it; never estimated",
+   "movers: 1 coin(s) passed one leg and failed another (the per-coin log ran through 2026-11-02)",
+   "movers: no top-100 coin passed the gate (13 measured, 1 left out for history)"
+  ],
+  "crash": {
+   "day": false,
+   "why": [],
+   "btc_pct": -2.2,
+   "market_pct": -1.95,
+   "past_move": 1,
+   "measured_past_move": 0,
+   "with_market": 0
+  },
+  "used_today": 0
+ },
+ "coins": {},
+ "shared": {},
+ "date_et": "2026-11-24",
+ "slot": "morning"
+}

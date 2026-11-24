@@ -3,9 +3,9 @@
  "what_a_wire_line_is": "Each line is the desk's own one-line summary of a story it ranked, with its sources counted and linked. It is not a story the desk wrote or checked; only the item with a badge was checked.",
  "ranked_utc": "2026-11-23T23:14:16Z",
  "ranked_et": "6:14 PM ET on Nov 23",
- "refreshed_utc": "2026-11-23T23:14:16Z",
- "refreshed_et": "6:14 PM ET on Nov 23",
- "refreshes": 0,
+ "refreshed_utc": "2026-11-24T13:18:45Z",
+ "refreshed_et": "8:18 AM ET on Nov 24",
+ "refreshes": 1,
  "snapshot_stamp_utc": "2026-11-23T23:12:55Z",
  "items": [
   {
@@ -17,7 +17,7 @@
     "CFTC proposes data reporting rule for event contracts"
    ],
    "board_reading": "",
-   "source_count": 2,
+   "source_count": 3,
    "primary": true,
    "standing": "corroborated",
    "links": [
@@ -27,8 +27,18 @@
      "primary": true
     },
     {
+     "url": "https://www.cftc.gov/PressRoom/PressReleases/9331-26",
+     "outlet": "CFTC Press Releases",
+     "primary": true
+    },
+    {
      "url": "https://cryptobriefing.com/cftc-final-rule-event-contracts-reporting/",
      "outlet": "Crypto Briefing",
+     "primary": false
+    },
+    {
+     "url": "https://thedefiant.io/converge/regulation/cftc-finalizes-reporting-rules-for-event-contracts",
+     "outlet": "The Defiant",
      "primary": false
     }
    ],
