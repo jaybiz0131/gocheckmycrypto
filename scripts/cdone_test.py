@@ -42,6 +42,9 @@
       standouts line. A live price under a dollar prints four decimals, as the build's does. A reading's age is in its
       stamp's own ink (red is for the stale banner). The Brief card with nothing but the next slot draws no rule above
       it. A long address in a story wraps instead of pushing the page wide at 375.
+  12. Read well (points 3 and 4): the tabs a phone reader lands on. /today/'s answer is one short sentence per fact,
+      not one sentence of eighty words, and it does not print the same mover and figure twice. The movers board prints
+      a story line only where there is a story (twenty rows said "No checked story yet.").
 
 Stdlib only.
   python3 scripts/cdone_test.py      # exit 1 on any failure, every failing case named
@@ -444,9 +447,9 @@ def answer_first_cases(fails):
     guarded(fails, "the home's line is one sentence: Bitcoin since midnight ET with the read's time, and no price",
             lambda: ld.get("home") == "Bitcoin is down 0.54% since midnight ET, as of 8:16 AM ET on Oct 16."
             and "$" not in ld["home"])
-    guarded(fails, "the full read /today/ prints is unchanged: the price, the 24 hours, the money, the mood and the movers",
+    guarded(fails, "the full read /today/ prints keeps every fact: the price, the 24 hours, the money, the mood and the movers",
             lambda: ld["text"].startswith("As of 8:16 AM ET on Friday, October 16, Bitcoin is at $") and "Fear and Greed reads" in ld["text"]
-            and len(ld["sentences"]) == 2)
+            and "Spot Bitcoin ETFs" in ld["text"] and "top 100 coin" in ld["text"])
     s2 = copy.deepcopy(snap)
     s2["fields"]["coins"]["value"]["BTC"]["open_et_day"] = "2026-10-15"
     guarded(fails, "no ET-day open in the snapshot: the home has no such line (the tape's 24 hours is not printed again)",
@@ -725,6 +728,43 @@ def polish_cases(fails):
             lambda: "bodymainp,bodymainli{overflow-wrap:break-word}" in flat)
 
 
+def read_well_cases(fails):
+    print("12. read well: /today/'s answer is one short sentence per fact; the movers board prints a story line only where there is one")
+    import copy
+    import datetime as dt
+    import morning_line
+    import site_build as sb
+    import snapshot
+    snap = snapshot.build(_fx("pulse_2026-10-16T1216Z.json"), _fx("flows_2026-10-16T1216Z.json"))
+    now = dt.datetime(2026, 10, 16, 13, 0, tzinfo=dt.timezone.utc)
+    ld = morning_line.lead(snap, {}, now=now)
+    sents = ld["sentences"]
+    guarded(fails, "every sentence of the answer is short (under 30 words), starts with a capital, ends with a period and holds no semicolon",
+            lambda: len(sents) >= 5 and all(len(s.split()) < 30 and (s[0].isupper() or s[0].isdigit()) and s.endswith(".") and ";" not in s for s in sents))
+    guarded(fails, "the text is those sentences in order, each fact once: Bitcoin, the ETFs, the whales, funding, Fear and Greed, the movers",
+            lambda: ld["text"] == " ".join(sents) and [bool(re.search(k, " ".join(sents))) for k in
+                                                         ("Bitcoin is at", "Spot Bitcoin ETF", "Whales moved", "Funding is", "Fear and Greed reads", "top 20")] == [True] * 6)
+    top20, beyond = morning_line.movers_board(snap)
+    same = copy.deepcopy(snap)
+    lead_sym = top20[0]["symbol"]
+    for sym, c in same["fields"]["coins"]["value"].items():   # make the top 20's biggest mover the top 100's only one too
+        if isinstance(c, dict) and sym != lead_sym and isinstance(c.get("chg_24h_pct"), (int, float)):
+            c["chg_24h_pct"] = max(-4.0, min(4.0, c["chg_24h_pct"]))
+    t2, b2 = morning_line.movers_board(same)
+    txt = morning_line.lead(same, {}, now=now)["text"]
+    guarded(fails, "when the top 20's biggest mover also leads the top 100, its name and figure print once",
+            lambda: b2 and b2[0]["symbol"] == t2[0]["symbol"] and txt.count(f"{t2[0]['symbol']}, ") == 1)
+    rows_html = sb._movers_board_html(snap, [])
+    guarded(fails, "a coin with no checked story prints no story line at all (never 'No checked story yet.' twenty times)",
+            lambda: rows_html and "No checked story yet" not in rows_html and rows_html.count('class="td-row"') >= 10
+            and 'flex-basis:100%"></span>' not in rows_html)
+    story = {"slug": "near-story", "title": "NEAR Protocol ships an upgrade", "dek": "NEAR.", "date": "2026-10-15", "published_utc": "2026-10-15T12:00:00Z",
+             "body": ["NEAR Protocol shipped an upgrade."], "category": "news", "verdict": "VERIFIED", "sources": []}
+    with_story = sb._movers_board_html(snap, [story])
+    guarded(fails, "a coin with a checked story from the last seven days still prints it, linked and dated",
+            lambda: 'href="/articles/near-story.html"' in with_story and with_story.count("/articles/") == 1)
+
+
 def unit():
     fails = []
     print("C-DONE")
@@ -740,6 +780,7 @@ def unit():
         taught_cases(fails)
         lanes_cases(fails)
         polish_cases(fails)
+        read_well_cases(fails)
     finally:
         for m in ("sprint95b_test", "sprint95b_fixture", "sprint95_test", "sprint94_test", "sprint93_test", "sprint92_test",
                   "canary_gate", "ops_ledger", "health_gate", "deadlinks"):

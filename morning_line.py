@@ -131,14 +131,16 @@ def lead(snap, deltas=None, now=None):
     if beyond:
         b = beyond[0]
         n = len(beyond)
-        clauses.append(f"{n} top 100 coin{'' if n == 1 else 's'} moved more than {BEYOND_PCT:g}%, "
-                       f"led by {b['symbol']}, {_move(b['chg_24h_pct'])}")
+        many = f"{n} top 100 coin{'' if n == 1 else 's'} moved more than {BEYOND_PCT:g}%"
+        # the top 20's biggest mover, named and counted in the clause before, is not named and counted again
+        same = bool(top20) and top20[0]["symbol"] == b["symbol"]
+        clauses.append(many if same else f"{many}, led by {b['symbol']}, {_move(b['chg_24h_pct'])}")
     elif top20:
         clauses.append(f"no top 100 coin moved more than {BEYOND_PCT:g}%")
-    sents = [s1]
-    if clauses:
-        body = "; ".join(clauses)
-        sents.append(body[0].upper() + body[1:] + ".")
+    # ONE SHORT SENTENCE PER FACT (C-DONE, 25 November 2026). The clauses were joined by semicolons into one sentence
+    # of eighty words; each is its own sentence, so the answer reads in a glance and the gate that drops a sentence it
+    # cannot stand behind drops one fact, not the whole second half.
+    sents = [s1] + [c[0].upper() + c[1:] + "." for c in clauses]
     # THE HOME'S LINE (C-DONE point 3, 25 November 2026). The home prints nothing twice: the price and the 24 hours
     # are on the tape, the money, the mood and the movers each have their block on the same screen. The one figure no
     # other block prints is Bitcoin since midnight ET, so that is the home's line; the full read stays /today/'s.

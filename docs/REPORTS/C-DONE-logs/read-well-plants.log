@@ -1,0 +1,19 @@
+plant 1: the answer's clauses are one semicolon sentence again
+  exit 1, 2 case(s) red
+    red: every sentence of the answer is short (under 30 words), starts with a capital, ends with a period and holds no semicolon
+    red: the text is those sentences in order, each fact once: Bitcoin, the ETFs, the whales, funding, Fear and Greed, the movers
+plant 2: the same mover and figure print twice
+  exit 1, 1 case(s) red
+    red: when the top 20's biggest mover also leads the top 100, its name and figure print once
+plant 3: a clause is dropped from the answer (Fear and Greed)
+  exit 1, 2 case(s) red
+    red: the full read /today/ prints keeps every fact: the price, the 24 hours, the money, the mood and the movers
+    red: the text is those sentences in order, each fact once: Bitcoin, the ETFs, the whales, funding, Fear and Greed, the movers
+plant 4: a coin with no story prints 'No checked story yet.' again
+  exit 1, 1 case(s) red
+    red: a coin with no checked story prints no story line at all (never 'No checked story yet.' twenty times)
+plant 5: a coin with a story loses its line
+  exit 1, 1 case(s) red
+    red: a coin with a checked story from the last seven days still prints it, linked and dated
+restored from the saved copies: exit 0
+PLANTS: ALL CAUGHT
