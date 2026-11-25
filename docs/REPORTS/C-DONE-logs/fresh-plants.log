@@ -1,0 +1,51 @@
+plant 1: the fresh stamp is the oldest read of all again
+  exit 1, 6 case(s) red
+    red: prices and the whole market carried from 07:05: the fresh stamp is 12:16, the contract's oldest read stays 07:
+    red: the older sections are named once each with their own time (Prices, Whole market), and no fresh one is
+    red: the Fear and Greed tile, read at 12:16, prints 12:16 and not the carried prices' 07:05
+    red: the Board's stamp line is the fresh read, with no stale banner over five fresh sections
+    red: and it names the older sections on their own line, with their own instant: 'Prices and whole market as of 3:05
+    red: the home's Board line says the same in one sentence
+plant 2: a carried field prints the Board's stamp, not its own
+  exit 1, 1 case(s) red
+    red: the Bitcoin tile, carried, prints its own 07:05 inline and carries that instant for the browser's age
+plant 3: reads a minute apart are split into two readings (no group)
+  exit 1, 1 case(s) red
+    red: reads a few minutes apart in one run are one reading (the whale board is read a minute before the Board)
+plant 4: the banner says 'several times a day' again
+  exit 1, 2 case(s) red
+    red: every section 20 hours old: the stale banner, with the cadence from the schedule and no hand-typed 'several ti
+    red: 'several times a day' is in no banner the build can write (site_build.py's source)
+plant 5: the banner's window is twelve hours again
+  exit 1, 1 case(s) red
+    red: the evening read seen at 8:10 the next morning is inside the schedule's longest gap: no stale banner
+plant 6: a section's page takes the Board's stamp, not its own
+  exit 1, 1 case(s) red
+    red: a section's own page stamps that section's own read (sentiment fresh, prices carried)
+plant 7: the Board's stamp line drops the older sections
+  exit 1, 1 case(s) red
+    red: and it names the older sections on their own line, with their own instant: 'Prices and whole market as of 3:05
+plant 8: two sections of one read are two sentences again (no grouping)
+  exit 1, 2 case(s) red
+    red: and it names the older sections on their own line, with their own instant: 'Prices and whole market as of 3:05
+    red: the home's Board line says the same in one sentence
+plant 9: the Board's stamp line reads the oldest read again
+  exit 1, 1 case(s) red
+    red: the Board's stamp line is the fresh read, with no stale banner over five fresh sections
+plant 10: the ticker's vintage is the oldest section again
+  exit 1, 1 case(s) red
+    red: the ticker's vintage is the prices' own read, not the oldest section's (the ETF table carried a day)
+plant 11: Why Bitcoin moved opens on the oldest read again
+  exit 1, 1 case(s) red
+    red: Why Bitcoin moved opens 'As of' the prices' read when only the ETF table is older
+plant 12: Retry-After is obeyed as sent (no bound)
+  exit 1, 1 case(s) red
+    red: a 429 asking for an hour is tried three times and waits no more than the bound between tries
+plant 13: a coin whose history read failed is dropped instead of computed from the stored series
+  exit 1, 1 case(s) red
+    red: with CoinGecko refusing every history read, Bitcoin's averages come from the stored series, through its own da
+plant 14: the evening slot is typed, not read (cadence off the schedule)
+  exit 1, 1 case(s) red
+    red: the cadence is read from the schedule: the morning slot and the evening slot in Eastern time on the day
+restored from the saved copies: exit 0
+PLANTS: ALL CAUGHT

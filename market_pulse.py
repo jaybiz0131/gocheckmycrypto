@@ -68,11 +68,17 @@ def _wait(seconds):
     (_sleep or time.sleep)(seconds)
 
 
+# THE RETRY IS BOUNDED (C-DONE point 1, 25 November 2026). Retry-After was obeyed as sent, so a 429 asking for an
+# hour would have held a build for two of them. No wait between tries is longer than this; a source that asks for
+# more is refused for this run and its section is carried forward with its own age.
+RETRY_WAIT_CAP_S = 90
+
+
 def _retry_after(e):
-    """Seconds a 429 asks us to wait: Retry-After when it says, 60 when it does not."""
+    """Seconds a 429 asks us to wait: Retry-After when it says, 60 when it does not, never past RETRY_WAIT_CAP_S."""
     try:
         v = (e.headers or {}).get("Retry-After")
-        return max(1, int(float(v))) if v not in (None, "") else 60
+        return min(RETRY_WAIT_CAP_S, max(1, int(float(v)))) if v not in (None, "") else 60
     except (TypeError, ValueError, AttributeError):
         return 60
 
@@ -882,6 +888,9 @@ def main():
     # age counts as the oldest thing there is, because it cannot be shown to be fresh.
     pulse["written_utc"] = _now_s
     pulse["sections_utc"] = sections_utc
+    # C-DONE point 1: the Board's own stamp line reads its freshest core section; generated_utc below stays the
+    # oldest, for every reader that needs the conservative instant
+    pulse["fresh_utc"] = max([v for k, v in sections_utc.items() if k in CORE_SECTIONS and v] or [_now_s])
     if carried:
         pulse["carried_forward"] = carried
         # WHAT "THE MARKET BOARDS" ACTUALLY SHOW drives the headline stamp, and nothing

@@ -342,7 +342,8 @@ def bitcoin_card(snap):
     inner = (f'<div class="h-btc {d or "flat"}" data-btc-card>'
              f'{hl24}{chart}</div>'
              f'<ul class="h-coins">{"".join(alts)}</ul>'
-             f'<p class="h-board">Readings below are as of {_e(snap.get("stamp_et") or asof)}.</p>')
+             f'<p class="h-board">Readings below are as of {_e(_board_stamp(snap) or asof)}.'
+             f'{_e(__import__("snapshot").older_note(snap))}</p>')
     return inner
 
 
@@ -510,7 +511,7 @@ def narrative_band(narr, snap, ed=None, now=None, morning=None):
     line, _r, replaced = band_line(narr, snap)
     if replaced:
         narr = dict(narr, readings=_r, written_et=snap.get("stamp_et") or "")
-    stamp = snap.get("stamp_et") or ""
+    stamp = _board_stamp(snap)
     if not line:
         return _block("narrative", eye + head + last_html
                       + f'<p class="h-nsmall">Markets as of {_e(stamp)}.</p>' + nxt + TODAY_LINK,
@@ -659,14 +660,45 @@ def wire_top(wire, cadence, now=None, skip_id=None):
 # ---- the money and the mood ---------------------------------------------------------------
 
 def _field(snap, name):
-    """(value, source, stamp). ONE STAMP FOR THE BOARD (Jack, 7 October 2026): every tile
-    carries the snapshot's stamp, the oldest reading among its fields, which is the stamp
-    the tape's line under it gives the Board; a field's own read time never stands in for
-    it, so the Board never shows Oct 5 in one place and Oct 6 in another."""
+    """(value, source, stamp). THE BOARD'S STAMP IS ITS FRESHEST READ (Jack, 24 November 2026, replacing the one
+    oldest stamp of 7 October): a tile read with the Board's fresh group carries the Board's stamp, and a tile whose
+    field was carried from an earlier run carries its own read time, so one refused source ages its own tile and
+    nothing else (snapshot.field_stamp)."""
     f = ((snap or {}).get("fields") or {}).get(name) or {}
     if not f:
         return None, "", ""
-    return f.get("value"), f.get("source") or "", (snap or {}).get("stamp_et") or ""
+    import snapshot
+    return f.get("value"), f.get("source") or "", snapshot.field_stamp(snap, name)
+
+
+def _board_stamp(snap):
+    """The Board's stamp: its fresh read (C-DONE point 1); the oldest read when the snapshot predates the field."""
+    return (snap or {}).get("fresh_et") or (snap or {}).get("stamp_et") or ""
+
+
+def cadence(now=None):
+    """'8:15 AM ET and 6:08 PM ET': when the desk refreshes the Board, read from the schedule next_slot reads
+    (MORNING_ET, the Worker's morning slot; EDITION_UTC, the evening dispatch, said in Eastern time on the day)."""
+    now = (now or _now()).astimezone(_ET)
+    morning = now.replace(hour=MORNING_ET[0], minute=MORNING_ET[1], second=0, microsecond=0)
+    evening = _dt.datetime(now.year, now.month, now.day, EDITION_UTC[0], EDITION_UTC[1],
+                           tzinfo=_dt.timezone.utc).astimezone(_ET)
+    return f"{morning.strftime('%-I:%M %p ET')} and {evening.strftime('%-I:%M %p ET')}"
+
+
+SLOT_GRACE_MIN = 45        # a slot's run fetches, writes and builds; its read is on the page inside this
+
+
+def fresh_window_hours(now=None):
+    """The longest stretch the schedule leaves between two refreshes, plus the run's own time: the evening slot to
+    the next morning's. A Board older than this has missed a slot; inside it the Board is as fresh as the desk
+    promises, and the stale banner stays off."""
+    now = (now or _now()).astimezone(_ET)
+    morning = now.replace(hour=MORNING_ET[0], minute=MORNING_ET[1], second=0, microsecond=0)
+    evening = _dt.datetime(now.year, now.month, now.day, EDITION_UTC[0], EDITION_UTC[1],
+                           tzinfo=_dt.timezone.utc).astimezone(_ET)
+    day = (evening - morning).total_seconds() / 3600.0
+    return max(day, 24.0 - day) + SLOT_GRACE_MIN / 60.0
 
 
 def _tile(fn, *a):
@@ -828,7 +860,7 @@ def t_bitcoin(snap, pulse, deltas):
     import snapshot
     import tile
     c = snapshot.coin(snap, "BTC")
-    st = (snap or {}).get("stamp_et") or ""         # one stamp for the Board (7 October)
+    st = snapshot.field_stamp(snap, "coins")         # the prices' own read when they were carried (C-DONE point 1)
     if not isinstance(c.get("price"), (int, float)) or not st:
         return ""
     btc = sb._btc(pulse) or {}
@@ -1081,7 +1113,7 @@ def board(snap, pulse, flows, deltas):
     tiles = [t for t in tiles if t and re.search(r'data-reading="([a-z-]+)"', t).group(1)
              not in ABOVE_READINGS]
     import tile
-    head = (f'<p class="h-sub">As of {_e(snap.get("stamp_et") or "")}. '
+    head = (f'<p class="h-sub">As of {_e(_board_stamp(snap))}.{_e(__import__("snapshot").older_note(snap))} '
             f'<a href="/pulse.html">{_e(_tn("markets"))}, in full</a></p>')
     if not any(tiles):
         return _block("board", head + '<p class="h-wait">Waiting for the snapshot.</p>',

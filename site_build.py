@@ -1601,7 +1601,10 @@ def _ticker_built(pulse):
     build actually shipped. Marked stale when that vintage has outrun the refresh promise,
     so a blocked live fetch can never leave old numbers wearing a live label."""
     import datetime as _dt
-    ts = ((pulse or {}).get("generated_utc") or "").strip()
+    # C-DONE point 1: the ticker prints prices, so its vintage is the prices' own read (the movers section), and a
+    # section carried from an earlier run elsewhere on the Board does not age it
+    ts = ((((pulse or {}).get("sections_utc") or {}).get("movers") or "").strip()
+          or ((pulse or {}).get("generated_utc") or "").strip())
     if not ts:
         return '<span class="stale">vintage unknown</span>'
     try:
@@ -7275,7 +7278,7 @@ def _dash_crumb():
 # the refresh promise the board says so in its own voice instead of presenting stale numbers
 # as current. Age is measured at BUILD time (the moment of publication), which is also when
 # the generators run, so a healthy deploy stamps an age of roughly zero.
-BOARD_FRESH_HOURS = 12  # the promise: three daily briefs plus the noon rebuild
+BOARD_FRESH_HOURS = 12  # kept for readers that name it; data_stamp's window is the schedule's (home.fresh_window_hours)
 
 
 SNAPSHOT_DIR = os.path.join(HERE, "site", "data", "snapshots")
@@ -7550,12 +7553,28 @@ def _asof_attr_ts(ts):
     return _snapshot.asof_attr(ts)
 
 
-def data_stamp(data, promise_hours=BOARD_FRESH_HOURS, what="This board"):
-    """Visible provenance line for a data board: when the snapshot was generated and, when
-    it has outrun the refresh promise, an explicit stale label."""
+def data_stamp(data, promise_hours=None, what="This board", section=None, now=None):
+    """Visible provenance line for a data board: when it was read and, when it has outrun the schedule, an explicit
+    stale label.
+
+    C-DONE point 1 (Jack, 24 November 2026). The Board's stamp is its FRESH read (`fresh_utc`, snapshot.fresh_of), and
+    the sections read earlier are named beside it with their own time, so one refused source never puts the banner
+    over the whole Board. A section's own page passes `section` and is stamped with that section's read. The banner's
+    window is the schedule's longest gap (home.fresh_window_hours) and its cadence is read from the same schedule
+    (home.cadence): the hand-typed "several times a day" was false from 12 October."""
     import datetime as _dt
+    import home as _home
     d = data or {}
-    ts = (d.get("generated_utc") or "").strip()
+    now = now or _build_now()
+    if promise_hours is None:
+        promise_hours = _home.fresh_window_hours(now)
+    # each older read is its own line with its own instant, so the browser's age lands beside the time it measures
+    import snapshot as _snapshot
+    older = "" if section else "".join(
+        f'<p class="data-stamp ds-older"{_asof_attr_ts(read)}>{esc(names)} as of {esc(st)}.</p>'
+        for names, st, read in _snapshot.older_groups(d.get("older")))
+    ts = ((((d.get("sections_utc") or {}).get(section) or "") if section else (d.get("fresh_utc") or ""))
+          or d.get("generated_utc") or "").strip()
     if not ts:
         dated = (d.get("generated") or "").strip()
         when = f" The snapshot is dated {esc(dated)}." if dated else ""
@@ -7569,16 +7588,16 @@ def data_stamp(data, promise_hours=BOARD_FRESH_HOURS, what="This board"):
     # American and this stamp is the most-read line on the Board.
     stamp = (f'{_et_clock(gen)} on '
              f'{gen.astimezone(_ET).strftime("%b %d, %Y").replace(" 0", " ")}')
-    age_h = (_dt.datetime.now(_dt.timezone.utc) - gen).total_seconds() / 3600
+    age_h = (now - gen).total_seconds() / 3600
     if age_h > promise_hours:
         hrs = int(age_h)
-        older = f"{hrs} hours" if hrs < 48 else f"{hrs // 24} days"
+        ago = f"{hrs} hours" if hrs < 48 else f"{hrs // 24} days"
         return (f'<p class="data-stamp stale"{_asof_attr_ts(ts)}><b>Stale data.</b> {esc(what)} last refreshed '
-                f'at {stamp}, about {older} ago, and the desk refreshes it several times a '
-                f'day. Read these numbers as history, not as the current market.</p>')
+                f'at {stamp}, about {ago} ago. The desk refreshes it at {esc(_home.cadence(now))}. '
+                f'Read these numbers as history, not as the current market.</p>{older}')
     # C-5: was "Data as of 22:17 UTC on 14 Sep 2026. Refreshed at every site build." -
     # a clock the reader does not keep and a note about how the page was made (G-9).
-    return f'<p class="data-stamp"{_asof_attr_ts(ts)}>As of {stamp}.</p>'
+    return f'<p class="data-stamp"{_asof_attr_ts(ts)}>As of {stamp}.</p>{older}'
 
 
 _TILE_FOR_SLUG = {"prices": "bitcoin", "posture": "bitcoin", "sentiment": "fng",
@@ -7636,7 +7655,9 @@ def _week_ago_line(slug, data):
 
 def _dash_shell(slug, title, desc, body_inner, dateline, live=False, data=None,
                 path=None, full_title=None, schema_extra="", week_line=True, sources=None):
-    stamp = data_stamp(data) if data is not None else ""
+    # C-DONE point 1: a section's own page is stamped with that section's own read
+    _sec = (TILE_SOURCES.get(_TILE_FOR_SLUG.get(slug) or "") or (None, None))[1]
+    stamp = data_stamp(data, section=_sec) if data is not None else ""
     week = _week_ago_line(slug, data) if (data is not None and week_line) else ""
     # C-15: a sources line, not a methods note (G-9, same rule as C-13).
     srcs = (f'<p class="bd-src tile-src">{esc(sources)}</p>' if sources else
