@@ -95,28 +95,11 @@ def _wire_cases(fails, sb):
     golden = open(os.path.join(FX, "render_wire_main.html"), encoding="utf-8").read()
     guarded(fails, "with entries in the window the page is byte-identical to main's render_wire (stored copy of main's output)",
             lambda: norm(with_entries) == norm(golden))
-    live = None
-    try:
-        src = subprocess.run(["git", "show", f"{MAIN_REF}:site_build.py"], cwd=HERE, capture_output=True, text=True).stdout
-        if src:
-            tmp = tempfile.mkdtemp(prefix="s96w-main-")
-            TMPS.append(tmp)
-            open(os.path.join(tmp, "site_build_main.py"), "w", encoding="utf-8").write(
-                src.replace("HERE = os.path.dirname(os.path.abspath(__file__))", f"HERE = {HERE!r}", 1))
-            sys.path.insert(0, tmp)
-            try:
-                import site_build_main as m
-                m.SITE = sb.SITE                              # the same (empty) site directory as the page under test
-                live = m.render_wire(items(), dl, NOW)
-            finally:
-                sys.path.remove(tmp)
-                sys.modules.pop("site_build_main", None)
-    except Exception:                                        # noqa: BLE001  a shallow clone has no such ref
-        live = None
-    if live is not None:
-        guarded(fails, f"...and to main's own render_wire run now from git ({MAIN_REF})", lambda: norm(with_entries) == norm(live))
-    else:
-        print(f"  --   main's render_wire could not be run from git ({MAIN_REF} not in this clone); the stored copy above stands")
+    # C-DONE (25 November 2026): the second form of this case ran main's render_wire from git (3be7684) and compared it
+    # with this tree's. A shallow clone has no such commit, so every CI run skipped it; on a clone that holds the commit
+    # it has been red since Sprint A took the lone "GoCheckMyCrypto" line out of the footer on 7 November (d762a89),
+    # which the October program still prints. A case that runs only where history is deep, against a program that no
+    # longer describes the page, proves nothing either way: the stored copy above (re-pinned by Sprint A) is the pin.
     guarded(fails, "with entries it lists the three fixture rows", lambda: with_entries.count('class="wr-r"') == 3)
     old = sb.render_wire(items(), dl, LATER)
     guarded(fails, "with every entry past the window render_wire still returns a page (it returned None on main)",

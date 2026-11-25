@@ -1,0 +1,24 @@
+plant 1: a red with no code commit to compare is called data (fail open)
+  exit 1, 1 case(s) red
+    red: the verdict: green passes; red on HEAD's own code stops; red with the code green on its merge tree is data; red both tim
+plant 2: red code at HEAD is called data
+  exit 1, 1 case(s) red
+    red: red at HEAD's own code is never data, whatever a second run says (HEAD is the code under test)
+plant 3: a data verdict still stops the run
+  exit 1, 1 case(s) red
+    red: stand-in canary, a run stored a bad line: the verdict is data, the run goes on (exit 0), the case is named
+plant 4: the ledgers under data/ count as code
+  exit 1, 2 case(s) red
+    red: what a run commits is told from code: stories, boards, ledgers and queues are run-written
+    red: every path a workflow stages is on the run-written list (the list is the workflows' own)
+plant 5: a workflow file counts as run-written
+  exit 1, 1 case(s) red
+    red: and code, tests, fixtures, workflows, styles and the learn pages are not
+plant 6: the worktree is left behind
+  exit 1, 1 case(s) red
+    red: the worktree it ran the code commit in is gone afterwards
+plant 7: the morning read runs the canary directly again
+  exit 1, 1 case(s) red
+    red: morning-read.yml: the canary step runs the gate, prints its verdict after the quiet block, and leaves with the gate's st
+restored from the saved copies: exit 0
+PLANTS: ALL CAUGHT

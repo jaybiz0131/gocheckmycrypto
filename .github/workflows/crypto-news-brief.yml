@@ -103,12 +103,21 @@ jobs:
         # learned to hide in plain sight. stop-commands turns the canary's output
         # into plain log lines for the duration of the step; a canary FAILURE still
         # fails the step (non-zero exit) exactly as before.
+        #
+        # THE GATE TELLS CODE FROM STORED DATA (C-DONE, 25 November 2026). Four times in
+        # thirty days a line the desk stored the night before turned a canary case red and
+        # the desk locked itself: only a run could replace the line, and no run could pass
+        # the gate while it stood. scripts/canary_gate.py runs the canary; on a red it runs
+        # it again on the last code commit (gated green when it merged). Green there means
+        # the red is stored data: the run goes on and every case is named in a warning.
+        # Red code still stops the run, exactly as before.
         run: |
           token="canary-$RANDOM$RANDOM$RANDOM"
           echo "::stop-commands::$token"
           rc=0
-          python3 verify_pipeline.py canary || rc=$?
+          python3 scripts/canary_gate.py || rc=$?
           echo "::$token::"
+          python3 scripts/canary_gate.py --annotate || true
           if [ "$rc" != "0" ]; then
             echo "::error::Offline canary FAILED (exit $rc): the pipeline is mis-wired; read the step log above. Nothing runs live until it passes."
           fi
