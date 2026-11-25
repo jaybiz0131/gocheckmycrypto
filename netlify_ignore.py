@@ -44,7 +44,10 @@ SKIPPABLE_FILES = ("ledger.json",)
 # held it. Everything under scripts/ is a harness or a workflow tool EXCEPT the files named in
 # BUILD_READS, which the build reads and which therefore always build. The canary's
 # _ignore_reads_canary records what a real build opens and fails if the two lists disagree.
-DOC_PREFIXES = ("docs/", "shots/", "review-queue/", "scripts/")
+# review/ and .github/ (C-DONE, 25 November 2026). review/ holds the reviewers' screenshots and .github/ the workflow
+# files; the build opens nothing in either (the reads canary walks both trees now), and a commit of either alone was
+# spending a production build.
+DOC_PREFIXES = ("docs/", "shots/", "review-queue/", "scripts/", "review/", ".github/")
 DOC_SUFFIXES = (".md",)
 # NOT the .md files by name: DOC_SUFFIXES already covers them, and naming them as well is
 # configuration that cannot fail. The Sports desk found that with a U-9 break on 24 September.
