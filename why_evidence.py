@@ -1452,6 +1452,11 @@ def _usd(v):
 
 
 def _price(v):
+    # C-DONE point 4: a price under a cent printed "$0.00" (PEPE's /why page, five times); it prints its digits in the
+    # site's one small-price form
+    if 0 < abs(v) < 0.01:
+        import site_build as _sb
+        return _sb._price_fmt(v)
     return f"${v:,.0f}" if v >= 1000 else f"${v:,.2f}"
 
 

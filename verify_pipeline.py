@@ -5157,7 +5157,10 @@ def _ingest_dedupe_canary():
     _check('art.get("also_reported_by")' in inspect.getsource(sb.ingest), fails,
            "site_build: ingest no longer reads also_reported_by off the draft, so the "
            "writer's copy dies one hop before the page")
-    _check('also-reported' in inspect.getsource(sb.render_article), fails,
+    # C-DONE (25 November 2026): the line is drawn by sb.also_reported (the outlets by name, once each), which
+    # render_article calls; both halves are held, so the line cannot be dropped at either
+    _check('also_reported(item.get("also_reported_by"))' in inspect.getsource(sb.render_article)
+           and 'also-reported' in inspect.getsource(sb.also_reported), fails,
            "site_build: the article page no longer renders the also-reported line; the "
            "corroboration is carried all the way to the page and then not shown")
     # corroborated is not "developing": the badge discloses a story resting on ONE outlet

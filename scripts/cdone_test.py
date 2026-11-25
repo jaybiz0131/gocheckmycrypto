@@ -23,6 +23,10 @@
      375 (the stylesheet's order) and with the tape in the first row at 1280. The home prints nothing twice: the long
      Why Bitcoin moved paragraph stays on /today/ and the home keeps the one figure no other block prints. With nothing
      scheduled today the block names the next dated event; an empty watchlist draws no block.
+  7. Clean and whole (points 4 and 5), from the production crawl of November 25 (stamp 3d286ab, 915 pages). No built page
+     links to a page that is not there: a link to a story the desk never published, or to a coin page that is no longer
+     built, is drawn as its text. Edition pages print Eastern time and no place. An empty rail is not drawn. "Also
+     reported by" names outlets, not their lowercased headlines. A price under a cent is never "$0.00". US spelling.
 
 Stdlib only.
   python3 scripts/cdone_test.py      # exit 1 on any failure, every failing case named
@@ -474,6 +478,62 @@ def answer_first_cases(fails):
             lambda: re.search(r'\[data-block="mine"\]:has\(\.h-mine-empty\)\{display:none\}', re.sub(r"\s+", "", read(SYSTEM_CSS))))
 
 
+def clean_cases(fails):
+    print("7. clean and whole: no dead internal link, Eastern time on the Edition, no empty rail, outlets by name")
+    import inspect
+    import json
+    import tempfile
+    import deadlinks
+    import edition
+    import site_build as sb
+    import why_evidence
+    with tempfile.TemporaryDirectory() as pub:
+        os.makedirs(os.path.join(pub, "articles"))
+        page = ('<main><p>See <a href="/articles/gone.html">the story the desk never published</a> and '
+                '<a class="x" href="/pulse">the Board</a>, <a href="/old">an old path</a>, '
+                '<a href="https://example.org/x">a source</a>, <a href="/coins/sei"><b>SEI</b></a>, '
+                '<a href="/articles/gone.html#part">again</a>.</p>'
+                "<script>var s='<a href=\"/coins/'+k.toLowerCase()+'\">';</script></main>")
+        open(os.path.join(pub, "index.html"), "w").write(page)
+        open(os.path.join(pub, "pulse.html"), "w").write("<main>Board</main>")
+        open(os.path.join(pub, "_redirects"), "w").write("/old  /pulse  301\n")
+        dead0 = deadlinks.check(pub)[0] if "publish" in inspect.signature(deadlinks.check).parameters else None
+        n = deadlinks.unlink(pub) if hasattr(deadlinks, "unlink") else None
+        after = open(os.path.join(pub, "index.html")).read()
+        dead1 = deadlinks.check(pub)[0] if dead0 is not None else None
+    guarded(fails, "the check finds the two dead targets and does not read a script's string as a link",
+            lambda: dead0 is not None and set(dead0) == {"/articles/gone.html", "/coins/sei"})
+    guarded(fails, "unlink draws each dead link as its text (three anchors), keeps the markup inside it, and leaves the live link, the redirect and the outside link alone",
+            lambda: n == 3 and "See the story the desk never published and" in after and "<b>SEI</b>, again." in after
+            and '<a class="x" href="/pulse">the Board</a>' in after and '<a href="/old">an old path</a>' in after
+            and '<a href="https://example.org/x">a source</a>' in after and "'<a href=\"/coins/'+k.toLowerCase()+'\">'" in after)
+    guarded(fails, "after it the same check finds nothing", lambda: dead1 == {})
+    guarded(fails, "the build runs it last and the list of known dead links is empty (none is excused any more)",
+            lambda: "deadlinks.unlink(PUBLISH)" in inspect.getsource(sb.build)
+            and json.load(open(os.path.join(HERE, "deadlinks-baseline.json"), encoding="utf-8"))["targets"] == [])
+    stamp = getattr(edition, "_et_stamp", None)
+    guarded(fails, "an Edition's time is Eastern, on both sides of the clock change: 23:15 UTC is 6:15 PM ET in November and 7:15 PM ET in August",
+            lambda: stamp and stamp({"published_utc": "2026-11-24T23:15:00Z"}) == "6:15 PM ET"
+            and stamp({"published_utc": "2026-08-19T23:15:00Z"}) == "7:15 PM ET" and stamp({"date": "2026-08-19"}) == "")
+    src = read(os.path.join(HERE, "edition.py"))
+    guarded(fails, "no Edition page prints UTC or a place (the code holds neither)",
+            lambda: "_utc_stamp" not in src and 'desk["place"]' not in src and '"place"' not in src and " UTC\"" not in src)
+    guarded(fails, "an empty rail is not drawn; a rail with stories is",
+            lambda: edition._rail("") == "" and edition._rail("<article>x</article>") == '<aside class="ed-rail" aria-label="Top stories"><article>x</article></aside>')
+    also = getattr(sb, "also_reported", None)
+    guarded(fails, "'Also reported by' names each outlet once and prints no lowercased headline and no note about itself",
+            lambda: also and also(["Bitcoin Magazine: sec proposes crypto custody rules",
+                                   "CoinDesk: u s sec maps out crypto custody in new proposal that furthers its digital...",
+                                   "CoinDesk: another line", "Decrypt"]) == '<p class="also-reported">Also reported by Bitcoin Magazine, CoinDesk, Decrypt.</p>'
+            and also([]) == "" and also(["", "  "]) == "")
+    guarded(fails, "a price under a cent prints its digits, never $0.00; other prices print as they did",
+            lambda: why_evidence._price(0.00000347) == sb._price_fmt(0.00000347) != "$0.00" and "0.00" != why_evidence._price(0.0000091)[1:5]
+            and why_evidence._price(59348.2) == "$59,348" and why_evidence._price(12.3456) == "$12.35" and why_evidence._price(0.92) == "$0.92")
+    guarded(fails, "US spelling in the site's own copy (About, the on-chain explainer)",
+            lambda: "clearly labelled" not in read(os.path.join(HERE, "site_build.py"))
+            and "nobody has labelled" not in read(os.path.join(HERE, "learn_pages.py")))
+
+
 def unit():
     fails = []
     print("C-DONE")
@@ -484,9 +544,10 @@ def unit():
         publish_gate_cases(fails)
         quiet_cases(fails)
         answer_first_cases(fails)
+        clean_cases(fails)
     finally:
         for m in ("sprint95b_test", "sprint95b_fixture", "sprint95_test", "sprint94_test", "sprint93_test", "sprint92_test",
-                  "canary_gate", "ops_ledger", "health_gate"):
+                  "canary_gate", "ops_ledger", "health_gate", "deadlinks"):
             sys.modules.pop(m, None)
     return fails
 

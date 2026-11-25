@@ -1243,6 +1243,19 @@ def _destyle_core(text):
 
 
 
+def also_reported(names):
+    """'Also reported by CoinDesk, Decrypt.' THE OUTLETS, BY NAME, ONCE EACH (C-DONE point 4, 25 November 2026). The
+    stored list holds 'Outlet: its headline, lowercased and cut', which printed on the page as
+    'CoinDesk: u s sec maps out crypto custody in new proposal that furthers its digital...'. Only the outlet is said."""
+    seen, out = set(), []
+    for x in names or []:
+        name = str(x).split(":", 1)[0].strip()
+        if name and name.lower() not in seen:
+            seen.add(name.lower())
+            out.append(name)
+    return f'<p class="also-reported">Also reported by {esc(", ".join(out[:8]))}.</p>' if out else ""
+
+
 def resolve_retired(url):
     """Point a link at the canonical when it names a slug that has since been merged away.
 
@@ -2389,11 +2402,7 @@ def render_article(item, all_items=None):
                     f'{esc(source_label(s))}</a></li>')
         lis = "".join(_src_li(s) for s in srcs)
         src_html = f'<div class="sources"><h2>Sources</h2><ol>{lis}</ol></div>'
-    also = [str(x) for x in (item.get("also_reported_by") or []) if str(x).strip()]
-    if also:
-        src_html += (f'<p class="also-reported">Also reported by '
-                     f'{esc(", ".join(also[:8]))}. The desk cites only the pages it drew '
-                     f'facts from; these outlets independently carried the same development.</p>')
+    src_html += also_reported(item.get("also_reported_by"))
     rel_html = ""
     for rel in related_stories(item, all_items or []):
         rel_html += (f'<li><a href="/articles/{esc(rel["slug"])}">{esc(rel.get("title"))}</a>'
@@ -6206,7 +6215,7 @@ def render_about(dateline):
 
   <p>Alongside the news, <b>Whale Watch</b> follows the large exchange flows most coverage
      ignores, and <b>Markets</b> shows the market's readings with their sources and stamps.
-     This is market data, clearly labelled, never dressed up as news.</p>
+     This is market data, clearly labeled, never dressed up as news.</p>
 
   <h2>How we check</h2>
   <p>A story runs only when the desk's source check confirms it against the sources it links, and
@@ -10678,6 +10687,11 @@ def build():
     n_ed = _edition.build(items, w, shell=shell)
     if n_ed:
         print(f"site: The Edition composed for {n_ed} day(s) -> news.html + /edition/")
+
+    # C-DONE point 5: no built page links to a page that is not there. Last, after every page is written.
+    import deadlinks
+    _n_dead = deadlinks.unlink(PUBLISH)
+    print(f"deadlinks: {_n_dead} link(s) to a page that is not built drawn as text")
 
     n_live = sum(1 for i in items if not i.get("example"))
     print(f"site: built {PUBLISH} - {n_live} published stor{'y' if n_live == 1 else 'ies'} "
