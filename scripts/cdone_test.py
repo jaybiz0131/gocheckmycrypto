@@ -52,6 +52,10 @@
   14. The Morning Brief on a phone (point 3, read on production stamp b86cf1d). With the morning read on the card the
       card stood 504 px tall at 375 and pushed the movers under the fold. The card opens on the read's one line; the
       long paragraph follows it, and on a phone sits behind "The full read" (a checkbox and a label, no script).
+  15. The Sources list names the outlet (point 4, the crawl of stamp 22f4c70). 1,900 of 1,914 stored sources carry no
+      title, and the list made one from the link's address: lowercased, punctuation gone, cut at 80 characters with
+      three dots ("CoinDesk: u s sec maps out crypto custody in new proposal that furthers its digital..."). The link
+      is the outlet's name; a second link to the same outlet is numbered. A real title is kept.
 
 Stdlib only.
   python3 scripts/cdone_test.py      # exit 1 on any failure, every failing case named
@@ -858,6 +862,56 @@ def morning_card_cases(fails):
             and not any(sel.endswith(".h-ncb") and "display:none" in body for conds, sel, body in rules))
 
 
+def sources_cases(fails):
+    print("15. the Sources list names the outlet: no headline made from a link's address, lowercased and cut")
+    import glob
+    import site_build as sb
+    cd = "https://www.coindesk.com/policy/2026/10/01/u-s-sec-maps-out-crypto-custody-in-new-proposal-that-furthers-its-digital-assets-agenda"
+    cd2 = "https://www.coindesk.com/markets/2026/10/02/advisers-weigh-the-custody-proposal"
+    dc = "https://decrypt.co/379899/sec-proposes-rules-advisers-funds-hold-crypto"
+    guarded(fails, "a source with no title is its outlet's name, nothing after it",
+            lambda: sb.source_label({"url": cd}) == "CoinDesk" and sb.source_label({"url": cd, "title": cd}) == "CoinDesk"
+            and sb.source_label({"url": dc}) == "Decrypt")
+    guarded(fails, "an outlet the table does not know is its host, and a real title is kept as written",
+            lambda: sb.source_label({"url": "https://www.example-wire.com/a/some-long-story-name"}) == "example-wire.com"
+            and sb.source_label({"url": cd, "title": "SEC Maps Out Crypto Custody"}) == "SEC Maps Out Crypto Custody")
+    guarded(fails, "a second link to one outlet is numbered, in order",
+            lambda: sb.source_labels([{"url": cd}, {"url": dc}, {"url": cd2}, {"url": cd2 + "?x=1"}]) == ["CoinDesk", "Decrypt", "CoinDesk (2)", "CoinDesk (3)"])
+    item = {"slug": "s", "title": "A story", "date": "2026-10-01", "published_utc": "2026-10-01T15:00:00Z", "summary": "One line.",
+            "body_markdown": "A paragraph.", "status": "VERIFIED", "sources": [{"url": cd, "title": cd}, {"url": dc}, {"url": cd2},
+                                                                              {"url": "desk://market-boards"}]}
+    page = sb.render_article(item, [item])
+    block = page.split('<div class="sources">', 1)[-1].split("</ol>", 1)[0]
+    guarded(fails, "the story page's list: three links by outlet name, the desk's own boards in words, no address text and no dots",
+            lambda: f'<a href="{cd}" rel="nofollow">CoinDesk</a>' in block and '>Decrypt</a>' in block and '>CoinDesk (2)</a>' in block
+            and "The desk's own market boards" in block and "..." not in block and "u s sec" not in block)
+
+    def stored():
+        """(label, has its own title, host) for every source of every stored story."""
+        import json as _json
+        from urllib.parse import urlparse
+        out = []
+        for fn in sorted(glob.glob(os.path.join(HERE, "site", "content", "*.json"))):
+            try:
+                d = _json.load(open(fn, encoding="utf-8"))
+            except ValueError:
+                continue
+            srcs = [s for s in (d.get("sources") or []) if isinstance(s, dict)]
+            for s, lab in zip(srcs, sb.source_labels(srcs)):
+                t = (s.get("title") or "").strip()
+                out.append((lab, bool(t and t != s.get("url")), urlparse(s.get("url") or "").netloc.lower().removeprefix("www.")))
+        return out
+    # Only the labels this code makes are judged: a title a source stored for itself is that source's wording, and a
+    # host the table has not met prints as the host, so nothing a run stores tomorrow can turn these red.
+    guarded(fails, "over every stored story: a source with no title is a name, with no colon and no three dots",
+            lambda: (lambda rows: len(rows) > 1000 and not [r for r in rows if not r[1] and (":" in r[0] or r[0].endswith("..."))])(stored()))
+    guarded(fails, "the twelve hosts the stored stories cited by address on November 25 each have their outlet's name",
+            lambda: all(sb.OUTLETS.get(h) for h in ("cryptobriefing.com", "cryptoslate.com", "dailyhodl.com", "u.today", "beincrypto.com",
+                                                    "banking.senate.gov", "fred.stlouisfed.org", "deribit.com", "mempool.space",
+                                                    "stocktitan.net", "nyse.com", "bls.gov"))
+            and sb.source_label({"url": "https://cryptoslate.com/some-story/"}) == "CryptoSlate")
+
+
 def unit():
     fails = []
     print("C-DONE")
@@ -876,6 +930,7 @@ def unit():
         read_well_cases(fails)
         live_data_cases(fails)
         morning_card_cases(fails)
+        sources_cases(fails)
     finally:
         for m in ("sprint95b_test", "sprint95b_fixture", "sprint95_test", "sprint94_test", "sprint93_test", "sprint92_test",
                   "canary_gate", "ops_ledger", "health_gate", "deadlinks", "sprint97_test", "sprint96_test"):
