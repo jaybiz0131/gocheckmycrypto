@@ -2291,7 +2291,7 @@ def _ignore_reads_canary(read, root):
     import sys as _s
     import netlify_ignore as _ni
     fails = []
-    TOOL_TREES = ("scripts/", "docs/", "shots/", "review-queue/")
+    TOOL_TREES = ("scripts/", "docs/", "shots/", "review-queue/", "review/", ".github/")
     r = _sp.run(["git", "ls-files"], cwd=root, capture_output=True, text=True)
     tracked = [l for l in r.stdout.split("\n") if l]
     cands = [p for p in tracked if p.startswith(TOOL_TREES)

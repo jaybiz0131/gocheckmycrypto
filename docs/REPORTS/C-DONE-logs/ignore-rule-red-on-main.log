@@ -1,0 +1,37 @@
+C-DONE
+1. the home's left column from 1280: every block has its own cell
+  ok   the block list here is home.py's own (home.LEFT with the lead after the Brief card)
+  ok   'tape' is placed by a rule (a column and a row), never left to the browser's first free cell
+  ok   'narrative' is placed by a rule (a column and a row), never left to the browser's first free cell
+  ok   'lead' is placed by a rule (a column and a row), never left to the browser's first free cell
+  ok   'since' is placed by a rule (a column and a row), never left to the browser's first free cell
+  ok   'why' is placed by a rule (a column and a row), never left to the browser's first free cell
+  ok   'wire' is placed by a rule (a column and a row), never left to the browser's first free cell
+  ok   in the first column the blocks keep the page's own order, one row each, below the price line: Brief card, Why Bitcoin moved, the wire
+  ok   Where Bitcoin stands fills the second column beside all of them (its rows run from the Brief card's to the wire's)
+2. the ignore rule: documents, review screenshots, reports and workflow files never build the site
+  ok   a commit of docs/REPORTS/C-DONE-REPORT.md alone does not build
+  ok   a commit of docs/REPORTS/C-DONE-shots/home-375-before.png alone does not build
+  ok   a commit of docs/HANDOFF.md alone does not build
+  FAIL a commit of review/sprint-9-5b/home-1440.png alone does not build
+  FAIL a commit of review/c-done/board-375.png alone does not build
+  FAIL a commit of .github/workflows/health.yml alone does not build
+  ok   a commit of shots/a.png alone does not build
+  ok   a commit of scripts/cdone_test.py alone does not build
+  ok   a commit of HANDOFF-2026-08-17.md alone does not build
+  ok   a commit of site_build.py still builds
+  ok   a commit of market_pulse.py still builds
+  ok   a commit of netlify.toml still builds
+  ok   a commit of site/assets/system.css still builds
+  ok   a commit of site/content/2026-11-24-evening-brief.json still builds
+  ok   a commit of learn/what-is-bitcoin.md still builds
+  ok   a commit of scripts/og_render.py still builds
+  ok   a commit of site/data/pulse.json still builds
+  ok   a commit of home.py still builds
+  ok   a commit of a report beside a site file still builds (one site file is enough)
+  FAIL the canary's read recorder walks review/ and .github/ too, so the list is proven against what a build opens
+C-DONE: FAIL (4 failing)
+  FAILING: a commit of review/sprint-9-5b/home-1440.png alone does not build
+  FAILING: a commit of review/c-done/board-375.png alone does not build
+  FAILING: a commit of .github/workflows/health.yml alone does not build
+  FAILING: the canary's read recorder walks review/ and .github/ too, so the list is proven against what a build opens
