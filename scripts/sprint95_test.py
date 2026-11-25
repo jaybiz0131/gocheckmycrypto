@@ -590,11 +590,14 @@ def review1_cases(fails):
     items = sb.load_content()
     rec = visible(sb.render_record(items, "T"))
     guarded(fails, "Storylines: the lanes say 'N in Storylines', the index card 'Storylines, full index' and 'Open Storylines' (not the Record)",
-            lambda: (re.search(r"\d+ in Storylines", rec) or "Quiet lane" in rec)      # SPRINT A, A6: quiet lanes say so
+            # C-DONE (Jack, 24 November 2026): a lane quiet for 14 days is not drawn, so on a day when every lane is quiet
+            # the page has no lane to say it; the names are still held
+            lambda: (re.search(r"\d+ in Storylines", rec) or 'class="bd-rec-lane"' not in sb.render_record(items, "T"))
             and not re.search(r"in the Record|Record, full index|Open Record", rec))
     home_rec = visible(sb.record_sections(items, home=True))
     guarded(fails, "the home's Storylines lane links 'Storylines, in full' and says nothing is 'the Record'",
-            lambda: "Storylines, in full" in home_rec and "the Record" not in home_rec)
+            # C-DONE: with every home lane quiet the home draws no Storylines block at all (this case reads the day's content)
+            lambda: (home_rec.strip() == "" or "Storylines, in full" in home_rec) and "the Record" not in home_rec)
     nw = visible(sb.render_news_hub(items, "T", pulse=sb.load_pulse()))
     guarded(fails, "News: the Storylines link reads 'Storylines: what stays true after the news moves on' (not 'Record:')",
             lambda: "Storylines: what stays true" in nw and "Record: what stays" not in nw)

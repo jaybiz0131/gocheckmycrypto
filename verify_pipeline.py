@@ -3694,12 +3694,14 @@ def _below_canary(index_html=None):
     # 4. one piece per lane
     r = blk("record")
     lanes = _re.findall(r'<li data-lane="([a-z-]+)">(.*?)</li>', r, _re.S)
-    _check(bool(lanes), fails, "below canary: the Record shows no lane")
+    # C-DONE (Jack, 24 November 2026): with every lane quiet for 14 days the home draws no Storylines block, and that is
+    # the ruled outcome, not a fault. A block that is drawn with no lane in it still fails.
+    _check(bool(lanes) or not r, fails, "below canary: the Record block is drawn with no lane in it")
     _check(len({l for l, _ in lanes}) == len(lanes), fails,
            "below canary: a Record lane appears twice")
     for _l, _body in lanes:
-        # SPRINT A, A6: a lane quiet for three weeks shows its name and "Quiet lane" and no piece
-        _check(_body.count("<a ") == 1 or ("Quiet lane" in _body and _body.count("<a ") == 0), fails,
+        # C-DONE (Jack, 24 November 2026): a quiet lane is not listed at all (Sprint A listed it as "Quiet lane")
+        _check(_body.count("<a ") == 1 and "Quiet lane" not in _body, fails,
                f"below canary: the {_l} lane carries {_body.count('<a ')} pieces, not one")
     if index_html is not None:
         _bf = _re.search(r'<div class="h-below" data-fold="below">(.*)</section></main>',
