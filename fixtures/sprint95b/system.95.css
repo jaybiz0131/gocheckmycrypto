@@ -711,4 +711,14 @@ body .h-b.h-lead p{font-family:var(--sans);font-size:14px;line-height:1.45;color
 }
 body .h-band .h-next:first-child{border-top:0;padding-top:0;margin-top:0!important}
 body main p,body main li{overflow-wrap:break-word}
+.h-ncb{position:absolute;opacity:0;width:1px;height:1px;margin:0;pointer-events:none}
+.h-nmore{display:none}
+body .h-band .h-nsum+.h-ncb~.h-nbody{margin-top:8px!important}
+@media (max-width:699.98px){
+  body .h-band .h-nmore{display:inline-flex;align-items:center;min-height:24px;margin-top:6px;cursor:pointer;font-family:var(--mono);font-size:12px;font-weight:600;color:var(--band-ink);text-decoration:underline;text-underline-offset:3px}
+  body .h-band .h-ncb~.h-nbody{display:none}
+  body .h-band .h-ncb:checked~.h-nbody{display:block}
+  body .h-band .h-ncb:checked+.h-nmore{display:none}
+  body .h-band .h-ncb:focus-visible+.h-nmore{outline:2px solid var(--band-ink);outline-offset:2px}
+}
 /* ===== end C-DONE ===== */

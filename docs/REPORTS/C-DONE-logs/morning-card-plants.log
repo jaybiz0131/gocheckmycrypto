@@ -1,0 +1,37 @@
+plant 1: the long read is printed before the one line (the old order)
+  exit 1, 1 case(s) red
+    red: the card opens on the one line, then the toggle, then the long read, then the stamp and the link
+plant 2: the long read is dropped from the page when there is a one line
+  exit 1, 2 case(s) red
+    red: the card opens on the one line, then the toggle, then the long read, then the stamp and the link [ValueError: substring 
+    red: every sentence of the read is still on the page, once
+plant 3: the toggle is drawn with no one line to stand in for the read
+  exit 1, 1 case(s) red
+    red: a read with no one line draws no toggle: the long read stands as it did
+plant 4: the label names another box (the toggle opens nothing)
+  exit 1, 1 case(s) red
+    red: the card opens on the one line, then the toggle, then the long read, then the stamp and the link [ValueError: substring 
+plant 5: on a phone the long read is never hidden (the card is 504 px again)
+  exit 1, 2 case(s) red
+    red: on a phone the long read is hidden until the box is checked, and the label is a 24 px target that goes when it is
+    red: above a phone the long read is always drawn: no rule hides .h-nbody outside the phone width
+plant 6: on a phone the long read never opens
+  exit 1, 1 case(s) red
+    red: on a phone the long read is hidden until the box is checked, and the label is a 24 px target that goes when it is
+plant 7: the long read is hidden at every width (desktop loses the read)
+  exit 1, 1 case(s) red
+    red: above a phone the long read is always drawn: no rule hides .h-nbody outside the phone width
+plant 8: the toggle is drawn on desktop
+  exit 1, 1 case(s) red
+    red: above a phone the toggle is not drawn: .h-nmore is display:none with no media condition
+plant 9: the label is under the 24 px target
+  exit 1, 1 case(s) red
+    red: on a phone the long read is hidden until the box is checked, and the label is a 24 px target that goes when it is
+plant 10: the box shows no focus on a phone
+  exit 1, 1 case(s) red
+    red: the box is hidden from the eye, not from the keyboard, and shows its focus on the label on a phone
+plant 11: the box is display:none (a keyboard cannot reach it)
+  exit 1, 1 case(s) red
+    red: the box is hidden from the eye, not from the keyboard, and shows its focus on the label on a phone
+restored from the saved copies: exit 0
+PLANTS: ALL CAUGHT
