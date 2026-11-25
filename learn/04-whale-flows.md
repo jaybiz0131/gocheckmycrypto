@@ -2,11 +2,12 @@
 title: Whale flows: what coins moving onto and off exchanges mean
 slug: /learn/whale-flows
 board_tile: whale_flows
-meta_description: What Whale Watch measures, why coins moving onto exchanges usually mean selling pressure, why it is not always so, and how to read the 24-hour flow.
+meta_description: What Whale Watch measures, why coins moving onto exchanges usually mean selling pressure, why it is not always so, and how to read the net flow.
 target_queries: bitcoin exchange inflows meaning; whale alert explained; crypto whale movements; exchange outflows bitcoin
 related_tiles: etf_flows; stablecoins; leverage
-read_time: 5 min
-byline: The GoCheckMyCrypto desk
+read_time: 2 min
+byline: Crypto Cronkite
+last_reviewed: 2026-11-25
 live_embed: board.whale_flows (net 24h flow, direction, largest single transfer, as-of stamp, source line). Template slot, filled at build.
 build_note: RESOLVED 2026-09-13. Threshold confirmed against whale_flows.py FALLBACK_MIN_USD = 50_000_000; copy now says $50 million, per ruling 0.4.
 ---
@@ -25,7 +26,7 @@ Onto an exchange: the coins moved from a private wallet into an exchange wallet.
 
 Off an exchange: the coins moved from an exchange into a private wallet. Coins in private storage cannot be sold until they move again, so this is coins being positioned to hold.
 
-Markets nets the two over the last 24 hours. A net figure "onto exchanges" means more coins arrived at exchanges than left. A net figure "off exchanges" means the reverse.
+Markets nets the two over the window printed on the tile, normally the last 24 hours. A net figure "onto exchanges" means more coins arrived at exchanges than left. A net figure "off exchanges" means the reverse.
 
 ## Why it moves the market
 
@@ -47,7 +48,7 @@ The other blind spot is trades that never touch the chain. Large holders often s
 
 ## Where the data comes from
 
-Transfers come from the Whale Alert public feed, which watches the major chains for large movements and labels known exchange and custodian addresses. Markets reads it at every site build. Whale Watch is labeled market data, not news, because it reports what moved and where, never why.
+Transfers come from the Whale Alert public feed, which watches the major chains for large movements and labels known exchange and custodian addresses. Whale Watch is labeled market data, not news, because it reports what moved and where, never why.
 
 ## Related on Markets
 

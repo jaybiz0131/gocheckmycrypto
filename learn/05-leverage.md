@@ -5,8 +5,9 @@ board_tile: leverage
 meta_description: What open interest and funding rates measure, why they are the fuel behind crypto's sharpest moves, and how to read the leverage tile on Markets.
 target_queries: funding rate explained; open interest crypto meaning; bitcoin funding rate today; what is open interest bitcoin
 related_tiles: bitcoin; sentiment; whale_flows
-read_time: 6 min
-byline: The GoCheckMyCrypto desk
+read_time: 3 min
+byline: Crypto Cronkite
+last_reviewed: 2026-11-25
 live_embed: board.leverage (open interest, change since yesterday, current funding rate, as-of stamp, source line). Template slot, filled at build.
 ---
 
@@ -24,7 +25,7 @@ Markets shows two numbers that measure how much of this is in the system.
 
 ## Open interest
 
-Open interest is the total value of leveraged positions that are open right now, added up across the major exchanges. It counts positions, not trades: a position opened today and still open tomorrow is still counted tomorrow.
+Open interest is the total value of leveraged positions open on one major exchange when the reading was taken. It counts positions, not trades: a position opened today and still open tomorrow is still counted tomorrow.
 
 Rising open interest means more borrowed money is entering the market. Falling open interest means positions are being closed, either voluntarily or by liquidation. A high number is not bullish or bearish by itself. It is fuel. It tells you a big move, in either direction, would have a lot to feed on.
 
@@ -50,7 +51,7 @@ Leverage tells you how much borrowed money is at risk, not which way price will 
 
 ## Where the data comes from
 
-Open interest and funding rates come from the public derivatives tape of a major exchange, read at every site build. Figures from one venue move in step with the market as a whole, though the exact levels differ from venue to venue.
+Open interest and funding rates come from OKX's public derivatives data. Figures from one venue move in step with the market as a whole, though the exact levels differ from venue to venue.
 
 ## Related on Markets
 

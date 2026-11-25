@@ -1,0 +1,46 @@
+plant 1: a page with no review date prints today's (an invented date)
+  exit 1, 1 case(s) red
+    red: an explainer with no review date prints no such line (never an invented date)
+plant 2: a Board explainer's page drops the line
+  exit 1, 8 case(s) red
+    red: /learn/bitcoin-posture: the page prints it once ('Last reviewed <Month D, YYYY>')
+    red: /learn/market-cap-dominance: the page prints it once ('Last reviewed <Month D, YYYY>')
+    red: /learn/etf-flows: the page prints it once ('Last reviewed <Month D, YYYY>')
+    red: /learn/whale-flows: the page prints it once ('Last reviewed <Month D, YYYY>')
+    red: /learn/leverage: the page prints it once ('Last reviewed <Month D, YYYY>')
+    red: /learn/stablecoin-dry-powder: the page prints it once ('Last reviewed <Month D, YYYY>')
+    red: /learn/fear-and-greed: the page prints it once ('Last reviewed <Month D, YYYY>')
+    red: /learn/network: the page prints it once ('Last reviewed <Month D, YYYY>')
+plant 3: a standalone explainer's page drops the line
+  exit 1, 4 case(s) red
+    red: /cold-storage: a review date in its record and the line on the page, once, inside the page's main
+    red: /crypto-tax: a review date in its record and the line on the page, once, inside the page's main
+    red: /onchain-flows: a review date in its record and the line on the page, once, inside the page's main
+    red: /counterfeit-devices: a review date in its record and the line on the page, once, inside the page's main
+plant 4: an explainer's record loses its review date
+  exit 1, 2 case(s) red
+    red: learn/01-bitcoin-posture.md: a 'last_reviewed' date in its own record, not in the future, and the editor's byline [Value
+    red: /learn/bitcoin-posture: the page prints it once ('Last reviewed <Month D, YYYY>')
+plant 5: an explainer's byline is the old one
+  exit 1, 1 case(s) red
+    red: learn/01-bitcoin-posture.md: a 'last_reviewed' date in its own record, not in the future, and the editor's byline
+plant 6: a standalone explainer's record loses its review date
+  exit 1, 1 case(s) red
+    red: /crypto-tax: a review date in its record and the line on the page, once, inside the page's main
+plant 7: the Fear and Greed tile takes the publisher's label
+  exit 1, 1 case(s) red
+    red: the Fear and Greed tile names its band from the site's one table, the one /learn prints (25 is Fear, whatever label the 
+plant 8: the live card names three sources on every page
+  exit 1, 1 case(s) red
+    red: an explainer's live card names its own tile's source and read, not three sources on every page
+plant 9: an explainer says 'read at every site build' again
+  exit 1, 1 case(s) red
+    red: learn/02-market-cap-dominance.md: no word of how the page is made ('site build', 'rebuilds', 'the last build'), no 'seve
+plant 10: a read time is typed by hand
+  exit 1, 1 case(s) red
+    red: learn/02-market-cap-dominance.md: the read time is the page's own length at 220 words a minute, not a typed figure
+plant 11: the tax page names a form line number again
+  exit 1, 1 case(s) red
+    red: no explainer copy states a tax-form line number, a typed company count or a cross-exchange open interest the site does n
+restored from the saved copies: exit 0
+PLANTS: ALL CAUGHT

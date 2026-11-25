@@ -5,8 +5,9 @@ board_tile: stablecoins
 meta_description: What the stablecoin supply tile measures, why dollars already inside crypto tend to move before prices do, and how to read a record on this tile.
 target_queries: stablecoin supply meaning; stablecoin supply; what is stablecoin market cap; usdt supply increase meaning
 related_tiles: etf_flows; market; whale_flows
-read_time: 4 min
-byline: The GoCheckMyCrypto desk
+read_time: 2 min
+byline: Crypto Cronkite
+last_reviewed: 2026-11-25
 live_embed: board.stablecoins (total stablecoin supply, change since yesterday, supply as a share of total market cap, as-of stamp, source line). Template slot, filled at build.
 ---
 
@@ -18,7 +19,7 @@ live_embed: board.stablecoins (total stablecoin supply, change since yesterday, 
 
 ## What it measures
 
-A stablecoin is a token designed to be worth one dollar, backed by dollars or dollar assets held by its issuer. The two largest, Tether and USD Coin, account for most of the supply. Markets adds up the supply of the major stablecoins to get one number: how many dollars are currently sitting inside crypto in a form that can buy coins instantly, with no bank transfer in the way.
+A stablecoin is a token designed to be worth one dollar, backed by dollars or dollar assets held by its issuer. The two largest, Tether (USDT) and USDC, account for most of the supply as of November 2026. Markets adds up the supply of every dollar-pegged stablecoin to get one number: how many dollars are currently sitting inside crypto in a form that can buy coins instantly, with no bank transfer in the way.
 
 Traders call it dry powder for that reason. It is buying capacity that already cleared the slowest step.
 
@@ -30,7 +31,7 @@ A rising supply means dollars are arriving faster than they are leaving. Those d
 
 ## How to read today's number
 
-The level matters less than the trend and the ratio. Markets shows supply as a share of the total crypto market cap. When that ratio is high, there is a lot of buying capacity relative to the size of the market. When it is low, the market has grown faster than the dollars available to support it.
+The level matters less than the trend and the ratio. Compare supply with the whole-market tile. When supply is large beside the market, there is a lot of buying capacity relative to its size. When it is small, the market has grown faster than the dollars available to support it.
 
 A new record in supply during a quiet market is one of the more encouraging readings on Markets. A record during a mania is less so, because the dollars are being spent as fast as they arrive.
 
@@ -42,7 +43,7 @@ It also cannot see which stablecoins are held by long-term investors and which a
 
 ## Where the data comes from
 
-Stablecoin supply comes from public on-chain data compiled by DefiLlama, which tracks issuance and redemption across chains. Markets reads it at every site build, and the issuers' own attestation reports are the reference for what backs each token.
+Stablecoin supply comes from public on-chain data compiled by DefiLlama, which tracks issuance and redemption across chains. The issuers' own attestation reports are the reference for what backs each token.
 
 ## Related on Markets
 

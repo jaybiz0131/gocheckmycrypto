@@ -5,8 +5,9 @@ board_tile: bitcoin
 meta_description: What the Bitcoin tile means by "above the 200-day" and "RSI stretched," in plain language, with the live reading from Markets.
 target_queries: bitcoin 200 day moving average; bitcoin rsi today; is bitcoin overbought; bitcoin above 200 day average meaning
 related_tiles: sentiment; leverage; etf_flows
-read_time: 5 min
-byline: The GoCheckMyCrypto desk
+read_time: 2 min
+byline: Crypto Cronkite
+last_reviewed: 2026-11-25
 live_embed: board.bitcoin (price, change since yesterday, position versus the 200-day average, RSI-14, as-of stamp, source line). Template slot, filled at build.
 ---
 
@@ -40,7 +41,7 @@ Above the 200-day with RSI above 80: the trend is intact but the recent leg has 
 
 Below the 200-day with RSI under 30: selling has been heavy and one-sided. Bounces from here are common, and so are further declines. The reading says washed out, not bottom.
 
-A cross of the 200-day in either direction is the event worth noticing. Markets marks the day it happens.
+A cross of the 200-day in either direction is the event worth noticing.
 
 ## What it does not tell you
 
@@ -48,7 +49,7 @@ Neither number knows why price moved. A jump on ETF inflows and a jump on a shor
 
 ## Where the data comes from
 
-Daily closing prices come from CoinGecko. Markets computes the 200-day average and RSI-14 itself, using the standard formulas, at every site build, and shows the time of the last build under the tile.
+Daily closing prices come from CoinGecko. Markets computes the 200-day average and RSI-14 itself, using the standard formulas, and the tile shows when its reading was taken.
 
 ## Related on Markets
 

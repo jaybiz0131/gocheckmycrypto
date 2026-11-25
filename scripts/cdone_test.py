@@ -31,6 +31,10 @@
      NewsArticle's schema, with the story's own published time. The home's title and description say what the site is in
      a searcher's words. About names Go Check My Brands LLC and says nothing about method. An Edition page's title
      carries its date, so no two share one.
+  9. Taught (point 7). Each of the eight Board explainers and the four standalone explainers prints a dated "Last
+     reviewed" line from its own record, under the editor's byline. Every reading a tile can show has its definition
+     on /learn, and each Board reading's definition links its full explainer. No explainer says how the page was made
+     ("the last build") or claims a cadence the schedule does not keep.
 
 Stdlib only.
   python3 scripts/cdone_test.py      # exit 1 on any failure, every failing case named
@@ -579,6 +583,58 @@ def found_cases(fails):
             and not re.search(r"how we check|source check|checked against|numbers are checked|is graded|reviews what|we weight|we link every source", main, re.I))
 
 
+def taught_cases(fails):
+    print("9. taught: a dated 'Last reviewed' line on every explainer, every tile's definition on /learn")
+    import datetime as dt
+    import explainers
+    import site_build as sb
+    import tile
+    exps = sb.load_explainers()
+    guarded(fails, "there are eight Board explainers, one per Board tile", lambda: len(exps) == 8 and len({e["board_tile"] for e in exps}) == 8)
+    for e in exps:
+        guarded(fails, f"learn/{e['file']}: a 'last_reviewed' date in its own record, not in the future, and the editor's byline",
+                lambda e=e: dt.date(2026, 11, 25) <= dt.date.fromisoformat(e.get("last_reviewed", "")) <= dt.date.today() + dt.timedelta(days=1)
+                and e.get("byline") == sb.EDITOR)
+        page = sb.render_explainer(dict(e), {}, {}, [], "TEST", {}, {})
+        want = sb.reviewed_line(e.get("last_reviewed", "x")) if hasattr(sb, "reviewed_line") else None
+        guarded(fails, f"/learn/{e['slug']}: the page prints it once ('Last reviewed <Month D, YYYY>')",
+                lambda page=page, want=want: want and re.fullmatch(r"Last reviewed [A-Z][a-z]+ \d{1,2}, 20\d\d", want) and page.count(want) == 1)
+        guarded(fails, f"learn/{e['file']}: no word of how the page is made ('site build', 'rebuilds', 'the last build'), no 'several times a day', no UTC, no dash",
+                lambda e=e: not re.search("site build|rebuilds|the last build|several times a day|\\bUTC\\b|[\u2013\u2014]", e["body"]))
+        guarded(fails, f"learn/{e['file']}: the read time is the page's own length at 220 words a minute, not a typed figure",
+                lambda e=e: e.get("read_time") == f"{max(1, round(len(re.findall(chr(92) + 'b' + chr(92) + 'w[' + chr(92) + 'w' + chr(39) + '%$.,-]*' + chr(92) + 'b', re.sub(r'(?m)^' + chr(92) + '[.*' + chr(92) + ']' + chr(92) + 's*$', '', re.sub(r'(?ms)^## Related on Markets.*', '', e['body'])))) / 220))} min")
+    pulse = _fx("pulse_2026-10-16T1216Z.json")
+    pulse["fng"] = dict(pulse.get("fng") or {}, value=25, label="Extreme Fear")
+    fng_tile = next((x for x in sb.board_tiles(pulse, {}, {}) if x["key"] == "fng"), {})
+    guarded(fails, "the Fear and Greed tile names its band from the site's one table, the one /learn prints (25 is Fear, whatever label the publisher sent)",
+            lambda: sb._fng_band(25) == "Fear" and "</span>Fear</div>" in str(fng_tile.get("delta")) and "Extreme" not in str(fng_tile.get("delta")))
+    live = sb._tile_live_block(dict(fng_tile, key="fng"), pulse)
+    guarded(fails, "an explainer's live card names its own tile's source and read, not three sources on every page",
+            lambda: "alternative.me" in live and "mempool.space" not in live and "public market data" not in live
+            and "8:16 AM ET on Oct 16" in live)
+    guarded(fails, "no explainer copy states a tax-form line number, a typed company count or a cross-exchange open interest the site does not read",
+            lambda: "line 8z" not in read(os.path.join(HERE, "explainers.py")) and "from three companies" not in read(os.path.join(HERE, "explainers.py"))
+            and "across the major exchanges" not in read(os.path.join(HERE, "learn", "05-leverage.md"))
+            and "30-day series" not in read(os.path.join(HERE, "learn", "03-etf-flows.md")))
+    guarded(fails, "an explainer with no review date prints no such line (never an invented date)",
+            lambda: hasattr(sb, "reviewed_line") and sb.reviewed_line("") == "" and sb.reviewed_line("not a date") == ""
+            and "Last reviewed" not in sb.render_explainer(dict(exps[0], last_reviewed=""), {}, {}, [], "TEST", {}, {}))
+    renders = {"cold-storage": sb.render_cold_storage, "crypto-tax": sb.render_crypto_tax,
+               "onchain-flows": sb.render_onchain_flows, "counterfeit-devices": sb.render_counterfeit_devices}
+    for ex in explainers.EXPLAINERS:
+        page = renders[ex["slug"]]("TEST")
+        guarded(fails, f"/{ex['slug']}: a review date in its record and the line on the page, once, inside the page's main",
+                lambda ex=ex, page=page: hasattr(sb, "reviewed_line") and sb.reviewed_line(ex.get("reviewed", "")) != ""
+                and page.count(sb.reviewed_line(ex["reviewed"])) == 1
+                and page.index("<main") < page.index(sb.reviewed_line(ex["reviewed"])) < page.index("</main>"))
+    hub = sb._learn_readings({e["board_tile"]: e for e in exps})
+    guarded(fails, "every reading a tile can show has its anchored definition on /learn",
+            lambda: all(f'id="{k}"' in hub for k in tile.READINGS))
+    guarded(fails, "each of the nine Board readings' definitions links its full explainer",
+            lambda: all(re.search(rf'<section class="lr" id="{k}">.*?<a href="/learn/[a-z-]+\.html">The full explainer</a>', hub, re.S)
+                        for k in sb._READING_EXPLAINER) and len(sb._READING_EXPLAINER) == 9)
+
+
 def unit():
     fails = []
     print("C-DONE")
@@ -591,6 +647,7 @@ def unit():
         answer_first_cases(fails)
         clean_cases(fails)
         found_cases(fails)
+        taught_cases(fails)
     finally:
         for m in ("sprint95b_test", "sprint95b_fixture", "sprint95_test", "sprint94_test", "sprint93_test", "sprint92_test",
                   "canary_gate", "ops_ledger", "health_gate", "deadlinks"):
