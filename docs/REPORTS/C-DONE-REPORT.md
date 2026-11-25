@@ -10,16 +10,16 @@ November 25: continue with all fixes and items; the target is above 8 of 10, pus
 
 | # | Point | State | Evidence or reason |
 |---|---|---|---|
-| 1 | Fresh | built, 1 of 3 reads | Merge 3. Production stamp `3d286ab`, read Nov 25 5:06 AM ET: /pulse "As of 4:39 AM ET on Nov 25, 2026.", every tile one instant, no stale banner, "several times a day" on 0 of 4 pages read. Reads 2 and 3 are due Nov 26 and 27, with the run logs. No section has been carried on production since the merge, so the older-section line is proven on a local build only (below). |
-| 2 | Published | 4 of 7 days | Evening Briefs on main: Nov 21 (watcher run 44971801349), Nov 22 (45081776201), Nov 23 (45286438006), Nov 24 (45507657192). Nov 18 to 20: none (the canary lock N-1 fixed). Days 5 to 7 are Nov 25 to 27. Gap issues #130 and #131 were closed by `close_edition_flags` after a Brief, not by hand. The stored-data class is closed by merge 4. |
-| 3 | Readable in five minutes | green on production, one state | Merge 6. Production stamp `a0153db`, read Nov 25 7:05 AM ET at 375 by 812 (fold 755 px above the tab bar), before the morning read: tape 105 to 207, the day's line to 254, the Brief card to 353, the movers and standouts to 550, Today's first event title ending at 638. Screenshot `C-DONE-shots/home-375-production-a0153db.png`. The state with the day's Brief on the card was measured on a local build only (next event's title at 734); its production read is after the 8:15 AM read. |
-| 4 | Clean | fixes merged, count of record pending | Crawl of stamp `3d286ab` (table below); fixes in merges 7, 9, 11. The count of record is the same crawl on the build that carries them. |
+| 1 | Fresh | built, 1 of 3 reads | Merge 3. Production stamp `3d286ab`, read Nov 25 5:06 AM ET: /pulse "As of 4:39 AM ET on Nov 25, 2026.", every tile one instant, no stale banner, "several times a day" on 0 of 4 pages read. Reads 2 and 3 are due Nov 26 and 27, with the run logs. No section has been carried on production since the merge, so the older-section line is proven on a local build only (below). The 8:15 AM read of Nov 25 (run 45621734470): `market_pulse` 8 of 8 sections fresh, 0 of 9 CoinGecko calls answered 429; production stamp `b86cf1d`, built 13:20:01Z, the home and /pulse read "As of 8:19 AM ET on Nov 25, 2026." (read 8:23 AM and again 9:10 AM ET). |
+| 2 | Published | 4 of 7 days | Evening Briefs on main: Nov 21 (watcher run 44971801349), Nov 22 (45081776201), Nov 23 (45286438006), Nov 24 (45507657192). Nov 18 to 20: none (the canary lock N-1 fixed). Days 5 to 7 are Nov 25 to 27. Gap issues #130 and #131 were closed by `close_edition_flags` after a Brief, not by hand. The stored-data class is closed by merge 4, and the Brief feed's own sentences about an AI story the wire carries by merge 14. Nov 23 and 24 each also carried an Afternoon Brief from a breaking run (named under Still open). |
+| 3 | Readable in five minutes | green before the morning read; the morning state failed on production and is fixed in merge 16, production read pending | Merge 6. Production stamp `a0153db`, read Nov 25 7:05 AM ET at 375 by 812 (fold 755 px above the tab bar), before the morning read: tape 105 to 207, the day's line to 254, the Brief card to 353, the movers and standouts to 550, Today's first event title ending at 638 (`C-DONE-shots/home-375-production-a0153db.png`). **With the Morning Brief on the card it failed:** stamp `b86cf1d`, read 8:23 AM ET: the card ran 256 to 760 (504 px), the movers began at 774 and the next event's title ended at 1002 (`C-DONE-logs/morning-card-fold-production-b86cf1d.txt`, `C-DONE-shots/home-375-morning-before-production-b86cf1d.png`). Merge 16: the card opens on the read's one line; on a phone the long read is behind "The full read" (a checkbox and its label, no script, keyboard reachable); at 700 px and wider the read prints in full. Local build of the merged tree with the same morning read: card 256 to 510, movers 524 to 663, the next event's title ending at 752 (`morning-card-fold-after-local.txt`, `home-375-morning-after-local.png`, `-open.png`). **The margin is 3 px** with a two-line headline and a three-line one line; a longer headline puts the event's title under the fold again. A one-row layout for the toggle and the stamp was tried and dropped (it wraps at 360). The first production read of the morning state on the fixed card is Nov 26, after the 8:15 AM read. |
+| 4 | Clean | fixes merged; the count of record is crawl 2, with one more fix behind it | Crawl 1 of stamp `3d286ab` and crawl 2 of stamp `22f4c70` (both below; crawl 2 is the count of record so far, `C-DONE-logs/crawl-production-22f4c70.txt`). Fixes in merges 7, 9, 11, 13, 15 and 17. Crawl 2 found what merge 7 missed: every story's Sources list printed a headline made from the link's address, lowercased and cut with three dots, on about 570 story pages; merge 17 prints the outlet's name. A third crawl on the build that carries merges 13 to 17 is due at the Nov 26 read. |
 | 5 | Whole | green but for one page, fixed in merge 11 | Stamp `a0153db`: all 368 sitemap pages at 375: tab bar present with five tabs on 368 of 368, each tab's target answers; horizontal overflow on 1 page (273 px, a long address in /articles/senate-fails-clarity-act-cloture-vote..., fixed in merge 11). Watchlist from a fresh device: hidden when empty; SOL pinned on /coins/sol; the home shows "SOL $67.74 -3.90%"; still there after a reload. Titles, descriptions and canonicals on 915 of 915 pages; /market-pulse 301 to /pulse; 368 sitemap URLs all 200; 12 dead internal links fixed in merge 7. |
 | 6 | Fast | green | Lighthouse 13.6.0 mobile on production stamp `a0153db`: home performance 97, accessibility 100; Board 100 and 100; a Brief 100 and 100 (`C-DONE-logs/lighthouse-production-a0153db.txt`). |
-| 7 | Taught | merged, production read pending | Merge 9. All twelve explainers read in full on Nov 25; 23 lines corrected (list in the merge's commit); each prints "Last reviewed November 25, 2026" from its own record; every tile's definition is on /learn and each Board reading's definition links its full explainer; Learn is in the nav. |
-| 8 | Quiet | built, reads pending | Run sweep Nov 18 to Nov 25 09:26 UTC: 287 runs, 63 failures, all 63 the offline canary's stored-wire case, the last at 2026-11-22T01:00:48Z; 0 since. Health gate: 3 full runs (Nov 22, 23, 24), all "Healthy". Ignore rule: merge 2, proven (merges 2 and 4 canceled by Netlify). Publish-time gate: merge 4. Gap finding a warning, the week's spend, the gate's prices line: merge 5. Spend Nov 18 to 24: 11 runs, 581,208 tokens, $0.8590. The push-time canary on CI passed on every merge of this session (runs 458 to 465). Open: the first publishing run through the new gate (the 8:15 AM read), and the health gate's lateness (Jack's, below). |
-| 9 | Found | merged, production read pending | Merge 8. "By Crypto Cronkite" and a NewsArticle author of that name with the story's own published time; home title "Why crypto moved today: prices and big movers - GoCheckMyCrypto"; description names the Board, the big movers and "No hype"; About names Go Check My Brands LLC and nothing about method; Edition titles carry their date. |
-| 10 | Beautiful enough | in progress | Merges 1, 6 and 11. Before and after of production at 375 and 1440 under `C-DONE-shots/` (home, Board, a Brief). Still to read on the build that carries merge 11. |
+| 7 | Taught | green | Merge 9. All twelve explainers read in full on Nov 25; 23 lines corrected (list in the merge's commit); each prints "Last reviewed November 25, 2026" from its own record; every tile's definition is on /learn and each Board reading's definition links its full explainer; Learn is in the nav. Production stamp `22f4c70`, read 7:58 AM ET: /learn/bitcoin-posture, /learn/leverage, /cold-storage and /crypto-tax print "Last reviewed November 25, 2026"; the live cards read "as of 7:51 AM ET on Nov 25, CoinGecko" and "..., OKX"; no "site build", no "last build", no "line 8z". |
+| 8 | Quiet | built, reads pending | Run sweep Nov 18 to Nov 25 09:26 UTC: 287 runs, 63 failures, all 63 the offline canary's stored-wire case, the last at 2026-11-22T01:00:48Z; 0 since. Health gate: 3 full runs (Nov 22, 23, 24), all "Healthy". Ignore rule: merge 2, proven (merges 2 and 4 canceled by Netlify). Publish-time gate: merge 4. Gap finding a warning, the week's spend, the gate's prices line: merge 5. Spend Nov 18 to 24: 11 runs, 581,208 tokens, $0.8590. The push-time canary on CI passed on every merge of this session (runs 458 to 465). **The first publishing run through the new gate:** the 8:15 AM read, run 45621734470 (#123) on head `28fe518`: the canary step ran through `canary_gate.py` and printed LAYER 1 CANARY: PASS at 13:17:02Z; the read was written (1,055 tokens, $0.0019) and pushed as `b86cf1d`; Netlify built it. Merging onto that commit then turned the canary red on two cases, both from the day's stored data (the Brief feed's sentence about an AI story on the wire; this session's own fold-list case, which did not allow the day's line); both were fixed at the cause in merge 14 before anything was merged over them. Open: seven days of runs with no false failure, and the health gate's lateness (Jack's, below). |
+| 9 | Found | green | Merge 8. "By Crypto Cronkite" and a NewsArticle author of that name with the story's own published time; home title "Why crypto moved today: prices and big movers - GoCheckMyCrypto"; description names the Board, the big movers and "No hype"; About names Go Check My Brands LLC and nothing about method; Edition titles carry their date. Production stamp `22f4c70`, read 7:58 AM ET: the home's title and description as merged; the Nov 24 Brief reads "By Crypto Cronkite", its NewsArticle author is Crypto Cronkite, datePublished `2026-11-24T23:15:43Z`; About has the LLC and the byline and none of the method words; /edition/2026-11-24 is titled "Evening Brief, November 24, 2026 - GoCheckMyCrypto". |
+| 10 | Beautiful enough | in progress, two elements are Jack's | Merges 1, 6, 11 and 13. Before and after of production at 375 and 1440 under `C-DONE-shots/` (home, Board, a Brief). The red and white holds (light theme, read at both widths). **There is no hero photo and no scrim on production:** the poster files are in `site/assets/hero/` and nothing references them (open ruling J-2, "the board's default is none"). **The Chart Master and Whale Watch marks are not drawn anywhere** (`site/assets/marks/` is unreferenced), so they are not misused, and not used. Neither was added: no redesign. |
 
 ## Merges, in order
 
@@ -37,10 +37,24 @@ November 25: continue with all fixes and items; the target is above 8 of 10, pus
 | 9 | crypto | `70dcf4f` | `09865a7` | `767d3c2` | Point 7: every explainer read and corrected; "Last reviewed"; the Fear and Greed tile's band from the site's one table; the live card's own source. | Canary exit 0. `[skip netlify]`. |
 | 10 | crypto | `a63b2bd` | `a14449b` | `70dcf4f` | The story-lane ruling: 14 quiet days takes a lane off the home and the lane lists; its page says since when. | Canary exit 0. `[skip netlify]`. |
 | 11 | crypto | `01f4697` | `078a0e8` | `a63b2bd` | Points 4 and 10: nothing twice in the movers; four decimals under a dollar; the age in its stamp's ink; the empty Brief card; long addresses wrap. | Canary exit 0. `[skip netlify]`. |
+| 12 | crypto | `22f4c70` | `002399c` | `01f4697` | The scorecard after eleven merges, the handoff section (documents only). | Canary exit 0. **Built** (see the note below), stamp `22f4c70`, 12:54:11Z: it carried merges 7 to 11 to production. |
+| 13 | crypto | `28fe518` | `6dea1ea` | `22f4c70` | Points 3 and 4: /today/'s answer one short sentence per fact; no story line where there is no story. | Canary exit 0 on tree `d54cba1`. `[skip netlify]`. Built by the 8:15 AM read's push, stamp `b86cf1d`. |
+| 14 | crypto | `c517eb8` | `85ae244` | `b86cf1d` | Points 2 and 8: the morning's stored data turned main's gate red twice; the Brief feed may report an AI story the wire carries (three shared subject words, never a disclosure); the fold list allows the day's line. Tests and scripts only. | Canary exit 0. Pushed 13:33:45Z; canceled by Netlify (no build). |
+| 15 | crypto | `3a19921` | `9e3778d` | `c517eb8` | Point 9: a lane's later pages carry their page number in the title; the crawl of record filed. | Canary exit 0 on the merged tree. `[skip netlify]`. |
+| 16 | crypto | `e9ec721` | `68d5fed` | `3a19921` | Point 3: the Morning Brief card opens on its one line; on a phone the long read is behind "The full read". | Canary exit 0 (`morning-card-gate.log`); the merged tree equals the gated tree. `[skip netlify]`. |
+| 17 | crypto | `74bab9d` | `9bed8c6` | `e9ec721` | Point 4: a story's Sources list names the outlet; no headline made from a link's address. | Canary exit 0 (`sources-gate.log`); the merged tree equals the gated tree. `[skip netlify]`. |
 
-Merges 7 to 11 ride the 8:15 AM read's build (one build, not five). Every push verified by hash (U-8): local equals
-origin, 0 ahead, each time. Built merges on Nov 25 ET: three (1, 3, 6), the day's share. Count of record (Worker
-`/counts/today`, Nov 25, read 6:55 AM ET): production ready 3, canceled 2.
+Every push verified by hash (U-8): local equals origin, 0 ahead, each time.
+
+**One build over the allowance on November 25, the desk's error.** Merges 7 to 11 carried `[skip netlify]` to ride the
+8:15 AM read's build. Merge 12, documents only, was pushed without the marker; Netlify's ignore rule compares against the
+last BUILT commit (`a0153db`), that diff held the five skipped merges' site files, and it built, correctly. So the day
+has four merge builds (1, 3, 6, 12) against a share of three, and with the morning read and the evening Brief it ends at
+six of five. The same trap as October 11 (`0c47b73`). From merge 13 on, every merge pushed while a skipped site commit
+is unbuilt carries the marker. Count of record (Worker `/counts/today`, Nov 25, read 7:57 AM ET): production ready 4,
+canceled 2; read again 8:59 AM ET: ready 5 (merges 1, 3, 6, 12 and the morning read), canceled 3 (merges 2, 4, 14).
+Merges 13 and 15 to 17 carried the marker and made no deploy. Merges 15 to 17 and this scorecard ride the evening
+Brief's build (23:08 UTC), the day's sixth.
 
 ## Re-pins, old to new
 
@@ -57,6 +71,11 @@ origin, 0 ahead, each time. Built merges on Nov 25 ET: three (1, 3, 6), the day'
   lines (merge 11).
 - `HOME_JS_SHA256` (the 9.5 text of the home's script): `4df64baaee46fe975e1d2e2bf832e6f6eb270fe3c053628e460c8cf02a4995e4`
   to `b46841673ba000785c3b3e9d0c9a0f1ff3914e8253a28fb6ae15de885fc097f2` (merge 11: the price formatter).
+- Merge 16, the toggle's rules inside the marked C-DONE block of both files: `site/assets/system.css`
+  `01dc4981649abd865bb96b274167ba1221c0171d380c2e2b3f8ef677dafee90c` to
+  `e8bbe51babf0b45a9e9ab689e65d9ae001462c3b42de2c6ea59dd3ad7f4068c9`; `fixtures/sprint95b/system.95.css`
+  `9d91988d4450d480c2f5d021446d88567fc52cfe5c6d7a3c2f77388e5437e076` to
+  `6742b36bcf0134742f4e90b4edbdfb8b9dff96df14a69dc4e3bd1d063906c7ff`.
 
 ## Older checks brought to Jack's rulings of November 24 and 25, each with a C-DONE note beside it
 
@@ -88,6 +107,11 @@ origin, 0 ahead, each time. Built merges on Nov 25 ET: three (1, 3, 6), the day'
 | 9 taught | 39 | red, no review dates | 11 |
 | 10 story lanes | 9 | 7 FAIL | 8 |
 | 11 polish | 6 | 5 FAIL | 5 |
+| 12 read well (/today/'s sentences, no story line without a story) | 5 | red (`read-well-red-on-main.log`) | 5 |
+| 10, lane page titles | 2 more | 2 FAIL | 1 |
+| 13 live data (the Brief feed and the wire; the fold list) | 10 | the canary itself, 2 problems on `b86cf1d` | 8 |
+| 14 the Morning Brief on a phone | 7 | 4 FAIL | 11 (two missed on the first pass, the desktop cases tightened, rerun caught all) |
+| 15 the Sources list | 6 | 5 FAIL | 9 |
 | gcm-newsroom `test_newsroom_off.py` | 3 | 2 FAIL | 2 |
 
 Logs: `docs/REPORTS/C-DONE-logs/<item>-red-on-main.log`, `-plants.log`, `-gate.log`. Group 4's real proof
@@ -124,7 +148,30 @@ Pages and extracted text are kept in the session's scratchpad; the counts below 
 | /market-pulse | 301 to /pulse | | green |
 | sitemap URLs | 368, all 200 | | green |
 
-Still to count after merge 7 is live: the same crawl again, and a story older than 48 hours presented as today's.
+### Crawl 2, the count of record so far: stamp `22f4c70` (carries merges 1 to 12), 913 HTML pages, 929 link targets
+
+`C-DONE-logs/crawl-production-22f4c70.txt`. Against the table above:
+
+- NaN, null, "0 pieces", em dash, en dash, build notes ("the last build" and seven other phrases), TODO, placeholder,
+  "Stale data": 0 each. "undefined" 5 and "None" 26, all English prose.
+- The site's own UTC stamps: 0 (was 88 Edition pages). "UTC" remains on 36 pages inside reported text (an event's own
+  time in a stored story). ISO timestamps: only inside schema.org data, where they belong.
+- Title, description, one canonical: 913 of 913. Internal links: no real 404. The 4 non-200 targets are 2 fetches the
+  connection dropped (/pulse/prices and /method, both answer 200 when read again, 9:10 AM ET) and 2 script strings the crawler read as
+  links.
+- Empty section or card: 1, the hidden pinned-coins holder on /pulse (was 24).
+- Duplicate titles: 4 groups (was 7). Three were a lane's later pages, fixed in merge 15; /today/ and its dated twin
+  remain (still open).
+- A bare $0: the sub-cent prices are real prices; the stored-copy lines ("shows $0 million so far") are stored records.
+- **Text cut with three dots: 159 nodes on 150 pages.** One on /archive is a story's summary cut at a word. The rest
+  were the Sources list under every story ("CoinDesk: u s sec maps out crypto custody in new proposal that furthers
+  its digital..."), which merge 7 had left standing one element above the line it fixed. Fixed in merge 17: local
+  build, 585 story pages with a Sources list, 0 with a label made from an address.
+- British spelling: 13, all in stored story text: proper names ("Cyber Crime Coordination Centre", "Astana
+  International Financial Centre") and "catalogued" in one story. Stored copy, not rewritten.
+- The middle dot as the separator: every page, 15,552 (Jack's, below).
+- A story older than 48 hours presented as today's: 0. Counted on stamp `b86cf1d` at 9:10 AM ET: the home links one
+  story (the Week Ahead of Nov 23, under Storylines, as the week's piece) and /today/ links none.
 
 ## Production reads
 
@@ -134,7 +181,10 @@ Still to count after merge 7 is live: the same crawl again, and a story older th
 | 4:24 AM | `96ca8aa`, built 09:20:14Z | Served `system.css` carries merge 1's rule. IndexNow by hand: 1 URL, response 200. |
 | 5:06 AM | `3d286ab`, built 09:42:23Z | Point 1, read 1. IndexNow by hand: 2 URLs, response 200. |
 | 5:40 AM to 6:00 AM | `3d286ab` (start and end) | The crawl. |
-| 6:55 AM | `a0153db`, built 10:41:44Z | `/stamp.txt` and the count of record. The page read at 375 is next. |
+| 6:55 AM | `a0153db`, built 10:41:44Z | `/stamp.txt` and the count of record. |
+| 7:05 AM | `a0153db` | Point 3 at 375 before the morning read; the 368-page sweep at 375; the watchlist from a fresh device; Lighthouse. |
+| 7:58 AM | `22f4c70`, built 12:54:11Z | Points 7 and 9 (rows above); crawl 2. |
+| 8:23 AM | `b86cf1d`, built 13:20:01Z | The morning read's build: point 3 with the Morning Brief on the card (failed, fixed in merge 16); the live stamp reads "price live, 8:42 AM ET, range and chart as of 8:19 AM ET on Nov 25" in two lines of the three reserved. |
 
 ## Point 1 on a carried build (local build, not production, U-10)
 
@@ -151,6 +201,9 @@ Still to count after merge 7 is live: the same crawl again, and a story older th
    point 3 as written.
 3. "Next Brief ..." is hidden inside the Brief card on phones when the card carries the day's line. Reason: the fold.
 4. The Edition's dateline no longer prints a city. Reason: ruling 4 of October 16.
+6. On a phone the morning read's long paragraph is behind "The full read"; the card shows the one line. Reason: the
+   fold. Nothing is removed from the page.
+7. A story's Sources list prints the outlet's name, not a headline made from the link's address. Reason: point 4.
 5. A red canary from stored data no longer stops a run. Reason: four lock-ups in thirty days; the code is still gated
    at every push and merge.
 
@@ -192,12 +245,18 @@ run, so it no longer runs on a schedule.
 
 ## Still open, in the order to take them
 
-1. "Next Brief tomorrow at 8:15 AM ET" is true when built and wrong after midnight; the masthead's date is the build's.
-2. The "no 24h figure" line on the All crypto tile.
-3. Run 565's flag closure and the janitor closing a live alarm (from the run sweep).
-4. The canary warnings `flows: stablecoin tile ... != by-exchange rows` and `why_evidence: ... TypeError`.
-5. /today/ and its dated twin share a title on the day; paginated hubs share theirs.
-6. The CoinLedger link carries an affiliate id that reads as a first name (`explainers.py`, visible on hover). Jack's.
+1. "Next Brief tomorrow at 8:15 AM ET" is true when built and wrong after midnight (Jack's, below: it is ruled wording).
+2. Run 565's flag closure and the janitor closing a live alarm (from the run sweep). Neither stops a run or a page.
+3. /today/ and its dated twin share a title on the day (the lanes' later pages were fixed in merge 15).
+4. On November 23 and 24 a breaking run also published an Afternoon Brief, so those days carry two Briefs. Not touched
+   (the Brief and the watcher's cage are not this session's to change); named because the ruling says one a day.
+
+Closed since the last scorecard: both canary warnings that looked real are the canary's own negative tests ("a broken
+record draws no section and raises nothing"; "a tile that disagrees with its rows is caught"), so all 18 warnings of the
+Nov 24 run are fixtures and negative tests. The "no 24h figure" line on the All crypto tile is Sprint A's ruled wording
+for a withheld figure and stays.
+
+5. IndexNow by hand for the URLs merges 7 to 17 changed: after the evening Brief's build, at the Nov 26 read.
 
 ## Jack's
 
@@ -208,6 +267,15 @@ run, so it no longer runs on a schedule.
    dispatch at 7:05 AM Eastern, and its test; the Worker's four test files pass with it). Apply and deploy:
    `cd gcm-newsroom && git apply ../gocheckmycrypto/docs/REPORTS/C-DONE-worker-health-dispatch.patch && cd slot-trigger
    && npx wrangler deploy`. Not applied to gcm-newsroom and not deployed by this desk.
+4. **"Next Brief tomorrow at 8:15 AM ET."** The line is right when the page is built and wrong after midnight, because
+   the page is static (you read it at 4:01 AM). One function writes it for the Brief card, /today/ and the verdict
+   notice, and its wording was ruled on October 20 (29 test cases pin it). Two options: (a) leave it; (b) name the day
+   instead of "tonight" and "tomorrow" ("Next Brief Thursday at 8:15 AM ET"), which stays true until the slot passes.
+   The desk recommends (b); it is one function and the 29 cases.
+5. **The hero photo and the section marks** (point 10): neither is on the site today (J-2 is still open at its default
+   of none). Say if either should come back; it is a design change, not a fix.
+6. **Section ledes under the copy law.** Whale Watch and The Brief each open with a paragraph that explains the section.
+   Chrome copy changes only by your ruling, so they were left.
 3. **The CoinLedger affiliate link** carries an id that reads as a first name; it shows on hover. Changing it changes
    who is paid, so it is yours.
 2. **The middle dot.** If the brief's "literal ·" means the separator itself and not an unrendered escape, say so: it is
