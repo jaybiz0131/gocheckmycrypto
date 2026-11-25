@@ -51,7 +51,9 @@ MARK_BEGIN = "/* ===== Program 9, Sprint 9.5b"
 MARK_END = "/* ===== end Sprint 9.5b ===== */"
 
 # Sprint 9.5's HOME_JS, hashed on October 20, 2026 at 2453529. 9.5b edits no script and adds none.
-HOME_JS_SHA256 = "4df64baaee46fe975e1d2e2bf832e6f6eb270fe3c053628e460c8cf02a4995e4"
+# C-DONE (25 November 2026), re-pinned from 4df64baaee46fe975e1d2e2bf832e6f6eb270fe3c053628e460c8cf02a4995e4: one edit to the 9.5 script, the price formatter prints four
+# decimals under a dollar as the build does (it printed six: $0.921570 beside the build's $0.9216)
+HOME_JS_SHA256 = "b46841673ba000785c3b3e9d0c9a0f1ff3914e8253a28fb6ae15de885fc097f2"
 # the two lines of Sprint 9.5's script that Sprint 9.7's marked block replaces (the tape's one CoinGecko read)
 HOME_JS_95_FETCH = ("  fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,ripple&vs_currencies=usd&include_24hr_change=true')\n"
                     "   .then(function(r){if(!r.ok)throw new Error(r.status);return r.json();}).then(function(d){\n")
@@ -275,6 +277,9 @@ def _mask_band(h):
     h = re.sub(r"<span>200-day(?: average)?</span><span>(?:\d+% (?:above|below)|bar scale ends at \d+%)</span>", "<span>200-day</span><span>SCALE</span>", h)
     # SPRINT B, B3: funding prints two decimals with a sign, or "flat" (was four decimals)
     h = re.sub(r'(<p class="tl-f">)(?:[+-]\d+\.\d+%|flat)(</p>)', r"\1FUNDING\2", h)
+    # C-DONE (25 November 2026): the standouts line no longer repeats a coin the rows above print; masked on both sides,
+    # scripts/cdone_test.py group 11 holds it to account
+    h = re.sub(r'(<p class="h-stand">).*?(</p>)', r"\1\2", h, flags=re.S)
     # C-DONE (Jack, 24 November 2026): a day with nothing dated draws no block (9.5 printed "Nothing scheduled."); cut on both sides,
     # scripts/cdone_test.py group 6 holds the dated block to account
     h = h.replace('<section class="h-b h-today" data-block="today"><h2 class="h-h">Today</h2><p class="h-cal-none">Nothing scheduled.</p></section>', "")

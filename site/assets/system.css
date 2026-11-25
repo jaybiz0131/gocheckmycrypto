@@ -743,4 +743,6 @@ body .h-b.h-lead p{font-family:var(--sans);font-size:14px;line-height:1.45;color
   body .h-band .h-nsmall{margin-top:6px!important}
   body .h-band .h-today{margin:6px 0 0!important}
 }
+body .h-band .h-next:first-child{border-top:0;padding-top:0;margin-top:0!important}
+body main p,body main li{overflow-wrap:break-word}
 /* ===== end C-DONE ===== */

@@ -1053,7 +1053,9 @@ def movers(snap):
     shown = rises + ([fall] if fall else [])
     shown.sort(key=lambda c: (-abs(c.get("chg_24h_pct") or 0), c.get("rank") or 0))
     lis = "".join(row(c) for c in shown)
-    stand = [c for c in mv.get("standouts") or [] if c.get("symbol") not in taped]
+    # C-DONE: nothing twice on one block either: a coin in the rows above is not printed again in the standouts line
+    _rows = {c.get("symbol") for c in shown}
+    stand = [c for c in mv.get("standouts") or [] if c.get("symbol") not in taped and c.get("symbol") not in _rows]
     if stand:
         sl = ", ".join(f'{_e(c["symbol"])} <span class="h-mc {_dir(c["chg_24h_pct"])}">'
                        f'{_pctx(c["chg_24h_pct"])}</span>' for c in stand)
@@ -1304,7 +1306,7 @@ def load_json(path):
 HOME_JS = """<script>(function(){
   var RM=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
   function etClock(){try{return new Date().toLocaleTimeString('en-US',{timeZone:'America/New_York',hour:'numeric',minute:'2-digit'})+' ET';}catch(e){return '';}}
-  function px(n){return '$'+Number(n).toLocaleString('en-US',{minimumFractionDigits:n>=1?2:6,maximumFractionDigits:n>=1?2:6});}
+  function px(n){return '$'+Number(n).toLocaleString('en-US',{minimumFractionDigits:n>=1?2:(n>=0.01?4:6),maximumFractionDigits:n>=1?2:(n>=0.01?4:6)});}
   function pc(p){return (p>=0?'+':'')+p.toFixed(2)+'%';}
   // ===== Sprint 9.7: the Worker route (scripts/sprint95b_test.py cuts this block out and holds the rest to Sprint 9.5's text) =====
   // SPRINT 9.7: the Worker route first, when the page names one (a gcm-live-prices meta, written only after Jack deploys
