@@ -691,9 +691,12 @@ def page_cases(fails):
         guarded(fails, f"{name}: the verdict card, one shape (aside.vd with data-vd)",
                 lambda: re.search(r'<aside class="vd[^"]*" data-vd="BTC"', h or ""))
         guarded(fails, f"{name}: no em dash or en dash", lambda: not re.search("[\u2013\u2014]", h or ""))
+    # C-DONE (Jack, 24 November 2026): with nothing dated ahead the dated block is not drawn (an empty day is not a section), so the
+    # order is section 2's less that block when the fixture's calendar is empty
+    _fold = lambda h: tuple(b for b in home.ABOVE_FOLD if b != "today" or 'data-block="today"' in h)
     guarded(fails, "the home keeps its ten blocks in section 2's order",
-            lambda: tuple(re.findall(r'data-block="([a-z]+)"', pages["home"])) == home.ABOVE_FOLD
-            and pages["home"].count("<section") == len(home.ABOVE_FOLD))
+            lambda: tuple(re.findall(r'data-block="([a-z]+)"', pages["home"])) == _fold(pages["home"])
+            and pages["home"].count("<section") == len(_fold(pages["home"])))
     guarded(fails, "the URL of a graded verdict is /why/<date>-<coin>, and the card links it",
             lambda: v14["coins"]["BTC"]["url"] == "/why/2026-10-14-bitcoin"
             and 'href="/why/2026-10-15-bitcoin"' in pages["/today/"])

@@ -1065,21 +1065,35 @@ def movers(snap):
 
 
 def today(cal, now=None):
+    """Today's dated events, or THE NEXT DATED EVENT when today has none (C-DONE point 3, Jack, 24 November 2026): the
+    first later date on the calendar with everything dated that day, under "Next date" with the date said. No dated
+    entry ahead draws no block: an empty day is not a section."""
     now = now or _now()
     day = now.astimezone(_ET).date().isoformat()
-    ents = [e for e in ((cal or {}).get("entries") or []) if e.get("date") == day]
+    every = [e for e in ((cal or {}).get("entries") or []) if e.get("date") and e.get("title")]
+    ents = [e for e in every if e.get("date") == day]
+    label, when = "Today", ""
     if not ents:
-        return _block("today", f'<p class="h-cal-none">{_e(NO_CAL.capitalize())}.</p>',
-                      "Today")
+        ahead = sorted({e["date"] for e in every if e["date"] > day})
+        if not ahead:
+            return ""
+        ents = [e for e in every if e["date"] == ahead[0]]
+        try:
+            d = _dt.date.fromisoformat(ahead[0])
+            label, when = f"Next date: {d.strftime('%a, %b')} {d.day}", "next"
+        except ValueError:
+            return ""
     lis = []
     for e in ents:
         src = e.get("source") or {}
         s = (f'<a href="{_e(src["url"])}" rel="noopener">{_e(src.get("name") or "Source")}</a>'
              if src.get("url") else _e(src.get("name") or ""))
-        lis.append(f'<li><span class="h-ct">{_e(e.get("time_et") or "time not published")}'
-                   f'</span><span class="h-ce">{_e(e.get("title"))}</span>'
+        # a later date with no published time prints no time line: the heading already says the day
+        tm = "" if (when and not e.get("time_et")) else (f'<span class="h-ct">{_e(e.get("time_et") or "time not published")}'
+                                                         f'</span>')
+        lis.append(f'<li>{tm}<span class="h-ce">{_e(e.get("title"))}</span>'
                    f'<span class="h-cs">{s}</span></li>')
-    return _block("today", f'<ul class="h-cal">{"".join(lis)}</ul>', "Today")
+    return _block("today", f'<ul class="h-cal">{"".join(lis)}</ul>', label)
 
 
 def mine():
@@ -1259,13 +1273,17 @@ def above_fold(snap, pulse, flows, deltas, wire, narr, cal, cadence, now=None, e
     # SPRINT A, A2: THE DATA LEAD (morning_line.py). With no read today the Why it moved block is the lead, dated, from the
     # boards on this page, in place of the no-read notice; with a read it follows the written Brief. `lead` None is the page
     # as it was.
+    # C-DONE point 3 (Jack, 24 and 25 November 2026): THE BOARD LEADS THE HOME and the home prints nothing twice. The
+    # long read stays /today/'s; here the tape is followed by the one figure no other block prints, Bitcoin since
+    # midnight ET, as one line. With no read today nothing stands in for the card: the tape leads.
     if lead:
         import morning_line
         if kind == "no_read":
-            card = morning_line.card_html(lead)
-        else:
-            blocks["narrative"] += _block("lead", morning_line.para_html(lead), "Why Bitcoin moved")
-    if graded:
+            card, graded = "", False
+        _ln = morning_line.home_html(lead)
+        if _ln:
+            blocks["tape"] += _block("lead", _ln)
+    if graded and not (lead and kind == "no_read"):
         left = card + "".join(blocks[k] for k in LEFT)
     else:
         # a withheld verdict (the day's cap) is the desk's notice, not an answer: it follows the tape's line

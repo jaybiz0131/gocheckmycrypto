@@ -2784,9 +2784,12 @@ def _home_canary(index_html=None):
            and "another day" not in cb, fails,
            "home canary: today's calendar line does not list today's events with time and "
            "source, and only today's")
-    cb0 = blk(page(now=now + _d.timedelta(days=1)), "today")
-    _check("Nothing scheduled" in cb0, fails,
-           "home canary: a day with no events does not say nothing scheduled")
+    # C-DONE (Jack, 24 November 2026): a day with no events names the NEXT dated event, or draws no block when the
+    # calendar holds none ahead; it never prints an empty day (was: "Nothing scheduled")
+    _p0 = page(now=now + _d.timedelta(days=1))
+    cb0 = blk(_p0, "today") if 'data-block="today"' in _p0 else ""
+    _check("othing scheduled" not in _p0 and (cb0 == "" or "Next date: " in cb0), fails,
+           "home canary: a day with no events prints an empty day instead of the next dated event (or no block)")
 
     # 7b. one stamp for the Board (Jack, 7 October): every tile carries the snapshot's
     # Program 7: the money cards carry one line, so the Board's one stamp is the tape's line

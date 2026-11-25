@@ -682,11 +682,12 @@ body .h-eline{display:none}
   body .h-cols{grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:0 36px}
   body .h-l{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:36px;align-content:start}
   body .h-l>*{min-width:0}
-  body .h-l>aside.vd{grid-column:1 / -1;grid-row:1;max-width:none}
-  body .h-l>[data-block="tape"]{grid-column:1 / -1;grid-row:2}
-  body .h-l>[data-block="narrative"]{grid-column:1;grid-row:3;align-self:start}
-  body .h-l>[data-block="lead"]{grid-column:1;grid-row:4}  /* C-DONE: Why Bitcoin moved keeps its place under the Brief card; unplaced, it took the first free cell, above the price line */
-  body .h-l>[data-block="since"]{grid-column:2;grid-row:3 / span 4}
+  /* C-DONE (Jack, 24 and 25 November 2026): the Board leads the home. The tape is the first row, Bitcoin's line for the day the second, the verdict card the third; every block is placed, none left to the first free cell */
+  body .h-l>[data-block="tape"]{grid-column:1 / -1;grid-row:1}
+  body .h-l>[data-block="lead"]{grid-column:1 / -1;grid-row:2}
+  body .h-l>aside.vd{grid-column:1 / -1;grid-row:3;max-width:none}
+  body .h-l>[data-block="narrative"]{grid-column:1;grid-row:4;align-self:start}
+  body .h-l>[data-block="since"]{grid-column:2;grid-row:4 / span 3}
   body .h-l>[data-block="why"]{grid-column:1;grid-row:5}
   body .h-l>[data-block="wire"]{grid-column:1;grid-row:6}
   body .h-tape{display:grid;grid-template-columns:minmax(0,1fr) minmax(max-content,calc(50% - 18px));column-gap:24px;align-items:center}  /* Ether starts on the board's column line when its line fits there, and never wraps to find it */
@@ -703,3 +704,43 @@ body .h-eline{display:none}
 /* ===== Sprint 9.5b, J-11 rule 1: the live stamp keeps three lines below 521 px (strategist's ruling, October 20, 2026, 3:35 PM ET) ===== */
 @media (max-width:520.98px){body .h-tape .h-live{min-height:54.45px}}
 /* ===== end J-11 rule 1 ===== */
+
+/* ===== C-DONE (25 November 2026): the home answers in order on a phone =====
+   Jack's ruling of 24 November: the Board leads the home, and above the fold at 375 it answers in this order: what the
+   market did (the tape and Bitcoin's line for the day), why (the Brief card), the movers, the next dated event. The
+   blocks live in two columns from 1100 px; below that the columns hand their blocks to one column so the order can
+   cross them. The markup is unchanged. An empty watchlist draws no block at any width. */
+@media (max-width:1099.98px){
+  body.h-home .h-cols{display:flex;flex-direction:column}
+  body.h-home .h-l,body.h-home .h-r{display:contents}
+  body .h-l>[data-block="tape"]{order:1}
+  body .h-l>[data-block="lead"]{order:2}
+  body .h-l>[data-block="narrative"]{order:3}
+  body .h-r>[data-block="movers"]{order:4}
+  body .h-r>[data-block="today"]{order:5}
+  body .h-l>aside.vd{order:6}
+  body .h-l>[data-block="since"]{order:7}
+  body .h-l>[data-block="why"]{order:8}
+  body .h-l>[data-block="wire"]{order:9}
+  body .h-r>[data-block="money"]{order:10}
+  body .h-r>[data-block="mood"]{order:11}
+  body .h-r>[data-block="mine"]{order:12}
+}
+body .h-b[data-block="mine"]:has(.h-mine-empty){display:none}
+body .h-b.h-lead{border-top:0;padding:0 0 10px}
+body .h-b.h-lead p{font-family:var(--sans);font-size:14px;line-height:1.45;color:var(--muted)}
+@media (max-width:699.98px){
+  body .h-b.h-tape{padding-bottom:4px}
+  body .h-band{padding:13px 15px 11px;margin:2px 0 14px}
+  body .h-b.h-lead{padding-bottom:6px}
+  body .h-movers li{padding:4px 0}
+  body .h-stand{margin-top:6px!important;line-height:1.42}
+  body .h-b[data-block="movers"] .h-h,body .h-b[data-block="today"] .h-h{margin-bottom:6px}
+  body .h-b[data-block="today"]{padding-top:10px}
+  body .h-band:has(.h-nline) .h-next{display:none}  /* the next Brief's time stays when it is all the card holds */
+  body .h-band .h-bt{font-size:20px;margin:0 0 6px}
+  body .h-band .h-nline{font-size:16px;line-height:1.35}
+  body .h-band .h-nsmall{margin-top:6px!important}
+  body .h-band .h-today{margin:6px 0 0!important}
+}
+/* ===== end C-DONE ===== */

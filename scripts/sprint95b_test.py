@@ -275,6 +275,9 @@ def _mask_band(h):
     h = re.sub(r"<span>200-day(?: average)?</span><span>(?:\d+% (?:above|below)|bar scale ends at \d+%)</span>", "<span>200-day</span><span>SCALE</span>", h)
     # SPRINT B, B3: funding prints two decimals with a sign, or "flat" (was four decimals)
     h = re.sub(r'(<p class="tl-f">)(?:[+-]\d+\.\d+%|flat)(</p>)', r"\1FUNDING\2", h)
+    # C-DONE (Jack, 24 November 2026): a day with nothing dated draws no block (9.5 printed "Nothing scheduled."); cut on both sides,
+    # scripts/cdone_test.py group 6 holds the dated block to account
+    h = h.replace('<section class="h-b h-today" data-block="today"><h2 class="h-h">Today</h2><p class="h-cal-none">Nothing scheduled.</p></section>', "")
     # SPRINT A: the withheld whole-market change reads "no 24h figure" (was the bare word "unchecked")
     return h.replace(">no 24h figure</span>", ">unchecked</span>")
 

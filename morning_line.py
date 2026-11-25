@@ -139,8 +139,15 @@ def lead(snap, deltas=None, now=None):
     if clauses:
         body = "; ".join(clauses)
         sents.append(body[0].upper() + body[1:] + ".")
+    # THE HOME'S LINE (C-DONE point 3, 25 November 2026). The home prints nothing twice: the price and the 24 hours
+    # are on the tape, the money, the mood and the movers each have their block on the same screen. The one figure no
+    # other block prints is Bitcoin since midnight ET, so that is the home's line; the full read stays /today/'s.
+    home_line = ""
+    # only on the read's own Eastern day: a page built the next morning from last night's read has no "since midnight"
+    if parts and parts[0].endswith("since midnight ET") and day == now.date():
+        home_line = f"Bitcoin is {parts[0]}" + (f", as of {stamp}." if stamp else ".")
     return {"date_et": day.isoformat(), "dateline": dateline, "stamp_et": stamp,
-            "sentences": sents, "text": " ".join(sents)}
+            "sentences": sents, "text": " ".join(sents), "home": home_line}
 
 
 def card_html(ld, brief_html=""):
@@ -153,6 +160,14 @@ def card_html(ld, brief_html=""):
             f'<h2 class="vd-h">Why Bitcoin moved</h2>'
             f'{brief_html}'
             f'<p class="vd-line h-lead">{home._e(ld["text"])}</p></aside>')
+
+
+def home_html(ld):
+    """The home's one line under the tape (Bitcoin since midnight ET), or '' when the read has none."""
+    import home
+    if not ld or not ld.get("home"):
+        return ""
+    return f'<p class="vd-line h-lead" data-lead="{home._e(ld["date_et"])}">{home._e(ld["home"])}</p>'
 
 
 def para_html(ld):

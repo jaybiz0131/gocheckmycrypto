@@ -47,7 +47,10 @@ try {
       for (const el of main.querySelectorAll("*")) {
         if (el.closest("svg")) continue;        // a chart's own drawing is not a layout box
         if (scrolls(el)) continue;
-        const par = el.parentElement; if (!par) continue;
+        // C-DONE: a parent with display:contents draws no box (its right edge reads 0); the column is the nearest ancestor that has one
+        let par = el.parentElement;
+        while (par && getComputedStyle(par).display === "contents") par = par.parentElement;
+        if (!par) continue;
         const r = el.getBoundingClientRect(), pr = par.getBoundingClientRect();
         if (r.width < 1) continue;
         if (r.right > pr.right + 1 && !["TD", "TH", "TR", "TBODY", "THEAD", "TABLE"].includes(el.tagName) || r.right > window.innerWidth + 1)
