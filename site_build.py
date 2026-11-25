@@ -82,7 +82,7 @@ CF_ANALYTICS_TOKEN = "ee5216c8411a41d78c7c4f679406ef4b"  # Cloudflare Web Analyt
 DESC = ("GoCheckMyCrypto is an independent crypto site built with one intention: get the "
         "stories right and keep the data honest. News, Markets and Whale Watch. "
         "We report events, we never advise trades.")
-FAMILY_DESC = ("Independent crypto news with the shill stripped out, plus live whale flows and market dashboards the desk measures itself. Never financial advice.")
+FAMILY_DESC = ("Why crypto moved today, in five minutes: the Board, the big movers in the top 20 and the top 100, the Brief and the dates ahead. No hype. Never financial advice.")
 NFA = ("Not financial advice. GoCheckMyCrypto reports events and explains what they may mean. "
        "It never tells you to buy or sell anything. Do your own research.")
 YEAR = "2026"
@@ -2450,9 +2450,9 @@ def render_article(item, all_items=None):
             tool_html = (f'<aside class="tool-module"><p class="tm-k">Practical next step</p>'
                          f'<p><a href="{esc(_m["url"])}" rel="noopener">{esc(_m["text"])}</a>'
                          f'. Free, no account.</p></aside>')
-    author = esc(item.get("author") or NAME)
-    if "Cronkite" in author:       # stored stories carry the retired desk name: render the one name
-        author = esc(NAME)
+    # THE EDITOR'S BYLINE (Jack, 24 November 2026): every story runs under Crypto Cronkite, whatever name it was stored
+    # under, and no personal name appears. (Program 6.1 had printed the site's name here.)
+    author = esc(EDITOR)
     body = f"""<main class="wrap narrow">
   <article class="article">
     <div class="ey">{badge} {tag} {topic_chips} <span class="dateline">{fmt_when(item)}</span></div>
@@ -2487,7 +2487,7 @@ def render_article(item, all_items=None):
          "image": og_image,
          "datePublished": item.get("published_utc") or item.get("date"),
          "dateModified": item.get("published_utc") or item.get("date"),
-         "author": {"@type": "Organization", "name": NAME, "url": ORIGIN + "/news.html"},
+         "author": {"@type": "Organization", "name": EDITOR, "url": ORIGIN + "/about.html"},
          # ONE PUBLISHER IDENTITY (crawl audit 2026-08-25): the @id is the same node the
          # homepage Organization block defines, so a crawler resolves both to one entity.
          # The full object stays because Google News wants a sized publisher logo here.
@@ -6202,11 +6202,13 @@ def render_corrections(items, dateline, rows=None):
 
 
 def render_about(dateline):
+    """ABOUT (Jack, 24 November 2026): what the site is, who operates it, how to reach it. Nothing about method: how the
+    desk checks is its own page, and this page does not describe it or point to it."""
     body = f"""<main class="wrap narrow"><section class="page">
   <span class="kicker">About</span>
   <h1>About GoCheckMyCrypto</h1>
-  <p class="lede">Independent crypto news and market data. Every story is checked against its
-     sources before it runs, and every source is linked.</p>
+  <p class="lede">What is going on in the crypto market, in the first five minutes of any day: why it moved,
+     the big movers, and the dates that matter. No hype.</p>
 
   <p>Much crypto "news" is paid promotion: price predictions with nothing behind them,
      "partnerships" that are self-issued press releases, and lists of coins to buy that are
@@ -6217,17 +6219,11 @@ def render_about(dateline):
      ignores, and <b>Markets</b> shows the market's readings with their sources and stamps.
      This is market data, clearly labeled, never dressed up as news.</p>
 
-  <h2>How we check</h2>
-  <p>A story runs only when the desk's source check confirms it against the sources it links, and
-     every source is linked so you can check the work yourself. Numbers are checked against the
-     market data, and a move is graded only against what was reported before it. {esc(EDITOR)} is the
-     desk's editor: the editor reviews what the checks produce and can hold or remove anything. The
-     whole process is on <a href="/method.html">how we check</a>.</p>
+  <p>Stories run under the editor's byline, {esc(EDITOR)}.</p>
 
   <h2>Our bias</h2>
-  <p>We are biased toward the reader and against the shill. We weight official and primary
-     sources most, we link every source, and we would rather publish nothing on a given day
-     than publish something we cannot stand behind.</p>
+  <p>We are biased toward the reader and against the shill, and we would rather publish nothing on a
+     given day than publish something we cannot stand behind.</p>
 
   <h2>What we are not</h2>
   <p>We are not your financial advisor, and this is not investment advice. We report what
@@ -6236,16 +6232,15 @@ def render_about(dateline):
   <h2>Contact the desk</h2>
   <p>Tips, corrections, and questions: <a href="mailto:desk@gocheckmycrypto.com">desk@gocheckmycrypto.com</a>.</p>
   <p>Sponsorship inquiries: <a href="mailto:desk@gocheckmycrypto.com">desk@gocheckmycrypto.com</a>.
-     Sponsorship never buys coverage; see <a href="/method.html">how we check</a>.</p>
+     Sponsorship never buys coverage.</p>
   <p>This website is operated by Go Check My Brands LLC, a South Carolina limited liability company.
      Contact: <a href="mailto:hello@gocheckmycrypto.com">hello@gocheckmycrypto.com</a>.</p>
 
-  <div class="callout"><b>Read next:</b> <a href="/method.html">How we check</a>, the
-    step-by-step of how we source, check numbers and grade a move. Or
-    <a href="/corrections.html">our corrections</a>.</div>
+  <div class="callout"><b>Read next:</b> <a href="/corrections.html">our corrections</a>.</div>
   <p class="nfa">{esc(NFA)}</p>
 </section></main>"""
-    return shell(f"About - {NAME}", "About GoCheckMyCrypto: independent crypto news plus market data, every source linked.",
+    return shell(f"About - {NAME}", "About GoCheckMyCrypto: why crypto moved today, the big movers and the dates ahead. "
+                 "Operated by Go Check My Brands LLC.",
                  "About", body, dateline, path="/about.html")
 
 
@@ -7969,7 +7964,8 @@ MOVERS_TITLE = f"Big movers: crypto top gainers and losers today, with why they 
 
 # SPRINT 9.7, THE SEARCH PASS (AUDIT.md 1.7): the home's title was the brand alone and the Top 100's was "Top 100 - Markets";
 # people type "crypto prices today" and "top 100 crypto prices". Titles only: no URL, no description and no heading moves.
-HOME_TITLE = f"Crypto prices today and why they moved - {NAME}"
+# C-DONE point 9 (Jack, 24 November 2026): the title and the description say what the site is in a searcher's words
+HOME_TITLE = f"Why crypto moved today: prices and big movers - {NAME}"
 
 # SPRINT 9.7, THE WORKER LIVE-PRICE ROUTE (Jack's ruling 7 of October 16; J-5). The route is written
 # (worker/live-prices.mjs) and NOT deployed: it needs Jack's gcm-newsroom deploy. Until he gives the address this stays

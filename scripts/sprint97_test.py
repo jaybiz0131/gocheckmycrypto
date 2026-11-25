@@ -1018,7 +1018,9 @@ def tree(root, expect_pages=False, with_browser=False):
             guarded(fails, f"why/{d}: every string in the feed is on its own page", lambda f=f, pgs=pgs, dp=dp: not why_strings_missing(f["data"], pgs, visible(dp)))
     # the search pass on the tree
     h = rd("index.html")
-    guarded(fails, "the home's title tag is the new one", lambda: re.search(r"<title>(.*?)</title>", h, re.S).group(1).startswith("Crypto prices"))
+    # C-DONE (Jack, 24 November 2026): the title leads with what a searcher types, "why crypto moved today" (was "Crypto prices today...")
+    guarded(fails, "the home's title tag is the new one", lambda: re.search(r"<title>(.*?)</title>", h, re.S).group(1) == sb_mod().HOME_TITLE
+            and sb_mod().HOME_TITLE.startswith("Why crypto moved today"))
     guarded(fails, "the Top 100 title tag is the new one", lambda: "Top 100 crypto prices" in rd("pulse/prices.html").split("</title>")[0])
     bad = []
     for n in every:

@@ -1686,11 +1686,14 @@ def _one_look_canary():
              "body": ["One."], "published_utc": "2026-10-10T12:00:00Z", "kind": "brief",
              "category": "news", "verdict": "VERIFIED", "sources": []}
     art = _sb.render_article(story, [story])
-    _check("Cronkite" not in art and "By GoCheckMyCrypto" in art, fails,
-           "one look: a story stored under the old author name does not print the one name")
+    # C-DONE (Jack, 24 November 2026): the editor's byline is Crypto Cronkite on every story (Program 6.1 printed the
+    # site's name); no other Cronkite and no personal name may stand
+    _check("By Crypto Cronkite" in art and art.count("Cronkite") == art.count("Crypto Cronkite")
+           and "By GoCheckMyCrypto" not in art, fails,
+           "one look: a story does not print the editor's byline, Crypto Cronkite, and only that name")
     front = _ed.render_front(_ed.DESK, [story], "2026-10-10", ["2026-10-10"])
-    _check("Cronkite" not in front and "ed-modes" not in front, fails,
-           "one look: the Edition page prints the old name or its Print/Night/E-ink toggles")
+    _check(front.count("Cronkite") == front.count("Crypto Cronkite") and "ed-modes" not in front, fails,
+           "one look: the Edition page prints a Cronkite that is not the editor's byline, or its Print/Night/E-ink toggles")
     return fails
 
 
