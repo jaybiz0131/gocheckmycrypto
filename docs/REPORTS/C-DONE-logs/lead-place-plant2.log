@@ -1,0 +1,13 @@
+C-DONE
+1. the home's left column from 1280: every block has its own cell
+  ok   the block list here is home.py's own (home.LEFT with the lead after the Brief card)
+  ok   'tape' is placed by a rule (a column and a row), never left to the browser's first free cell
+  ok   'narrative' is placed by a rule (a column and a row), never left to the browser's first free cell
+  ok   'lead' is placed by a rule (a column and a row), never left to the browser's first free cell
+  ok   'since' is placed by a rule (a column and a row), never left to the browser's first free cell
+  ok   'why' is placed by a rule (a column and a row), never left to the browser's first free cell
+  ok   'wire' is placed by a rule (a column and a row), never left to the browser's first free cell
+  FAIL in the first column the blocks keep the page's own order, one row each, below the price line: Brief card, Why Bitcoin moved, the wire
+  ok   Where Bitcoin stands fills the second column beside all of them (its rows run from the Brief card's to the wire's)
+C-DONE: FAIL (1 failing)
+  FAILING: in the first column the blocks keep the page's own order, one row each, below the price line: Brief card, Why Bitcoin moved, the wire

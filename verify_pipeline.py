@@ -2072,6 +2072,7 @@ def _stamp_canary():
             fails.extend(_sprint98_canary(out))
             fails.extend(_sprint99h_canary())
             fails.extend(_n1_canary())
+            fails.extend(_cdone_canary())
             fails.extend(_sprint991_canary(out))
             _ip = _o.path.join(out, "index.html")
             if _o.path.exists(_ip):
@@ -3476,6 +3477,25 @@ def _sprint98_canary(out):
         fails += ["sprint 9.8: " + f for f in _s98.tree(out)]
     finally:
         for m in ("sprint98_test", "sprint94_test", "sprint93_test", "sprint92_test"):
+            _sys.modules.pop(m, None)
+        if _sd in _sys.path:
+            _sys.path.remove(_sd)
+    return fails
+
+
+def _cdone_canary():
+    """C-DONE (November 2026): scripts/cdone_test.py holds the cases, one group per item (the home's left column at 1280:
+    every block has its own cell). Fixtures and the tree's own files only, never the day's stored data. The helpers are
+    taken out of sys.modules again (U-11)."""
+    import sys as _sys
+    _sd = os.path.join(os.path.dirname(os.path.abspath(__file__)), "scripts")
+    _sys.path.insert(0, _sd)
+    try:
+        import cdone_test as _c
+        fails = ["c-done: " + f for f in _c.unit()]
+    finally:
+        for m in ("cdone_test", "sprint95b_test", "sprint95b_fixture", "sprint95_test", "sprint94_test", "sprint93_test",
+                  "sprint92_test"):
             _sys.modules.pop(m, None)
         if _sd in _sys.path:
             _sys.path.remove(_sd)
