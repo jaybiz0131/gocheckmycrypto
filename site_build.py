@@ -360,6 +360,11 @@ OUTLETS = {
     "imf.org": "IMF", "whitehouse.gov": "The White House", "congress.gov": "Congress.gov",
     "ethereum.org": "Ethereum Foundation", "blog.ethereum.org": "Ethereum Foundation",
     "bitcoincore.org": "Bitcoin Core", "whale-alert.io": "Whale Alert",
+    # C-DONE (25 November 2026): every host the stored stories cite without a title, now that the name is the whole label.
+    "cryptobriefing.com": "Crypto Briefing", "cryptoslate.com": "CryptoSlate", "dailyhodl.com": "The Daily Hodl",
+    "u.today": "U.Today", "beincrypto.com": "BeInCrypto", "banking.senate.gov": "Senate Banking Committee",
+    "fred.stlouisfed.org": "FRED, St. Louis Fed", "deribit.com": "Deribit", "mempool.space": "mempool.space",
+    "stocktitan.net": "Stock Titan", "nyse.com": "NYSE", "bls.gov": "Bureau of Labor Statistics",
 }
 
 
@@ -369,24 +374,29 @@ QUIET_LABEL = " (quiet-day edition)"
 
 
 def source_label(src):
-    """'CoinDesk: lending protocol bonzo loses 77 of value locked' instead of a raw URL
-    with utm cruft. A real title (anything that isn't just the URL) is kept as-is."""
+    """The outlet's name: 'CoinDesk'. A real title (anything that is not just the URL) is kept as written.
+
+    C-DONE point 4 (25 November 2026): THE LINK IS THE OUTLET. 1,900 of the 1,914 stored sources carry no title, and
+    this used to make one from the link's address: 'CoinDesk: u s sec maps out crypto custody in new proposal that
+    furthers its digital...', lowercased, its punctuation gone, cut at 80 characters with three dots, under every
+    story. An address is not a headline. The reader gets the outlet and the link."""
     from urllib.parse import urlparse
     url = src.get("url") or ""
     title = (src.get("title") or "").strip().replace(QUIET_LABEL, "")
     if title and title != url:
         return title
-    p = urlparse(url)
-    host = p.netloc.lower().removeprefix("www.")
-    outlet = OUTLETS.get(host, host)
-    slug = [s for s in p.path.split("/") if s]
-    hint = re.sub(r"[-_]+", " ", re.sub(r"\.\w+$", "", slug[-1])) if slug else ""
-    hint = re.sub(r"\b\d{5,}\b", "", hint).strip()
-    if len(hint) > 80:
-        hint = hint[:80].rsplit(" ", 1)[0] + "..."
-    if hint and not hint.isdigit():
-        return f"{outlet}: {hint}"
-    return outlet
+    host = urlparse(url).netloc.lower().removeprefix("www.")
+    return OUTLETS.get(host, host)
+
+
+def source_labels(srcs):
+    """One label per source, in order. A second link to the same outlet is numbered: 'CoinDesk', 'CoinDesk (2)'."""
+    seen, out = {}, []
+    for s in srcs or []:
+        lab = source_label(s)
+        n = seen[lab] = seen.get(lab, 0) + 1
+        out.append(lab if n == 1 else f"{lab} ({n})")
+    return out
 
 
 # RETIRED ARTICLES: retired slug -> the canonical slug that absorbed it.
@@ -2388,7 +2398,7 @@ def render_article(item, all_items=None):
     srcs = item.get("sources") or []
     src_html = ""
     if srcs:
-        def _src_li(s):
+        def _src_li(s, label):
             url = resolve_retired(s.get("url", ""))
             # THE DESK'S OWN INSTRUMENT IS NOT A LINK (owner audit 2026-08-25). A
             # board-verified market story cites desk://market-boards, which rendered in
@@ -2399,8 +2409,8 @@ def render_article(item, all_items=None):
                 return ('<li>The desk\'s own market boards, measured this run '
                         '(<a href="/">see the live boards</a>)</li>')
             return (f'<li><a href="{esc(url)}" rel="nofollow">'
-                    f'{esc(source_label(s))}</a></li>')
-        lis = "".join(_src_li(s) for s in srcs)
+                    f'{esc(label)}</a></li>')
+        lis = "".join(_src_li(s, label) for s, label in zip(srcs, source_labels(srcs)))
         src_html = f'<div class="sources"><h2>Sources</h2><ol>{lis}</ol></div>'
     src_html += also_reported(item.get("also_reported_by"))
     rel_html = ""
