@@ -45,6 +45,10 @@
   12. Read well (points 3 and 4): the tabs a phone reader lands on. /today/'s answer is one short sentence per fact,
       not one sentence of eighty words, and it does not print the same mover and figure twice. The movers board prints
       a story line only where there is a story (twenty rows said "No checked story yet.").
+  13. The day's stored data cannot turn the gate red for what it reports (found on main at b86cf1d, the morning of
+      November 25). A stored Brief sentence that names AI as the subject of a story the stored wire carries is
+      published data and a warning, as N-1 ruled for the wire line itself; a disclosure, or an AI mention the wire
+      does not carry, still fails. The home canary's fold list allows the day's line and the absent dated block.
 
 Stdlib only.
   python3 scripts/cdone_test.py      # exit 1 on any failure, every failing case named
@@ -765,6 +769,48 @@ def read_well_cases(fails):
             lambda: 'href="/articles/near-story.html"' in with_story and with_story.count("/articles/") == 1)
 
 
+def live_data_cases(fails):
+    print("13. the day's stored data: a Brief sentence about an AI story the wire carries is a warning; the fold list allows the day's line")
+    import sprint97_test as s97
+    WIRE = {"items": [{"id": "c003", "line": "Ethereum Foundation doubles protocol security team as AI advances pose more urgent threat than quantum computing to cryptographic systems",
+                       "titles": ["Ethereum Foundation doubles security team, citing AI risk"]},
+                      {"id": "c001", "line": "US Justice Department files to forfeit $1.1 billion in USDC", "titles": ["DOJ seeks forfeiture"]}]}
+    SENT = ("The wire carries South Korea proposing to lift its 2017 ICO ban, the Ethereum Foundation doubling its protocol security team "
+            "as AI advances pose threat to cryptographic systems, and the US Justice Department filing to forfeit $1.1 billion in USDC.")
+    feed = lambda s, title="Bitcoin lower as spot ETFs see outflows": {"name": "brief/latest", "data": {
+        "state": "current", "title": title, "dek": None, "slot": "morning", "sentences": ["Bitcoin lower over the past 24 hours.", s],
+        "line": "Markets shows extreme fear.", "bottom_line": None, "key_fact": None, "url": "/"}}
+    has = hasattr(s97, "brief_reported")
+    guarded(fails, "the premise: the plain scan finds the AI word in this morning's Brief feed (the November 25 sentence)",
+            lambda: s97.AI.search(s97.feed_prose(feed(SENT), titles={})))
+    guarded(fails, "with the wire that reports the story stored, the canary's scan passes the feed",
+            lambda: has and not s97.hard_ai_hits(feed(SENT), set(), titles={}, wire=WIRE))
+    guarded(fails, "and names the sentence it let through, so the run can say so",
+            lambda: has and s97.brief_reported(feed(SENT), WIRE) == [SENT])
+    guarded(fails, "the same sentence with no such story on the stored wire still fails (the desk's own AI mention is still scanned)",
+            lambda: has and s97.hard_ai_hits(feed(SENT), set(), titles={}, wire={"items": WIRE["items"][1:]}))
+    guarded(fails, "a sentence that shares only the AI word with the wire's story still fails (one shared word is not a subject)",
+            lambda: has and s97.hard_ai_hits(feed("Traders said AI tokens led the rebound in altcoins on Wednesday."), set(), titles={}, wire=WIRE))
+    for bad in ("This read was written by an AI model from the Ethereum Foundation protocol security team story.",
+                "Crypto Cronkite, the desk's AI editor, ranked the Ethereum Foundation protocol security team story first."):
+        guarded(fails, f"a disclosure still fails, whatever the wire carries: {bad[:48]}...",
+                lambda bad=bad: has and s97.hard_ai_hits(feed(bad), set(), titles={}, wire=WIRE))
+    guarded(fails, "a disclosure in the Brief's title still fails",
+            lambda: has and s97.hard_ai_hits(feed(SENT, title="An AI-generated summary of the Ethereum Foundation protocol security story"), set(), titles={}, wire=WIRE))
+    src = read(os.path.join(HERE, "verify_pipeline.py"))
+    guarded(fails, "the home canary's fold list is the blocks drawn, in section 2's order: the day's line after the tape when it is drawn, no dated block when none is ahead",
+            lambda: "_fold_expected(got)" in src and "tuple(got) == _h.ABOVE_FOLD and" not in src)
+    import verify_pipeline as vp
+    exp = getattr(vp, "_fold_expected", None)
+    import home
+    full = list(home.ABOVE_FOLD)
+    guarded(fails, "that list: with the day's line and the dated block; without either; never a block out of order or an unknown one",
+            lambda: exp and exp(["tape", "lead"] + full[1:]) == tuple(["tape", "lead"] + full[1:]) and exp(full) == tuple(full)
+            and exp([b for b in full if b != "today"]) == tuple(b for b in full if b != "today")
+            and exp(["lead", "tape"] + full[1:]) != tuple(["lead", "tape"] + full[1:])
+            and exp(full + ["extra"]) != tuple(full + ["extra"]))
+
+
 def unit():
     fails = []
     print("C-DONE")
@@ -781,9 +827,10 @@ def unit():
         lanes_cases(fails)
         polish_cases(fails)
         read_well_cases(fails)
+        live_data_cases(fails)
     finally:
         for m in ("sprint95b_test", "sprint95b_fixture", "sprint95_test", "sprint94_test", "sprint93_test", "sprint92_test",
-                  "canary_gate", "ops_ledger", "health_gate", "deadlinks"):
+                  "canary_gate", "ops_ledger", "health_gate", "deadlinks", "sprint97_test", "sprint96_test"):
             sys.modules.pop(m, None)
     return fails
 
