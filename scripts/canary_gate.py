@@ -120,8 +120,12 @@ def gate(repo=HERE, cmd=None):
             try:
                 if _git(repo, "worktree", "add", "--detach", "--force", wt, code).returncode == 0:
                     print(f"\nCANARY GATE: red on the tree as it stands; running the canary on the last code commit {code[:7]}")
-                    rc_base, _o = _run_canary(wt, cmd, echo=False)
+                    rc_base, base_out = _run_canary(wt, cmd, echo=False)
                     print(f"CANARY GATE: the canary on {code[:7]} left with status {rc_base}")
+                    if rc_base != 0:
+                        rec["base_cases"] = failing_cases(base_out)
+                        for c in rec["base_cases"]:
+                            print(f"CANARY GATE: red on {code[:7]} too: {c}")
             finally:
                 _git(repo, "worktree", "remove", "--force", wt)
                 shutil.rmtree(wt, ignore_errors=True)

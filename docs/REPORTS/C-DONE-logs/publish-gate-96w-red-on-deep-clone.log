@@ -1,0 +1,26 @@
+1. the Wire page: the same bytes with entries, an honest page without
+  ok   with entries in the window the page is byte-identical to main's render_wire (stored copy of main's output)
+  FAIL ...and to main's own render_wire run now from git (3be7684)
+  ok   with entries it lists the three fixture rows
+  ok   with every entry past the window render_wire still returns a page (it returned None on main)
+  ok   ...it keeps the Wire's frame: title, h1 and the page path
+  ok   ...it names the window once, in the sentence 'No wire entries fall in the last 48 hours.', and prints no count
+  ok   ...it invents no entry: no row, no filter, none of the fixture titles
+  ok   ...the stale line says exactly what the date is ('Newest entry on record: 10:00 AM ET, Oct 20, 2026.'), in the site's stale class with data-asof
+  ok   ...and it makes no claim about a refresh, a cadence, numbers or history
+  ok   ...and with no entry of any age on record it is still stale, and says so
+  ok   ...a page just inside the window is not marked stale
+  ok   ...the empty page carries no em dash
+  ok   the stale stamp reads the build's clock it is handed, not the wall clock (same input, same bytes)
+  ok   data_stamp is unchanged for its other callers (Board wording, wall clock)
+2. the build writes the page whatever the window holds
+  ok   wire.html is written without an `if _wire:` guard
+  ok   data/coins-mini.json is written without an `if _cm_payload:` guard
+  ok   the mini-board file is an empty list, not nothing, when the Top 100 is empty
+  ok   this script and the build have no em dash
+3. sprint 9.4's sitemap case reads the fixtures' own clock, not today's
+  ok   with a non-mover /why/ page stamped far in the future, every mover's /why/ URL is still in the news sitemap (ok)
+  ok   ...and nothing else in sprint 9.4's cases moved
+  ok   the check still asserts every mover URL (it was pinned, not loosened): all of mv_paths in the sitemap
+
+HOTFIX 9.6w: FAIL (1 failure(s))
