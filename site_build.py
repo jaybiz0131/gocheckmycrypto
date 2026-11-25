@@ -5889,7 +5889,8 @@ def render_news_lane(lane, page, pages, dateline):
         nav.append(f'<a class="bd-more" href="/news/{esc(lane["slug"])}/page/{page+1}.html">'
                    f'Older &rarr;</a>')
     url = base if page == 1 else f"/news/{lane['slug']}/page/{page}.html"
-    title = f"{lane['name']} - crypto news by storyline"
+    # C-DONE point 5: a later page of a lane says which page it is (three lanes' pages shared one title)
+    title = f"{lane['name']} - crypto news by storyline" + (f", page {page}" if page > 1 else "")
     body = f"""<main class="wrap"><section class="page">
   <p class="bd-stamp"><a href="/news.html">News</a> / {esc(lane["name"])}</p>
   <h1 class="lx-h1" style="margin-bottom:6px">{esc(lane["name"])}</h1>
