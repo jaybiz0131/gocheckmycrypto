@@ -149,7 +149,7 @@ def how_we_make_money_body():
     return f"""<main class="wrap narrow"><section class="page">
   <span class="kicker">Disclosure</span>
   <h1>How we make money</h1>
-  <p class="lede">This desk earns affiliate commission from three companies. Here is the
+  <p class="lede">This desk earns affiliate commission from the companies listed below. Here is the
      complete list, what we earn on, and the rules about where those links are allowed to
      appear. We publish the rules because a policy nobody can read is not a policy anyone
      can hold us to.</p>
@@ -449,15 +449,14 @@ def counterfeit_devices_body():
   <h2>What a prepared device looks like</h2>
   <p>These are checkable in a few minutes, before anything is plugged in.</p>
   <ul class="rule-list">
-    <li><strong>Packaging or seals that look opened or resealed.</strong> Trezor ships
-        tamper-evident holographic seals over the connector and documents, per model, what
-        the seal and the full box contents should look like. Compare against the
+    <li><strong>Packaging or seals that look opened or resealed.</strong> Trezor documents,
+        per model, what its tamper-evident seal and the full box contents should look like. Compare against the
         manufacturer's own photographs rather than against your expectations.</li>
     <li><strong>A recovery card that is already filled in, or shows any writing.</strong>
         Blank cards are the only correct state. A filled card is the clearest single sign
         that the device was prepared for you.</li>
     <li><strong>A device that displays a recovery phrase instead of generating one.</strong>
-        You should watch the phrase being created during setup. Trezor devices additionally
+        You should watch the phrase being created during setup. Trezor says its devices
         ship with no firmware installed, so setup installs it and flags a device that
         already has firmware on it as one that should not be used.</li>
     <li><strong>Instructions on a separate card or slip telling you to enter a phrase they
@@ -494,8 +493,8 @@ def counterfeit_devices_body():
   <h2>A device you did not order</h2>
   <p>Two things are documented, separately, by Ledger itself. First, its July 2020
      e-commerce and marketing breach exposed contact and order details for a subset of
-     customers, including first and last name, postal address and phone number. Second, it
-     currently documents an active campaign of physical letters sent by post to customers,
+     customers, including first and last name, postal address and phone number. Second, as of November 2026 it
+     documents an active campaign of physical letters sent by post to customers,
      prompting them to scan a code or visit a site and enter their recovery phrase, and it
      advises treating any postal letter presented as a Ledger communication as a phishing
      attempt.</p>
@@ -617,7 +616,7 @@ def crypto_tax_body():
   <p>Two paths lead out of those records. Disposals are reported on Form 8949, which
      carries to Schedule D. Income is different: staking rewards are ordinary income when
      you receive them, in the year you gain dominion and control over them, valued at fair
-     market value at that moment, and reported on Schedule 1 line 8z.</p>
+     market value at that moment, and reported on Schedule 1 (Form 1040), on the line for digital assets received as ordinary income.</p>
 
   <h2>Getting through it</h2>
   <p>There are two honest paths, and which one fits depends entirely on how much history
@@ -630,7 +629,7 @@ def crypto_tax_body():
      That is the category crypto tax software exists for: it imports history from
      exchanges and wallet addresses, matches disposals to acquisitions across platforms,
      applies a cost basis method, and produces the completed forms. CoinLedger is one
-     option in that category. CoinLedger offers 10% off with code {COINLEDGER_CODE}.</p>
+     option in that category. CoinLedger offers a discount with code {COINLEDGER_CODE}.</p>
 
   <h2>Try the software</h2>
   <p class="affil-note">We earn a commission if you sign up through this link. It costs you
@@ -723,7 +722,7 @@ def cold_storage_body():
 
   <h2>Self-custody has its own failure mode</h2>
   <p>Being honest about this cuts the other way too: lost seed phrases and forgotten
-     passphrases have permanently destroyed more crypto than exchange failures have, and
+     passphrases have permanently destroyed a great deal of crypto, and
      there is no support line that can recover them. If you take the keys, you take the
      responsibility for backing them up properly.</p>
 
@@ -733,9 +732,8 @@ def cold_storage_body():
      unknown hands before reaching you cannot be assumed to be untouched. The specific
      risks are tampered hardware and, more commonly, a recovery card that arrives already
      filled in, which is not a backup but somebody else's keys. Ledger's own guidance is
-     to buy from its store or a reseller it lists as authorized, and to treat marketplace
-     listings on general retail sites as unverified. That means no Amazon, no eBay, no
-     third-party marketplace seller, however convenient.</p>
+     to buy from its store or a reseller it lists as authorized. Our own rule is stricter than
+     Ledger's: no Amazon, no eBay, no third-party marketplace seller, however convenient.</p>
   <p>If a device has already arrived and you want to check it before trusting it with
      anything, the signs of a prepared device and the manufacturer's own verification steps
      are in <a href="/counterfeit-devices.html">counterfeit hardware wallets</a>.</p>
@@ -773,10 +771,10 @@ def cold_storage_body():
 
   <h2>The device we point readers to</h2>
   <p>We name one rather than publish a lineup, because a lineup has to be maintained and a
-     stale one misleads. <b>Ledger</b> is the device this desk currently points readers
+     stale one misleads. <b>Ledger</b> is the device this desk points readers
      toward. It builds around a certified secure element, supports a broad range of chains
-     and tokens, and pairs with a phone, and its premium model adds Bluetooth and a larger
-     screen for checking transactions on the device itself. Its app carries a genuine check
+     and tokens, and pairs with a phone, and its larger-screen models make
+     checking a transaction on the device itself easier. Its app carries a genuine check
      that challenges the device and verifies the answer against a key installed at the
      factory.</p>
   <p>That is a recommendation, not a ranking, and it is worth being plain about what it is
@@ -786,7 +784,7 @@ def cold_storage_body():
      defend hardest.</p>
 
   <h2>Where to buy</h2>
-  <p class="affil-note">We earn a commission if you buy through the links below. It costs
+  <p class="affil-note">We earn a commission if you buy through the link below. It costs
      you nothing extra and it does not change what we recommend. Separately, and for
      reasons that have nothing to do with us, the link goes to the manufacturer's own
      store, because that is where the supply chain is verifiable.</p>

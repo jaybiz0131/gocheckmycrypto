@@ -138,7 +138,7 @@ def onchain_flows_body():
      large holders did, alongside everything else, and treat any source presenting it as a
      forecast with suspicion.</p>
   <p><strong>The exchange labels are the weak link.</strong> Classification depends on
-     recognizing an address as belonging to an exchange, from a list of about 30 known
+     recognizing an address as belonging to an exchange, from a list of a few dozen known
      names. An exchange wallet nobody has labeled is counted as self-custody, which would
      read an internal transfer as accumulation. The direction of that error is knowable
      and its size is not.</p>

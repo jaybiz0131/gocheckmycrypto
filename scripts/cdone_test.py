@@ -602,8 +602,23 @@ def taught_cases(fails):
         want = sb.reviewed_line(e.get("last_reviewed", "x")) if hasattr(sb, "reviewed_line") else None
         guarded(fails, f"/learn/{e['slug']}: the page prints it once ('Last reviewed <Month D, YYYY>')",
                 lambda page=page, want=want: want and re.fullmatch(r"Last reviewed [A-Z][a-z]+ \d{1,2}, 20\d\d", want) and page.count(want) == 1)
-        guarded(fails, f"learn/{e['file']}: no 'last build', no 'several times a day', no UTC, no dash",
-                lambda e=e: not re.search("the last build|several times a day|\\bUTC\\b|[\u2013\u2014]", e["body"]))
+        guarded(fails, f"learn/{e['file']}: no word of how the page is made ('site build', 'rebuilds', 'the last build'), no 'several times a day', no UTC, no dash",
+                lambda e=e: not re.search("site build|rebuilds|the last build|several times a day|\\bUTC\\b|[\u2013\u2014]", e["body"]))
+        guarded(fails, f"learn/{e['file']}: the read time is the page's own length at 220 words a minute, not a typed figure",
+                lambda e=e: e.get("read_time") == f"{max(1, round(len(re.findall(chr(92) + 'b' + chr(92) + 'w[' + chr(92) + 'w' + chr(39) + '%$.,-]*' + chr(92) + 'b', re.sub(r'(?m)^' + chr(92) + '[.*' + chr(92) + ']' + chr(92) + 's*$', '', re.sub(r'(?ms)^## Related on Markets.*', '', e['body'])))) / 220))} min")
+    pulse = _fx("pulse_2026-10-16T1216Z.json")
+    pulse["fng"] = dict(pulse.get("fng") or {}, value=25, label="Extreme Fear")
+    fng_tile = next((x for x in sb.board_tiles(pulse, {}, {}) if x["key"] == "fng"), {})
+    guarded(fails, "the Fear and Greed tile names its band from the site's one table, the one /learn prints (25 is Fear, whatever label the publisher sent)",
+            lambda: sb._fng_band(25) == "Fear" and "</span>Fear</div>" in str(fng_tile.get("delta")) and "Extreme" not in str(fng_tile.get("delta")))
+    live = sb._tile_live_block(dict(fng_tile, key="fng"), pulse)
+    guarded(fails, "an explainer's live card names its own tile's source and read, not three sources on every page",
+            lambda: "alternative.me" in live and "mempool.space" not in live and "public market data" not in live
+            and "8:16 AM ET on Oct 16" in live)
+    guarded(fails, "no explainer copy states a tax-form line number, a typed company count or a cross-exchange open interest the site does not read",
+            lambda: "line 8z" not in read(os.path.join(HERE, "explainers.py")) and "from three companies" not in read(os.path.join(HERE, "explainers.py"))
+            and "across the major exchanges" not in read(os.path.join(HERE, "learn", "05-leverage.md"))
+            and "30-day series" not in read(os.path.join(HERE, "learn", "03-etf-flows.md")))
     guarded(fails, "an explainer with no review date prints no such line (never an invented date)",
             lambda: hasattr(sb, "reviewed_line") and sb.reviewed_line("") == "" and sb.reviewed_line("not a date") == ""
             and "Last reviewed" not in sb.render_explainer(dict(exps[0], last_reviewed=""), {}, {}, [], "TEST", {}, {}))

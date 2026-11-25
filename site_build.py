@@ -3341,7 +3341,7 @@ def board_tiles(pulse, flows, deltas):
     fng = pulse.get("fng") or {}
     fv = fng.get("value")
     if isinstance(fv, (int, float)):
-        band = esc(fng.get("label") or _fng_band(fv))
+        band = esc(_fng_band(fv))      # the site's one band table, the one /learn prints (C-DONE point 7)
         fd = d.get("fng") or {}
         since = ""
         if isinstance(fd.get("prev"), (int, float)):
@@ -4733,7 +4733,11 @@ def _tile_live_block(tile, pulse):
     # C-13: the note reads "Free public market data, computed with standard formulas at
     # build time; sentiment from alternative.me..." - a methods note, which G-9 keeps off
     # the page. The SOURCES in it are worth naming; how they were computed is not.
-    asof = _ticker_built(pulse)
+    # C-DONE point 7: the card names the source of ITS tile and that section's own read (it named three sources on
+    # every page and the prices' read whatever the tile)
+    _src, _sec = TILE_SOURCES.get(tile.get("key") or "", ("", None))
+    _read = ((pulse or {}).get("sections_utc") or {}).get(_sec) if _sec else ""
+    asof = f"as of {_snap_stamp_et(_read)}" if _snap_stamp_et(_read or "") else _ticker_built(pulse)
     return (
         f'<div class="bd-card lx-live">'
         f'<div class="bd-cardtop"><span class="lx-live-lab">Live from Markets</span>'
@@ -4742,7 +4746,7 @@ def _tile_live_block(tile, pulse):
         f'<span class="bd-read" style="font-size:15px">{esc(tile["read"])}</span></div>'
         f'{tile.get("delta") or ""}'
         f'<div class="bd-brief-foot"><span class="bd-stamp lx-live-src">{esc(asof)}'
-        f' · Sources: public market data, alternative.me, mempool.space</span>'
+        + (f', {esc(_src)}' if _src else "") + '</span>'
         f'<a class="bd-more" href="/pulse.html" style="white-space:nowrap">'
         f'See it on Markets</a></div></div>')
 
