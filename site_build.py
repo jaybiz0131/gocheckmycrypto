@@ -8057,11 +8057,13 @@ def _movers_board_html(snap, items):
         href = _mv.coin_href(r["symbol"], r["name"]) or f'/coins/{esc(str(r["symbol"]).lower())}.html'
         st = _coin_stories({"name": r["name"], "symbol": r["symbol"]}, [i for i in stories if _recent(i)], n=1)
         line = (f'<a href="/articles/{esc(st[0]["slug"])}.html">{esc(st[0].get("title") or "")}</a>, '
-                f'{esc(fmt_date(st[0].get("date")) if st[0].get("date") else "")}' if st else "No checked story yet.")
+                f'{esc(fmt_date(st[0].get("date")) if st[0].get("date") else "")}' if st else "")
+        # C-DONE (25 November 2026): a coin with no checked story prints no story line (twenty rows said "No checked
+        # story yet."); B0c's rule stands, a story older than seven days is not shown
         return (f'<li class="td-row"><span class="td-n"><a href="{esc(href)}">{esc(r["name"])}</a> '
                 f'<span class="td-w">{esc(r["symbol"])} &middot; #{esc(r["rank"])}</span></span>'
                 f'{_td._chg(r["chg_24h_pct"])}<span class="td-w">24 hours</span>'
-                f'<span class="td-w" style="flex-basis:100%">{line}</span></li>')
+                + (f'<span class="td-w" style="flex-basis:100%">{line}</span>' if line else "") + '</li>')
     stamp = (snap or {}).get("stamp_et") or ""
     out = ('<section class="mb" aria-label="Moving today"><div class="sec-head"><h2>Moving today, top 20</h2>'
            '<span class="bar"></span></div>'
