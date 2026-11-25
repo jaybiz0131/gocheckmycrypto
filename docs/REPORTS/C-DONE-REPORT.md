@@ -16,10 +16,10 @@ November 25: continue with all fixes and items; the target is above 8 of 10, pus
 | 4 | Clean | fixes merged, count of record pending | Crawl of stamp `3d286ab` (table below); fixes in merges 7, 9, 11. The count of record is the same crawl on the build that carries them. |
 | 5 | Whole | green but for one page, fixed in merge 11 | Stamp `a0153db`: all 368 sitemap pages at 375: tab bar present with five tabs on 368 of 368, each tab's target answers; horizontal overflow on 1 page (273 px, a long address in /articles/senate-fails-clarity-act-cloture-vote..., fixed in merge 11). Watchlist from a fresh device: hidden when empty; SOL pinned on /coins/sol; the home shows "SOL $67.74 -3.90%"; still there after a reload. Titles, descriptions and canonicals on 915 of 915 pages; /market-pulse 301 to /pulse; 368 sitemap URLs all 200; 12 dead internal links fixed in merge 7. |
 | 6 | Fast | green | Lighthouse 13.6.0 mobile on production stamp `a0153db`: home performance 97, accessibility 100; Board 100 and 100; a Brief 100 and 100 (`C-DONE-logs/lighthouse-production-a0153db.txt`). |
-| 7 | Taught | merged, production read pending | Merge 9. All twelve explainers read in full on Nov 25; 23 lines corrected (list in the merge's commit); each prints "Last reviewed November 25, 2026" from its own record; every tile's definition is on /learn and each Board reading's definition links its full explainer; Learn is in the nav. |
+| 7 | Taught | green | Merge 9. All twelve explainers read in full on Nov 25; 23 lines corrected (list in the merge's commit); each prints "Last reviewed November 25, 2026" from its own record; every tile's definition is on /learn and each Board reading's definition links its full explainer; Learn is in the nav. Production stamp `22f4c70`, read 7:58 AM ET: /learn/bitcoin-posture, /learn/leverage, /cold-storage and /crypto-tax print "Last reviewed November 25, 2026"; the live cards read "as of 7:51 AM ET on Nov 25, CoinGecko" and "..., OKX"; no "site build", no "last build", no "line 8z". |
 | 8 | Quiet | built, reads pending | Run sweep Nov 18 to Nov 25 09:26 UTC: 287 runs, 63 failures, all 63 the offline canary's stored-wire case, the last at 2026-11-22T01:00:48Z; 0 since. Health gate: 3 full runs (Nov 22, 23, 24), all "Healthy". Ignore rule: merge 2, proven (merges 2 and 4 canceled by Netlify). Publish-time gate: merge 4. Gap finding a warning, the week's spend, the gate's prices line: merge 5. Spend Nov 18 to 24: 11 runs, 581,208 tokens, $0.8590. The push-time canary on CI passed on every merge of this session (runs 458 to 465). Open: the first publishing run through the new gate (the 8:15 AM read), and the health gate's lateness (Jack's, below). |
-| 9 | Found | merged, production read pending | Merge 8. "By Crypto Cronkite" and a NewsArticle author of that name with the story's own published time; home title "Why crypto moved today: prices and big movers - GoCheckMyCrypto"; description names the Board, the big movers and "No hype"; About names Go Check My Brands LLC and nothing about method; Edition titles carry their date. |
-| 10 | Beautiful enough | in progress | Merges 1, 6 and 11. Before and after of production at 375 and 1440 under `C-DONE-shots/` (home, Board, a Brief). Still to read on the build that carries merge 11. |
+| 9 | Found | green | Merge 8. "By Crypto Cronkite" and a NewsArticle author of that name with the story's own published time; home title "Why crypto moved today: prices and big movers - GoCheckMyCrypto"; description names the Board, the big movers and "No hype"; About names Go Check My Brands LLC and nothing about method; Edition titles carry their date. Production stamp `22f4c70`, read 7:58 AM ET: the home's title and description as merged; the Nov 24 Brief reads "By Crypto Cronkite", its NewsArticle author is Crypto Cronkite, datePublished `2026-11-24T23:15:43Z`; About has the LLC and the byline and none of the method words; /edition/2026-11-24 is titled "Evening Brief, November 24, 2026 - GoCheckMyCrypto". |
+| 10 | Beautiful enough | in progress, two elements are Jack's | Merges 1, 6, 11 and 13. Before and after of production at 375 and 1440 under `C-DONE-shots/` (home, Board, a Brief). The red and white holds (light theme, read at both widths). **There is no hero photo and no scrim on production:** the poster files are in `site/assets/hero/` and nothing references them (open ruling J-2, "the board's default is none"). **The Chart Master and Whale Watch marks are not drawn anywhere** (`site/assets/marks/` is unreferenced), so they are not misused, and not used. Neither was added: no redesign. |
 
 ## Merges, in order
 
@@ -37,10 +37,18 @@ November 25: continue with all fixes and items; the target is above 8 of 10, pus
 | 9 | crypto | `70dcf4f` | `09865a7` | `767d3c2` | Point 7: every explainer read and corrected; "Last reviewed"; the Fear and Greed tile's band from the site's one table; the live card's own source. | Canary exit 0. `[skip netlify]`. |
 | 10 | crypto | `a63b2bd` | `a14449b` | `70dcf4f` | The story-lane ruling: 14 quiet days takes a lane off the home and the lane lists; its page says since when. | Canary exit 0. `[skip netlify]`. |
 | 11 | crypto | `01f4697` | `078a0e8` | `a63b2bd` | Points 4 and 10: nothing twice in the movers; four decimals under a dollar; the age in its stamp's ink; the empty Brief card; long addresses wrap. | Canary exit 0. `[skip netlify]`. |
+| 12 | crypto | `22f4c70` | `002399c` | `01f4697` | The scorecard after eleven merges, the handoff section (documents only). | Canary exit 0. **Built** (see the note below), stamp `22f4c70`, 12:54:11Z: it carried merges 7 to 11 to production. |
+| 13 | crypto | `28fe518` | `6dea1ea` | `22f4c70` | Points 3 and 4: /today/'s answer one short sentence per fact; no story line where there is no story. | Canary exit 0 on tree `d54cba1`. `[skip netlify]`. |
 
-Merges 7 to 11 ride the 8:15 AM read's build (one build, not five). Every push verified by hash (U-8): local equals
-origin, 0 ahead, each time. Built merges on Nov 25 ET: three (1, 3, 6), the day's share. Count of record (Worker
-`/counts/today`, Nov 25, read 6:55 AM ET): production ready 3, canceled 2.
+Every push verified by hash (U-8): local equals origin, 0 ahead, each time.
+
+**One build over the allowance on November 25, the desk's error.** Merges 7 to 11 carried `[skip netlify]` to ride the
+8:15 AM read's build. Merge 12, documents only, was pushed without the marker; Netlify's ignore rule compares against the
+last BUILT commit (`a0153db`), that diff held the five skipped merges' site files, and it built, correctly. So the day
+has four merge builds (1, 3, 6, 12) against a share of three, and with the morning read and the evening Brief it ends at
+six of five. The same trap as October 11 (`0c47b73`). From merge 13 on, every merge pushed while a skipped site commit
+is unbuilt carries the marker. Count of record (Worker `/counts/today`, Nov 25, read 7:57 AM ET): production ready 4,
+canceled 2.
 
 ## Re-pins, old to new
 
@@ -192,12 +200,16 @@ run, so it no longer runs on a schedule.
 
 ## Still open, in the order to take them
 
-1. "Next Brief tomorrow at 8:15 AM ET" is true when built and wrong after midnight; the masthead's date is the build's.
-2. The "no 24h figure" line on the All crypto tile.
-3. Run 565's flag closure and the janitor closing a live alarm (from the run sweep).
-4. The canary warnings `flows: stablecoin tile ... != by-exchange rows` and `why_evidence: ... TypeError`.
-5. /today/ and its dated twin share a title on the day; paginated hubs share theirs.
-6. The CoinLedger link carries an affiliate id that reads as a first name (`explainers.py`, visible on hover). Jack's.
+1. "Next Brief tomorrow at 8:15 AM ET" is true when built and wrong after midnight (Jack's, below: it is ruled wording).
+2. Run 565's flag closure and the janitor closing a live alarm (from the run sweep). Neither stops a run or a page.
+3. /today/ and its dated twin share a title on the day; paginated hubs share theirs.
+4. On November 23 and 24 a breaking run also published an Afternoon Brief, so those days carry two Briefs. Not touched
+   (the Brief and the watcher's cage are not this session's to change); named because the ruling says one a day.
+
+Closed since the last scorecard: both canary warnings that looked real are the canary's own negative tests ("a broken
+record draws no section and raises nothing"; "a tile that disagrees with its rows is caught"), so all 18 warnings of the
+Nov 24 run are fixtures and negative tests. The "no 24h figure" line on the All crypto tile is Sprint A's ruled wording
+for a withheld figure and stays.
 
 ## Jack's
 
@@ -208,6 +220,15 @@ run, so it no longer runs on a schedule.
    dispatch at 7:05 AM Eastern, and its test; the Worker's four test files pass with it). Apply and deploy:
    `cd gcm-newsroom && git apply ../gocheckmycrypto/docs/REPORTS/C-DONE-worker-health-dispatch.patch && cd slot-trigger
    && npx wrangler deploy`. Not applied to gcm-newsroom and not deployed by this desk.
+4. **"Next Brief tomorrow at 8:15 AM ET."** The line is right when the page is built and wrong after midnight, because
+   the page is static (you read it at 4:01 AM). One function writes it for the Brief card, /today/ and the verdict
+   notice, and its wording was ruled on October 20 (29 test cases pin it). Two options: (a) leave it; (b) name the day
+   instead of "tonight" and "tomorrow" ("Next Brief Thursday at 8:15 AM ET"), which stays true until the slot passes.
+   The desk recommends (b); it is one function and the 29 cases.
+5. **The hero photo and the section marks** (point 10): neither is on the site today (J-2 is still open at its default
+   of none). Say if either should come back; it is a design change, not a fix.
+6. **Section ledes under the copy law.** Whale Watch and The Brief each open with a paragraph that explains the section.
+   Chrome copy changes only by your ruling, so they were left.
 3. **The CoinLedger affiliate link** carries an id that reads as a first name; it shows on hover. Changing it changes
    who is paid, so it is yours.
 2. **The middle dot.** If the brief's "literal ·" means the separator itself and not an unrendered escape, say so: it is
