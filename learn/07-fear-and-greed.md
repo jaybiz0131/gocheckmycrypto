@@ -6,7 +6,8 @@ meta_description: What the crypto Fear and Greed index measures, why extreme rea
 target_queries: fear and greed index bitcoin; crypto fear and greed index today; fear and greed index explained; extreme greed crypto meaning
 related_tiles: bitcoin; leverage; market
 read_time: 4 min
-byline: The GoCheckMyCrypto desk
+byline: Crypto Cronkite
+last_reviewed: 2026-11-25
 live_embed: board.sentiment (index value, band label, change since yesterday, as-of stamp, source line). Template slot, filled at build.
 build_note: confirm the index source named in the copy (Alternative.me) against Markets configuration.
 ---

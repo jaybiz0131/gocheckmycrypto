@@ -6,7 +6,8 @@ meta_description: What the Bitcoin tile means by "above the 200-day" and "RSI st
 target_queries: bitcoin 200 day moving average; bitcoin rsi today; is bitcoin overbought; bitcoin above 200 day average meaning
 related_tiles: sentiment; leverage; etf_flows
 read_time: 5 min
-byline: The GoCheckMyCrypto desk
+byline: Crypto Cronkite
+last_reviewed: 2026-11-25
 live_embed: board.bitcoin (price, change since yesterday, position versus the 200-day average, RSI-14, as-of stamp, source line). Template slot, filled at build.
 ---
 

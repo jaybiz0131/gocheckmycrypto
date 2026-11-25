@@ -206,6 +206,7 @@ EXPLAINERS = [
         "blurb": "Exchange, hot wallet, or cold storage: who holds the keys in each, "
                  "what each one is for, and when a hardware wallet is worth buying.",
         "status": "published",
+        "reviewed": "2026-11-25",      # C-DONE point 7: set by hand when the page is read, never by the build
     },
     {
         "slug": "crypto-tax",
@@ -213,6 +214,7 @@ EXPLAINERS = [
         "blurb": "What creates a taxable event, what records to keep, and where people "
                  "most often get it wrong.",
         "status": "published",
+        "reviewed": "2026-11-25",      # C-DONE point 7: set by hand when the page is read, never by the build
     },
     {
         "slug": "onchain-flows",
@@ -220,6 +222,7 @@ EXPLAINERS = [
         "blurb": "What it means when whales move coins onto an exchange, what it does "
                  "not mean, and how our Whale Watch board computes it.",
         "status": "published",
+        "reviewed": "2026-11-25",      # C-DONE point 7: set by hand when the page is read, never by the build
     },
     {
         "slug": "counterfeit-devices",
@@ -227,6 +230,7 @@ EXPLAINERS = [
         "blurb": "How tampered devices and pre-filled recovery cards reach buyers, and "
                  "how to check the one you received.",
         "status": "published",
+        "reviewed": "2026-11-25",      # C-DONE point 7: set by hand when the page is read, never by the build
     },
 ]
 

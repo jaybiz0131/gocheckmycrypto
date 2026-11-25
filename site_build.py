@@ -4640,6 +4640,27 @@ def parse_explainer(path):
     return meta if meta["slug"] and meta.get("title") else None
 
 
+def reviewed_line(iso):
+    """'Last reviewed November 25, 2026' from a page's own record (its front matter, or explainers.EXPLAINERS), or ''
+    when the record carries no date. C-DONE point 7 (Jack, 24 November 2026): every explainer says when it was last
+    read against the site as it runs. The date is set by hand when the page is read, never by the build."""
+    try:
+        d = _dtmod.date.fromisoformat(str(iso or "").strip())
+    except ValueError:
+        return ""
+    return f"Last reviewed {d.strftime('%B')} {d.day}, {d.year}"
+
+
+def _with_reviewed(body, slug):
+    """A standalone explainer's body with its 'Last reviewed' line before the page's last section closes."""
+    import explainers
+    line = reviewed_line(next((e.get("reviewed") for e in explainers.EXPLAINERS if e["slug"] == slug), ""))
+    i = body.rfind("</section>")
+    if not line or i < 0:
+        return body
+    return body[:i] + f'<p class="data-stamp lx-reviewed">{esc(line)}</p>' + body[i:]
+
+
 def load_explainers():
     if not os.path.isdir(LEARN_DIR):
         return []
@@ -4773,7 +4794,8 @@ def render_explainer(meta, pulse, flows, items, dateline, tiles_by_key, by_tilek
   <div class="lx-meta"><span class="bd-eyebrow">{esc(task_name("learn"))}</span>
     <span class="bd-stamp">{esc(meta.get("byline") or "")}</span>
     <span class="bd-stamp">{esc((tile or {}).get("label") or meta.get("board_tile") or "")} tile</span>
-    <span class="bd-stamp">{esc(meta.get("read_time") or "")}</span></div>
+    <span class="bd-stamp">{esc(meta.get("read_time") or "")}</span>
+    {f'<span class="bd-stamp">{esc(reviewed_line(meta.get("last_reviewed")))}</span>' if reviewed_line(meta.get("last_reviewed")) else ""}</div>
   <h1 class="lx-h1">{esc(meta["title"])}</h1>
   {f'<p class="lx-dek">{_md_inline(dek)}</p>' if dek else ""}
   {_explainer_html(meta["body"], live, "")}
@@ -6262,7 +6284,7 @@ def render_crypto_tax(dateline):
     return shell(f"Crypto and tax, explained - {NAME}",
                  "What the IRS treats as a taxable event, what it does not, and why cost "
                  "basis is the hard part. United States federal tax only.",
-                 "", explainers.crypto_tax_body(), dateline, path="/crypto-tax.html")
+                 "", _with_reviewed(explainers.crypto_tax_body(), "crypto-tax"), dateline, path="/crypto-tax.html")
 
 
 def render_onchain_flows(dateline):
@@ -6273,7 +6295,7 @@ def render_onchain_flows(dateline):
     return shell(f"How to read on-chain flow data - {NAME}",
                  "What an exchange transfer indicates, what it does not, and how the "
                  "Whale Watch board classifies and nets large on-chain moves.",
-                 "", learn_pages.onchain_flows_body(), dateline,
+                 "", _with_reviewed(learn_pages.onchain_flows_body(), "onchain-flows"), dateline,
                  path="/onchain-flows.html")
 
 
@@ -6286,7 +6308,7 @@ def render_counterfeit_devices(dateline):
     return shell(f"Counterfeit hardware wallets - {NAME}",
                  "How tampered devices and pre-filled recovery cards reach buyers, what a "
                  "prepared device looks like, and how to verify the one you received.",
-                 "", explainers.counterfeit_devices_body(), dateline,
+                 "", _with_reviewed(explainers.counterfeit_devices_body(), "counterfeit-devices"), dateline,
                  path="/counterfeit-devices.html")
 
 
@@ -6394,7 +6416,7 @@ def render_cold_storage(dateline):
     return shell(f"Cold storage, explained - {NAME}",
                  "Exchange, hot wallet, or cold storage: who holds the keys in each, what "
                  "each is for, and when a hardware wallet is worth buying.",
-                 "", explainers.cold_storage_body(), dateline,
+                 "", _with_reviewed(explainers.cold_storage_body(), "cold-storage"), dateline,
                  path="/cold-storage.html")
 
 

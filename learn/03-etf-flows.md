@@ -6,7 +6,8 @@ meta_description: What spot Bitcoin ETF flows measure, why they move the market,
 target_queries: bitcoin etf flows today; spot bitcoin etf inflows; what are bitcoin etf flows; bitcoin etf outflows meaning
 related_tiles: whale_flows; stablecoins; bitcoin
 read_time: 5 min
-byline: The GoCheckMyCrypto desk
+byline: Crypto Cronkite
+last_reviewed: 2026-11-25
 live_embed: board.etf_flows (net daily figure, streak count, as-of stamp, source line). Template slot, filled at build.
 ---
 

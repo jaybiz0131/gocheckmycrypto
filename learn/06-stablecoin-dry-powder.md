@@ -6,7 +6,8 @@ meta_description: What the stablecoin supply tile measures, why dollars already 
 target_queries: stablecoin supply meaning; stablecoin supply; what is stablecoin market cap; usdt supply increase meaning
 related_tiles: etf_flows; market; whale_flows
 read_time: 4 min
-byline: The GoCheckMyCrypto desk
+byline: Crypto Cronkite
+last_reviewed: 2026-11-25
 live_embed: board.stablecoins (total stablecoin supply, change since yesterday, supply as a share of total market cap, as-of stamp, source line). Template slot, filled at build.
 ---
 

@@ -6,7 +6,8 @@ meta_description: What Whale Watch measures, why coins moving onto exchanges usu
 target_queries: bitcoin exchange inflows meaning; whale alert explained; crypto whale movements; exchange outflows bitcoin
 related_tiles: etf_flows; stablecoins; leverage
 read_time: 5 min
-byline: The GoCheckMyCrypto desk
+byline: Crypto Cronkite
+last_reviewed: 2026-11-25
 live_embed: board.whale_flows (net 24h flow, direction, largest single transfer, as-of stamp, source line). Template slot, filled at build.
 build_note: RESOLVED 2026-09-13. Threshold confirmed against whale_flows.py FALLBACK_MIN_USD = 50_000_000; copy now says $50 million, per ruling 0.4.
 ---

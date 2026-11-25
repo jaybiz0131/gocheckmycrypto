@@ -6,7 +6,8 @@ meta_description: What the whole-market number on Markets measures, why it is no
 target_queries: total crypto market cap; bitcoin dominance meaning; crypto market cap explained; what is bitcoin dominance
 related_tiles: bitcoin; stablecoins; sentiment
 read_time: 4 min
-byline: The GoCheckMyCrypto desk
+byline: Crypto Cronkite
+last_reviewed: 2026-11-25
 live_embed: board.market (total market cap, change since yesterday, Bitcoin dominance, as-of stamp, source line). Template slot, filled at build.
 ---
 

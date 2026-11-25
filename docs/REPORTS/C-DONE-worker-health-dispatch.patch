@@ -1,0 +1,80 @@
+diff --git a/slot-trigger/src/worker.js b/slot-trigger/src/worker.js
+index 524b872..3625dfb 100644
+--- a/slot-trigger/src/worker.js
++++ b/slot-trigger/src/worker.js
+@@ -107,6 +107,20 @@ function morningDue(now) {
+     ? [{ ...MORNING, offset: m - at < TICK_MINUTES ? 0 : MORNING_RETRY_MIN[1] }] : [];
+ }
+ 
++// THE CRYPTO HEALTH GATE, ON TIME (C-DONE, 25 November 2026). health.yml is a GitHub cron on purpose: it must still
++// mail on the day this Worker or its token is what failed, so its two cron lines stay. But GitHub started the gate's
++// runs of 22 to 24 November between 1:14 PM and 6:46 PM Eastern, 6 to 11 hours after their 7:03 AM line. The Worker
++// dispatches it at 7:05 AM Eastern as well. A dispatch always runs; health_gate.py stands every later run of the day
++// down ("today's gate already ran"), so the late cron costs about twenty seconds of runner and sends no second mail.
++const HEALTH = { repo: "gocheckmycrypto", wf: "health.yml", slot: null, offset: 0 };
++const HEALTH_ET = { hour: 7, minute: 5 };
++
++function healthDue(now) {
++  const { hour, minute } = easternParts(now);
++  const m = hour * 60 + minute, at = HEALTH_ET.hour * 60 + HEALTH_ET.minute;
++  return m >= at && m < at + TICK_MINUTES ? [{ ...HEALTH }] : [];
++}
++
+ // THE SPORTS SCORE CADENCE (N-1, 22 November 2026). scores-cadence.yml asks GitHub for a tick
+ // every ten minutes through the day's games and got 52 in eleven days, 4 to 6 a day: on Saturday
+ // 21 November the readings landed at 05:48, 17:23, 20:43 and 00:42 UTC, and at 3:43 PM ET the
+@@ -271,7 +285,7 @@ async function fireDue(now, env) {
+     console.log("slot-trigger: ACTIONS_API is not set; nothing dispatched");
+     return [];
+   }
+-  const due = [...dueNow(now), ...morningDue(now), ...watchersDue(now), ...inactivesDue(now), ...scoresDue(now)];
++  const due = [...dueNow(now), ...morningDue(now), ...healthDue(now), ...watchersDue(now), ...inactivesDue(now), ...scoresDue(now)];
+   const results = [];
+   for (const entry of due) {
+     let r;
+@@ -790,7 +804,7 @@ async function routeCounts(env, now, day) {
+   });
+ }
+ 
+-export const __test = { scoresDue, SCORES, morningDue, buildHooksDue, morningServed, fireDue, fireBuildHooks, CRYPTO_DAILY_ET, MORNING, etDateKey, safePetPath, jwsOk, classifyDeploy, routeDeployHook, routeGo,
++export const __test = { healthDue, HEALTH, scoresDue, SCORES, morningDue, buildHooksDue, morningServed, fireDue, fireBuildHooks, CRYPTO_DAILY_ET, MORNING, etDateKey, safePetPath, jwsOk, classifyDeploy, routeDeployHook, routeGo,
+                         routeCounts, routeHit, CLICK_KEYS, HIT_KEYS };
+ 
+ export default {
+@@ -847,7 +861,7 @@ export default {
+       token_status: health.status,
+       token_detail: health.why,
+       token_configured: Boolean(env.ACTIONS_API),
+-      due_this_tick: [...due, ...morningDue(now), ...watchersDue(now), ...inactivesDue(now), ...scoresDue(now)].map(d =>
++      due_this_tick: [...due, ...morningDue(now), ...healthDue(now), ...watchersDue(now), ...inactivesDue(now), ...scoresDue(now)].map(d =>
+         d.slot === null ? `${d.repo}/${d.wf.replace(".yml", "")}` : `${d.repo}/${d.slot}+${d.offset}m`),
+       morning: `${String(MORNING_ET.hour).padStart(2, "0")}:${String(MORNING_ET.minute).padStart(2, "0")} America/New_York ${MORNING.repo} ${MORNING.wf}`,
+       schedule: SCHEDULE.map(s =>
+diff --git a/slot-trigger/test/health.test.mjs b/slot-trigger/test/health.test.mjs
+new file mode 100644
+index 0000000..3bc2dcb
+--- /dev/null
++++ b/slot-trigger/test/health.test.mjs
+@@ -0,0 +1,22 @@
++// The health gate's dispatch. Run: node slot-trigger/test/health.test.mjs
++import { __test } from "../src/worker.js";
++const { healthDue, HEALTH } = __test;
++
++let pass = 0, fail = 0;
++const ok = (c, w) => { if (c) pass++; else { fail++; console.log("  FAIL " + w); } };
++const at = iso => new Date(iso);
++
++ok(healthDue(at("2026-11-26T12:05:00Z")).length === 1, "7:05 AM EST = 12:05Z fires");
++ok(healthDue(at("2026-11-26T12:09:00Z")).length === 1, "the tick's five minutes fire");
++ok(healthDue(at("2026-11-26T12:10:00Z")).length === 0, "7:10 AM EST does not");
++ok(healthDue(at("2026-11-26T11:05:00Z")).length === 0, "11:05Z in EST is 6:05 AM: does not fire");
++ok(healthDue(at("2026-07-14T11:05:00Z")).length === 1, "7:05 AM EDT = 11:05Z fires");
++ok(healthDue(at("2026-07-14T12:05:00Z")).length === 0, "12:05Z in EDT is 8:05 AM: does not fire");
++ok(HEALTH.repo === "gocheckmycrypto" && HEALTH.wf === "health.yml" && HEALTH.slot === null, "it dispatches the crypto health gate with no slot");
++for (const day of ["2026-07-14", "2026-11-26"]) {
++  let n = 0;
++  for (let t = Date.parse(day + "T00:00:00Z"); t < Date.parse(day + "T00:00:00Z") + 86400000; t += 300000) n += healthDue(new Date(t)).length;
++  ok(n === 1, `${day}: one health dispatch across 288 ticks, got ${n}`);
++}
++console.log(`health dispatch: ${pass} passed, ${fail} failed`);
++process.exit(fail ? 1 : 0);

@@ -6,7 +6,8 @@ meta_description: What the network tile measures, why fees spike, what mining di
 target_queries: bitcoin transaction fees today; sat/vb meaning; bitcoin mining difficulty explained; mempool explained
 related_tiles: whale_flows; bitcoin; market
 read_time: 5 min
-byline: The GoCheckMyCrypto desk
+byline: Crypto Cronkite
+last_reviewed: 2026-11-25
 live_embed: board.network (current fee rate in sat/vB, fee band label, difficulty and next adjustment, as-of stamp, source line). Template slot, filled at build.
 ---
 

@@ -6,7 +6,8 @@ meta_description: What open interest and funding rates measure, why they are the
 target_queries: funding rate explained; open interest crypto meaning; bitcoin funding rate today; what is open interest bitcoin
 related_tiles: bitcoin; sentiment; whale_flows
 read_time: 6 min
-byline: The GoCheckMyCrypto desk
+byline: Crypto Cronkite
+last_reviewed: 2026-11-25
 live_embed: board.leverage (open interest, change since yesterday, current funding rate, as-of stamp, source line). Template slot, filled at build.
 ---
 
