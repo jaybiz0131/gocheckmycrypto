@@ -694,6 +694,12 @@ def lanes_cases(fails):
         guarded(fails, "the quiet lane's own page prints the one line; the live lane's page does not",
                 lambda: qpage.count("Nothing new in this storyline since October 6, 2026.") == 1 and "Nothing new in this storyline" not in lpage
                 and "reg story 0" in qpage)
+        many = [story("reg", "regulation", 50, n) for n in range(sb.NEWS_PER_PAGE + 3)]
+        lane_many = {L["slug"]: L for L in sb._news_lane_index(many)[0]}["regulation-and-policy"]
+        title = lambda h: re.search(r"<title>(.*?)</title>", h, re.S).group(1)
+        t1, t2 = title(sb.render_news_lane(lane_many, 1, 2, "TEST")), title(sb.render_news_lane(lane_many, 2, 2, "TEST"))
+        guarded(fails, "a lane's second page says so in its title, so no two pages of a lane share one (three lanes did)",
+                lambda: t1 != t2 and ", page 2" in t2 and "page" not in t1.lower())
         recpage = sb.record_sections(items, home=False)
     finally:
         sb._build_now = keep

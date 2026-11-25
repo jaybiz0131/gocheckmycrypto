@@ -1,0 +1,185 @@
+C-DONE
+1. the home's left column from 1280: every block has its own cell
+  ok   the block list here is home.py's own (home.LEFT with the lead after the Brief card)
+  ok   'tape' is placed by a rule (a column and a row), never left to the browser's first free cell
+  ok   'lead' is placed by a rule (a column and a row), never left to the browser's first free cell
+  ok   'narrative' is placed by a rule (a column and a row), never left to the browser's first free cell
+  ok   'since' is placed by a rule (a column and a row), never left to the browser's first free cell
+  ok   'why' is placed by a rule (a column and a row), never left to the browser's first free cell
+  ok   'wire' is placed by a rule (a column and a row), never left to the browser's first free cell
+  ok   in the first column the blocks keep the page's own order, one row each, below the tape and the day's line: Brief card, top story, the wire
+  ok   Where Bitcoin stands fills the second column beside all of them (its rows run from the Brief card's to the wire's)
+2. the ignore rule: documents, review screenshots, reports and workflow files never build the site
+  ok   a commit of docs/REPORTS/C-DONE-REPORT.md alone does not build
+  ok   a commit of docs/REPORTS/C-DONE-shots/home-375-before.png alone does not build
+  ok   a commit of docs/HANDOFF.md alone does not build
+  ok   a commit of review/sprint-9-5b/home-1440.png alone does not build
+  ok   a commit of review/c-done/board-375.png alone does not build
+  ok   a commit of .github/workflows/health.yml alone does not build
+  ok   a commit of shots/a.png alone does not build
+  ok   a commit of scripts/cdone_test.py alone does not build
+  ok   a commit of HANDOFF-2026-08-17.md alone does not build
+  ok   a commit of site_build.py still builds
+  ok   a commit of market_pulse.py still builds
+  ok   a commit of netlify.toml still builds
+  ok   a commit of site/assets/system.css still builds
+  ok   a commit of site/content/2026-11-24-evening-brief.json still builds
+  ok   a commit of learn/what-is-bitcoin.md still builds
+  ok   a commit of scripts/og_render.py still builds
+  ok   a commit of site/data/pulse.json still builds
+  ok   a commit of home.py still builds
+  ok   a commit of a report beside a site file still builds (one site file is enough)
+  ok   the canary's read recorder walks review/ and .github/ too, so the list is proven against what a build opens
+3. fresh: the Board's stamp is its freshest read, an older section prints its own time
+  ok   every source answered: the fresh stamp is the snapshot's stamp, so nothing on the page changes
+  ok   prices and the whole market carried from 07:05: the fresh stamp is 12:16, the contract's oldest read stays 07:05
+  ok   the older sections are named once each with their own time (Prices, Whole market), and no fresh one is
+  ok   reads a few minutes apart in one run are one reading (the whale board is read a minute before the Board)
+  ok   the Fear and Greed tile, read at 12:16, prints 12:16 and not the carried prices' 07:05
+  ok   the Bitcoin tile, carried, prints its own 07:05 inline and carries that instant for the browser's age
+  ok   the Board's stamp line is the fresh read, with no stale banner over five fresh sections
+  ok   and it names the older sections on their own line, with their own instant: 'Prices and whole market as of 3:05 AM ET on Oct 16.'
+  ok   the home's Board line says the same in one sentence
+  ok   a section's own page stamps that section's own read (sentiment fresh, prices carried)
+  ok   the cadence is read from the schedule: the morning slot and the evening slot in Eastern time on the day
+  ok   the schedule's own record agrees (desk.json: the Worker dispatches at 23:08 UTC and 8:15 AM New York)
+  ok   every section 20 hours old: the stale banner, with the cadence from the schedule and no hand-typed 'several times a day'
+  ok   'several times a day' is in no banner the build can write (site_build.py's source)
+  ok   the evening read seen at 8:10 the next morning is inside the schedule's longest gap: no stale banner
+  ok   the same read at noon, a morning slot missed, is past it: the stale banner
+  ok   the ticker's vintage is the prices' own read, not the oldest section's (the ETF table carried a day)
+  ok   Why Bitcoin moved opens 'As of' the prices' read when only the ETF table is older
+  ok   a 429 asking for an hour is tried three times and waits no more than the bound between tries
+  ok   with CoinGecko refusing every history read, Bitcoin's averages come from the stored series, through its own date
+4. the publish-time gate: stored data cannot lock the desk, red code still stops the run
+  ok   scripts/canary_gate.py exists
+  ok   what a run commits is told from code: stories, boards, ledgers and queues are run-written
+  ok   and code, tests, fixtures, workflows, styles and the learn pages are not
+  ok   every path a workflow stages is on the run-written list (the list is the workflows' own)
+  ok   the last code commit is the newest one that changed something no run writes
+  ok   the verdict: green passes; red on HEAD's own code stops; red with the code green on its merge tree is data; red both times stops; no base stops
+  ok   red at HEAD's own code is never data, whatever a second run says (HEAD is the code under test)
+  ok   the failing cases are read from the canary's own lines, once each
+  ok   stand-in canary, green tree: the gate passes, exit 0
+  ok   stand-in canary, a run stored a bad line: the verdict is data, the run goes on (exit 0), the case is named
+  ok   the worktree it ran the code commit in is gone afterwards
+  ok   stand-in canary, the code itself broken at HEAD: wiring, the run stops (exit 1)
+  ok   stand-in canary, bad data on top of broken code: still wiring, the run stops, and the record says so
+  ok   crypto-news-brief.yml: the canary step runs the gate, prints its verdict after the quiet block, and leaves with the gate's status
+  ok   morning-read.yml: the canary step runs the gate, prints its verdict after the quiet block, and leaves with the gate's status
+  ok   the push-time check still runs the canary itself, hard (verify-crypto-pipeline.yml)
+5. quiet: an advisory finding warns, and the ledger states the week's spend
+  ok   two of three slots missed: the finding is a ::warning::, there is no ::error:: on the run
+  ok   and the gap issue is still filed and the status is still 3 (the workflow's last step reads it)
+  ok   the markets feed names the prices' own read beside the Board's oldest (the ETF table carried five hours)
+  ok   the health gate reads it: an ETF table carried seven hours is no 'prices were old' finding, prices carried seven hours is
+  ok   the week is seven Eastern days ending on the day named, each day present even when nothing ran
+  ok   a run is counted on its Eastern day (11:21 PM ET on the 24th is the 24th; 10:59 PM on the 17th is outside); the 24th has the breaking run, the Brief and the morning read
+  ok   the day's tokens and dollars add the Brief's row, the chart read on that row, the morning read and each verdict call once (a verdict run row is its calls' sum, not counted again)
+  ok   the week's totals are the days' sums, and the printed lines end with the total
+6. the answer first: the Board leads the home, nothing twice, the next dated event, no empty block
+  ok   the home's line is one sentence: Bitcoin since midnight ET with the read's time, and no price
+  ok   the full read /today/ prints keeps every fact: the price, the 24 hours, the money, the mood and the movers
+  ok   no ET-day open in the snapshot: the home has no such line (the tape's 24 hours is not printed again)
+  ok   a page built the next morning from last night's read has no such line either (it is not that day's midnight)
+  ok   on the home the long paragraph is gone (no card, no 'Spot Bitcoin ETFs took', no second Bitcoin price) and the line stands under the tape
+  ok   nothing today: the block is 'Next date', it names Monday, October 19 and both of that day's entries, and says nothing about an empty day
+  ok   an entry today: the block is 'Today' and lists today's only
+  ok   no dated entry ahead: no block at all, never an empty one
+  ok   at 375 the stylesheet orders the blocks: the tape, the day's line, the Brief card, the movers, the next date, then the rest
+  ok   the two columns give their blocks to one column at 375 (display:contents inside a flex column), so the order can cross them
+  ok   from 1280 the tape is the first row and the day's line the second, both full width; the verdict card follows
+  ok   an empty watchlist draws no block (the block is hidden while it holds only its empty line)
+7. clean and whole: no dead internal link, Eastern time on the Edition, no empty rail, outlets by name
+  ok   the check finds the two dead targets and does not read a script's string as a link
+  ok   unlink draws each dead link as its text (three anchors), keeps the markup inside it, and leaves the live link, the redirect and the outside link alone
+  ok   after it the same check finds nothing
+  ok   the build runs it last and the list of known dead links is empty (none is excused any more)
+  ok   an Edition's time is Eastern, on both sides of the clock change: 23:15 UTC is 6:15 PM ET in November and 7:15 PM ET in August
+  ok   no Edition page prints UTC or a place (the code holds neither)
+  ok   an empty rail is not drawn; a rail with stories is
+  ok   'Also reported by' names each outlet once and prints no lowercased headline and no note about itself
+  ok   a price under a cent prints its digits, never $0.00; other prices print as they did
+  ok   US spelling in the site's own copy (About, the on-chain explainer)
+8. found: the Crypto Cronkite byline and schema, the home's title and description, About, dated Edition titles
+  ok   a story stored under 'Crypto Cronkite' prints 'By Crypto Cronkite', once, and no other byline
+  ok   ...and its NewsArticle names the author Crypto Cronkite, with the story's own published time and the publisher
+  ok   a story stored under 'GoCheckMyCrypto' prints 'By Crypto Cronkite', once, and no other byline
+  ok   ...and its NewsArticle names the author Crypto Cronkite, with the story's own published time and the publisher
+  ok   a story stored under 'no name' prints 'By Crypto Cronkite', once, and no other byline
+  ok   ...and its NewsArticle names the author Crypto Cronkite, with the story's own published time and the publisher
+  ok   the Edition's byline is the same name
+  ok   an Edition page's title carries its date (70 shared 'Evening Brief - GoCheckMyCrypto')
+  ok   the home's title says it in a searcher's words, inside 70 characters: why crypto moved today, prices, big movers
+  ok   the description names what the site is: why crypto moved today, the Board, the big movers, no hype (inside 170 characters)
+  ok   About names Go Check My Brands LLC and the editor's byline
+  ok   About says nothing about method: no 'How we check' section or link, no word of checks, sources weighed, grading or review
+9. taught: a dated 'Last reviewed' line on every explainer, every tile's definition on /learn
+  ok   there are eight Board explainers, one per Board tile
+  ok   learn/01-bitcoin-posture.md: a 'last_reviewed' date in its own record, not in the future, and the editor's byline
+  ok   /learn/bitcoin-posture: the page prints it once ('Last reviewed <Month D, YYYY>')
+  ok   learn/01-bitcoin-posture.md: no word of how the page is made ('site build', 'rebuilds', 'the last build'), no 'several times a day', no UTC, no dash
+  ok   learn/01-bitcoin-posture.md: the read time is the page's own length at 220 words a minute, not a typed figure
+  ok   learn/02-market-cap-dominance.md: a 'last_reviewed' date in its own record, not in the future, and the editor's byline
+  ok   /learn/market-cap-dominance: the page prints it once ('Last reviewed <Month D, YYYY>')
+  ok   learn/02-market-cap-dominance.md: no word of how the page is made ('site build', 'rebuilds', 'the last build'), no 'several times a day', no UTC, no dash
+  ok   learn/02-market-cap-dominance.md: the read time is the page's own length at 220 words a minute, not a typed figure
+  ok   learn/03-etf-flows.md: a 'last_reviewed' date in its own record, not in the future, and the editor's byline
+  ok   /learn/etf-flows: the page prints it once ('Last reviewed <Month D, YYYY>')
+  ok   learn/03-etf-flows.md: no word of how the page is made ('site build', 'rebuilds', 'the last build'), no 'several times a day', no UTC, no dash
+  ok   learn/03-etf-flows.md: the read time is the page's own length at 220 words a minute, not a typed figure
+  ok   learn/04-whale-flows.md: a 'last_reviewed' date in its own record, not in the future, and the editor's byline
+  ok   /learn/whale-flows: the page prints it once ('Last reviewed <Month D, YYYY>')
+  ok   learn/04-whale-flows.md: no word of how the page is made ('site build', 'rebuilds', 'the last build'), no 'several times a day', no UTC, no dash
+  ok   learn/04-whale-flows.md: the read time is the page's own length at 220 words a minute, not a typed figure
+  ok   learn/05-leverage.md: a 'last_reviewed' date in its own record, not in the future, and the editor's byline
+  ok   /learn/leverage: the page prints it once ('Last reviewed <Month D, YYYY>')
+  ok   learn/05-leverage.md: no word of how the page is made ('site build', 'rebuilds', 'the last build'), no 'several times a day', no UTC, no dash
+  ok   learn/05-leverage.md: the read time is the page's own length at 220 words a minute, not a typed figure
+  ok   learn/06-stablecoin-dry-powder.md: a 'last_reviewed' date in its own record, not in the future, and the editor's byline
+  ok   /learn/stablecoin-dry-powder: the page prints it once ('Last reviewed <Month D, YYYY>')
+  ok   learn/06-stablecoin-dry-powder.md: no word of how the page is made ('site build', 'rebuilds', 'the last build'), no 'several times a day', no UTC, no dash
+  ok   learn/06-stablecoin-dry-powder.md: the read time is the page's own length at 220 words a minute, not a typed figure
+  ok   learn/07-fear-and-greed.md: a 'last_reviewed' date in its own record, not in the future, and the editor's byline
+  ok   /learn/fear-and-greed: the page prints it once ('Last reviewed <Month D, YYYY>')
+  ok   learn/07-fear-and-greed.md: no word of how the page is made ('site build', 'rebuilds', 'the last build'), no 'several times a day', no UTC, no dash
+  ok   learn/07-fear-and-greed.md: the read time is the page's own length at 220 words a minute, not a typed figure
+  ok   learn/08-network.md: a 'last_reviewed' date in its own record, not in the future, and the editor's byline
+  ok   /learn/network: the page prints it once ('Last reviewed <Month D, YYYY>')
+  ok   learn/08-network.md: no word of how the page is made ('site build', 'rebuilds', 'the last build'), no 'several times a day', no UTC, no dash
+  ok   learn/08-network.md: the read time is the page's own length at 220 words a minute, not a typed figure
+  ok   the Fear and Greed tile names its band from the site's one table, the one /learn prints (25 is Fear, whatever label the publisher sent)
+  ok   an explainer's live card names its own tile's source and read, not three sources on every page
+  ok   no explainer copy states a tax-form line number, a typed company count or a cross-exchange open interest the site does not read
+  ok   an explainer with no review date prints no such line (never an invented date)
+  ok   /cold-storage: a review date in its record and the line on the page, once, inside the page's main
+  ok   /crypto-tax: a review date in its record and the line on the page, once, inside the page's main
+  ok   /onchain-flows: a review date in its record and the line on the page, once, inside the page's main
+  ok   /counterfeit-devices: a review date in its record and the line on the page, once, inside the page's main
+  ok   every reading a tile can show has its anchored definition on /learn
+  ok   each of the nine Board readings' definitions links its full explainer
+10. story lanes: 14 quiet days takes a lane off the home and the lane lists; its page says since when
+  ok   the rule is 14 days: 13 days is live, 15 is quiet, no item at all is quiet
+  ok   the quiet line carries the date of the lane's last item, in Eastern time
+  ok   the home lists the live lane and not the quiet one (Regulation and policy, 50 days quiet); with every lane quiet it draws no block
+  ok   a live home lane is listed with its newest piece
+  ok   the news page's chips and sections carry the live lane only
+  ok   and it names each quiet lane once, with the date of its last item and a link to its page
+  ok   the quiet lane's own page prints the one line; the live lane's page does not
+  FAIL a lane's second page says so in its title, so no two pages of a lane share one (three lanes did)
+  ok   the Storylines page draws the live lane and not the quiet one
+11. polish: nothing twice in the movers, four decimals under a dollar, the age in its stamp's ink
+  ok   the fixture's top 20 rows are NEAR, ZEC and LINK, and its standouts hold ZEC and NEAR too
+  ok   a coin printed in the top 20 rows is not printed again in the standouts line; the others are
+  ok   a live price under a dollar prints four decimals like the build's, two from a dollar, six under a cent
+  ok   a reading's age prints in its stamp's own ink, not the alarm's red
+  ok   the Brief card that holds only the next slot draws no rule above it
+  ok   a long unbroken address in a paragraph or list wraps (overflow-wrap) on every page
+12. read well: /today/'s answer is one short sentence per fact; the movers board prints a story line only where there is one
+  ok   every sentence of the answer is short (under 30 words), starts with a capital, ends with a period and holds no semicolon
+  ok   the text is those sentences in order, each fact once: Bitcoin, the ETFs, the whales, funding, Fear and Greed, the movers
+  ok   when the top 20's biggest mover also leads the top 100, its name and figure print once
+  ok   a coin with no checked story prints no story line at all (never 'No checked story yet.' twenty times)
+  ok   a coin with a checked story from the last seven days still prints it, linked and dated
+C-DONE: FAIL (1 failing)
+  FAILING: a lane's second page says so in its title, so no two pages of a lane share one (three lanes did)
