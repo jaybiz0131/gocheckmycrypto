@@ -154,6 +154,83 @@ MARKET_SIGN_FLOOR = 0.5        # below this a move is too small to have a side
 MARKET_MIN_COINS = 50          # fewer Top 100 rows than this and the desk's own figure is not computed
 
 
+# THE BOARD'S STAMP IS ITS FRESHEST READ (Jack, 24 November 2026, C-DONE point 1). One refused source used to age
+# the whole Board: every tile wore the oldest read among the fields, so a 429 on CoinGecko put a stale mark over
+# sentiment, funding and the stablecoin float read seconds before. The Board's stamp is now the fresh read, and a
+# field read earlier prints its own time on its own tile. The reads of one run land a few minutes apart (the whale
+# board is read before the Board), so reads within FRESH_GROUP_MIN of the newest are one reading, stamped with the
+# oldest of them: no figure in the fresh group is older than the stamp says. `stamp_utc` stays the oldest read of
+# all, for every reader that needs the conservative instant.
+FRESH_GROUP_MIN = 30
+# the reader's name for the section a field belongs to, in the Board's order; several fields share one name
+FIELD_LABELS = (("coins", "Prices"), ("week", "Prices"), ("movers", "Prices"), ("dominance", "Whole market"),
+                ("total_cap", "Whole market"), ("etf_flows", "ETF flows"), ("whale_net", "Whale flows"),
+                ("funding", "Leverage"), ("open_interest", "Leverage"), ("stablecoin_float", "Stablecoin supply"),
+                ("fear_greed", "Fear and Greed"), ("network_fee", "Network fee"))
+
+
+def fresh_of(reads):
+    """The fresh group's stamp: the oldest read within FRESH_GROUP_MIN of the newest, or ''."""
+    dts = sorted((_utc(r), r) for r in reads if _utc(r))
+    if not dts:
+        return ""
+    newest = dts[-1][0]
+    return min(r for d, r in dts if (newest - d).total_seconds() <= FRESH_GROUP_MIN * 60)
+
+
+def _fresh(snap):
+    return (snap or {}).get("fresh_utc") or (snap or {}).get("stamp_utc") or ""
+
+
+def is_older(snap, field):
+    """True when a field was read before the Board's fresh group (it was carried from an earlier run)."""
+    r = _utc((((snap or {}).get("fields") or {}).get(field) or {}).get("read_utc"))
+    f = _utc(_fresh(snap))
+    return bool(r and f and r < f)
+
+
+def field_stamp(snap, field):
+    """The stamp a field's tile prints: the Board's fresh stamp, or the field's own when it was read earlier."""
+    if is_older(snap, field):
+        return stamp_et(snap["fields"][field]["read_utc"])
+    return (snap or {}).get("fresh_et") or (snap or {}).get("stamp_et") or ""
+
+
+def older(snap):
+    """[{label, read_utc, stamp_et}] for each section read before the fresh group, once each, in the Board's order."""
+    out, seen = [], set()
+    for field, label in FIELD_LABELS:
+        if label in seen or not is_older(snap, field):
+            continue
+        seen.add(label)
+        r = snap["fields"][field]["read_utc"]
+        out.append({"label": label, "read_utc": r, "stamp_et": stamp_et(r)})
+    return out
+
+
+def older_groups(rows):
+    """[(names, stamp_et, read_utc)]: the older sections that share one read are one sentence ('Prices and Whole
+    market'), in the Board's order. `rows` is older()'s list."""
+    out = []
+    for o in rows or []:
+        for g in out:
+            if g[2] == o["read_utc"]:
+                g[0].append(o["label"])
+                break
+        else:
+            out.append(([o["label"]], o["stamp_et"], o["read_utc"]))
+    said = []
+    for names, st, read in out:
+        low = [names[0]] + [n if n[:3] == "ETF" else n[0].lower() + n[1:] for n in names[1:]]
+        said.append((low[0] if len(low) == 1 else ", ".join(low[:-1]) + " and " + low[-1], st, read))
+    return said
+
+
+def older_note(snap):
+    """' Prices and whole market as of 3:05 AM ET on Oct 16.' for the older sections, or ''. One sentence per read."""
+    return "".join(f" {names} as of {st}." for names, st, _r in older_groups(older(snap)))
+
+
 def top100_change(coins):
     """The Top 100's own 24-hour change, from each coin's cap and its change: the cap a day
     ago is cap / (1 + change), and the group's change is today's total over that total.
@@ -311,8 +388,10 @@ def build(pulse, flows):
 
     reads = [f["read_utc"] for f in fields.values() if _utc(f["read_utc"])]
     stamp = min(reads) if reads else ""
+    fresh = fresh_of(reads)
     snap = {"contract": "one snapshot, every surface (5 October 2026)",
             "stamp_utc": stamp, "stamp_et": stamp_et(stamp),
+            "fresh_utc": fresh, "fresh_et": stamp_et(fresh),
             "board_coins": [c for c in BOARD_COINS if c in coins],
             "fields": fields}
     # THE STORED SERIES (6 October 2026). Not a reading and not in `fields`, so it never
@@ -558,6 +637,9 @@ def views(snap, pulse, flows):
         p["carried_forward"] = cf
         p["generated_utc"] = snap.get("stamp_utc") or p.get("generated_utc")
         p["snapshot_stamp_et"] = snap.get("stamp_et")
+        # C-DONE point 1: the Board's own stamp line reads the fresh group and names what is older
+        p["fresh_utc"] = _fresh(snap) or p.get("generated_utc")
+        p["older"] = older(snap)
     if f is not None:
         w = value(snap, "whale_net")
         vol = f.setdefault("volatile", {})

@@ -72,13 +72,17 @@ def lead(snap, deltas=None, now=None):
         return None
     # the read is dated by the snapshot it is written from, never by the build's clock: a snapshot carried from an
     # earlier day keeps its own day and time
+    # C-DONE point 1: the sentence opens on Bitcoin's price, so "As of" is the prices' own read (the coins field); the
+    # snapshot's oldest read stands in only when that field carries none
+    _read = ((((snap or {}).get("fields") or {}).get("coins") or {}).get("read_utc")
+             or (snap or {}).get("stamp_utc") or "")
     try:
-        day = _dt.datetime.strptime(str((snap or {}).get("stamp_utc") or ""), "%Y-%m-%dT%H:%M:%SZ").replace(
+        day = _dt.datetime.strptime(str(_read), "%Y-%m-%dT%H:%M:%SZ").replace(
             tzinfo=_dt.timezone.utc).astimezone(_ET).date()
     except ValueError:
         day = now.date()
     dateline = f"{day.strftime('%A, %B')} {day.day}"
-    stamp = (snap or {}).get("stamp_et") or ""
+    stamp = snapshot.stamp_et(_read) or (snap or {}).get("stamp_et") or ""
     clock = stamp.split(" on ")[0] if stamp else ""
 
     # sentence one: Bitcoin, since midnight ET (only when the snapshot's open is today's) and over 24 hours
