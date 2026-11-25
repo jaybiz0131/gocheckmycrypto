@@ -1209,17 +1209,14 @@ def record(items):
         if not it:
             continue
         if sb.lane_quiet(lane):
-            # SPRINT A, A6: a lane with nothing for three weeks says so rather than feature an old piece
-            lis.append(f'<li data-lane="{_e(slug)}"><span class="h-ln">{_e(name)}</span>'
-                       f'<span class="h-st">Quiet lane</span></li>')
+            # Jack, 24 November 2026: a lane with nothing new in 14 days comes off the home (site_build.LANE_QUIET_DAYS)
             continue
         lis.append(f'<li data-lane="{_e(slug)}"><span class="h-ln">{_e(name)}</span>'
                    f'<a href="/articles/{_e(it.get("slug"))}.html">{_e(it.get("title"))}</a>'
                    f'<span class="h-st">{_e(sb.fmt_date(it.get("date")) if it.get("date") else "")}'
                    f'</span></li>')
     if not lis:
-        return _block("record", '<p class="h-wait">Record has no pieces yet.</p>',
-                      _tn("record"))
+        return ""                # every home lane is quiet (or empty): no block, never an empty one
     return _block("record", f'<ul class="h-rec">{"".join(lis)}</ul>'
                             f'<p class="h-sub"><a href="/record.html">{_e(_tn("record"))}, in full</a></p>',
                   _tn("record"))
