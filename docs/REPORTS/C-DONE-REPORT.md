@@ -43,6 +43,7 @@ November 25: continue with all fixes and items; the target is above 8 of 10, pus
 | 15 | crypto | `3a19921` | `9e3778d` | `c517eb8` | Point 9: a lane's later pages carry their page number in the title; the crawl of record filed. | Canary exit 0 on the merged tree. `[skip netlify]`. |
 | 16 | crypto | `e9ec721` | `68d5fed` | `3a19921` | Point 3: the Morning Brief card opens on its one line; on a phone the long read is behind "The full read". | Canary exit 0 (`morning-card-gate.log`); the merged tree equals the gated tree. `[skip netlify]`. |
 | 17 | crypto | `74bab9d` | `9bed8c6` | `e9ec721` | Point 4: a story's Sources list names the outlet; no headline made from a link's address. | Canary exit 0 (`sources-gate.log`); the merged tree equals the gated tree. `[skip netlify]`. |
+| 18 | crypto | `620cce8` | `5f6968d` | `74bab9d` | The scorecard after seventeen merges (documents only). | The canary passed on `74bab9d`'s tree minutes before and this merge changes one document; the push-time canary on CI is run 473. `[skip netlify]`. |
 
 Every push verified by hash (U-8): local equals origin, 0 ahead, each time.
 
@@ -259,6 +260,12 @@ for a withheld figure and stays.
 5. IndexNow by hand for the URLs merges 7 to 17 changed: after the evening Brief's build, at the Nov 26 read.
 
 ## Jack's
+
+7. **The live stamp's third line** (point 3's margin). Under the tape the stamp keeps three lines below 521 px (J-11
+   rule 1, ruled October 20, so the live price landing moves nothing). At 375 the longest text it carries ("price live,
+   10:42 AM ET, range and chart as of 10:19 AM ET on Nov 25") takes two, so 18 px above the fold are blank and point 3
+   clears the fold by 3 px in the morning state. Two lines at 375 and wider, three under 360, would make that 21 px.
+   It is a ruled rule and a byte pin, so it was left; say the word and it is one line of CSS and its test.
 
 1. **The health gate runs late.** Its crons are 7:03 AM ET; GitHub started the six runs of Nov 22 to 24 between 1:14 PM
    and 6:46 PM ET. The gate is a GitHub cron on purpose (it must mail on the day the Worker fails), so the cron stays;
