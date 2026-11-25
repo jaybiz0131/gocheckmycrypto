@@ -193,13 +193,68 @@ def reported_ai_lines(feed, live):
     return [i["line"] for i in _reported(feed, live) if AI.search(i["line"])]
 
 
-def hard_ai_hits(feed, live, titles=None):
+# C-DONE (25 November 2026): THE STORED BRIEF'S SENTENCE ABOUT AN AI STORY IS PUBLISHED DATA TOO. N-1 excused a stored wire
+# line that carries an AI word. The morning read is written FROM that wire, so on November 25 its stored sentence ("the
+# Ethereum Foundation doubling its protocol security team as AI advances pose threat ...") turned the same scan red on
+# main, the fifth lock of the class. A stored Brief string is excused, and named in a warning, only when all three hold:
+# it carries no disclosure phrasing (AI_DISCLOSURE, which always fails); the stored wire carries an AI word in a line or a
+# source title; and the string shares BRIEF_SUBJECT_WORDS words of five letters or more with that wire entry, so one
+# shared token is never a subject. An AI mention the wire does not carry is the desk's own and still fails.
+BRIEF_TEXT_KEYS = ("title", "dek", "line", "bottom_line", "key_fact")
+BRIEF_SUBJECT_WORDS = 3
+
+
+def _stored_wire(wire=None):
+    if wire is not None:
+        return wire
+    try:
+        return json.load(open(os.path.join(HERE, "site", "data", "wire.json"), encoding="utf-8"))
+    except Exception:                                        # noqa: BLE001
+        return {}
+
+
+def _wire_ai_entries(wire):
+    """The stored wire's lines and source titles that carry an AI word, each as its set of long words."""
+    out = []
+    for it in (wire or {}).get("items") or []:
+        for s in [it.get("line")] + list(it.get("titles") or []):
+            if isinstance(s, str) and AI.search(s):
+                out.append({w for w in _words(s) if len(w) >= 5})
+    return out
+
+
+def _brief_strings(feed):
+    d = feed.get("data") if isinstance(feed, dict) else None
+    if not (isinstance(d, dict) and feed.get("name") == "brief/latest"):
+        return []
+    return [s for s in [d.get(k) for k in BRIEF_TEXT_KEYS] + list(d.get("sentences") or []) if isinstance(s, str)]
+
+
+def brief_reported(feed, wire=None):
+    """The stored Brief strings in `feed` that carry an AI word as the subject of a story the stored wire carries."""
+    entries = _wire_ai_entries(_stored_wire(wire))
+    out = []
+    for s in _brief_strings(feed):
+        if AI.search(s) and not AI_DISCLOSURE.search(s):
+            mine = {w for w in _words(s) if len(w) >= 5}
+            if any(len(mine & e) >= BRIEF_SUBJECT_WORDS for e in entries):
+                out.append(s)
+    return out
+
+
+def hard_ai_hits(feed, live, titles=None, wire=None):
     """N-1: the AI-word scan the canary FAILS on. Every rule of feed_prose stands; the one change is that a news line which is
-    verbatim a stored live wire line, with no disclosure phrasing, is read as published data (a warning), not as wiring."""
+    verbatim a stored live wire line, with no disclosure phrasing, is read as published data (a warning), not as wiring.
+    C-DONE: and a stored Brief string about an AI story the stored wire carries (brief_reported)."""
     keep = {id(i) for i in _reported(feed, live)}
     if keep:
         feed = dict(feed, data=dict(feed["data"], items=[dict(i, line="") if id(i) in keep else i
                                                           for i in feed["data"]["items"]]))
+    told = set(brief_reported(feed, wire))
+    if told:
+        d = feed["data"]
+        feed = dict(feed, data=dict(d, sentences=["" if s in told else s for s in d.get("sentences") or []],
+                                    **{k: ("" if d.get(k) in told else d.get(k)) for k in BRIEF_TEXT_KEYS}))
     return AI.search(feed_prose(feed, titles=titles))
 
 
@@ -1040,6 +1095,9 @@ def tree(root, expect_pages=False, with_browser=False):
             lambda: not any(DASH.search(json.dumps(f, ensure_ascii=False)) for f in allf.values())
             and not any(hard_ai_hits(f, _live) for n, f in allf.items() if n != "top100" and not n.startswith("coins/")))
     warn_reported([f for n, f in allf.items() if n == "news"], _live, "canary sprint 9.7")
+    for _s in (brief_reported(allf["brief/latest"]) if "brief/latest" in allf else []):
+        print(f"::warning::canary sprint 9.7: the stored Brief names AI as the subject of a story the stored wire carries "
+              f"(not a wiring fault; the next Brief replaces it): {_s[:160]}")
     guarded(fails, "'because' is in a verdict feed only where a Confirmed grade stands (the law of 16 October), and in no event title",
             lambda: all(not BECAUSE.search(json.dumps(f["data"].get("coins") or {})) or any(
                 c.get("grade") == "Confirmed" for c in (f["data"].get("coins") or {}).values() if isinstance(c, dict))

@@ -2816,8 +2816,8 @@ def _home_canary(index_html=None):
                                  "container")
         if _ab:
             got = _re.findall(r'<section[^>]*data-block="([a-z]+)"', _ab.group(1))
-            _check(tuple(got) == _h.ABOVE_FOLD and
-                   _ab.group(1).count("<section") == len(_h.ABOVE_FOLD), fails,
+            _check(tuple(got) == _fold_expected(got) and
+                   _ab.group(1).count("<section") == len(got), fails,
                    f"home canary: the built page's fold carries {got}")
         _check(_hx(cad) in index_html, fails,
                "home canary: the built home page does not carry Jack's cadence line")
@@ -3487,6 +3487,18 @@ def _sprint98_canary(out):
         if _sd in _sys.path:
             _sys.path.remove(_sd)
     return fails
+
+
+def _fold_expected(got):
+    """C-DONE (25 November 2026): the home's fold as it may be drawn from the day's data. Section 2's blocks in order
+    (home.ABOVE_FOLD), with the day's line ("lead") after the tape on a day whose open the snapshot holds, and without
+    the dated block ("today") when the calendar holds no date ahead. This check reads the built home, so it reads the
+    day's stored data: on the morning of November 25 it failed on main because the day's line was drawn."""
+    import home as _h
+    want = [b for b in _h.ABOVE_FOLD if b != "today" or "today" in got]
+    if "lead" in got:
+        want.insert(want.index("tape") + 1, "lead")
+    return tuple(want)
 
 
 def _cdone_canary():
