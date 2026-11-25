@@ -148,7 +148,7 @@ hr.rule{border:none;border-top:2px solid var(--rule);margin:0}
    everywhere it appears. [data-asof] is set by the stamp script; .is-stale is the dim. */
 .is-stale .tl-f,.is-stale .big,.is-stale .h-big,.is-stale .h-px{opacity:.62}
 tr.is-stale td{opacity:.62}
-.asof-age{color:var(--down);font-weight:700}
+.asof-age{color:inherit;font-weight:700}
 /* PLACED AFTER THE BASE .markets RULES ON PURPOSE. This block sat above them and
    every declaration in it was overridden: .markets .tick in a media query and
    .markets .tick outside one have the same specificity, so the later one wins and

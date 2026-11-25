@@ -38,6 +38,10 @@
   10. Story lanes (Jack's ruling of November 24). A lane with nothing new in 14 days comes off the home and off the
       lists that lead to lanes (the Storylines page, the news page's chips and sections); its own page prints one line
       with the date of its last item, and the news page names each quiet lane once with that date.
+  11. Polish (points 4 and 10): what a stranger still noticed. A coin in the top 20 rows is not printed again in the
+      standouts line. A live price under a dollar prints four decimals, as the build's does. A reading's age is in its
+      stamp's own ink (red is for the stale banner). The Brief card with nothing but the next slot draws no rule above
+      it. A long address in a story wraps instead of pushing the page wide at 375.
 
 Stdlib only.
   python3 scripts/cdone_test.py      # exit 1 on any failure, every failing case named
@@ -695,6 +699,32 @@ def lanes_cases(fails):
             and "Quiet lane" not in recpage)
 
 
+def polish_cases(fails):
+    print("11. polish: nothing twice in the movers, four decimals under a dollar, the age in its stamp's ink")
+    import home
+    import snapshot
+    snap = snapshot.build(_fx("pulse_2026-10-16T1216Z.json"), _fx("flows_2026-10-16T1216Z.json"))
+    blk = home.movers(snap)
+    rows = re.findall(r'<a href="/coins/[a-z0-9]+">([A-Z0-9]+)</a>', blk)
+    stand = re.search(r'<p class="h-stand">(.*?)</p>', blk, re.S).group(1)
+    guarded(fails, "the fixture's top 20 rows are NEAR, ZEC and LINK, and its standouts hold ZEC and NEAR too",
+            lambda: set(rows) == {"NEAR", "ZEC", "LINK"} and {"ZEC", "NEAR"} <= {c["symbol"] for c in snapshot.value(snap, "movers")["standouts"]})
+    guarded(fails, "a coin printed in the top 20 rows is not printed again in the standouts line; the others are",
+            lambda: not re.search(r"\b(ZEC|NEAR|LINK)\b", stand) and "BCH" in stand and "UNI" in stand)
+    js = home.HOME_JS
+    guarded(fails, "a live price under a dollar prints four decimals like the build's, two from a dollar, six under a cent",
+            lambda: "n>=1?2:(n>=0.01?4:6)" in js and js.count("n>=1?2:(n>=0.01?4:6)") == 2 and "n>=1?2:6" not in js)
+    site_css, system_css = read(os.path.join(HERE, "site", "assets", "site.css")), read(SYSTEM_CSS)
+    age = re.search(r"\.asof-age\{([^}]*)\}", site_css)
+    guarded(fails, "a reading's age prints in its stamp's own ink, not the alarm's red",
+            lambda: age and "color:inherit" in age.group(1) and "--down" not in age.group(1))
+    flat = re.sub(r"\s+", "", system_css)
+    guarded(fails, "the Brief card that holds only the next slot draws no rule above it",
+            lambda: "body.h-band.h-next:first-child{border-top:0;padding-top:0;margin-top:0!important}" in flat)
+    guarded(fails, "a long unbroken address in a paragraph or list wraps (overflow-wrap) on every page",
+            lambda: "bodymainp,bodymainli{overflow-wrap:break-word}" in flat)
+
+
 def unit():
     fails = []
     print("C-DONE")
@@ -709,6 +739,7 @@ def unit():
         found_cases(fails)
         taught_cases(fails)
         lanes_cases(fails)
+        polish_cases(fails)
     finally:
         for m in ("sprint95b_test", "sprint95b_fixture", "sprint95_test", "sprint94_test", "sprint93_test", "sprint92_test",
                   "canary_gate", "ops_ledger", "health_gate", "deadlinks"):

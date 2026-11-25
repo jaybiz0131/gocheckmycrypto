@@ -1,0 +1,17 @@
+plant 1: a coin in the rows is printed again in the standouts line
+  exit 1, 1 case(s) red
+    red: a coin printed in the top 20 rows is not printed again in the standouts line; the others are
+plant 2: a live price under a dollar prints six decimals again
+  exit 1, 1 case(s) red
+    red: a live price under a dollar prints four decimals like the build's, two from a dollar, six under a cent
+plant 3: a reading's age is red again
+  exit 1, 1 case(s) red
+    red: a reading's age prints in its stamp's own ink, not the alarm's red
+plant 4: the empty Brief card draws its rule again
+  exit 1, 1 case(s) red
+    red: the Brief card that holds only the next slot draws no rule above it
+plant 5: a long address pushes the page wide again
+  exit 1, 1 case(s) red
+    red: a long unbroken address in a paragraph or list wraps (overflow-wrap) on every page
+restored from the saved copies: exit 0
+PLANTS: ALL CAUGHT
