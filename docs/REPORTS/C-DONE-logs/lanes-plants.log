@@ -1,0 +1,27 @@
+plant 1: the rule is 21 days again
+  exit 1, 1 case(s) red
+    red: the rule is 14 days: 13 days is live, 15 is quiet, no item at all is quiet
+plant 2: the quiet line's date is the UTC day
+  exit 1, 1 case(s) red
+    red: the quiet line carries the date of the lane's last item, in Eastern time
+plant 3: the home lists a quiet lane again
+  exit 1, 1 case(s) red
+    red: the home lists the live lane and not the quiet one (Regulation and policy, 50 days quiet); with every lane quiet it draw
+plant 4: with every lane quiet the home draws an empty block
+  exit 1, 1 case(s) red
+    red: the home lists the live lane and not the quiet one (Regulation and policy, 50 days quiet); with every lane quiet it draw
+plant 5: the Storylines page draws a quiet lane's card
+  exit 1, 1 case(s) red
+    red: the Storylines page draws the live lane and not the quiet one
+plant 6: the news page gives a quiet lane a chip and a section
+  exit 1, 2 case(s) red
+    red: the news page's chips and sections carry the live lane only
+    red: and it names each quiet lane once, with the date of its last item and a link to its page
+plant 7: the news page stops naming the quiet lanes
+  exit 1, 1 case(s) red
+    red: and it names each quiet lane once, with the date of its last item and a link to its page
+plant 8: the quiet lane's own page says nothing
+  exit 1, 1 case(s) red
+    red: the quiet lane's own page prints the one line; the live lane's page does not
+restored from the saved copies: exit 0
+PLANTS: ALL CAUGHT

@@ -5382,7 +5382,12 @@ def _record_type(item, hub_slugs):
     return "Checked story"
 
 
-RECORD_QUIET_DAYS = 21     # Sprint A, A6: a lane with nothing newer than this shows "Quiet lane", not a featured piece
+# THE QUIET LANE (Jack, 24 November 2026, replacing Sprint A's 21 days and its "Quiet lane" card). A story lane with
+# nothing new in the last 14 days comes off the home and off the lists that lead to lanes (the Storylines page, the
+# news page's chips and sections); its own page prints one line with the date of its last item, and the news page
+# names each quiet lane once with that date, so every story is still one click from a list.
+LANE_QUIET_DAYS = 14
+RECORD_QUIET_DAYS = LANE_QUIET_DAYS      # the older name, kept for readers that use it
 
 _PASSED_FUTURE = re.compile(r"\b(will|would|is set to|are set to|set for|scheduled|expected to|targets?|ahead of|due on|"
                             r"closes in|opens on|upcoming|next week|next month)\b", re.I)
@@ -5415,12 +5420,27 @@ def drop_passed_future(text, now=None):
 
 
 def lane_quiet(lane_items, now=None):
-    """Sprint A, A6: True when the lane's newest live story is more than RECORD_QUIET_DAYS old (or it has none)."""
+    """True when the lane's newest live story is more than LANE_QUIET_DAYS old (or it has none)."""
     newest = max(((i.get("published_utc") or "") for i in (lane_items or [])), default="")
     d = _utc_dt(newest)
     if not d:
         return True
-    return ((now or _build_now()) - d).days > RECORD_QUIET_DAYS
+    return ((now or _build_now()) - d).days > LANE_QUIET_DAYS
+
+
+def lane_last(lane_items):
+    """'October 6, 2026': the Eastern date of the lane's newest item, or ''."""
+    d = _utc_dt(max(((i.get("published_utc") or "") for i in (lane_items or [])), default=""))
+    if not d:
+        return ""
+    e = d.astimezone(_ET)
+    return f"{e.strftime('%B')} {e.day}, {e.year}"
+
+
+def lane_quiet_line(lane_items):
+    """The one honest line a quiet lane's page prints."""
+    last = lane_last(lane_items)
+    return f"Nothing new in this storyline since {last}." if last else "Nothing in this storyline yet."
 
 
 def _record_inventory(items):
@@ -5479,12 +5499,8 @@ def _record_lane(slug, name, lane_items, hub_slugs, page=False, pool=None):
     if not lane_items:
         return ""
     if lane_quiet(lane_items):
-        # SPRINT A, A6: nothing in this lane for three weeks: the lane says so rather than feature an old piece
-        return (f'<section class="bd-rec-lane bd-rec-quiet" id="{esc(slug)}"><div class="bd-card bd-rec-feat">'
-                f'<div class="bd-cardtop"><span class="bd-eyebrow">{esc(name)}</span></div>'
-                f'<p class="bd-read" style="font-size:15px">Quiet lane</p>'
-                f'<div class="bd-brief-foot"><a class="bd-more" href="/news.html">All {esc(name.lower())}</a></div>'
-                f'</div></section>')
+        # a quiet lane is not drawn on the Storylines page or the home (LANE_QUIET_DAYS); the news page names it
+        return ""
     feat = lane_items[0]
     # UX-11 (C-6): one appearance per story per page. The lanes were deduped against
     # each other by _record_inventory, but a short lane borrows from the Record's own
@@ -5580,7 +5596,7 @@ def record_sections(items, home=True):
     # twice with the second appearance looking like the more important one.
     for _sl, _n, _t, _oh in RECORD_LANES:
         _li = by_lane.get(_sl) or []
-        if _li and (_oh or not home):
+        if _li and (_oh or not home) and not lane_quiet(_li):
             _claim(_li[0].get("slug"))
     lanes = "".join(
         _record_lane(slug, name, by_lane.get(slug) or [], hub_slugs, page=not home,
@@ -5798,8 +5814,7 @@ def render_news_hub(items, dateline, pulse=None):
     """/news.html (C4)."""
     lanes, rest, live = _news_lane_index(items)
     import datetime as _dt
-    cutoff = (_build_now() - _dt.timedelta(days=NEWS_RECENT_DAYS)).strftime("%Y-%m-%dT%H:%M:%SZ")
-    current = [L for L in lanes if L["items"] and (L["items"][0].get("published_utc") or "") >= cutoff]
+    current = [L for L in lanes if L["items"] and not lane_quiet(L["items"])]
     past = [L for L in lanes if L["items"] and L not in current]
 
     # Jump chips, in the same order the sections render.
@@ -5826,11 +5841,14 @@ def render_news_hub(items, dateline, pulse=None):
 
     past_html = ""
     if past:
+        # each quiet lane once: its name, the date of its last item, the door to its own page
+        rows_q = "".join(
+            f'<div class="nh-row"><a class="nh-t" href="/news/{esc(L["slug"])}.html">{esc(L["name"])}</a>'
+            f'<span class="nh-m"><span class="bd-stamp">{len(L["items"])} stories, nothing new since '
+            f'{esc(lane_last(L["items"]))}</span></span></div>' for L in past)
         past_html = (f'<section class="bd-mod"><div class="bd-sec"><div class="bd-sec-l">'
-                     f'<span class="bd-eyebrow">Past storylines</span>'
-                     f'<h2 class="bd-h2">Quiet for {NEWS_RECENT_DAYS} days or more</h2>'
-                     f'</div></div>'
-                     + "".join(_news_section(L, past=True) for L in past) + '</section>')
+                     f'<span class="bd-eyebrow">Quiet storylines</span>'
+                     f'</div></div><div class="nh-rows">{rows_q}</div></section>')
 
     body = f"""<main class="wrap"><section class="page">
   <h1 class="lx-h1" style="margin-bottom:6px">{esc(task_name("news"))}</h1>
@@ -5877,6 +5895,7 @@ def render_news_lane(lane, page, pages, dateline):
   <h1 class="lx-h1" style="margin-bottom:6px">{esc(lane["name"])}</h1>
   <p class="lx-dek">{len(lane["items"])} checked stories in this storyline.
      {f"Page {page} of {pages}." if pages > 1 else ""}</p>
+  {f'<p class="data-stamp">{esc(lane_quiet_line(lane["items"]))}</p>' if page == 1 and lane_quiet(lane["items"]) else ""}
   <div class="nh-rows">{"".join(_news_row(i) for i in rows)}</div>
   <div class="lx-actions">{"".join(nav)}</div>
 </section></main>"""

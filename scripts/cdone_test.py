@@ -35,6 +35,9 @@
      reviewed" line from its own record, under the editor's byline. Every reading a tile can show has its definition
      on /learn, and each Board reading's definition links its full explainer. No explainer says how the page was made
      ("the last build") or claims a cadence the schedule does not keep.
+  10. Story lanes (Jack's ruling of November 24). A lane with nothing new in 14 days comes off the home and off the
+      lists that lead to lanes (the Storylines page, the news page's chips and sections); its own page prints one line
+      with the date of its last item, and the news page names each quiet lane once with that date.
 
 Stdlib only.
   python3 scripts/cdone_test.py      # exit 1 on any failure, every failing case named
@@ -635,6 +638,63 @@ def taught_cases(fails):
                         for k in sb._READING_EXPLAINER) and len(sb._READING_EXPLAINER) == 9)
 
 
+def lanes_cases(fails):
+    print("10. story lanes: 14 quiet days takes a lane off the home and the lane lists; its page says since when")
+    import datetime as dt
+    import home
+    import site_build as sb
+    now = dt.datetime(2026, 11, 25, 12, 0, tzinfo=dt.timezone.utc)
+
+    # the desk's own tag rules read the title, so each fixture title carries its lane's words
+    TITLES = {"mining": "Bitcoin mining difficulty rises to a record", "reg": "SEC proposes a custody rule for crypto advisers",
+              "etf": "Spot Bitcoin ETF issuers report inflows", "defi": "A DeFi lending protocol pauses withdrawals"}
+
+    def story(slug, _tag, days_ago, n=0):
+        t = (now - dt.timedelta(days=days_ago, hours=n)).strftime("%Y-%m-%dT%H:%M:%SZ")
+        return {"slug": f"cdone-{slug}-{days_ago}-{n}", "title": f"{TITLES[slug]}, {slug} story {n}", "dek": "A dek.", "date": t[:10],
+                "published_utc": t, "category": "news", "verdict": "VERIFIED", "kind": "brief", "body": ["One."], "sources": []}
+    live = [story("mining", "bitcoin", 2, n) for n in range(6)]
+    quiet = [story("reg", "regulation", 50, n) for n in range(6)]
+    edge_in, edge_out = [story("etf", "etfs-funds", 13)], [story("defi", "defi", 15)]
+    guarded(fails, "the rule is 14 days: 13 days is live, 15 is quiet, no item at all is quiet",
+            lambda: sb.LANE_QUIET_DAYS == 14 and not sb.lane_quiet(edge_in, now) and sb.lane_quiet(edge_out, now)
+            and sb.lane_quiet([], now) and not sb.lane_quiet(live, now) and sb.lane_quiet(quiet, now))
+    guarded(fails, "the quiet line carries the date of the lane's last item, in Eastern time",
+            lambda: sb.lane_quiet_line(quiet) == "Nothing new in this storyline since October 6, 2026."
+            and sb.lane_quiet_line([dict(quiet[0], published_utc="2026-10-07T02:30:00Z")]) == "Nothing new in this storyline since October 6, 2026.")
+    keep = sb._build_now
+    sb._build_now = lambda: now
+    try:
+        items = live + quiet
+        rec = home.record(items)
+        guarded(fails, "the home lists the live lane and not the quiet one (Regulation and policy, 50 days quiet); with every lane quiet it draws no block",
+                lambda: 'data-lane="network-and-mining"' in rec and "Regulation and policy" not in rec and "Quiet lane" not in rec
+                and home.record(quiet) == "")
+        home_live = home.record([story("reg", "regulation", 1, n) for n in range(6)])
+        guarded(fails, "a live home lane is listed with its newest piece", lambda: 'data-lane="regulation-and-policy"' in home_live and "reg story 0" in home_live)
+        lanes, _rest, _live = sb._news_lane_index(items)
+        hub = sb.render_news_hub(items, "TEST")
+        main = hub[hub.find("<main"):hub.find("</main>")]
+        guarded(fails, "the news page's chips and sections carry the live lane only",
+                lambda: 'href="#network-and-mining"' in main and 'href="#regulation-and-policy"' not in main
+                and 'id="regulation-and-policy"' not in main and 'id="network-and-mining"' in main)
+        guarded(fails, "and it names each quiet lane once, with the date of its last item and a link to its page",
+                lambda: main.count('href="/news/regulation-and-policy.html"') == 1
+                and "Regulation and policy" in main and "since October 6, 2026" in main and "Quiet for 60 days" not in main)
+        by = {L["slug"]: L for L in lanes}
+        qpage = sb.render_news_lane(by["regulation-and-policy"], 1, 1, "TEST")
+        lpage = sb.render_news_lane(by["network-and-mining"], 1, 1, "TEST")
+        guarded(fails, "the quiet lane's own page prints the one line; the live lane's page does not",
+                lambda: qpage.count("Nothing new in this storyline since October 6, 2026.") == 1 and "Nothing new in this storyline" not in lpage
+                and "reg story 0" in qpage)
+        recpage = sb.record_sections(items, home=False)
+    finally:
+        sb._build_now = keep
+    guarded(fails, "the Storylines page draws the live lane and not the quiet one",
+            lambda: recpage is not None and 'id="network-and-mining"' in recpage and 'id="regulation-and-policy"' not in recpage
+            and "Quiet lane" not in recpage)
+
+
 def unit():
     fails = []
     print("C-DONE")
@@ -648,6 +708,7 @@ def unit():
         clean_cases(fails)
         found_cases(fails)
         taught_cases(fails)
+        lanes_cases(fails)
     finally:
         for m in ("sprint95b_test", "sprint95b_fixture", "sprint95_test", "sprint94_test", "sprint93_test", "sprint92_test",
                   "canary_gate", "ops_ledger", "health_gate", "deadlinks"):
