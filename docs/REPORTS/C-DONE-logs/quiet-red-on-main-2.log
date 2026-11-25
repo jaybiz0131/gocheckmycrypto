@@ -1,0 +1,12 @@
+5. quiet: an advisory finding warns, and the ledger states the week's spend
+  ok   two of three slots missed: the finding is a ::warning::, there is no ::error:: on the run
+  ok   and the gap issue is still filed and the status is still 3 (the workflow's last step reads it)
+  FAIL the markets feed names the prices' own read beside the Board's oldest (the ETF table carried five hours)
+  FAIL the health gate reads it: an ETF table carried seven hours is no 'prices were old' finding, prices carried seven hours is [AttributeError: module 'health_gate' has no attribute 'board_asof']
+  ok   the week is seven Eastern days ending on the day named, each day present even when nothing ran
+  ok   a run is counted on its Eastern day (11:21 PM ET on the 24th is the 24th; 10:59 PM on the 17th is outside); the 24th has the breaking run, the Brief and the morning read
+  ok   the day's tokens and dollars add the Brief's row, the chart read on that row, the morning read and each verdict call once (a verdict run row is its calls' sum, not counted again)
+  ok   the week's totals are the days' sums, and the printed lines end with the total
+C-DONE: FAIL (2 failing)
+  FAILING: the markets feed names the prices' own read beside the Board's oldest (the ETF table carried five hours)
+  FAILING: the health gate reads it: an ETF table carried seven hours is no 'prices were old' finding, prices carried seven hours is [AttributeError: module 'health_gate' has no attribute 'board_asof']

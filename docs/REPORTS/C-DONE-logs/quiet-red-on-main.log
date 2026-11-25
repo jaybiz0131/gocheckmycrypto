@@ -1,0 +1,83 @@
+C-DONE
+1. the home's left column from 1280: every block has its own cell
+  ok   the block list here is home.py's own (home.LEFT with the lead after the Brief card)
+  ok   'tape' is placed by a rule (a column and a row), never left to the browser's first free cell
+  ok   'narrative' is placed by a rule (a column and a row), never left to the browser's first free cell
+  ok   'lead' is placed by a rule (a column and a row), never left to the browser's first free cell
+  ok   'since' is placed by a rule (a column and a row), never left to the browser's first free cell
+  ok   'why' is placed by a rule (a column and a row), never left to the browser's first free cell
+  ok   'wire' is placed by a rule (a column and a row), never left to the browser's first free cell
+  ok   in the first column the blocks keep the page's own order, one row each, below the price line: Brief card, Why Bitcoin moved, the wire
+  ok   Where Bitcoin stands fills the second column beside all of them (its rows run from the Brief card's to the wire's)
+2. the ignore rule: documents, review screenshots, reports and workflow files never build the site
+  ok   a commit of docs/REPORTS/C-DONE-REPORT.md alone does not build
+  ok   a commit of docs/REPORTS/C-DONE-shots/home-375-before.png alone does not build
+  ok   a commit of docs/HANDOFF.md alone does not build
+  ok   a commit of review/sprint-9-5b/home-1440.png alone does not build
+  ok   a commit of review/c-done/board-375.png alone does not build
+  ok   a commit of .github/workflows/health.yml alone does not build
+  ok   a commit of shots/a.png alone does not build
+  ok   a commit of scripts/cdone_test.py alone does not build
+  ok   a commit of HANDOFF-2026-08-17.md alone does not build
+  ok   a commit of site_build.py still builds
+  ok   a commit of market_pulse.py still builds
+  ok   a commit of netlify.toml still builds
+  ok   a commit of site/assets/system.css still builds
+  ok   a commit of site/content/2026-11-24-evening-brief.json still builds
+  ok   a commit of learn/what-is-bitcoin.md still builds
+  ok   a commit of scripts/og_render.py still builds
+  ok   a commit of site/data/pulse.json still builds
+  ok   a commit of home.py still builds
+  ok   a commit of a report beside a site file still builds (one site file is enough)
+  ok   the canary's read recorder walks review/ and .github/ too, so the list is proven against what a build opens
+3. fresh: the Board's stamp is its freshest read, an older section prints its own time
+  ok   every source answered: the fresh stamp is the snapshot's stamp, so nothing on the page changes
+  ok   prices and the whole market carried from 07:05: the fresh stamp is 12:16, the contract's oldest read stays 07:05
+  ok   the older sections are named once each with their own time (Prices, Whole market), and no fresh one is
+  ok   reads a few minutes apart in one run are one reading (the whale board is read a minute before the Board)
+  ok   the Fear and Greed tile, read at 12:16, prints 12:16 and not the carried prices' 07:05
+  ok   the Bitcoin tile, carried, prints its own 07:05 inline and carries that instant for the browser's age
+  ok   the Board's stamp line is the fresh read, with no stale banner over five fresh sections
+  ok   and it names the older sections on their own line, with their own instant: 'Prices and whole market as of 3:05 AM ET on Oct 16.'
+  ok   the home's Board line says the same in one sentence
+  ok   a section's own page stamps that section's own read (sentiment fresh, prices carried)
+  ok   the cadence is read from the schedule: the morning slot and the evening slot in Eastern time on the day
+  ok   the schedule's own record agrees (desk.json: the Worker dispatches at 23:08 UTC and 8:15 AM New York)
+  ok   every section 20 hours old: the stale banner, with the cadence from the schedule and no hand-typed 'several times a day'
+  ok   'several times a day' is in no banner the build can write (site_build.py's source)
+  ok   the evening read seen at 8:10 the next morning is inside the schedule's longest gap: no stale banner
+  ok   the same read at noon, a morning slot missed, is past it: the stale banner
+  ok   the ticker's vintage is the prices' own read, not the oldest section's (the ETF table carried a day)
+  ok   Why Bitcoin moved opens 'As of' the prices' read when only the ETF table is older
+  ok   a 429 asking for an hour is tried three times and waits no more than the bound between tries
+  ok   with CoinGecko refusing every history read, Bitcoin's averages come from the stored series, through its own date
+4. the publish-time gate: stored data cannot lock the desk, red code still stops the run
+  ok   scripts/canary_gate.py exists
+  ok   what a run commits is told from code: stories, boards, ledgers and queues are run-written
+  ok   and code, tests, fixtures, workflows, styles and the learn pages are not
+  ok   every path a workflow stages is on the run-written list (the list is the workflows' own)
+  ok   the last code commit is the newest one that changed something no run writes
+  ok   the verdict: green passes; red on HEAD's own code stops; red with the code green on its merge tree is data; red both times stops; no base stops
+  ok   red at HEAD's own code is never data, whatever a second run says (HEAD is the code under test)
+  ok   the failing cases are read from the canary's own lines, once each
+  ok   stand-in canary, green tree: the gate passes, exit 0
+  ok   stand-in canary, a run stored a bad line: the verdict is data, the run goes on (exit 0), the case is named
+  ok   the worktree it ran the code commit in is gone afterwards
+  ok   stand-in canary, the code itself broken at HEAD: wiring, the run stops (exit 1)
+  ok   stand-in canary, bad data on top of broken code: still wiring, the run stops, and the record says so
+  ok   crypto-news-brief.yml: the canary step runs the gate, prints its verdict after the quiet block, and leaves with the gate's status
+  ok   morning-read.yml: the canary step runs the gate, prints its verdict after the quiet block, and leaves with the gate's status
+  ok   the push-time check still runs the canary itself, hard (verify-crypto-pipeline.yml)
+5. quiet: an advisory finding warns, and the ledger states the week's spend
+  FAIL two of three slots missed: the finding is a ::warning::, there is no ::error:: on the run
+  ok   and the gap issue is still filed and the status is still 3 (the workflow's last step reads it)
+  FAIL the week is seven Eastern days ending on the day named, each day present even when nothing ran
+  FAIL a run is counted on its Eastern day (11:21 PM ET on the 24th is the 24th; 10:59 PM on the 17th is outside) [TypeError: 'NoneType' object is not subscriptable]
+  FAIL the day's tokens and dollars add the Brief's row, the chart read on that row, the morning read and each verdict call once (a verdict run row is its calls' sum, not counted again) [TypeError: 'NoneType' object is not subscriptable]
+  FAIL the week's totals are the days' sums, and the printed lines end with the total [TypeError: 'NoneType' object is not subscriptable]
+C-DONE: FAIL (5 failing)
+  FAILING: two of three slots missed: the finding is a ::warning::, there is no ::error:: on the run
+  FAILING: the week is seven Eastern days ending on the day named, each day present even when nothing ran
+  FAILING: a run is counted on its Eastern day (11:21 PM ET on the 24th is the 24th; 10:59 PM on the 17th is outside) [TypeError: 'NoneType' object is not subscriptable]
+  FAILING: the day's tokens and dollars add the Brief's row, the chart read on that row, the morning read and each verdict call once (a verdict run row is its calls' sum, not counted again) [TypeError: 'NoneType' object is not subscriptable]
+  FAILING: the week's totals are the days' sums, and the printed lines end with the total [TypeError: 'NoneType' object is not subscriptable]

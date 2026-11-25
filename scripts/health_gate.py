@@ -99,6 +99,13 @@ def site_finding(now, built):
     return None
 
 
+def board_asof(markets):
+    """When the Board's prices were read: the feed's own prices_as_of_utc (C-DONE, 25 November 2026), or the
+    envelope's as_of_utc, the oldest read on the Board, for a build that predates the field."""
+    m = markets or {}
+    return utc((m.get("data") or {}).get("prices_as_of_utc")) or utc(m.get("as_of_utc"))
+
+
 def crypto_findings(now, built, brief_asof, board_asof, board_built):
     out = []
     f = site_finding(now, built)
@@ -276,10 +283,10 @@ def main(argv):
     if desk == "crypto":
         br, mk = feed(base, "brief/latest"), feed(base, "markets")
         findings = crypto_findings(now, built, utc((br or {}).get("as_of_utc")),
-                                   utc((mk or {}).get("as_of_utc")), utc((mk or {}).get("built_utc")))
+                                   board_asof(mk), utc((mk or {}).get("built_utc")))
         stamps = [f"| Site build | {et(built)} |",
                   f"| Newest Brief or morning read | {et(utc((br or {}).get('as_of_utc')))} |",
-                  f"| Board prices / built | {et(utc((mk or {}).get('as_of_utc')))} / {et(utc((mk or {}).get('built_utc')))} |"]
+                  f"| Board prices / built | {et(board_asof(mk))} / {et(utc((mk or {}).get('built_utc')))} |"]
     else:
         snaps = git_snapshots(since)
         findings = [f for f in [site_finding(now, built)] if f]
