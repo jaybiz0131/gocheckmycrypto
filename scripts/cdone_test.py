@@ -14,6 +14,9 @@
      code is red. scripts/canary_gate.py runs the canary again on the last code commit; green there means the red is
      data the desk stored since, and the run goes on with every case named in a warning. Proved in a throwaway git
      repository with a stand-in canary (said beside each case, U-10): the real canary is what the workflows run.
+  5. Quiet (point 8). The edition gap check's finding on a run that published is a warning, never an ::error::
+     annotation on a green run; the gap issue and the exit status are unchanged. The cost ledger states a week's spend
+     by Eastern day across the four ledgers the runs write (ops_ledger.week), from fixture rows.
 
 Stdlib only.
   python3 scripts/cdone_test.py      # exit 1 on any failure, every failing case named
@@ -323,6 +326,76 @@ def publish_gate_cases(fails):
             lambda: "run: python3 verify_pipeline.py canary" in read(os.path.join(HERE, ".github", "workflows", "verify-crypto-pipeline.yml")))
 
 
+def quiet_cases(fails):
+    print("5. quiet: an advisory finding warns, and the ledger states the week's spend")
+    import contextlib
+    import datetime as dt
+    import io
+    import json
+    import tempfile
+    import edition_check as ec
+    import ops_ledger as ol
+    keep = (ec.gap_hours, ec.slot_ledger, ec._flag_issue, ec.report_punctuality, ec.newest)
+    filed, buf = [], io.StringIO()
+    ec.gap_hours = lambda *a, **k: (50.0, {"date": "2026-11-20", "title": "The Evening Brief"})
+    ec.slot_ledger = lambda *a, **k: [("2026-11-21", "evening-brief", False), ("2026-11-22", "evening-brief", False),
+                                      ("2026-11-23", "evening-brief", True)]
+    ec._flag_issue, ec.report_punctuality, ec.newest = filed.append, (lambda *a, **k: None), (lambda *a, **k: None)
+    try:
+        with contextlib.redirect_stdout(buf):
+            rc = ec.main()
+    finally:
+        ec.gap_hours, ec.slot_ledger, ec._flag_issue, ec.report_punctuality, ec.newest = keep
+    out = buf.getvalue()
+    guarded(fails, "two of three slots missed: the finding is a ::warning::, there is no ::error:: on the run",
+            lambda: "::warning::edition_check: 1 of the last 3 closed slot windows served" in out and "::error::" not in out)
+    guarded(fails, "and the gap issue is still filed and the status is still 3 (the workflow's last step reads it)",
+            lambda: rc == 3 and len(filed) == 1)
+    # the health gate's Board line is about prices: it reads the prices' own read, not the oldest read on the Board
+    import api_feeds
+    import health_gate as hg
+    import snapshot
+    s_etf = snapshot.build(_carried(("etf_flows",)), _fx("flows_2026-10-16T1216Z.json"))
+    built = dt.datetime(2026, 10, 16, 12, 17, 20, tzinfo=dt.timezone.utc)
+    mk = api_feeds.markets_feed([], s_etf, built)
+    guarded(fails, "the markets feed names the prices' own read beside the Board's oldest (the ETF table carried five hours)",
+            lambda: mk["data"].get("prices_as_of_utc") == NEW and mk["as_of_utc"] == OLD)
+    guarded(fails, "the health gate reads it: an ETF table carried seven hours is no 'prices were old' finding, prices carried seven hours is",
+            lambda: hg.board_asof({"as_of_utc": "2026-10-16T05:00:00Z", "data": {"prices_as_of_utc": NEW}}) == hg.utc(NEW)
+            and hg.board_asof({"as_of_utc": "2026-10-16T05:00:00Z", "data": {}}) == hg.utc("2026-10-16T05:00:00Z")
+            and not [f for f in hg.crypto_findings(built, built, built, hg.board_asof(mk), built) if "prices were" in f]
+            and [f for f in hg.crypto_findings(built, built, built, hg.utc("2026-10-16T05:00:00Z"), built) if "prices were" in f])
+    with tempfile.TemporaryDirectory() as root:
+        os.makedirs(os.path.join(root, "data"))
+        json.dump({"since": "2026-09-16T16:27Z", "runs": [
+            {"t": "2026-11-18T03:59:00Z", "tokens": 100, "usd": 0.01},                                  # Nov 17, 10:59 PM ET: outside
+            {"t": "2026-11-18T23:10:00Z", "tokens": 70000, "usd": 0.09, "chartmaster_tokens": 14000, "chartmaster_usd": 0.02},
+            {"t": "2026-11-24T14:43:11Z", "tokens": 143294, "usd": 0.2142, "breaking": True},
+            {"t": "2026-11-25T04:21:08Z", "tokens": 75488, "usd": 0.0936, "chartmaster_tokens": 14216, "chartmaster_usd": 0.0265},  # Nov 24, 11:21 PM ET
+            {"t": "2026-11-25T05:30:00Z", "tokens": 9, "usd": 0.5}]},                                     # Nov 25 ET: outside
+            open(os.path.join(root, "ledger.json"), "w"))
+        json.dump([{"date": "2026-11-17", "tokens": 5, "usd": 0.3}, {"date": "2026-11-24", "outcome": "read", "tokens": 793, "usd": 0.0015}],
+                  open(os.path.join(root, "data", "morning-ledger.json"), "w"))
+        json.dump([{"kind": "call", "date": "2026-11-24", "t": "2026-11-24T14:39:29Z", "tokens": 366, "usd": 0.000732},
+                   {"kind": "call", "date": "2026-11-24", "t": "2026-11-24T14:39:30Z", "tokens": 530, "usd": 0.00012},
+                   {"kind": "run", "date": "2026-11-24", "t": "2026-11-24T14:38:10Z", "tokens": 896, "usd": 0.000852, "day_usd": 0.000852}],
+                  open(os.path.join(root, "data", "verdict-ledger.json"), "w"))
+        wk = ol.week(dt.date(2026, 11, 24), root=root) if hasattr(ol, "week") else None
+        lines = ol.week_lines(wk) if wk and hasattr(ol, "week_lines") else []
+    guarded(fails, "the week is seven Eastern days ending on the day named, each day present even when nothing ran",
+            lambda: wk and [d["day"] for d in wk["days"]] == ["2026-11-18", "2026-11-19", "2026-11-20", "2026-11-21",
+                                                               "2026-11-22", "2026-11-23", "2026-11-24"]
+            and wk["days"][1]["runs"] == 0 and wk["days"][1]["usd"] == 0)
+    guarded(fails, "a run is counted on its Eastern day (11:21 PM ET on the 24th is the 24th; 10:59 PM on the 17th is outside); the 24th has the breaking run, the Brief and the morning read",
+            lambda: wk["days"][6]["runs"] == 3 and wk["days"][0]["runs"] == 1)
+    guarded(fails, "the day's tokens and dollars add the Brief's row, the chart read on that row, the morning read and each verdict call once (a verdict run row is its calls' sum, not counted again)",
+            lambda: wk["days"][6]["tokens"] == 143294 + 75488 + 14216 + 793 + 366 + 530
+            and abs(wk["days"][6]["usd"] - (0.2142 + 0.0936 + 0.0265 + 0.0015 + 0.000732 + 0.00012)) < 1e-9)
+    guarded(fails, "the week's totals are the days' sums, and the printed lines end with the total",
+            lambda: wk["tokens"] == sum(d["tokens"] for d in wk["days"]) and abs(wk["usd"] - sum(d["usd"] for d in wk["days"])) < 1e-9
+            and len(lines) == 9 and lines[-1].startswith("  total") and "$0.4467" in lines[-1])
+
+
 def unit():
     fails = []
     print("C-DONE")
@@ -331,9 +404,10 @@ def unit():
         ignore_rule_cases(fails)
         fresh_cases(fails)
         publish_gate_cases(fails)
+        quiet_cases(fails)
     finally:
         for m in ("sprint95b_test", "sprint95b_fixture", "sprint95_test", "sprint94_test", "sprint93_test", "sprint92_test",
-                  "canary_gate"):
+                  "canary_gate", "ops_ledger", "health_gate"):
             sys.modules.pop(m, None)
     return fails
 

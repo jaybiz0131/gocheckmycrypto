@@ -215,7 +215,7 @@ def report_punctuality():
 def main():
     hours, ed = gap_hours()
     if hours is None:
-        common.gh("error", "edition_check: the desk has published NO daily edition at all.")
+        common.gh("warning", "edition_check: the desk has published NO daily edition at all.")
         return 0
 
     # Stories since the edition are what make a gap visible to a reader: the front page
@@ -250,7 +250,10 @@ def main():
              f"{(ed.get('title') or '')[:60]}), {since} story/stories published since "
              f"[tree HEAD: {head}]")
     if served < 2:
-        common.gh("error",
+        # A WARNING, NOT AN ERROR (C-DONE, 25 November 2026). This run published; the finding is about earlier slots.
+        # An ::error:: on a green run trains everyone to ignore annotations. The gap issue below is the loud part and
+        # the health gate is the mail; the status (3) still reaches the workflow's last step.
+        common.gh("warning",
                   f"edition_check: {msg}. The edition is supposed to run once a day "
                   f"and the workflow step is fail-open, so a broken edition is silent unless "
                   f"something counts the slots. Read the wrap step's log for the gate it failed.")

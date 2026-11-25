@@ -129,8 +129,11 @@ def markets_feed(tiles, snap, now):
     snap = snap or {}
     rows = [_tile_row(t, now) for t in (tiles or [])]
     as_of = snap.get("stamp_utc") or min((r["as_of_utc"] for r in rows if r["as_of_utc"]), default=None)
+    # C-DONE point 8: the prices' own read beside the envelope's oldest read, so the health gate's "prices were N
+    # hours old" line is about prices and a slow ETF table or fee read cannot write it
+    prices = ((snap.get("fields") or {}).get("coins") or {}).get("read_utc") or None
     return envelope("markets", "/pulse", as_of, now, sorted({r["source"] for r in rows}) or ["the Board's snapshot"],
-                    {"stamp_et": snap.get("stamp_et") or None, "tiles": rows})
+                    {"stamp_et": snap.get("stamp_et") or None, "prices_as_of_utc": prices, "tiles": rows})
 
 
 # ---- Big movers ------------------------------------------------------------------------------------------------

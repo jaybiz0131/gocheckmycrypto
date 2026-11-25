@@ -502,7 +502,57 @@ def tally_file(path=None):
     return 0
 
 
+def week(end=None, root=None):
+    """A WEEK'S SPEND, BY EASTERN DAY (C-DONE point 8, 25 November 2026). The seven Eastern days ending on `end`
+    (yesterday when not given), from the four ledgers the runs commit: ledger.json (each Brief and breaking run, with
+    the chart read's own spend on the same row), data/morning-ledger.json (the morning read) and
+    data/verdict-ledger.json (each verdict call; a "run" row there is its calls' sum and is not counted again).
+    No token, no network. Returns {"days": [{"day", "runs", "tokens", "usd"}], "tokens", "usd"}."""
+    root = root or REPO
+    if end is None:
+        from zoneinfo import ZoneInfo
+        end = (datetime.datetime.now(ZoneInfo("America/New_York")) - datetime.timedelta(days=1)).date()
+    days = [(end - datetime.timedelta(days=i)).isoformat() for i in range(6, -1, -1)]
+    agg = {d: {"day": d, "runs": 0, "tokens": 0, "usd": 0.0} for d in days}
+
+    def _load(*rel):
+        try:
+            return json.load(open(os.path.join(root, *rel), encoding="utf-8"))
+        except Exception:
+            return None
+
+    def add(day, tokens, usd, run=0):
+        if day in agg:
+            agg[day]["runs"] += run
+            agg[day]["tokens"] += int(tokens or 0)
+            agg[day]["usd"] += float(usd or 0.0)
+    for r in ((_load("ledger.json") or {}).get("runs") or []):
+        add(_et_day(r.get("t")), (r.get("tokens") or 0) + (r.get("chartmaster_tokens") or 0),
+            float(r.get("usd") or 0) + float(r.get("chartmaster_usd") or 0), run=1)
+    for r in (_load("data", "morning-ledger.json") or []):
+        add(str(r.get("date") or ""), r.get("tokens"), r.get("usd"), run=1)
+    for r in (_load("data", "verdict-ledger.json") or []):
+        if r.get("kind") == "call":
+            add(str(r.get("date") or "") or _et_day(r.get("t")), r.get("tokens"), r.get("usd"))
+    out = [agg[d] for d in days]
+    return {"days": out, "tokens": sum(d["tokens"] for d in out), "usd": sum(d["usd"] for d in out)}
+
+
+def week_lines(wk):
+    """The week as printed: a header, one line per Eastern day, the total."""
+    lines = ["  day (ET)    runs     tokens      spend"]
+    for d in wk["days"]:
+        lines.append(f"  {d['day']}  {d['runs']:4d}  {d['tokens']:9,d}  ${d['usd']:.4f}")
+    lines.append(f"  total       {sum(d['runs'] for d in wk['days']):4d}  {wk['tokens']:9,d}  ${wk['usd']:.4f}")
+    return lines
+
+
 if __name__ == "__main__":
+    if len(sys.argv) > 1 and sys.argv[1] == "--week":
+        # the seven Eastern days ending yesterday, or on the day named: python3 scripts/ops_ledger.py --week 2026-11-24
+        _end = datetime.date.fromisoformat(sys.argv[2]) if len(sys.argv) > 2 else None
+        print("\n".join(week_lines(week(_end))))
+        sys.exit(0)
     if len(sys.argv) > 1 and sys.argv[1] == "--health":
         # C-4: the first line of every report. Reads the Actions log for the day from
         # stdin as JSON (so it makes no network call of its own and is testable), or
