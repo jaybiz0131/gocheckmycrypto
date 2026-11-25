@@ -1,31 +1,31 @@
 {
- "line": "Bitcoin is drifting lower while spot ETFs saw inflows; the news is mostly stablecoins.",
- "by": "table",
- "written_utc": "2026-11-24T23:15:43Z",
- "written_et": "6:15 PM ET on Nov 24",
+ "line": "Markets shows extreme fear and outflows from Bitcoin ETFs as regulators globally tighten frameworks and security.",
+ "by": "edition",
+ "written_utc": "2026-11-25T13:18:42Z",
+ "written_et": "8:18 AM ET on Nov 25",
  "readings": {
-  "stamp_utc": "2026-11-24T23:12:59Z",
-  "btc_24h_pct": -2.29,
-  "etf_net_usd_m": 4.0,
+  "stamp_utc": "2026-11-25T13:17:03Z",
+  "btc_24h_pct": -2.0,
+  "etf_net_usd_m": -231.4,
   "etf_date": "24 Nov 2026",
-  "fear_greed": 11,
+  "fear_greed": 13,
   "fear_greed_band": "Extreme fear",
-  "funding_8h_pct": 0.0065,
+  "funding_8h_pct": 0.0069,
   "funding_band": "calm"
  },
- "small_line": "Written from Bitcoin -2.29% on the day, spot ETF net +4.0M USD (Nov 24, 2026), Fear & Greed 11 (extreme fear), funding +0.0065% per 8h (calm)",
+ "small_line": "Written from Bitcoin -2.00% on the day, spot ETF net -231.4M USD (Nov 24, 2026), Fear & Greed 13 (extreme fear), funding +0.0069% per 8h (calm)",
  "wire_top3": [
-  {
-   "id": "c012",
-   "line": "US Justice Department files to forfeit $1.1 billion in USDC stolen by North Korea in Binance hack; authorities have helped freeze."
-  },
   {
    "id": "c005",
    "line": "South Korea proposes lifting 2017 ICO ban with new disclosure requirements, and backing bank-controlled stablecoins."
   },
   {
-   "id": "c000",
-   "line": "CFTC staff guidance allows Bitcoin, Ethereum, and stablecoins to count toward US derivatives exchange and clearinghouse operating reserves."
+   "id": "c034",
+   "line": "Ethereum Foundation doubles protocol security team as AI advances pose more urgent threat than quantum computing to cryptographic systems."
+  },
+  {
+   "id": "c012",
+   "line": "US Justice Department files to forfeit $1.1 billion in USDC stolen by North Korea in Binance hack; authorities have helped freeze."
   }
  ],
  "crossed": []

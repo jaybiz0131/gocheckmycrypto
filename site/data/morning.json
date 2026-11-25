@@ -1,18 +1,17 @@
 {
- "date_et": "2026-11-24",
+ "date_et": "2026-11-25",
  "slot": "morning",
- "published_utc": "2026-11-24T13:18:45Z",
- "published_et": "8:18 AM ET on Nov 24",
- "headline": "Bitcoin lower as spot ETFs post half-billion outflow; fear index at extreme",
+ "published_utc": "2026-11-25T13:18:42Z",
+ "published_et": "8:18 AM ET on Nov 25",
+ "headline": "Bitcoin lower as spot ETFs see outflows; fear gauge at extreme",
  "headline_by": "model",
  "sentences": [
-  "Bitcoin lower over the past 24 hours as spot Bitcoin ETFs saw net outflows of $569.7M on the day, November 23.",
-  "Markets show the Fear & Greed index reads 11, extreme fear, while funding on Bitcoin perpetual futures is calm.",
-  "The wire's top line: CFTC published final rule requiring data reporting for certain event contracts, advancing regulatory framework for prediction markets."
+  "Bitcoin lower over the past 24 hours as spot Bitcoin ETFs saw net outflows of $231.4M on the day, November 24, with the Fear & Greed index reads 13, extreme fear.",
+  "The wire carries South Korea proposing to lift its 2017 ICO ban with new disclosure requirements and backing bank-controlled stablecoins, the Ethereum Foundation doubling its protocol security team as AI advances pose threat to cryptographic systems, and the US Justice Department filing to forfeit $1.1 billion in USDC stolen by North Korea in the Binance hack."
  ],
- "line": "Bitcoin retreats alongside heavy ETF outflows as fear grips sentiment, while futures funding remains steady and regulators formalize prediction market rules.",
+ "line": "Markets shows extreme fear and outflows from Bitcoin ETFs as regulators globally tighten frameworks and security.",
  "line_by": "edition",
- "tokens": 793,
- "usd": 0.0015,
+ "tokens": 1055,
+ "usd": 0.0019,
  "generated_by": "morning.py (one model call; copy law and twins gate)"
 }

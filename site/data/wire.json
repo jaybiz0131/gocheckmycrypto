@@ -3,39 +3,11 @@
  "what_a_wire_line_is": "Each line is the desk's own one-line summary of a story it ranked, with its sources counted and linked. It is not a story the desk wrote or checked; only the item with a badge was checked.",
  "ranked_utc": "2026-11-24T23:13:18Z",
  "ranked_et": "6:13 PM ET on Nov 24",
- "refreshed_utc": "2026-11-24T23:13:18Z",
- "refreshed_et": "6:13 PM ET on Nov 24",
- "refreshes": 0,
+ "refreshed_utc": "2026-11-25T13:18:41Z",
+ "refreshed_et": "8:18 AM ET on Nov 25",
+ "refreshes": 1,
  "snapshot_stamp_utc": "2026-11-24T23:12:59Z",
  "items": [
-  {
-   "rank": 1,
-   "id": "c012",
-   "line": "US Justice Department files to forfeit $1.1 billion in USDC stolen by North Korea in Binance hack; authorities have helped freeze.",
-   "titles": [
-    "U.S. seeks $1.1 billion seized in Binance hack as North Korean funds keep moving",
-    "US Strikes Back After $6 Billion Binance Hack"
-   ],
-   "board_reading": "Stablecoin supply",
-   "source_count": 2,
-   "primary": false,
-   "standing": "corroborated",
-   "links": [
-    {
-     "url": "https://www.coindesk.com/policy/2026/11/24/u-s-seeks-usd1-1-billion-seized-in-binance-hack-as-north-korean-funds-keep-moving",
-     "outlet": "CoinDesk",
-     "primary": false
-    },
-    {
-     "url": "https://u.today/us-strikes-back-after-6-billion-binance-hack",
-     "outlet": "U.Today",
-     "primary": false
-    }
-   ],
-   "reported_utc": "2026-11-24T10:58:51Z",
-   "verdict": "VERIFIED",
-   "mark": "checked"
-  },
   {
    "rank": 2,
    "id": "c005",
@@ -44,7 +16,7 @@
     "South Korea proposes ending 2017 ICO ban to boost jobs and onshore crypto investment"
    ],
    "board_reading": "Stablecoin supply",
-   "source_count": 2,
+   "source_count": 6,
    "primary": false,
    "standing": "corroborated",
    "links": [
@@ -57,11 +29,133 @@
      "url": "https://www.theblock.co/news/regulation/2026-11-24-south-korea-new-crypto-bill-445494",
      "outlet": "theblock.co",
      "primary": false
+    },
+    {
+     "url": "https://www.coindesk.com/policy/2026/11/24/south-korea-regulator-backs-bank-controlled-stablecoins-after-months-of-dispute",
+     "outlet": "CoinDesk",
+     "primary": false
+    },
+    {
+     "url": "https://decrypt.co/383905/south-korea-moves-lift-ico-ban-after-nearly-decade",
+     "outlet": "Decrypt",
+     "primary": false
+    },
+    {
+     "url": "https://bitcoinmagazine.com/videos/escape-velocity-coming-for-bitcoin-with-repeat-of-2017-cycle-michael-van-de-poppe",
+     "outlet": "Bitcoin Magazine",
+     "primary": false
+    },
+    {
+     "url": "https://cointelegraph.com/news/south-korea-crypto-bill-stablecoin-race-beyond-issuance?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+     "outlet": "Cointelegraph",
+     "primary": false
+    },
+    {
+     "url": "https://cointelegraph.com/news/how-south-koreas-proposed-20-cap-could-change-who-runs-upbit?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+     "outlet": "Cointelegraph",
+     "primary": false
+    },
+    {
+     "url": "https://cointelegraph.com/news/south-korea-draft-bill-crypto-innovation-user-protection?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+     "outlet": "Cointelegraph",
+     "primary": false
+    },
+    {
+     "url": "https://beincrypto.com/south-korea-ai-budget-2027/",
+     "outlet": "BeInCrypto",
+     "primary": false
     }
    ],
    "reported_utc": "2026-11-24T14:40:53Z",
    "verdict": "NEEDS-HUMAN-REVIEW",
    "mark": "wire"
+  },
+  {
+   "rank": 4,
+   "id": "c034",
+   "line": "Ethereum Foundation doubles protocol security team as AI advances pose more urgent threat than quantum computing to cryptographic systems.",
+   "titles": [
+    "Ethereum Foundation doubles protocol security team, calls AI a \u2018more urgent risk\u2019 than quantum",
+    "Ethereum Foundation Says AI Is a More Urgent Threat Than Quantum Computing",
+    "Ethereum Foundation doubles protocol security team ahead of overhaul"
+   ],
+   "board_reading": "Ether price",
+   "source_count": 6,
+   "primary": false,
+   "standing": "corroborated",
+   "links": [
+    {
+     "url": "https://www.theblock.co/news/ecosystems/2026-11-24-ethereum-foundation-doubles-protocol-security-team-calls-ai-a-more-urgent-risk-than-quantum-445497",
+     "outlet": "The Block",
+     "primary": false
+    },
+    {
+     "url": "https://decrypt.co/383927/ethereum-foundation-ai-more-urgent-threat-quantum-computing",
+     "outlet": "Decrypt",
+     "primary": false
+    },
+    {
+     "url": "https://cointelegraph.com/news/ethereum-foundation-doubles-protocol-security-team-amid-ai-quantum-overhaul?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+     "outlet": "Cointelegraph",
+     "primary": false
+    },
+    {
+     "url": "https://thedefiant.io/news/blockchains/ethereum-foundation-backs-keccak-256-for-quantum-shift",
+     "outlet": "The Defiant",
+     "primary": false
+    },
+    {
+     "url": "https://dailyhodl.com/2026/11/25/ethereum-foundation-says-ai-driven-crypto-upgrades-take-priority-over-quantum-threats/",
+     "outlet": "The Daily Hodl",
+     "primary": false
+    }
+   ],
+   "reported_utc": "2026-11-24T11:53:31Z",
+   "verdict": "VERIFIED",
+   "mark": "wire"
+  },
+  {
+   "rank": 1,
+   "id": "c012",
+   "line": "US Justice Department files to forfeit $1.1 billion in USDC stolen by North Korea in Binance hack; authorities have helped freeze.",
+   "titles": [
+    "U.S. seeks $1.1 billion seized in Binance hack as North Korean funds keep moving",
+    "US Strikes Back After $6 Billion Binance Hack"
+   ],
+   "board_reading": "Stablecoin supply",
+   "source_count": 5,
+   "primary": false,
+   "standing": "corroborated",
+   "links": [
+    {
+     "url": "https://www.coindesk.com/policy/2026/11/24/u-s-seeks-usd1-1-billion-seized-in-binance-hack-as-north-korean-funds-keep-moving",
+     "outlet": "CoinDesk",
+     "primary": false
+    },
+    {
+     "url": "https://u.today/us-strikes-back-after-6-billion-binance-hack",
+     "outlet": "U.Today",
+     "primary": false
+    },
+    {
+     "url": "https://decrypt.co/383874/justice-department-moves-to-forfeit-1-1b-in-usdc-from-north-koreas-binance-hack",
+     "outlet": "Decrypt",
+     "primary": false
+    },
+    {
+     "url": "https://u.today/us-moves-to-recover-11-billion-from-binance-hack-saylors-strategy-buys-457-btc-xrp-briefly-reclaims",
+     "outlet": "U.Today",
+     "primary": false
+    },
+    {
+     "url": "https://dailyhodl.com/2026/11/24/justice-department-pursues-forfeiture-of-1100000000-in-usdc-from-binance-hack/",
+     "outlet": "The Daily Hodl",
+     "primary": false
+    }
+   ],
+   "reported_utc": "2026-11-24T10:58:51Z",
+   "verdict": "VERIFIED",
+   "mark": "checked"
   },
   {
    "rank": 3,
@@ -92,40 +186,6 @@
     }
    ],
    "reported_utc": "2026-11-23T22:00:00Z",
-   "verdict": "VERIFIED",
-   "mark": "wire"
-  },
-  {
-   "rank": 4,
-   "id": "c034",
-   "line": "Ethereum Foundation doubles protocol security team as AI advances pose more urgent threat than quantum computing to cryptographic systems.",
-   "titles": [
-    "Ethereum Foundation doubles protocol security team, calls AI a \u2018more urgent risk\u2019 than quantum",
-    "Ethereum Foundation Says AI Is a More Urgent Threat Than Quantum Computing",
-    "Ethereum Foundation doubles protocol security team ahead of overhaul"
-   ],
-   "board_reading": "Ether price",
-   "source_count": 3,
-   "primary": false,
-   "standing": "corroborated",
-   "links": [
-    {
-     "url": "https://www.theblock.co/news/ecosystems/2026-11-24-ethereum-foundation-doubles-protocol-security-team-calls-ai-a-more-urgent-risk-than-quantum-445497",
-     "outlet": "The Block",
-     "primary": false
-    },
-    {
-     "url": "https://decrypt.co/383927/ethereum-foundation-ai-more-urgent-threat-quantum-computing",
-     "outlet": "Decrypt",
-     "primary": false
-    },
-    {
-     "url": "https://cointelegraph.com/news/ethereum-foundation-doubles-protocol-security-team-amid-ai-quantum-overhaul?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
-     "outlet": "Cointelegraph",
-     "primary": false
-    }
-   ],
-   "reported_utc": "2026-11-24T11:53:31Z",
    "verdict": "VERIFIED",
    "mark": "wire"
   },
