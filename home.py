@@ -495,9 +495,15 @@ def narrative_band(narr, snap, ed=None, now=None, morning=None):
     if m:
         eye = f'<p class="h-eye">{_e(brief_name(m))}</p>'
         head = f'<h2 class="h-bt">{_e(m.get("headline"))}</h2>'
-        body = f'<p class="h-nline">{_cites(_e(" ".join(m.get("sentences") or [])), m.get("date_et"))}</p>'
+        # C-DONE point 3 (25 November 2026): THE ONE LINE FIRST. The card stood 504 px tall at 375 with the morning read on
+        # it and pushed the movers under the fold. It opens on the read's one line; the long read follows, and on a phone
+        # sits behind "The full read" (a checkbox and its label, no script, the pattern the tables use). Every sentence
+        # stays on the page.
+        full = f'<p class="h-nline h-nbody">{_cites(_e(" ".join(m.get("sentences") or [])), m.get("date_et"))}</p>'
         line = (m.get("line") or "").strip()
-        body += f'<p class="h-nline h-nsum">{_e(line)}</p>' if line else ""
+        body = (f'<p class="h-nline h-nsum">{_e(line)}</p>'
+                f'<input type="checkbox" class="h-ncb" id="h-nfull">'
+                f'<label class="h-nmore" for="h-nfull">The full read</label>' + full) if line else full
         stamp = f'Written {_e(m.get("published_et") or "")}.'
         return _block("narrative", eye + head + body
                       + f'<p class="h-nsmall">{stamp}</p>'

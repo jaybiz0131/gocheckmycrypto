@@ -49,6 +49,9 @@
       November 25). A stored Brief sentence that names AI as the subject of a story the stored wire carries is
       published data and a warning, as N-1 ruled for the wire line itself; a disclosure, or an AI mention the wire
       does not carry, still fails. The home canary's fold list allows the day's line and the absent dated block.
+  14. The Morning Brief on a phone (point 3, read on production stamp b86cf1d). With the morning read on the card the
+      card stood 504 px tall at 375 and pushed the movers under the fold. The card opens on the read's one line; the
+      long paragraph follows it, and on a phone sits behind "The full read" (a checkbox and a label, no script).
 
 Stdlib only.
   python3 scripts/cdone_test.py      # exit 1 on any failure, every failing case named
@@ -817,6 +820,44 @@ def live_data_cases(fails):
             and exp(full + ["extra"]) != tuple(full + ["extra"]))
 
 
+def morning_card_cases(fails):
+    print("14. the Morning Brief on a phone: the one line first, the long read behind 'The full read'")
+    import datetime as dt
+    import home
+    now = dt.datetime(2026, 11, 25, 14, 0, tzinfo=dt.timezone.utc)
+    m = {"date_et": "2026-11-25", "slot": "morning", "published_utc": "2026-11-25T13:18:44Z", "published_et": "8:18 AM ET on Nov 25",
+         "headline": "Bitcoin lower as spot ETFs see outflows", "sentences": ["Bitcoin is lower over the past 24 hours.", "The wire carries three items."],
+         "line": "Markets shows extreme fear and outflows from Bitcoin ETFs."}
+    card = home.narrative_band({}, {}, None, now, m)
+    i = lambda s: card.index(s)
+    guarded(fails, "the card opens on the one line, then the toggle, then the long read, then the stamp and the link",
+            lambda: i('class="h-nline h-nsum"') < i('<input type="checkbox" class="h-ncb" id="h-nfull">')
+            < i('<label class="h-nmore" for="h-nfull">The full read</label>') < i('class="h-nline h-nbody"') < i('class="h-nsmall"') < i('href="/today/"'))
+    guarded(fails, "every sentence of the read is still on the page, once",
+            lambda: card.count("Bitcoin is lower over the past 24 hours. The wire carries three items.") == 1
+            and card.count("Markets shows extreme fear and outflows from Bitcoin ETFs.") == 1)
+    bare = home.narrative_band({}, {}, None, now, dict(m, line=""))
+    guarded(fails, "a read with no one line draws no toggle: the long read stands as it did",
+            lambda: "h-ncb" not in bare and "h-nmore" not in bare and 'class="h-nline h-nbody"' in bare)
+    flat = re.sub(r"\s+", "", read(SYSTEM_CSS))
+    phone = "".join(b for s, b in _css_rules("max-width:699.98px") for b in [s + "{" + b + "}"])
+    phone = re.sub(r"\s+", "", phone)
+    guarded(fails, "on a phone the long read is hidden until the box is checked, and the label is a 24 px target that goes when it is",
+            lambda: "body.h-band.h-ncb~.h-nbody{display:none}" in phone and "body.h-band.h-ncb:checked~.h-nbody{display:block" in phone
+            and "body.h-band.h-ncb:checked+.h-nmore{display:none}" in phone and "min-height:24px" in phone)
+    import sprint95b_test as s
+    rules = [(conds, re.sub(r"\s+", "", sel), re.sub(r"\s+", "", body)) for conds, sel, body in s.flatten(read(SYSTEM_CSS))]
+    is_phone = lambda conds: any("max-width:699.98px" in c for c in conds)
+    guarded(fails, "above a phone the toggle is not drawn: .h-nmore is display:none with no media condition",
+            lambda: any(not conds and sel == ".h-nmore" and "display:none" in body for conds, sel, body in rules))
+    guarded(fails, "above a phone the long read is always drawn: no rule hides .h-nbody outside the phone width",
+            lambda: all(is_phone(conds) for conds, sel, body in rules if "h-nbody" in sel and "display:none" in body)
+            and any(is_phone(conds) for conds, sel, body in rules if "h-nbody" in sel and "display:none" in body))
+    guarded(fails, "the box is hidden from the eye, not from the keyboard, and shows its focus on the label on a phone",
+            lambda: ".h-ncb{position:absolute;opacity:0;" in flat and ".h-ncb:focus-visible+.h-nmore{outline:" in phone
+            and not any(sel.endswith(".h-ncb") and "display:none" in body for conds, sel, body in rules))
+
+
 def unit():
     fails = []
     print("C-DONE")
@@ -834,6 +875,7 @@ def unit():
         polish_cases(fails)
         read_well_cases(fails)
         live_data_cases(fails)
+        morning_card_cases(fails)
     finally:
         for m in ("sprint95b_test", "sprint95b_fixture", "sprint95_test", "sprint94_test", "sprint93_test", "sprint92_test",
                   "canary_gate", "ops_ledger", "health_gate", "deadlinks", "sprint97_test", "sprint96_test"):
