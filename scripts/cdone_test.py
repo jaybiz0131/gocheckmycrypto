@@ -10,6 +10,10 @@
      refused source never ages the whole Board. The stale banner's window and cadence are read from the real schedule
      (home.MORNING_ET, home.EDITION_UTC), never typed. A 429's Retry-After cannot stall a build past a bound, and the
      stored series answers when CoinGecko refuses. Fixtures: fixtures/sprint91/pulse and flows of October 16, 12:16 UTC.
+  4. The publish-time gate (points 2 and 8). A red canary at the top of a publishing run stops the run only when the
+     code is red. scripts/canary_gate.py runs the canary again on the last code commit; green there means the red is
+     data the desk stored since, and the run goes on with every case named in a warning. Proved in a throwaway git
+     repository with a stand-in canary (said beside each case, U-10): the real canary is what the workflows run.
 
 Stdlib only.
   python3 scripts/cdone_test.py      # exit 1 on any failure, every failing case named
@@ -222,6 +226,103 @@ def fresh_cases(fails):
             and assets[0]["price"] == 81000.0 and any("BTC" in n and "429" in n for n in notes))
 
 
+def publish_gate_cases(fails):
+    print("4. the publish-time gate: stored data cannot lock the desk, red code still stops the run")
+    import json
+    import subprocess
+    import tempfile
+    try:
+        import canary_gate as cg
+    except ImportError:
+        cg = None
+    guarded(fails, "scripts/canary_gate.py exists", lambda: cg is not None)
+    if cg is None:
+        return
+    guarded(fails, "what a run commits is told from code: stories, boards, ledgers and queues are run-written",
+            lambda: all(cg.is_run_written(p) for p in ("site/content/2026-11-24-evening-brief.json", "site/data/wire.json",
+                                                       "site/data/today/2026-11-24-evening.json", "data/history/bitcoin.json",
+                                                       "data/verdict-ledger.json", "ledger.json", "editorial-log.json",
+                                                       "share-queue/2026-11-24.json", "regwatch.json")))
+    guarded(fails, "and code, tests, fixtures, workflows, styles and the learn pages are not",
+            lambda: not any(cg.is_run_written(p) for p in ("site_build.py", "verify_pipeline.py", "scripts/cdone_test.py",
+                                                           "fixtures/n1/wire-2026-11-12.json", ".github/workflows/watcher.yml",
+                                                           "site/assets/system.css", "learn/what-is-bitcoin.md", "netlify.toml",
+                                                           "desk.json", "prompts/editor.md", "config.json")))
+    every = set()
+    for wf in sorted(os.listdir(os.path.join(HERE, ".github", "workflows"))):
+        for m in re.finditer(r"git add ([^&|;\n]*)", read(os.path.join(HERE, ".github", "workflows", wf))):
+            every |= {a.strip('"') for a in m.group(1).split() if a not in ("-A", "\\") and not a.startswith("$") and a != '"$f"'}
+    guarded(fails, "every path a workflow stages is on the run-written list (the list is the workflows' own)",
+            lambda: len(every) >= 15 and all(cg.is_run_written(p.rstrip("/") + "/") or cg.is_run_written(p) for p in every))
+    log = [("r3", ["ledger.json"]), ("r2", ["site/content/a.json", "site/data/wire.json"]), ("c1", ["site_build.py", "site/data/pulse.json"]),
+           ("r1", ["ledger.json"]), ("c0", ["home.py"])]
+    guarded(fails, "the last code commit is the newest one that changed something no run writes",
+            lambda: cg.last_code_commit(log) == "c1" and cg.last_code_commit(log[:2]) is None
+            and cg.parse_log("@r3\n\nledger.json\n@c1\n\nsite_build.py\nsite/data/pulse.json\n") == [("r3", ["ledger.json"]), ("c1", ["site_build.py", "site/data/pulse.json"])])
+    guarded(fails, "the verdict: green passes; red on HEAD's own code stops; red with the code green on its merge tree is data; red both times stops; no base stops",
+            lambda: [cg.verdict(0, False, None), cg.verdict(1, True, None), cg.verdict(1, False, 0), cg.verdict(1, False, 1),
+                     cg.verdict(1, False, None)] == ["pass", "wiring", "data", "wiring", "wiring"])
+    guarded(fails, "red at HEAD's own code is never data, whatever a second run says (HEAD is the code under test)",
+            lambda: cg.verdict(1, True, 0) == "wiring")
+    guarded(fails, "the failing cases are read from the canary's own lines, once each",
+            lambda: cg.failing_cases("  ok   a\n  FAIL the news feed built from the stored wire passes the AI-word scan\n"
+                                     "::error::canary: hotfix 9.9h: the news feed built from the stored wire passes the AI-word scan\n"
+                                     "LAYER 1 CANARY: FAIL (2 problem(s)) -> promotion BLOCKED (exit 1)\n")
+            == ["the news feed built from the stored wire passes the AI-word scan",
+                "hotfix 9.9h: the news feed built from the stored wire passes the AI-word scan"])
+
+    # a throwaway repository with a STAND-IN canary (it fails when the stored wire holds the word BAD, or when the code says so)
+    def git(repo, *a):
+        return subprocess.run(["git", "-c", "user.name=t", "-c", "user.email=t@example.com", *a], cwd=repo, capture_output=True, text=True)
+    with tempfile.TemporaryDirectory() as repo:
+        os.makedirs(os.path.join(repo, "site", "data"))
+        stand_in = ("import sys\nbad = 'BAD' in open('site/data/wire.json').read()\nBROKEN = False\n"
+                    "if bad: print('  FAIL the stored wire holds no BAD line')\n"
+                    "if BROKEN: print('  FAIL the code is wired')\n"
+                    "print('LAYER 1 CANARY: ' + ('FAIL' if bad or BROKEN else 'PASS'))\nsys.exit(1 if bad or BROKEN else 0)\n")
+        open(os.path.join(repo, "verify_pipeline.py"), "w").write(stand_in)
+        open(os.path.join(repo, "site", "data", "wire.json"), "w").write('{"line": "fine"}')
+        git(repo, "init", "-q", "-b", "main"); git(repo, "add", "."); git(repo, "commit", "-q", "-m", "code, gated green")
+        cmd = [sys.executable, "verify_pipeline.py", "canary"]
+        keep = sys.stdout
+        sys.stdout = open(os.devnull, "w")
+        try:
+            green = cg.gate(repo, cmd)
+            open(os.path.join(repo, "site", "data", "wire.json"), "w").write('{"line": "BAD"}')
+            git(repo, "add", "site/data/wire.json"); git(repo, "commit", "-q", "-m", "brief: the run stored a line")
+            data = cg.gate(repo, cmd)
+            trees = git(repo, "worktree", "list").stdout.strip().splitlines()
+            open(os.path.join(repo, "verify_pipeline.py"), "w").write(stand_in.replace("BROKEN = False", "BROKEN = True"))
+            git(repo, "add", "verify_pipeline.py"); git(repo, "commit", "-q", "-m", "code, broken")
+            wiring = cg.gate(repo, cmd)
+            open(os.path.join(repo, "site", "data", "wire.json"), "w").write('{"line": "BAD again"}')
+            git(repo, "add", "site/data/wire.json"); git(repo, "commit", "-q", "-m", "brief: another line")
+            both = cg.gate(repo, cmd)
+        finally:
+            sys.stdout.close()
+            sys.stdout = keep
+        stored = json.load(open(os.path.join(repo, "out", "canary-gate.json")))
+    guarded(fails, "stand-in canary, green tree: the gate passes, exit 0", lambda: (green["verdict"], green["exit"]) == ("pass", 0))
+    guarded(fails, "stand-in canary, a run stored a bad line: the verdict is data, the run goes on (exit 0), the case is named",
+            lambda: (data["verdict"], data["exit"], data["canary_exit"], data["base_exit"]) == ("data", 0, 1, 0)
+            and data["cases"] == ["the stored wire holds no BAD line"])
+    guarded(fails, "the worktree it ran the code commit in is gone afterwards", lambda: len(trees) == 1)
+    guarded(fails, "stand-in canary, the code itself broken at HEAD: wiring, the run stops (exit 1)",
+            lambda: (wiring["verdict"], wiring["exit"]) == ("wiring", 1))
+    guarded(fails, "stand-in canary, bad data on top of broken code: still wiring, the run stops, and the record says so",
+            lambda: (both["verdict"], both["exit"], both["base_exit"]) == ("wiring", 1, 1) and stored["verdict"] == "wiring")
+    for wf in ("crypto-news-brief.yml", "morning-read.yml"):
+        y = read(os.path.join(HERE, ".github", "workflows", wf))
+        step = re.search(r"- name: Offline canary.*?(?=\n      - name:)", y, re.S)
+        guarded(fails, f"{wf}: the canary step runs the gate, prints its verdict after the quiet block, and leaves with the gate's status",
+                lambda step=step: step and "python3 scripts/canary_gate.py || rc=$?" in step.group(0)
+                and "python3 verify_pipeline.py canary" not in step.group(0)
+                and step.group(0).index('echo "::$token::"') < step.group(0).index("canary_gate.py --annotate")
+                and "exit $rc" in step.group(0))
+    guarded(fails, "the push-time check still runs the canary itself, hard (verify-crypto-pipeline.yml)",
+            lambda: "run: python3 verify_pipeline.py canary" in read(os.path.join(HERE, ".github", "workflows", "verify-crypto-pipeline.yml")))
+
+
 def unit():
     fails = []
     print("C-DONE")
@@ -229,8 +330,10 @@ def unit():
         lead_place_cases(fails)
         ignore_rule_cases(fails)
         fresh_cases(fails)
+        publish_gate_cases(fails)
     finally:
-        for m in ("sprint95b_test", "sprint95b_fixture", "sprint95_test", "sprint94_test", "sprint93_test", "sprint92_test"):
+        for m in ("sprint95b_test", "sprint95b_fixture", "sprint95_test", "sprint94_test", "sprint93_test", "sprint92_test",
+                  "canary_gate"):
             sys.modules.pop(m, None)
     return fails
 

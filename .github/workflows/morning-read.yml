@@ -56,8 +56,11 @@ jobs:
           token="canary-$RANDOM$RANDOM$RANDOM"
           echo "::stop-commands::$token"
           rc=0
-          python3 verify_pipeline.py canary || rc=$?
+          # C-DONE: the gate tells red code (the run stops) from data the desk stored since
+          # the last code commit (the run goes on, each case named); see crypto-news-brief.yml
+          python3 scripts/canary_gate.py || rc=$?
           echo "::$token::"
+          python3 scripts/canary_gate.py --annotate || true
           if [ "$rc" != "0" ]; then
             echo "::error::Offline canary FAILED (exit $rc): nothing runs until it passes."
           fi

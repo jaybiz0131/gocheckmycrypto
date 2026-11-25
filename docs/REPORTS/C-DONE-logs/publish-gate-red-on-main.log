@@ -1,0 +1,57 @@
+C-DONE
+1. the home's left column from 1280: every block has its own cell
+  ok   the block list here is home.py's own (home.LEFT with the lead after the Brief card)
+  ok   'tape' is placed by a rule (a column and a row), never left to the browser's first free cell
+  ok   'narrative' is placed by a rule (a column and a row), never left to the browser's first free cell
+  ok   'lead' is placed by a rule (a column and a row), never left to the browser's first free cell
+  ok   'since' is placed by a rule (a column and a row), never left to the browser's first free cell
+  ok   'why' is placed by a rule (a column and a row), never left to the browser's first free cell
+  ok   'wire' is placed by a rule (a column and a row), never left to the browser's first free cell
+  ok   in the first column the blocks keep the page's own order, one row each, below the price line: Brief card, Why Bitcoin moved, the wire
+  ok   Where Bitcoin stands fills the second column beside all of them (its rows run from the Brief card's to the wire's)
+2. the ignore rule: documents, review screenshots, reports and workflow files never build the site
+  ok   a commit of docs/REPORTS/C-DONE-REPORT.md alone does not build
+  ok   a commit of docs/REPORTS/C-DONE-shots/home-375-before.png alone does not build
+  ok   a commit of docs/HANDOFF.md alone does not build
+  ok   a commit of review/sprint-9-5b/home-1440.png alone does not build
+  ok   a commit of review/c-done/board-375.png alone does not build
+  ok   a commit of .github/workflows/health.yml alone does not build
+  ok   a commit of shots/a.png alone does not build
+  ok   a commit of scripts/cdone_test.py alone does not build
+  ok   a commit of HANDOFF-2026-08-17.md alone does not build
+  ok   a commit of site_build.py still builds
+  ok   a commit of market_pulse.py still builds
+  ok   a commit of netlify.toml still builds
+  ok   a commit of site/assets/system.css still builds
+  ok   a commit of site/content/2026-11-24-evening-brief.json still builds
+  ok   a commit of learn/what-is-bitcoin.md still builds
+  ok   a commit of scripts/og_render.py still builds
+  ok   a commit of site/data/pulse.json still builds
+  ok   a commit of home.py still builds
+  ok   a commit of a report beside a site file still builds (one site file is enough)
+  ok   the canary's read recorder walks review/ and .github/ too, so the list is proven against what a build opens
+3. fresh: the Board's stamp is its freshest read, an older section prints its own time
+  ok   every source answered: the fresh stamp is the snapshot's stamp, so nothing on the page changes
+  ok   prices and the whole market carried from 07:05: the fresh stamp is 12:16, the contract's oldest read stays 07:05
+  ok   the older sections are named once each with their own time (Prices, Whole market), and no fresh one is
+  ok   reads a few minutes apart in one run are one reading (the whale board is read a minute before the Board)
+  ok   the Fear and Greed tile, read at 12:16, prints 12:16 and not the carried prices' 07:05
+  ok   the Bitcoin tile, carried, prints its own 07:05 inline and carries that instant for the browser's age
+  ok   the Board's stamp line is the fresh read, with no stale banner over five fresh sections
+  ok   and it names the older sections on their own line, with their own instant: 'Prices and whole market as of 3:05 AM ET on Oct 16.'
+  ok   the home's Board line says the same in one sentence
+  ok   a section's own page stamps that section's own read (sentiment fresh, prices carried)
+  ok   the cadence is read from the schedule: the morning slot and the evening slot in Eastern time on the day
+  ok   the schedule's own record agrees (desk.json: the Worker dispatches at 23:08 UTC and 8:15 AM New York)
+  ok   every section 20 hours old: the stale banner, with the cadence from the schedule and no hand-typed 'several times a day'
+  ok   'several times a day' is in no banner the build can write (site_build.py's source)
+  ok   the evening read seen at 8:10 the next morning is inside the schedule's longest gap: no stale banner
+  ok   the same read at noon, a morning slot missed, is past it: the stale banner
+  ok   the ticker's vintage is the prices' own read, not the oldest section's (the ETF table carried a day)
+  ok   Why Bitcoin moved opens 'As of' the prices' read when only the ETF table is older
+  ok   a 429 asking for an hour is tried three times and waits no more than the bound between tries
+  ok   with CoinGecko refusing every history read, Bitcoin's averages come from the stored series, through its own date
+4. the publish-time gate: stored data cannot lock the desk, red code still stops the run
+  FAIL scripts/canary_gate.py exists
+C-DONE: FAIL (1 failing)
+  FAILING: scripts/canary_gate.py exists
