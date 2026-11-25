@@ -294,8 +294,11 @@ def front_cases(fails):
     guarded(fails, "with a graded card: it is the first element of the home's first column, before the tape",
             lambda: re.search(r'<div class="h-l"><aside class="vd[^"]*" data-vd="BTC"', card) is not None
             and card.index("<aside") < card.index('data-block="tape"'))
+    # C-DONE (Jack, 24 November 2026): with nothing dated ahead the dated block is not drawn (an empty day is not a section), so the
+    # order is section 2's less that block when the fixture's calendar is empty
+    _fold = lambda h: tuple(b for b in home.ABOVE_FOLD if b != "today" or 'data-block="today"' in h)
     guarded(fails, "with a graded card: the ten blocks keep section 2's order after it",
-            lambda: tuple(re.findall(r'data-block="([a-z]+)"', card)) == home.ABOVE_FOLD)
+            lambda: tuple(re.findall(r'data-block="([a-z]+)"', card)) == _fold(card))
     tape = re.search(r'<section class="h-b h-tape" data-block="tape">.*?</section>', card, re.S).group(0)
     guarded(fails, "Bitcoin is one line: the tape block holds the price, the 24-hour change and the stamp, and no chart, no tile",
             lambda: "<svg" not in tape and "h-chart" not in tape and "h-coins" not in tape and 'class="h-bline' in tape
@@ -313,7 +316,7 @@ def front_cases(fails):
     guarded(fails, "with no verdict record (the same Board): the card's place carries the no-read notice, first; the tape's line is "
                    "next, the Brief card after it",
             lambda: re.search(r'<div class="h-l"><aside class="vd vd-next" data-vd="BTC" data-vd-kind="no_read"', none) is not None
-            and tuple(re.findall(r'data-block="([a-z]+)"', none)) == home.ABOVE_FOLD
+            and tuple(re.findall(r'data-block="([a-z]+)"', none)) == _fold(none)
             and none.index('data-block="tape"') < none.index('data-block="narrative"')
             and none.index("<aside") < none.index('data-block="tape"'))
     withheld = copy.deepcopy(v)

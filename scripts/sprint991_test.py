@@ -343,7 +343,9 @@ def front_cases(fails):
             guarded(fails, f"{name}: the first block of the left column is the card, and the tape is the next",
                     lambda fb=fb: fb[0][0] == "aside" and "vd" in fb[0][1].split() and fb[1] == ("section", "h-b h-tape"))
             guarded(fails, f"{name}: the ten blocks keep section 2's order after it",
-                    lambda h=h: tuple(re.findall(r'data-block="([a-z]+)"', h)) == home.ABOVE_FOLD)
+                    # C-DONE (Jack, 24 November 2026): with nothing dated ahead the dated block is not drawn
+                    lambda h=h: tuple(re.findall(r'data-block="([a-z]+)"', h))
+                    == tuple(b for b in home.ABOVE_FOLD if b != "today" or 'data-block="today"' in h))
     with Draw(NOW_NEXT_DAY) as d:
         fb = first_blocks(d.home())
         guarded(fails, "the no-read notice: the card first, the tape next",

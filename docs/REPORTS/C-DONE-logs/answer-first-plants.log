@@ -1,0 +1,44 @@
+plant 1: the home prints the long paragraph again
+  exit 1, 1 case(s) red
+    red: on the home the long paragraph is gone (no card, no 'Spot Bitcoin ETFs took', no second Bitcoin price) and the line stan
+plant 2: the no-read card stands in for the tape again
+  exit 1, 1 case(s) red
+    red: on the home the long paragraph is gone (no card, no 'Spot Bitcoin ETFs took', no second Bitcoin price) and the line stan
+plant 3: the home's line carries the price
+  exit 1, 2 case(s) red
+    red: the home's line is one sentence: Bitcoin since midnight ET with the read's time, and no price
+    red: on the home the long paragraph is gone (no card, no 'Spot Bitcoin ETFs took', no second Bitcoin price) and the line stan
+plant 4: the home's line prints on a later day
+  exit 1, 1 case(s) red
+    red: a page built the next morning from last night's read has no such line either (it is not that day's midnight)
+plant 5: with no ET-day open the line prints the 24 hours
+  exit 1, 1 case(s) red
+    red: no ET-day open in the snapshot: the home has no such line (the tape's 24 hours is not printed again)
+plant 6: an empty day prints 'Nothing scheduled.' again
+  exit 1, 1 case(s) red
+    red: no dated entry ahead: no block at all, never an empty one
+plant 7: the next date lists a later date's entries too
+  exit 1, 1 case(s) red
+    red: nothing today: the block is 'Next date', it names Monday, October 19 and both of that day's entries, and says nothing ab
+plant 8: a later date with no time prints 'time not published'
+  exit 1, 1 case(s) red
+    red: nothing today: the block is 'Next date', it names Monday, October 19 and both of that day's entries, and says nothing ab
+plant 9: on a phone the movers come after Where Bitcoin stands
+  exit 1, 1 case(s) red
+    red: at 375 the stylesheet orders the blocks: the tape, the day's line, the Brief card, the movers, the next date, then the r
+plant 10: on a phone the columns keep their boxes (no crossing order)
+  exit 1, 1 case(s) red
+    red: the two columns give their blocks to one column at 375 (display:contents inside a flex column), so the order can cross t
+plant 11: from 1280 the verdict card is the first row again
+  exit 1, 1 case(s) red
+    red: from 1280 the tape is the first row and the day's line the second, both full width; the verdict card follows
+plant 12: the day's line is left unplaced in the desktop grid
+  exit 1, 3 case(s) red
+    red: 'lead' is placed by a rule (a column and a row), never left to the browser's first free cell
+    red: in the first column the blocks keep the page's own order, one row each, below the tape and the day's line: Brief card, t
+    red: from 1280 the tape is the first row and the day's line the second, both full width; the verdict card follows [KeyError: 
+plant 13: an empty watchlist draws its block
+  exit 1, 1 case(s) red
+    red: an empty watchlist draws no block (the block is hidden while it holds only its empty line)
+restored from the saved copies: exit 0
+PLANTS: ALL CAUGHT

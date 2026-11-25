@@ -3,7 +3,8 @@
 
   1. The home's left column at 1280 and up: every block it can carry has its own cell. The Why Bitcoin moved paragraph
      (Sprint A's "lead" block) was added after the desktop board's grid was written and had no place in it, so the
-     browser put it in the first free cell: the top left, above the price line, with an empty cell beside it.
+     browser put it in the first free cell: the top left, above the price line, with an empty cell beside it. (Group 6
+     moved the block under the tape as one line; the rule this group holds is that every block is placed.)
   2. The Netlify ignore rule (U-11): a commit of documents, review screenshots, reports or workflow files alone never
      builds the site. review/ and .github/ were not on the list, so a commit of either alone spent a production build.
   3. Fresh (point 1). The Board's stamp is its freshest read, and a section read earlier prints its own time, so one
@@ -17,6 +18,11 @@
   5. Quiet (point 8). The edition gap check's finding on a run that published is a warning, never an ::error::
      annotation on a green run; the gap issue and the exit status are unchanged. The cost ledger states a week's spend
      by Eastern day across the four ledgers the runs write (ops_ledger.week), from fixture rows.
+  6. The answer first (point 3; Jack's reading of the home, November 25). The Board leads the home: the tape, then one
+     line for Bitcoin since midnight ET, then the Brief card, then the movers and the next dated event, in that order at
+     375 (the stylesheet's order) and with the tape in the first row at 1280. The home prints nothing twice: the long
+     Why Bitcoin moved paragraph stays on /today/ and the home keeps the one figure no other block prints. With nothing
+     scheduled today the block names the next dated event; an empty watchlist draws no block.
 
 Stdlib only.
   python3 scripts/cdone_test.py      # exit 1 on any failure, every failing case named
@@ -31,8 +37,8 @@ sys.path.insert(0, os.path.join(HERE, "scripts"))
 SYSTEM_CSS = os.path.join(HERE, "site", "assets", "system.css")
 
 # the blocks home.py can put in the left column, in the order it writes them (home.LEFT, with "lead" after the Brief card)
-LEFT_ORDER = ("tape", "narrative", "lead", "since", "why", "wire")
-FIRST_COLUMN = ("narrative", "lead", "why", "wire")
+LEFT_ORDER = ("tape", "lead", "narrative", "since", "why", "wire")
+FIRST_COLUMN = ("narrative", "why", "wire")
 
 
 def guarded(fails, msg, fn):
@@ -74,13 +80,14 @@ def lead_place_cases(fails):
     cells = left_cells(read(SYSTEM_CSS))
     guarded(fails, "the block list here is home.py's own (home.LEFT with the lead after the Brief card)",
             lambda: tuple(b for b in LEFT_ORDER if b != "lead") == tuple(home.LEFT) and '_block("lead"' in read(os.path.join(HERE, "home.py")))
+    # (the day's line moved from under the Brief card to under the tape with point 3; the rule stands: every block placed)
     for name in LEFT_ORDER:
         guarded(fails, f"'{name}' is placed by a rule (a column and a row), never left to the browser's first free cell",
                 lambda name=name: name in cells)
-    guarded(fails, "in the first column the blocks keep the page's own order, one row each, below the price line: Brief card, Why Bitcoin moved, the wire",
+    guarded(fails, "in the first column the blocks keep the page's own order, one row each, below the tape and the day's line: Brief card, top story, the wire",
             lambda: all(cells[b][0] == "1" for b in FIRST_COLUMN)
             and [cells[b][1] for b in FIRST_COLUMN] == sorted({cells[b][1] for b in FIRST_COLUMN})
-            and cells["narrative"][1] > cells["tape"][1] and all(cells[b][1] == cells[b][2] for b in FIRST_COLUMN))
+            and cells["narrative"][1] > cells["lead"][1] > cells["tape"][1] and all(cells[b][1] == cells[b][2] for b in FIRST_COLUMN))
     guarded(fails, "Where Bitcoin stands fills the second column beside all of them (its rows run from the Brief card's to the wire's)",
             lambda: cells["since"][0] == "2" and cells["since"][1] == cells["narrative"][1] and cells["since"][2] == cells["wire"][1])
 
@@ -396,6 +403,77 @@ def quiet_cases(fails):
             and len(lines) == 9 and lines[-1].startswith("  total") and "$0.4467" in lines[-1])
 
 
+def _css_rules(width_cond):
+    """[(selector, body)] of system.css rules under a media condition containing `width_cond`, comments stripped."""
+    import sprint95b_test as s
+    return [(sel, body) for conds, sel, body in s.flatten(read(SYSTEM_CSS)) if any(width_cond in c for c in conds)]
+
+
+def answer_first_cases(fails):
+    print("6. the answer first: the Board leads the home, nothing twice, the next dated event, no empty block")
+    import copy
+    import datetime as dt
+    import home
+    import morning_line
+    import site_build as sb
+    import snapshot
+    flows, pulse = _fx("flows_2026-10-16T1216Z.json"), _fx("pulse_2026-10-16T1216Z.json")
+    snap = snapshot.build(pulse, flows)
+    snap["fields"]["coins"]["value"]["BTC"].update(chg_et_day_pct=-0.54, open_et_day="2026-10-16")
+    now = dt.datetime(2026, 10, 16, 13, 0, tzinfo=dt.timezone.utc)
+    ld = morning_line.lead(snap, {}, now=now)
+    guarded(fails, "the home's line is one sentence: Bitcoin since midnight ET with the read's time, and no price",
+            lambda: ld.get("home") == "Bitcoin is down 0.54% since midnight ET, as of 8:16 AM ET on Oct 16."
+            and "$" not in ld["home"])
+    guarded(fails, "the full read /today/ prints is unchanged: the price, the 24 hours, the money, the mood and the movers",
+            lambda: ld["text"].startswith("As of 8:16 AM ET on Friday, October 16, Bitcoin is at $") and "Fear and Greed reads" in ld["text"]
+            and len(ld["sentences"]) == 2)
+    s2 = copy.deepcopy(snap)
+    s2["fields"]["coins"]["value"]["BTC"]["open_et_day"] = "2026-10-15"
+    guarded(fails, "no ET-day open in the snapshot: the home has no such line (the tape's 24 hours is not printed again)",
+            lambda: morning_line.lead(s2, {}, now=now).get("home") == "")
+    guarded(fails, "a page built the next morning from last night's read has no such line either (it is not that day's midnight)",
+            lambda: morning_line.lead(snap, {}, now=now + dt.timedelta(days=1)).get("home") == "")
+    pv, fv = snapshot.views(snap, pulse, flows)
+    cal = {"entries": [{"date": "2026-10-19", "time_et": "8:30 AM ET", "title": "CPI: Consumer Price Index",
+                        "source": {"name": "FRED release dates", "url": "https://fred.stlouisfed.org/x"}},
+                       {"date": "2026-10-19", "time_et": None, "title": "Retail sales", "source": {"name": "FRED release dates"}},
+                       {"date": "2026-10-21", "time_et": None, "title": "A later date", "source": {"name": "FRED"}}]}
+    above = home.above_fold(snap, pv, fv, {}, None, {}, cal, "", now=now, lead=ld)
+    blk = lambda name: (re.search(rf'<section class="[^"]*" data-block="{name}">(.*?)</section>', above, re.S) or [None, ""])[1]
+    guarded(fails, "on the home the long paragraph is gone (no card, no 'Spot Bitcoin ETFs took', no second Bitcoin price) and the line stands under the tape",
+            lambda: "vd-lead" not in above and "took a net" not in above and "Bitcoin is at $" not in above
+            and "Bitcoin is down 0.54% since midnight ET" in blk("lead")
+            and above.index('data-block="tape"') < above.index('data-block="lead"') < above.index('data-block="narrative"'))
+    guarded(fails, "nothing today: the block is 'Next date', it names Monday, October 19 and both of that day's entries, and says nothing about an empty day",
+            lambda: ">Next date: Mon, Oct 19<" in above and "CPI: Consumer Price Index" in blk("today") and "8:30 AM ET" in blk("today")
+            and "Retail sales" in blk("today") and "A later date" not in blk("today") and "othing scheduled" not in above
+            and "time not published" not in blk("today"))
+    today_cal = {"entries": [{"date": "2026-10-16", "time_et": "8:30 AM ET", "title": "Today's print", "source": {"name": "FRED"}}] + cal["entries"]}
+    guarded(fails, "an entry today: the block is 'Today' and lists today's only",
+            lambda: (lambda b: ">Today<" in b and "Today's print" in b and "CPI" not in b)(home.today(today_cal, now)))
+    guarded(fails, "no dated entry ahead: no block at all, never an empty one",
+            lambda: home.today({"entries": [{"date": "2026-10-01", "title": "past", "source": {}}]}, now) == "" and home.today({}, now) == "")
+    order = {}
+    for sel, body in _css_rules("max-width:1099.98px"):
+        m, o = re.search(r'\.h-[lr]>(?:\[data-block="([a-z]+)"\]|aside\.(vd))', sel), re.search(r"(?<![a-z-])order:\s*(\d+)", body)
+        if m and o:
+            order[m.group(1) or m.group(2)] = int(o.group(1))
+    guarded(fails, "at 375 the stylesheet orders the blocks: the tape, the day's line, the Brief card, the movers, the next date, then the rest",
+            lambda: [k for k, _v in sorted(order.items(), key=lambda kv: kv[1])][:5] == ["tape", "lead", "narrative", "movers", "today"]
+            and len(set(order.values())) == len(order) and {"vd", "since", "why", "wire", "money", "mood", "mine"} <= set(order))
+    phone = dict(_css_rules("max-width:1099.98px"))
+    guarded(fails, "the two columns give their blocks to one column at 375 (display:contents inside a flex column), so the order can cross them",
+            lambda: any(".h-cols" in s and "flex-direction:column" in b.replace(" ", "") for s, b in phone.items())
+            and any(".h-l" in s and ".h-r" in s and "display:contents" in b.replace(" ", "") for s, b in phone.items()))
+    cells = left_cells(read(SYSTEM_CSS))
+    guarded(fails, "from 1280 the tape is the first row and the day's line the second, both full width; the verdict card follows",
+            lambda: cells["tape"][:2] == ("1 / -1", 1) and cells["lead"][:2] == ("1 / -1", 2)
+            and any("aside.vd" in s and re.search(r"grid-row:\s*3", b) for s, b in _css_rules("min-width:1280px")))
+    guarded(fails, "an empty watchlist draws no block (the block is hidden while it holds only its empty line)",
+            lambda: re.search(r'\[data-block="mine"\]:has\(\.h-mine-empty\)\{display:none\}', re.sub(r"\s+", "", read(SYSTEM_CSS))))
+
+
 def unit():
     fails = []
     print("C-DONE")
@@ -405,6 +483,7 @@ def unit():
         fresh_cases(fails)
         publish_gate_cases(fails)
         quiet_cases(fails)
+        answer_first_cases(fails)
     finally:
         for m in ("sprint95b_test", "sprint95b_fixture", "sprint95_test", "sprint94_test", "sprint93_test", "sprint92_test",
                   "canary_gate", "ops_ledger", "health_gate"):
