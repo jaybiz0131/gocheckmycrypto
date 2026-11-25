@@ -1,0 +1,28 @@
+{
+  "id": "wrap-pm-2026-11-25",
+  "slug": "evening-brief-2026-11-25",
+  "kind": "brief",
+  "title": "The Evening Brief: Market in Extreme Fear as Tape Shows Deep Drawdowns Across Assets",
+  "dek": "Crypto markets are pricing deep fear on Wednesday, with Bitcoin, Ether, and most major assets down sharply over the month. On-chain signals show mixed conviction, though whale activity and ETF flows tell conflicting stories.",
+  "date": "2026-11-25",
+  "published_utc": "2026-11-25T23:16:07Z",
+  "category": "daily edition",
+  "rank": -3,
+  "author": "GoCheckMyCrypto",
+  "key_fact": "The desk's Fear and Greed Index stands at 13 (Extreme Fear), reflecting a month-long drawdown: Bitcoin down 25.35% over thirty days, Ether down 27.89%, and most major coins off 25-31%, yet spot Bitcoin ETFs saw net outflows on the day and over the week, while whales moved $44.1 million in bitcoin off exchanges in the past 24 hours.",
+  "bottom_line": "Crypto markets hit Extreme Fear on Wednesday, with most large-cap coins off 25-31 percent over the month and technical indicators deep in oversold territory, per the desk's boards. Bitcoin's RSI sits at 26.1, most assets trade below their 200-day moving average, and spot Bitcoin ETFs saw outflows on both the day and week; yet whales moved $44.1 million in bitcoin off exchanges in 24 hours and stablecoins moved onto exchanges, signaling mixed conviction between retail sellers and large holders. Leverage markets remain long-heavy with positive funding, and short liquidations suggest oversold technicals are clearing shorts. Regulatory checkpoints ahead include Russia-tied measures on December 1, the CLARITY Act on January 1, 2027, and Ukraine's crypto tax law effective July 2027.",
+  "human_take": "",
+  "body": [
+    "Crypto markets are priced in Extreme Fear on Wednesday evening. The desk's Fear and Greed Index stands at 13, the lowest reading in its 30-day range, as prices across the board reflect a sharp month-long decline. Bitcoin down 25.35% over thirty days, Ether down 27.89% over thirty days, Solana down 31.24% over thirty days, and most other large-cap coins off between 25 and 31 percent. On the daily tape, moves are smaller: Bitcoin up 0.31% over 24 hours, Ether up 0.25%, Solana up 0.81%, and Dogecoin up 1.06%, suggesting some stabilization within the larger selloff.",
+    "The tape itself shows technical distress. Bitcoin's RSI14 sits at 26.1, Ether's at 28.7, and most other major assets in the 27-32 range, all deep in oversold territory. Bitcoin sits 51.8 percent below its 12-month high, Ether 64.1 percent below, and Dogecoin 79.1 percent below. Per the desk's boards, most assets remain below their 200-day moving average: Bitcoin 16.6 percent below, Ether 20.3 percent below, Solana 20.1 percent below, and Dogecoin 30.2 percent below. Yet most assets have recorded a golden cross (moving average 50 above 200), a potential oversold-bounce signal, though the MACD remains below signal for Bitcoin, Ether, and BNB, while SOL, XRP, DOGE, and ADA show MACD above signal.",
+    "On-chain flows paint a divided picture. The desk's Whale Watch board shows $44.1 million in bitcoin moving off exchanges over the past 24 hours, with the largest single flow a $51.2 million withdrawal from Coinbase Institutional, suggesting accumulation or self-custody by large holders. However, spot Bitcoin ETFs saw net outflows of $231.4 million on the day, November 24, and net outflows of $2,359.1 million over the week through November 24, the second consecutive week of outflows after six days of same-direction moves. Over the longer window, the week ending November 28 saw $552 million in net value move off exchanges, the lightest weekly outflow in four weeks, while the week ending November 21 saw $1.6 billion off and the week ending November 14 saw $1.6 billion off, showing deceleration in whale accumulation.",
+    "Leverage markets on the desk's OKX feed show long positioning remains heavy across major assets. Bitcoin's long-to-short ratio stands at 2.71, Ether's at 3.08, and Solana's at 3.07, all favoring longs despite the selloff. Funding rates remain positive and modest: Bitcoin at 0.01 percent per 8 hours (11.0 percent annualized), Ether at 0.0076 percent per 8 hours (8.4 percent annualized), suggesting longs still pay shorts to hold, though the bar is low. Liquidations in the past 2-6 hours show heavy short liquidations: Bitcoin saw $358,089 in short liquidations and $124,739 in long liquidations; Solana saw $1.7 million in short liquidations and $19,721 in long liquidations; XRP saw $433,595 in short liquidations and $9,330 in long liquidations. The pattern suggests shorts are being cleared in a market skewed toward longs and oversold technicals.",
+    "Regulatory moves continued in parallel. The desk's regulatory watch notes that a Russia-tied measure has a checkpoint at December 1, 2026, and the CLARITY Act carries a checkpoint at January 1, 2027."
+  ],
+  "sources": [
+    {
+      "title": "The desk's own market boards (quiet-day edition)",
+      "url": "/"
+    }
+  ]
+}

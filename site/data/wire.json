@@ -1,201 +1,42 @@
 {
  "what": "the day's ranked clusters, in the desk's own one line, sources counted and linked (Jack, 5 October 2026)",
  "what_a_wire_line_is": "Each line is the desk's own one-line summary of a story it ranked, with its sources counted and linked. It is not a story the desk wrote or checked; only the item with a badge was checked.",
- "ranked_utc": "2026-11-24T23:13:18Z",
- "ranked_et": "6:13 PM ET on Nov 24",
- "refreshed_utc": "2026-11-25T13:18:41Z",
- "refreshed_et": "8:18 AM ET on Nov 25",
- "refreshes": 1,
- "snapshot_stamp_utc": "2026-11-24T23:12:59Z",
+ "ranked_utc": "2026-11-25T23:14:14Z",
+ "ranked_et": "6:14 PM ET on Nov 25",
+ "refreshed_utc": "2026-11-25T23:14:14Z",
+ "refreshed_et": "6:14 PM ET on Nov 25",
+ "refreshes": 0,
+ "snapshot_stamp_utc": "2026-11-25T23:12:56Z",
  "items": [
   {
-   "rank": 2,
-   "id": "c005",
-   "line": "South Korea proposes lifting 2017 ICO ban with new disclosure requirements, and backing bank-controlled stablecoins.",
+   "rank": 1,
+   "id": "c019",
+   "line": "Sens. Warren and Van Hollen sent letters to SEC Chair demanding rescission of the innovation exemption and Regulation Crypto.",
    "titles": [
-    "South Korea proposes ending 2017 ICO ban to boost jobs and onshore crypto investment"
+    "Sens. Warren, Van Hollen lead push to scrap SEC\u2019s Regulation Crypto and innovation exemption"
    ],
-   "board_reading": "Stablecoin supply",
-   "source_count": 6,
+   "board_reading": "",
+   "source_count": 1,
    "primary": false,
-   "standing": "corroborated",
+   "standing": "single",
    "links": [
     {
-     "url": "https://www.coindesk.com/policy/2026/11/24/south-korea-proposes-ending-2017-ico-ban-to-boost-jobs-and-onshore-crypto-investment",
-     "outlet": "CoinDesk",
-     "primary": false
-    },
-    {
-     "url": "https://www.theblock.co/news/regulation/2026-11-24-south-korea-new-crypto-bill-445494",
-     "outlet": "theblock.co",
-     "primary": false
-    },
-    {
-     "url": "https://www.coindesk.com/policy/2026/11/24/south-korea-regulator-backs-bank-controlled-stablecoins-after-months-of-dispute",
-     "outlet": "CoinDesk",
-     "primary": false
-    },
-    {
-     "url": "https://decrypt.co/383905/south-korea-moves-lift-ico-ban-after-nearly-decade",
-     "outlet": "Decrypt",
-     "primary": false
-    },
-    {
-     "url": "https://bitcoinmagazine.com/videos/escape-velocity-coming-for-bitcoin-with-repeat-of-2017-cycle-michael-van-de-poppe",
-     "outlet": "Bitcoin Magazine",
-     "primary": false
-    },
-    {
-     "url": "https://cointelegraph.com/news/south-korea-crypto-bill-stablecoin-race-beyond-issuance?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
-     "outlet": "Cointelegraph",
-     "primary": false
-    },
-    {
-     "url": "https://cointelegraph.com/news/how-south-koreas-proposed-20-cap-could-change-who-runs-upbit?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
-     "outlet": "Cointelegraph",
-     "primary": false
-    },
-    {
-     "url": "https://cointelegraph.com/news/south-korea-draft-bill-crypto-innovation-user-protection?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
-     "outlet": "Cointelegraph",
-     "primary": false
-    },
-    {
-     "url": "https://beincrypto.com/south-korea-ai-budget-2027/",
-     "outlet": "BeInCrypto",
-     "primary": false
-    }
-   ],
-   "reported_utc": "2026-11-24T14:40:53Z",
-   "verdict": "NEEDS-HUMAN-REVIEW",
-   "mark": "wire"
-  },
-  {
-   "rank": 4,
-   "id": "c034",
-   "line": "Ethereum Foundation doubles protocol security team as AI advances pose more urgent threat than quantum computing to cryptographic systems.",
-   "titles": [
-    "Ethereum Foundation doubles protocol security team, calls AI a \u2018more urgent risk\u2019 than quantum",
-    "Ethereum Foundation Says AI Is a More Urgent Threat Than Quantum Computing",
-    "Ethereum Foundation doubles protocol security team ahead of overhaul"
-   ],
-   "board_reading": "Ether price",
-   "source_count": 6,
-   "primary": false,
-   "standing": "corroborated",
-   "links": [
-    {
-     "url": "https://www.theblock.co/news/ecosystems/2026-11-24-ethereum-foundation-doubles-protocol-security-team-calls-ai-a-more-urgent-risk-than-quantum-445497",
+     "url": "https://www.theblock.co/news/regulation/2026-11-25-warren-van-hollen-lead-push-scrap-sec-regulation-crypto-innovation-exemption-446756",
      "outlet": "The Block",
      "primary": false
-    },
-    {
-     "url": "https://decrypt.co/383927/ethereum-foundation-ai-more-urgent-threat-quantum-computing",
-     "outlet": "Decrypt",
-     "primary": false
-    },
-    {
-     "url": "https://cointelegraph.com/news/ethereum-foundation-doubles-protocol-security-team-amid-ai-quantum-overhaul?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
-     "outlet": "Cointelegraph",
-     "primary": false
-    },
-    {
-     "url": "https://thedefiant.io/news/blockchains/ethereum-foundation-backs-keccak-256-for-quantum-shift",
-     "outlet": "The Defiant",
-     "primary": false
-    },
-    {
-     "url": "https://dailyhodl.com/2026/11/25/ethereum-foundation-says-ai-driven-crypto-upgrades-take-priority-over-quantum-threats/",
-     "outlet": "The Daily Hodl",
-     "primary": false
     }
    ],
-   "reported_utc": "2026-11-24T11:53:31Z",
+   "reported_utc": "2026-11-25T22:20:02Z",
    "verdict": "VERIFIED",
    "mark": "wire"
   },
   {
-   "rank": 1,
-   "id": "c012",
-   "line": "US Justice Department files to forfeit $1.1 billion in USDC stolen by North Korea in Binance hack; authorities have helped freeze.",
+   "rank": 2,
+   "id": "c068",
+   "line": "Switzerland approved 57 countries and territories for automatic crypto tax information sharing starting 2028.",
    "titles": [
-    "U.S. seeks $1.1 billion seized in Binance hack as North Korean funds keep moving",
-    "US Strikes Back After $6 Billion Binance Hack"
-   ],
-   "board_reading": "Stablecoin supply",
-   "source_count": 5,
-   "primary": false,
-   "standing": "corroborated",
-   "links": [
-    {
-     "url": "https://www.coindesk.com/policy/2026/11/24/u-s-seeks-usd1-1-billion-seized-in-binance-hack-as-north-korean-funds-keep-moving",
-     "outlet": "CoinDesk",
-     "primary": false
-    },
-    {
-     "url": "https://u.today/us-strikes-back-after-6-billion-binance-hack",
-     "outlet": "U.Today",
-     "primary": false
-    },
-    {
-     "url": "https://decrypt.co/383874/justice-department-moves-to-forfeit-1-1b-in-usdc-from-north-koreas-binance-hack",
-     "outlet": "Decrypt",
-     "primary": false
-    },
-    {
-     "url": "https://u.today/us-moves-to-recover-11-billion-from-binance-hack-saylors-strategy-buys-457-btc-xrp-briefly-reclaims",
-     "outlet": "U.Today",
-     "primary": false
-    },
-    {
-     "url": "https://dailyhodl.com/2026/11/24/justice-department-pursues-forfeiture-of-1100000000-in-usdc-from-binance-hack/",
-     "outlet": "The Daily Hodl",
-     "primary": false
-    }
-   ],
-   "reported_utc": "2026-11-24T10:58:51Z",
-   "verdict": "VERIFIED",
-   "mark": "checked"
-  },
-  {
-   "rank": 3,
-   "id": "c000",
-   "line": "CFTC staff guidance allows Bitcoin, Ethereum, and stablecoins to count toward US derivatives exchange and clearinghouse operating reserves.",
-   "titles": [
-    "CFTC Staff Issues Advisory Concerning the Use of Crypto Assets to Satisfy Financial Resources Requirements"
-   ],
-   "board_reading": "Stablecoin supply",
-   "source_count": 2,
-   "primary": true,
-   "standing": "corroborated",
-   "links": [
-    {
-     "url": "https://www.cftc.gov/PressRoom/PressReleases/9330-26",
-     "outlet": "cftc.gov",
-     "primary": true
-    },
-    {
-     "url": "https://www.cftc.gov/PressRoom/PressReleases/9331-26",
-     "outlet": "CFTC Press Releases",
-     "primary": true
-    },
-    {
-     "url": "https://decrypt.co/383906/cftc-new-crypto-reserves-guidance-actually-allows-what-it-doesnt",
-     "outlet": "decrypt.co",
-     "primary": false
-    }
-   ],
-   "reported_utc": "2026-11-23T22:00:00Z",
-   "verdict": "VERIFIED",
-   "mark": "wire"
-  },
-  {
-   "rank": 5,
-   "id": "c009",
-   "line": "JPMorgan, HSBC, and StoneX complete first digital gold trades in London, testing blockchain settlement for fractional gold without physical movement.",
-   "titles": [
-    "JPMorgan, HSBC and StoneX complete first digital gold trades in London",
-    "JPMorgan, HSBC Test Digital Gold Settlement in London"
+    "Switzerland Picks 57 Countries for Crypto Tax Data Sharing Starting in 2028",
+    "Switzerland clears 57 jurisdictions for crypto tax data sharing"
    ],
    "board_reading": "",
    "source_count": 2,
@@ -203,50 +44,146 @@
    "standing": "corroborated",
    "links": [
     {
-     "url": "https://www.coindesk.com/business/2026/11/24/jpmorgan-hsbc-and-stonex-complete-first-digital-gold-trades-in-london",
-     "outlet": "CoinDesk",
+     "url": "https://bitcoinmagazine.com/news/switzerland-57-countries-crypto-tax",
+     "outlet": "Bitcoin Magazine",
      "primary": false
     },
     {
-     "url": "https://thedefiant.io/converge/tradfi-and-fintech/jpmorgan-hsbc-test-digital-gold-settlement-in-london",
+     "url": "https://cointelegraph.com/news/switzerland-clears-57-jurisdictions-crypto-tax-data-sharing",
+     "outlet": "cointelegraph.com",
+     "primary": false
+    },
+    {
+     "url": "https://cointelegraph.com/news/switzerland-clears-57-jurisdictions-crypto-tax-data-sharing?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+     "outlet": "Cointelegraph",
+     "primary": false
+    }
+   ],
+   "reported_utc": "2026-11-25T18:40:05Z",
+   "verdict": "VERIFIED",
+   "mark": "checked"
+  },
+  {
+   "rank": 3,
+   "id": "c049",
+   "line": "Ukraine parliament passed crypto regulation and tax bill establishing 18% plus 5% military levy, effective July 2027.",
+   "titles": [
+    "Ukraine Passes Law to Legalize and Tax Its Crypto Market From July 2027",
+    "Ukraine passes bill to legalize crypto and tax profits at 23%"
+   ],
+   "board_reading": "",
+   "source_count": 2,
+   "primary": false,
+   "standing": "corroborated",
+   "links": [
+    {
+     "url": "https://decrypt.co/383962/ukraine-passes-law-to-legalize-and-tax-its-crypto-market-from-july-2027",
+     "outlet": "Decrypt",
+     "primary": false
+    },
+    {
+     "url": "https://cointelegraph.com/news/ukraine-passes-bill-crypto-regulation-tax",
+     "outlet": "cointelegraph.com",
+     "primary": false
+    },
+    {
+     "url": "https://cointelegraph.com/news/ukraine-passes-bill-crypto-regulation-tax?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+     "outlet": "Cointelegraph",
+     "primary": false
+    }
+   ],
+   "reported_utc": "2026-11-25T16:07:35Z",
+   "verdict": "NEEDS-HUMAN-REVIEW",
+   "mark": "wire"
+  },
+  {
+   "rank": 4,
+   "id": "c020",
+   "line": "Braiins warned of active hashrate hijacking attacks across 1,000+ mining sites exploiting unencrypted protocol connections.",
+   "titles": [
+    "Bitcoin miners hit by hashrate hijacking attack exploiting unencrypted connections"
+   ],
+   "board_reading": "Bitcoin price",
+   "source_count": 1,
+   "primary": false,
+   "standing": "single",
+   "links": [
+    {
+     "url": "https://www.theblock.co/news/ecosystems/2026-11-25-bitcoin-miners-hit-hashrate-hijacking-attack-exploiting-unencrypted-connections-446723",
+     "outlet": "The Block",
+     "primary": false
+    }
+   ],
+   "reported_utc": "2026-11-25T19:37:10Z",
+   "verdict": "NEEDS-HUMAN-REVIEW",
+   "mark": "wire"
+  },
+  {
+   "rank": 5,
+   "id": "c153",
+   "line": "US October PCE inflation reached 3.8% with core at 3.3%, exceeding forecasts ahead of December Fed meeting.",
+   "titles": [
+    "US PCE Inflation Hits 3.8%; Core Exceeds Forecast"
+   ],
+   "board_reading": "Fear & Greed",
+   "source_count": 1,
+   "primary": false,
+   "standing": "single",
+   "links": [
+    {
+     "url": "https://thedefiant.io/news/markets/us-pce-inflation-hits-3-8-core-exceeds-forecast",
      "outlet": "The Defiant",
      "primary": false
     }
    ],
-   "reported_utc": "2026-11-24T12:04:39Z",
+   "reported_utc": "2026-11-25T13:47:07Z",
    "verdict": "NEEDS-HUMAN-REVIEW",
+   "mark": "wire"
+  },
+  {
+   "rank": 6,
+   "id": "c033",
+   "line": "Hong Kong Monetary Authority launched tokenized debt securities platform with 10 banks; 24-hour settlement vs. traditional rails.",
+   "titles": [
+    "Hong Kong Monetary Authority launches digital asset platform for tokenized debt securities",
+    "Hong Kong launches tokenized debt platform with 24-hour settlement"
+   ],
+   "board_reading": "",
+   "source_count": 2,
+   "primary": false,
+   "standing": "corroborated",
+   "links": [
+    {
+     "url": "https://www.theblock.co/news/regulation/2026-11-25-hong-kong-debt-securities-tokenization-446132",
+     "outlet": "The Block",
+     "primary": false
+    },
+    {
+     "url": "https://cointelegraph.com/news/hong-kong-central-bank-platform-tokenized-debt-securities",
+     "outlet": "cointelegraph.com",
+     "primary": false
+    },
+    {
+     "url": "https://cointelegraph.com/news/hong-kong-central-bank-platform-tokenized-debt-securities?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+     "outlet": "Cointelegraph",
+     "primary": false
+    }
+   ],
+   "reported_utc": "2026-11-25T10:05:40Z",
+   "verdict": "VERIFIED",
    "mark": "wire"
   }
  ],
  "checked": {
-  "id": "c012",
-  "rank": 1,
-  "says": "U.Today reports the DOJ filed a civil forfeiture complaint on Nov. 23 targeting $1.1B in USDC stolen from the Oct. 29 Binance hack, with Circle prepared to issue replacement tokens if forfeiture is granted.",
-  "unconfirmed": "The specific mechanism of Circle issuing new USDC and whether any recovery has actually been completed rests on CryptoSlate's single reporting; the broader enforcement action and asset-freeze numbers are independently confirmed.",
+  "id": "c068",
+  "rank": 2,
+  "says": "Bitcoin Magazine reports Switzerland's Federal Council approved 57 countries and territories for automatic crypto tax data sharing starting in 2028 under the OECD's Crypto-Asset Reporting Framework.",
+  "unconfirmed": "The government did not publish the full list of 57 jurisdictions by name, only described them as including EU members, UK, and G20 countries; actual data exchange conditional on OECD compliance checks.",
   "badge": "Verified",
   "standing": "corroborated",
-  "source": "https://u.today/us-strikes-back-after-6-billion-binance-hack",
-  "outlet": "U.Today"
+  "source": "https://bitcoinmagazine.com/news/switzerland-57-countries-crypto-tax",
+  "outlet": "Bitcoin Magazine"
  },
- "dropped": [
-  {
-   "rank": 6,
-   "id": "c008",
-   "why": "the twins gate dropped the line"
-  }
- ],
- "source_cuts": [
-  {
-   "rank": 1,
-   "id": "c012",
-   "clause": "seize or return $2.9B so far",
-   "why": "its sources do not carry the figure $2.9 billion"
-  },
-  {
-   "rank": 2,
-   "id": "c005",
-   "clause": "capping crypto exchange ownership at 20%",
-   "why": "its sources do not carry the figure 20%"
-  }
- ]
+ "dropped": [],
+ "source_cuts": []
 }

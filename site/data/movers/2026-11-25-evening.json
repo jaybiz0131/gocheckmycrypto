@@ -1,0 +1,96 @@
+{
+ "what": "Big movers, checked: the gate on the Board's top 100 (AUDIT.md 3.1 and 3.2), and for each coin past it the evidence by 9.2's rules with the coin's own candidates. Measured by code.",
+ "window": {
+  "start_utc": "2026-11-24T23:12:56Z",
+  "end_utc": "2026-11-25T23:12:56Z",
+  "hours": 24
+ },
+ "made_utc": "2026-11-25T23:17:29Z",
+ "gate": {
+  "rule": {
+   "version": "2026-10-19",
+   "source": "AUDIT.md section 3.1, the row 'Any top-100 coin', and section 3.2",
+   "move_min_pct": 10.0,
+   "vol_multiple_min": 2.5,
+   "excess_min_pts": 6.0,
+   "history_days": 30,
+   "per_slot": 8,
+   "per_day": 10
+  },
+  "board_utc": "2026-11-25T23:12:56Z",
+  "before_day": "2026-11-24",
+  "btc_24h_pct": 0.31,
+  "passed": [],
+  "over_cap": [],
+  "failed": [
+   {
+    "sym": "VVV",
+    "name": "Venice Token",
+    "gecko_id": "venice-token",
+    "rank": 53,
+    "pos": 44,
+    "move_pct": 17.23,
+    "vol_pct": 7.06,
+    "multiple": 2.44,
+    "beta": 1.491,
+    "btc_pct": 0.31,
+    "predicted_pct": 0.46,
+    "excess_pts": 16.77,
+    "legs": {
+     "move": true,
+     "multiple": false,
+     "excess": true
+    },
+    "pass": false,
+    "history": {
+     "from": "2026-10-24",
+     "through": "2026-11-23"
+    }
+   },
+   {
+    "sym": "PIEVERSE",
+    "name": "Pieverse",
+    "gecko_id": "pieverse",
+    "rank": 69,
+    "pos": 56,
+    "move_pct": 14.33,
+    "vol_pct": 15.63,
+    "multiple": 0.92,
+    "beta": -0.138,
+    "btc_pct": 0.31,
+    "predicted_pct": -0.04,
+    "excess_pts": 14.37,
+    "legs": {
+     "move": true,
+     "multiple": false,
+     "excess": true
+    },
+    "pass": false,
+    "history": {
+     "from": "2026-10-24",
+     "through": "2026-11-23"
+    }
+   }
+  ],
+  "left_out": [],
+  "own_card": [],
+  "log": [
+   "movers: 2 coin(s) passed one leg and failed another (the per-coin log ran through 2026-11-02)",
+   "movers: no top-100 coin passed the gate (15 measured, 0 left out for history)"
+  ],
+  "crash": {
+   "day": false,
+   "why": [],
+   "btc_pct": 0.31,
+   "market_pct": 0.38,
+   "past_move": 2,
+   "measured_past_move": 2,
+   "with_market": 0
+  },
+  "used_today": 0
+ },
+ "coins": {},
+ "shared": {},
+ "date_et": "2026-11-25",
+ "slot": "evening"
+}

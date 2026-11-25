@@ -1,60 +1,15 @@
 {
-  "date": "2026-11-24",
+  "date": "2026-11-25",
   "generated_by": "chartmaster.py (auto, from the live boards)",
   "mode": "live",
-  "path": "data-only",
-  "headline": "Chart data card: levels, 50-day and 200-day lines, RSI",
-  "paragraphs": [],
-  "data_only": true,
-  "levels": [
-    {
-      "symbol": "BTC",
-      "price": 59958,
-      "sma50": 75667.59,
-      "sma200": 72139.25,
-      "rsi14": 25.1
-    },
-    {
-      "symbol": "ETH",
-      "price": 1682.12,
-      "sma50": 2205.66,
-      "sma200": 2116.47,
-      "rsi14": 28.2
-    },
-    {
-      "symbol": "SOL",
-      "price": 69.89,
-      "sma50": 93.21,
-      "sma200": 88.14,
-      "rsi14": 29.3
-    },
-    {
-      "symbol": "XRP",
-      "price": 0.925451,
-      "sma50": 1.2,
-      "sma200": 1.23,
-      "rsi14": 30.2
-    },
-    {
-      "symbol": "BNB",
-      "price": 549.11,
-      "sma50": 686.8,
-      "sma200": 655.26,
-      "rsi14": 26.6
-    },
-    {
-      "symbol": "DOGE",
-      "price": 0.05528,
-      "sma50": 0.07,
-      "sma200": 0.08,
-      "rsi14": 28.0
-    },
-    {
-      "symbol": "ADA",
-      "price": 0.144433,
-      "sma50": 0.2,
-      "sma200": 0.2,
-      "rsi14": 29.4
-    }
+  "path": "cut",
+  "headline": "Every major sits below the 200-day line in extreme fear, but short liquidations are running and whales are moving coins to cold storage.",
+  "paragraphs": [
+    "The regime is uniform and weak: Bitcoin, Ethereum, Solana, XRP, BNB, Doge, and Cardano are all trading below their 200-day moving averages, with Bitcoin at 16.6% below, Ethereum at 20.3% below, and the worst performers like Doge at 30.2% and ADA at 27.4% below. The only counterweight is that most majors carry golden crosses (Bitcoin, Ethereum, Solana, BNB positive; XRP, Doge, ADA negative), which signals an up cross of the 50 against the 200 somewhere in the recent past, but prices have continued to drift lower since, rendering the signal dormant. On the day, up +0.3% for Bitcoin, +0.2% for Ethereum, and +0.8% for Solana through +1.1% for Doge, but over the week all are down (Bitcoin down 7.9%, Ethereum down 8.0%, Solana down 7.3%). Over the month, drawdowns deepen: Bitcoin down 25.4%, Ethereum down 27.9%, Solana down 31.2%. The market is in a downtrend, with today's small bounces offering no structural relief.",
+    "Momentum diverges from price in ways that matter. Bitcoin and Ethereum show RSI at 26.1 and 28.7 (both oversold, below 30), but their MACD lines sit below their signal lines, confirming the downtrend's integrity rather than suggesting reversal. Solana, Doge, and ADA show MACD above signal (RSI 30.9, 29.8, 30.3 respectively), which is the first whisper of momentum turning, but it arrives in assets still 69.8%, 79.1%, and 83.4% below their 12-month highs. The majors are touching desperation territory on the RSI chart, yet MACD divergence is scattered and weak. This is the tape of an exhausted market, not an energized one.",
+    "Derivatives positioning reveals stress in the structure of leverage. The long-to-short ratios are skewed long: Bitcoin 2.71, Ethereum 3.08, Solana 3.07, Doge 3.72. That is crowded in one direction. Over the last two to six hours, liquidations have been dominated by short sellers getting cleaned out: Bitcoin saw 358,089 USD in short liquidations versus 124,739 in longs over two hours; Solana saw 1,706,802 USD in short liquidations versus 19,721 in longs over five hours; Doge saw 200,041 USD in short liquidations versus 32 USD in longs over six hours. The tape is squeezing shorts, not longs. That tension, longs crowded and shorts being flushed, is a fragile state that depends on price holding above its recent lows.",
+    "Whale flows and stablecoin supply paint a bifurcated picture. Over the last 24 hours, 44,067,756 USD in bitcoin value moved off exchanges (Coinbase Institutional and Coinbase both sending coins to cold storage), while 148,784,397 USD in stablecoins moved onto Bitfinex, suggesting dry powder arriving as bitcoin gets locked away. Over the weekly sweep, the last four weeks saw 7.7 billion USD of value move off exchanges (Nov 7: 4,125 million, Nov 14: 1,551 million, Nov 21: 1,615 million, Nov 28: 552 million). The trend is weakening, but the direction persists: whales are accumulating despite prices falling 25-30% over 30 days. Stablecoin supply sits at 282.5 billion USD, down 5.89% over the month, which is consistent with capital being deployed into spot and custodial holdings rather than sitting on the sidelines.",
+    "ETF flows, the traditional-finance vote on these assets, have been negative. Bitcoin spot ETF outflow of 231.4 million USD on the latest date (Nov 24), with six days of outflows in the same direction and 2,359.1 million USD net outflow over the last five sessions. Ethereum shows the same pattern: 64.1 million USD outflow on Nov 24, seven days of outflows, and 417.3 million USD net over five sessions. This is directional consistency: institutions are selling into the spot products. The contradiction with whale cold-storage accumulation is real and worth holding: retail and institutional flows (ETF) are net outbound; whale behavior (cold storage, stablecoin deployment) is net accumulative. When the two diverge this sharply, it often precedes a regime pivot, though the timing belongs to price action, not to flow analysis.",
+    "Sentiment stands at Extreme Fear with a value of 13 (30-day range 10 to 51), the lowest tick on the board. The tape beneath it is mixed: majors are oversold on RSI, shorts are being liquidated, whales are moving coins off exchange into custody, but ETF flows are negative and prices remain far below the 12-month highs (Bitcoin 51.8% below, Ethereum 64.1%, Solana 69.8%). Watch also for a halt in the weekly off-exchange whale flow; a turn to on-exchange movement would contradict the accumulation narrative. The tape today is tension held in stasis: a bottom-fishing posture colliding with an institutional exit. Neither side has yet moved to break the other."
   ]
 }
