@@ -38,6 +38,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 
 DESK = {
     "name": "GoCheckMyCrypto",
+    "editor": "Crypto Cronkite",
     "motto": "Independent · No Hype · Every Source Linked",
     "folio": ("GoCheckMyCrypto is a site of Go Check My Brands LLC · "
               "Every source linked · Never financial advice"),
@@ -215,9 +216,15 @@ def _story_url(d):
 
 
 def _byline(d, desk):
-    """The one name: a story stored under the retired desk name prints under the desk's."""
-    a = str(d.get("author") or "")
-    return desk["name"] if (not a or "Cronkite" in a) else a
+    """The editor's byline (Jack, 24 November 2026): every piece runs under it, whatever name it was stored under."""
+    return desk["editor"]
+
+
+def _title(ed, day, desk):
+    """An Edition page's title, with its date: 'Evening Brief, November 24, 2026 - GoCheckMyCrypto'. Without the date
+    seventy pages shared one title (C-DONE point 9)."""
+    d = datetime.date.fromisoformat(day)
+    return f"{_edition_slot(ed)}, {d.strftime('%B')} {d.day}, {d.year} - {desk['name']}"
 
 
 def _kicker(desk, d):
@@ -328,7 +335,7 @@ def build(items, w, desk=DESK, shell=None):
     def page(day, path):
         ed, _ = select(items, day)
         body = render_front(desk, items, day, days, canonical_path=path)
-        title = f"{_edition_slot(ed)} - {desk['name']}"
+        title = _title(ed, day, desk)
         if shell is None:
             return ("<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"utf-8\">"
                     "<meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">"

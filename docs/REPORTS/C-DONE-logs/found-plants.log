@@ -1,0 +1,38 @@
+plant 1: the byline is the site's name again
+  exit 1, 3 case(s) red
+    red: a story stored under 'Crypto Cronkite' prints 'By Crypto Cronkite', once, and no other byline
+    red: a story stored under 'GoCheckMyCrypto' prints 'By Crypto Cronkite', once, and no other byline
+    red: a story stored under 'no name' prints 'By Crypto Cronkite', once, and no other byline
+plant 2: the schema's author is the site's name
+  exit 1, 3 case(s) red
+    red: ...and its NewsArticle names the author Crypto Cronkite, with the story's own published time and the publisher
+    red: ...and its NewsArticle names the author Crypto Cronkite, with the story's own published time and the publisher
+    red: ...and its NewsArticle names the author Crypto Cronkite, with the story's own published time and the publisher
+plant 3: the schema's published time is the build's day, not the story's time
+  exit 1, 3 case(s) red
+    red: ...and its NewsArticle names the author Crypto Cronkite, with the story's own published time and the publisher
+    red: ...and its NewsArticle names the author Crypto Cronkite, with the story's own published time and the publisher
+    red: ...and its NewsArticle names the author Crypto Cronkite, with the story's own published time and the publisher
+plant 4: the Edition's byline is the site's name
+  exit 1, 1 case(s) red
+    red: the Edition's byline is the same name
+plant 5: an Edition's title drops its date
+  exit 1, 1 case(s) red
+    red: an Edition page's title carries its date (70 shared 'Evening Brief - GoCheckMyCrypto')
+plant 6: the home's title is the old one
+  exit 1, 1 case(s) red
+    red: the home's title says it in a searcher's words, inside 70 characters: why crypto moved today, prices, big movers
+plant 7: the description drops 'No hype'
+  exit 1, 1 case(s) red
+    red: the description names what the site is: why crypto moved today, the Board, the big movers, no hype (inside 170 character
+plant 8: About describes the checks again
+  exit 1, 1 case(s) red
+    red: About says nothing about method: no 'How we check' section or link, no word of checks, sources weighed, grading or revie
+plant 9: About links to How we check
+  exit 1, 1 case(s) red
+    red: About says nothing about method: no 'How we check' section or link, no word of checks, sources weighed, grading or revie
+plant 10: About drops the operator
+  exit 1, 1 case(s) red
+    red: About names Go Check My Brands LLC and the editor's byline
+restored from the saved copies: exit 0
+PLANTS: ALL CAUGHT

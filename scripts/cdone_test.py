@@ -27,6 +27,10 @@
      links to a page that is not there: a link to a story the desk never published, or to a coin page that is no longer
      built, is drawn as its text. Edition pages print Eastern time and no place. An empty rail is not drawn. "Also
      reported by" names outlets, not their lowercased headlines. A price under a cent is never "$0.00". US spelling.
+  8. Found (point 9; Jack's rulings of November 24). The editor's byline is Crypto Cronkite on every story and in each
+     NewsArticle's schema, with the story's own published time. The home's title and description say what the site is in
+     a searcher's words. About names Go Check My Brands LLC and says nothing about method. An Edition page's title
+     carries its date, so no two share one.
 
 Stdlib only.
   python3 scripts/cdone_test.py      # exit 1 on any failure, every failing case named
@@ -534,6 +538,47 @@ def clean_cases(fails):
             and "nobody has labelled" not in read(os.path.join(HERE, "learn_pages.py")))
 
 
+def found_cases(fails):
+    print("8. found: the Crypto Cronkite byline and schema, the home's title and description, About, dated Edition titles")
+    import html as _html
+    import json
+    import edition
+    import site_build as sb
+    vis = lambda h: _html.unescape(re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", re.sub(r"<(script|style)\b.*?</\1>", " ", h, flags=re.S))))
+    for stored in ("Crypto Cronkite", "GoCheckMyCrypto", ""):
+        story = {"slug": "s", "title": "A story", "dek": "A dek.", "date": "2026-11-24", "author": stored, "body": ["One."],
+                 "published_utc": "2026-11-24T23:15:43Z", "kind": "brief", "category": "news", "verdict": "VERIFIED", "sources": []}
+        art = sb.render_article(story, [story])
+        lds = [json.loads(m) for m in re.findall(r'<script type="application/ld\+json">(.*?)</script>', art, re.S)]
+        news = [o for d in lds for o in (d.get("@graph") or [d]) if o.get("@type") == "NewsArticle"]
+        guarded(fails, f"a story stored under {stored or 'no name'!r} prints 'By Crypto Cronkite', once, and no other byline",
+                lambda art=art: vis(art).count("By Crypto Cronkite") == 1 and "By GoCheckMyCrypto" not in vis(art))
+        guarded(fails, f"...and its NewsArticle names the author Crypto Cronkite, with the story's own published time and the publisher",
+                lambda news=news: len(news) == 1 and news[0]["author"]["name"] == "Crypto Cronkite"
+                and news[0]["datePublished"] == "2026-11-24T23:15:43Z" and news[0]["headline"] == "A story"
+                and news[0]["publisher"]["name"] and news[0]["author"].get("url", "").endswith("/about.html"))
+    guarded(fails, "the Edition's byline is the same name",
+            lambda: edition._byline({"author": "GoCheckMyCrypto"}, edition.DESK) == "Crypto Cronkite"
+            and edition._byline({}, edition.DESK) == "Crypto Cronkite" and edition.DESK["editor"] == sb.EDITOR)
+    guarded(fails, "an Edition page's title carries its date (70 shared 'Evening Brief - GoCheckMyCrypto')",
+            lambda: edition._title({"title": "The Evening Brief: A headline"}, "2026-11-24", edition.DESK)
+            == "Evening Brief, November 24, 2026 - GoCheckMyCrypto"
+            and edition._title({"title": "The Evening Brief: A headline"}, "2026-11-23", edition.DESK)
+            != edition._title({"title": "The Evening Brief: A headline"}, "2026-11-24", edition.DESK))
+    guarded(fails, "the home's title says it in a searcher's words, inside 70 characters: why crypto moved today, prices, big movers",
+            lambda: sb.HOME_TITLE == "Why crypto moved today: prices and big movers - GoCheckMyCrypto" and len(sb.HOME_TITLE) <= 70)
+    guarded(fails, "the description names what the site is: why crypto moved today, the Board, the big movers, no hype (inside 170 characters)",
+            lambda: all(w in sb.FAMILY_DESC for w in ("Why crypto moved today", "the Board", "the big movers", "No hype"))
+            and len(sb.FAMILY_DESC) <= 170 and "shill" not in sb.FAMILY_DESC)
+    about = sb.render_about("TEST")
+    main = vis(about[about.find("<main"):about.find("</main>")])
+    guarded(fails, "About names Go Check My Brands LLC and the editor's byline",
+            lambda: "Go Check My Brands LLC" in main and "Crypto Cronkite" in main)
+    guarded(fails, "About says nothing about method: no 'How we check' section or link, no word of checks, sources weighed, grading or review",
+            lambda: 'href="/method.html"' not in about[about.find("<main"):about.find("</main>")]
+            and not re.search(r"how we check|source check|checked against|numbers are checked|is graded|reviews what|we weight|we link every source", main, re.I))
+
+
 def unit():
     fails = []
     print("C-DONE")
@@ -545,6 +590,7 @@ def unit():
         quiet_cases(fails)
         answer_first_cases(fails)
         clean_cases(fails)
+        found_cases(fails)
     finally:
         for m in ("sprint95b_test", "sprint95b_fixture", "sprint95_test", "sprint94_test", "sprint93_test", "sprint92_test",
                   "canary_gate", "ops_ledger", "health_gate", "deadlinks"):
