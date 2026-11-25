@@ -18,9 +18,9 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 PUBLISH = os.path.join(HERE, "site", "publish")
 
 
-def _redirects():
+def _redirects(publish=None):
     out = {}
-    p = os.path.join(PUBLISH, "_redirects")
+    p = os.path.join(publish or PUBLISH, "_redirects")
     if not os.path.exists(p):
         return out
     for line in open(p, encoding="utf-8"):
@@ -30,9 +30,9 @@ def _redirects():
     return out
 
 
-def _exists(path):
+def _exists(path, publish=None):
     p = path.lstrip("/") or "index.html"
-    full = os.path.join(PUBLISH, p)
+    full = os.path.join(publish or PUBLISH, p)
     if os.path.isdir(full):
         full = os.path.join(full, "index.html")
     # The site serves clean URLs, so /pulse is pulse.html on disk.
@@ -40,31 +40,71 @@ def _exists(path):
                                     and os.path.exists(full + ".html"))
 
 
-def check():
-    red = _redirects()
-    pages = [os.path.join(r, f) for r, _d, fs in os.walk(PUBLISH)
+_SCRIPT = re.compile(r"<script\b.*?</script>", re.S | re.I)
+
+
+def _target(raw):
+    """The internal path a raw href or src names, or '' for an outside link, an anchor or nothing."""
+    u = urldefrag(raw)[0]
+    if not u or u.startswith(("http://", "https://", "mailto:", "tel:", "data:", "#")):
+        return ""
+    return urlparse(u).path or ""
+
+
+def check(publish=None):
+    """({dead target: pages}, links checked, pages). A script's text is not markup: a string a script builds a link
+    from ('<a href="/coins/'+k+'">') is not a link (C-DONE, 25 November 2026)."""
+    publish = publish or PUBLISH
+    red = _redirects(publish)
+    pages = [os.path.join(r, f) for r, _d, fs in os.walk(publish)
              for f in fs if f.endswith(".html")]
     dead, checked = {}, 0
     for pg in pages:
         try:
-            h = open(pg, encoding="utf-8", errors="ignore").read()
+            h = _SCRIPT.sub("", open(pg, encoding="utf-8", errors="ignore").read())
         except Exception:
             continue
-        rel = os.path.relpath(pg, PUBLISH)
+        rel = os.path.relpath(pg, publish)
         for attr in ("href", "src"):
             for raw in set(re.findall(attr + r'="([^"]+)"', h)):
-                u = urldefrag(raw)[0]
-                if not u or u.startswith(("http://", "https://", "mailto:", "tel:",
-                                          "data:", "#")):
-                    continue
-                u = urlparse(u).path
+                u = _target(raw)
                 if not u:
                     continue
                 checked += 1
-                if _exists(u) or (u in red and _exists(red[u])):
+                if _exists(u, publish) or (u in red and _exists(red[u], publish)):
                     continue
                 dead.setdefault(u, set()).add(rel)
     return dead, checked, len(pages)
+
+
+def unlink(publish=None):
+    """NO BUILT PAGE LINKS TO A PAGE THAT IS NOT THERE (C-DONE point 5, Jack, 24 November 2026). The build's last
+    step: every anchor whose internal target neither exists nor redirects to a page that does is drawn as its own
+    text. Two kinds reach it: a stored Brief or Edition citing a story the desk never published, and a frozen dated
+    page naming a coin whose page is no longer built. The words stay, the dead door goes; a redirect to a live page is
+    left alone. Returns the number of anchors unwrapped. Script text is never touched."""
+    publish = publish or PUBLISH
+    dead, _c, _n = check(publish)
+    if not dead:
+        return 0
+    total = 0
+    anchor = re.compile(r'<a\b[^>]*\bhref="([^"]+)"[^>]*>(.*?)</a>', re.S)
+    for rel in sorted({r for pages in dead.values() for r in pages}):
+        path = os.path.join(publish, rel)
+        h = open(path, encoding="utf-8").read()
+        count = [0]
+
+        def unwrap(m):
+            if _target(m.group(1)) in dead:
+                count[0] += 1
+                return m.group(2)
+            return m.group(0)
+        parts = re.split(r"(<script\b.*?</script>)", h, flags=re.S | re.I)
+        out = "".join(x if i % 2 else anchor.sub(unwrap, x) for i, x in enumerate(parts))
+        if count[0]:
+            open(path, "w", encoding="utf-8").write(out)
+            total += count[0]
+    return total
 
 
 def _baseline():

@@ -1,0 +1,42 @@
+plant 1: the check reads a script's string as a link again
+  exit 1, 2 case(s) red
+    red: the check finds the two dead targets and does not read a script's string as a link
+    red: after it the same check finds nothing
+plant 2: unlink leaves the dead anchors in place
+  exit 1, 2 case(s) red
+    red: unlink draws each dead link as its text (three anchors), keeps the markup inside it, and leaves the live link, the redir
+    red: after it the same check finds nothing
+plant 3: unlink drops the link's words with the link
+  exit 1, 1 case(s) red
+    red: unlink draws each dead link as its text (three anchors), keeps the markup inside it, and leaves the live link, the redir
+plant 4: unlink unwraps a link that only redirects
+  exit 1, 2 case(s) red
+    red: the check finds the two dead targets and does not read a script's string as a link
+    red: unlink draws each dead link as its text (three anchors), keeps the markup inside it, and leaves the live link, the redir
+plant 5: the build no longer runs unlink
+  exit 1, 1 case(s) red
+    red: the build runs it last and the list of known dead links is empty (none is excused any more)
+plant 6: the Edition's time is UTC again
+  exit 1, 2 case(s) red
+    red: an Edition's time is Eastern, on both sides of the clock change: 23:15 UTC is 6:15 PM ET in November and 7:15 PM ET in A
+    red: no Edition page prints UTC or a place (the code holds neither)
+plant 7: the Edition's time ignores the clock change (a fixed five hours)
+  exit 1, 1 case(s) red
+    red: an Edition's time is Eastern, on both sides of the clock change: 23:15 UTC is 6:15 PM ET in November and 7:15 PM ET in A
+plant 8: an empty rail is drawn
+  exit 1, 1 case(s) red
+    red: an empty rail is not drawn; a rail with stories is
+plant 9: the outlet's lowercased headline is printed again
+  exit 1, 1 case(s) red
+    red: 'Also reported by' names each outlet once and prints no lowercased headline and no note about itself
+plant 10: an outlet is named twice
+  exit 1, 1 case(s) red
+    red: 'Also reported by' names each outlet once and prints no lowercased headline and no note about itself
+plant 11: a price under a cent is $0.00 again
+  exit 1, 1 case(s) red
+    red: a price under a cent prints its digits, never $0.00; other prices print as they did
+plant 12: About says 'labelled' again
+  exit 1, 1 case(s) red
+    red: US spelling in the site's own copy (About, the on-chain explainer)
+restored from the saved copies: exit 0
+PLANTS: ALL CAUGHT

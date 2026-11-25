@@ -41,7 +41,6 @@ DESK = {
     "motto": "Independent · No Hype · Every Source Linked",
     "folio": ("GoCheckMyCrypto is a site of Go Check My Brands LLC · "
               "Every source linked · Never financial advice"),
-    "place": "Charleston, S.C.",
     "origin": "https://gocheckmycrypto.com",
     "desk_label": "The Desk",
     "volume": "Vol. I",
@@ -193,13 +192,22 @@ def _human_date(day):
     return datetime.date.fromisoformat(day).strftime("%A, %B %-d, %Y")
 
 
-def _utc_stamp(d):
-    m = re.search(r"T(\d{2}):(\d{2})", _when(d))
-    if not m:
+def _et_stamp(d):
+    """'6:15 PM ET': the time a piece was published, in Eastern time (C-DONE point 4: no page prints a UTC stamp), or
+    '' when the piece carries a date and no time."""
+    try:
+        from zoneinfo import ZoneInfo
+        t = datetime.datetime.fromisoformat(_when(d).replace("Z", "+00:00"))
+        if "T" not in _when(d):
+            return ""
+        return t.astimezone(ZoneInfo("America/New_York")).strftime("%-I:%M %p ET")
+    except Exception:                                             # noqa: BLE001
         return ""
-    hh, mm = int(m.group(1)), m.group(2)
-    ampm = "AM" if hh < 12 else "PM"
-    return f"{(hh % 12) or 12}:{mm} {ampm} UTC"
+
+
+def _rail(rail_html):
+    """The rail of top stories, or nothing when there is none: an empty rail is not drawn (C-DONE point 4)."""
+    return f'<aside class="ed-rail" aria-label="Top stories">{rail_html}</aside>' if rail_html else ""
 
 
 def _story_url(d):
@@ -246,7 +254,7 @@ def render_front(desk, items, day, all_days, canonical_path="/news.html"):
     head = f"""<header class="ed-head">
   <span class="ed-kicker">The Brief</span>
   <h1>{esc(slot)}, {esc(_human_date(day))}</h1>
-  <p class="ed-dateline">Issue No. {issue_no} &middot; {esc(desk["place"])}</p>
+  <p class="ed-dateline">Issue No. {issue_no}</p>
 </header>"""
 
     lead_html = ""
@@ -256,7 +264,7 @@ def render_front(desk, items, day, all_days, canonical_path="/news.html"):
   <span class="ed-kicker">{_kicker(desk, lead)}</span>
   <h2><a href="{_story_url(lead)}">{esc(lead.get("title"))}</a></h2>
   <p class="ed-dek">{esc(lead.get("dek"))}</p>
-  <p class="ed-byline">By {esc(_byline(lead, desk))} &middot; {esc(_utc_stamp(lead))}</p>
+  <p class="ed-byline">By {esc(_byline(lead, desk))} &middot; {esc(_et_stamp(lead))}</p>
   <div class="ed-copy">{opening}</div>
   <p class="ed-continued"><a href="{_story_url(lead)}">Continued &#8594;</a></p>
 </article>"""
@@ -275,7 +283,7 @@ def render_front(desk, items, day, all_days, canonical_path="/news.html"):
         brief_html = f"""<section class="ed-brief" aria-label="{esc(_brief_name(ed))}">
   <div class="ed-brief-head">
     <span class="ed-kicker">{esc(_brief_name(ed))}</span>
-    <span class="ed-stamp">{esc(_utc_stamp(ed))}</span>
+    <span class="ed-stamp">{esc(_et_stamp(ed))}</span>
   </div>
   <div class="ed-brief-cols">{_cites(ed, "".join(f"<p>{p}</p>" for p in (ed.get("body") or [])))}</div>
   <div class="ed-brief-cites">In this brief: {cites}</div>
@@ -296,7 +304,7 @@ def render_front(desk, items, day, all_days, canonical_path="/news.html"):
 {head}
 <div class="ed-front">
 {lead_html}
-<aside class="ed-rail" aria-label="Top stories">{rail_html}</aside>
+{_rail(rail_html)}
 </div>
 {brief_html}
 {down_html}
