@@ -9,11 +9,24 @@ Public repo. No tokens, keys or secret values in this file, ever.
 
 **Health (N-1, November 21, 2026).** What a newsroom email means and what to do about it: `docs/HEALTH.md` in gcm-newsroom. This desk's one mail is `.github/workflows/health.yml` (7 AM ET); the Worker is the only trigger for the Brief, the morning read and the watcher; the report is `docs/REPORTS/N-1-REPORT.md` in gcm-newsroom.
 
-Last updated: 11 November 2026, Sprint B of the Nov 7 site audit (section 0b, below). Before it: 7 November 2026, 10:00 PM ET, Sprint A of the Nov 7 site audit (section 0, below). Before it: 14 October 2026, Program 7 Sprint 7.3 MERGED `5bb4df7`, 8:44 AM ET (section 13). Before it, Sprints 6.5, 6.4, 7.2 and 7.1 merged (sections 9 to 12, moved). Before it, Sprint 7.1 merged (section 9). Before it, Program 6 Sprint 6.3 merged (section 7e, moved). Before it, Sprint 6.2 (section 7d), Sprint 6.1 (section 7c, moved). Earlier that day, 9:20 AM EDT: Sprint 2's close (section 7b) and the band-ink merge `aa64f08`. Before that, the close of 8 October (section 7), written late: the 8 October
+Last updated: 25 November 2026, C-DONE (section 0c, below). Before it: 11 November 2026, Sprint B of the Nov 7 site audit (section 0b, below). Before it: 7 November 2026, 10:00 PM ET, Sprint A of the Nov 7 site audit (section 0, below). Before it: 14 October 2026, Program 7 Sprint 7.3 MERGED `5bb4df7`, 8:44 AM ET (section 13). Before it, Sprints 6.5, 6.4, 7.2 and 7.1 merged (sections 9 to 12, moved). Before it, Sprint 7.1 merged (section 9). Before it, Program 6 Sprint 6.3 merged (section 7e, moved). Before it, Sprint 6.2 (section 7d), Sprint 6.1 (section 7c, moved). Earlier that day, 9:20 AM EDT: Sprint 2's close (section 7b) and the band-ink merge `aa64f08`. Before that, the close of 8 October (section 7), written late: the 8 October
 evening wake-up reached the session on 11 October. `main` ends at the close commit on top of
 `a5bea57`. Days before 23 September live in `HANDOFF-2026-08-17.md`; 23 September to 1 October
 in `HANDOFF-2026-09-23-to-10-01.md`; 4 to 8 October in `HANDOFF-2026-10-04.md` to `-10-08.md`
 (U-1).
+
+## 0c. C-DONE (from 24 November 2026): the running record is `docs/REPORTS/C-DONE-REPORT.md`
+
+One session working the ten points of Jack's definition of done until each is green on production or named red. The
+scorecard, every merge with both hashes, every re-pin with old and new values, the production reads and what is Jack's
+are in `docs/REPORTS/C-DONE-REPORT.md`; logs in `docs/REPORTS/C-DONE-logs/`, screenshots in `C-DONE-shots/`. Rulings it
+carries out (Jack, 24 and 25 November): the Board leads the home; the editor's byline is Crypto Cronkite; About says
+nothing about method; a story lane quiet for 14 days comes off the home and the lane lists; the Board's stamp is its
+freshest read. What changed for the next session: the publishing workflows' canary step runs `scripts/canary_gate.py`
+(a red from stored data warns and the run goes on; red code stops it); `review/` and `.github/` never build the site;
+the new cases are `scripts/cdone_test.py`, in the canary; `python3 scripts/ops_ledger.py --week` prints seven days of
+spend; the family newsroom's schedule is off (gcm-newsroom `b5c0806`). Merges that touch only code no page reads carry
+`[skip netlify]` and ride the next scheduled build.
 
 ## 0b. Sprint B of the Nov 7 2026 site audit (11 November 2026)
 
