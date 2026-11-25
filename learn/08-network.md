@@ -5,7 +5,7 @@ board_tile: network
 meta_description: What the network tile measures, why fees spike, what mining difficulty says about the people running the network, and how to read a quiet chain during a rally.
 target_queries: bitcoin transaction fees today; sat/vb meaning; bitcoin mining difficulty explained; mempool explained
 related_tiles: whale_flows; bitcoin; market
-read_time: 5 min
+read_time: 3 min
 byline: Crypto Cronkite
 last_reviewed: 2026-11-25
 live_embed: board.network (current fee rate in sat/vB, fee band label, difficulty and next adjustment, as-of stamp, source line). Template slot, filled at build.
@@ -13,7 +13,7 @@ live_embed: board.network (current fee rate in sat/vB, fee band label, difficult
 
 # Bitcoin fees and difficulty: what a quiet or busy chain tells you
 
-*Every other tile on Markets measures money. The network tile measures activity: how crowded the Bitcoin network is right now, and how much computing power is protecting it. Both say something about the market that price cannot.*
+*Every other tile on Markets measures money. The network tile measures activity: how crowded the Bitcoin network is. The network page adds mining difficulty, a measure of how much computing power is protecting it. Both say something about the market that price cannot.*
 
 [LIVE FROM THE BOARD: fee rate, fee band, difficulty and next adjustment, as-of stamp, source. Link: See it on Markets.]
 
@@ -21,7 +21,7 @@ live_embed: board.network (current fee rate in sat/vB, fee band label, difficult
 
 Bitcoin transactions wait in a queue called the mempool until a miner includes them in a block. Space in each block is limited, so when many people want in at once, they bid for it. The bid is the fee, measured in satoshis per virtual byte, written sat/vB. A satoshi is one hundred-millionth of a bitcoin; a virtual byte is a unit of the transaction's size. The fee rate is the price of space.
 
-A low number, in the single digits, means the queue is short and the chain is quiet. A high number, in the hundreds, means the queue is long and people are paying up to jump it.
+A low number, around 5 or less, means the queue is short and the chain is quiet. A high number, above about 30, means the queue is long and people are paying up to jump it.
 
 ## What fee spikes tell you
 
@@ -31,7 +31,7 @@ The first reason is fear or excitement about price. In a crash, people rush coin
 
 The second reason has nothing to do with price. Waves of activity unrelated to trading, such as periods when people used the chain to record data or trade collectibles, have pushed fees up while price did nothing.
 
-The useful read is the pairing. Fees spiking while whale deposits surge is a rush to sell. Fees spiking while coins leave exchanges is a rush to hold. Fees flat during a big rally means the action is happening on exchanges and in the ETFs, not on the chain itself, which has been the normal pattern since the spot funds launched.
+The useful read is the pairing. Fees spiking while whale deposits surge is a rush to sell. Fees spiking while coins leave exchanges is a rush to hold. Fees flat during a big rally means the action is happening on exchanges and in the ETFs, not on the chain itself, which has often been the pattern since the spot funds launched in January 2024.
 
 ## Difficulty, and what it says about miners
 
@@ -47,7 +47,7 @@ Fees measure activity, not direction. A busy chain can be busy with buyers or se
 
 ## Where the data comes from
 
-Fee rates and mempool depth come from mempool.space, a public view of the Bitcoin network, read at every site build. Difficulty and the estimated next adjustment come from the same source.
+Fee rates come from mempool.space, a public view of the Bitcoin network. Difficulty and the estimated next adjustment come from the same source.
 
 ## Related on Markets
 

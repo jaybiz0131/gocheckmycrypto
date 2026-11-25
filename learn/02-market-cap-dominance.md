@@ -5,7 +5,7 @@ board_tile: market
 meta_description: What the whole-market number on Markets measures, why it is not "money in crypto," and what Bitcoin dominance tells you about where the market is leaning.
 target_queries: total crypto market cap; bitcoin dominance meaning; crypto market cap explained; what is bitcoin dominance
 related_tiles: bitcoin; stablecoins; sentiment
-read_time: 4 min
+read_time: 2 min
 byline: Crypto Cronkite
 last_reviewed: 2026-11-25
 live_embed: board.market (total market cap, change since yesterday, Bitcoin dominance, as-of stamp, source line). Template slot, filled at build.
@@ -21,13 +21,13 @@ live_embed: board.market (total market cap, change since yesterday, Bitcoin domi
 
 A coin's market cap is its price multiplied by the number of coins in circulation. Add that up for every coin and you get the total crypto market cap, the value of everything at today's prices.
 
-The key phrase is at today's prices. Market cap is not money that has been paid into crypto, and it is not money that could be taken out. If one person buys a thinly traded coin and lifts its price by 10 percent, the market cap of every coin held by everyone else rises by 10 percent too, even though only one small trade happened. Cap can move by billions on very little actual money.
+The key phrase is at today's prices. Market cap is not money that has been paid into crypto, and it is not money that could be taken out. If one person buys a thinly traded coin and lifts its price by 10 percent, the value of every unit of that coin, whoever holds it, rises by 10 percent too, even though only one small trade happened. Cap can move by billions on very little actual money.
 
 That is why Markets shows the change since yesterday rather than treating the level as the story. The direction and speed of the number tell you more than its size.
 
 ## Bitcoin dominance
 
-Dominance is Bitcoin's share of the total. If the whole market is worth $2.7 trillion and Bitcoin is worth $1.5 trillion, dominance is about 56 percent.
+Dominance is Bitcoin's share of the total. If Bitcoin is worth $1 of every $2 in the market, dominance is 50 percent.
 
 Rising dominance means money is concentrating in Bitcoin: either Bitcoin is rising faster than everything else, or everything else is falling faster than Bitcoin. Inside crypto, that is the cautious posture. Falling dominance means the smaller coins are outrunning Bitcoin, which is what happens when appetite for risk is high.
 
@@ -47,7 +47,7 @@ Market cap says nothing about how much of a coin's supply actually trades. Some 
 
 ## Where the data comes from
 
-Total market cap and Bitcoin dominance come from CoinGecko's global market data, read at every site build.
+Total market cap and Bitcoin dominance come from CoinGecko's global market data.
 
 ## Related on Markets
 

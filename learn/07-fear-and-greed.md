@@ -5,7 +5,7 @@ board_tile: sentiment
 meta_description: What the crypto Fear and Greed index measures, why extreme readings tend to mark turning points rather than entries, and how to read the crowd sentiment tile.
 target_queries: fear and greed index bitcoin; crypto fear and greed index today; fear and greed index explained; extreme greed crypto meaning
 related_tiles: bitcoin; leverage; market
-read_time: 4 min
+read_time: 2 min
 byline: Crypto Cronkite
 last_reviewed: 2026-11-25
 live_embed: board.sentiment (index value, band label, change since yesterday, as-of stamp, source line). Template slot, filled at build.
@@ -20,7 +20,7 @@ build_note: confirm the index source named in the copy (Alternative.me) against 
 
 ## What it measures
 
-The Crypto Fear and Greed index, published by Alternative.me, combines several measurable signals into one score. The main ingredients are price volatility, market momentum and trading volume, social media activity, Bitcoin's share of the market, and search interest. Each is compared with its own recent history, weighted, and blended.
+The Crypto Fear and Greed index, published by Alternative.me, combines several measurable signals into one score. As the publisher describes it, the main ingredients are price volatility, market momentum and trading volume, social media activity, Bitcoin's share of the market, and search interest. Each is compared with its own recent history, weighted, and blended.
 
 The result reads as a mood. Zero is extreme fear, 100 is extreme greed. Markets shows the score, the band it falls in, and how it moved since yesterday.
 
@@ -36,7 +36,7 @@ So the index works best as a contrarian reading. Extreme greed says the room is 
 
 The level and the change both matter. A move from 45 to 71 in a week says the mood changed fast, and fast mood changes tend to overshoot. A reading of 71 that has held for a month says something different: the market is in a sustained optimistic stretch, which can continue for a long time.
 
-The most reliable use is at the extremes, and even there the word is tend. Extreme readings tend to mark turning points. They do not mark them on schedule. In a strong trend the index can sit above 80 for weeks, and selling on the first extreme greed reading has been a losing habit in every major rally.
+The most reliable use is at the extremes, and even there the word is tend. Extreme readings tend to mark turning points. They do not mark them on schedule. In a strong trend the index can sit above 80 for weeks, and selling on the first extreme greed reading has often been a losing habit in major rallies.
 
 Read it with the leverage tile. Extreme greed plus crowded long positions is a fragile market. Extreme fear plus leverage already flushed out is a market with less left to break.
 
@@ -46,7 +46,7 @@ The index does not know why people feel the way they do. A greed reading driven 
 
 ## Where the data comes from
 
-Markets reads the published index at every site build. The methodology and weights belong to the index publisher; Markets reports the number and the band without adjusting them.
+Markets reads the published index. The methodology and weights belong to the index publisher; Markets reports the number as published and names the band from the table above.
 
 ## Related on Markets
 
