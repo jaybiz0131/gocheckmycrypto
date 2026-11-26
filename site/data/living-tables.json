@@ -1,10 +1,10 @@
 {
  "fetched": {
-  "etf_by_issuer": "2026-11-26T14:39:48Z",
-  "stables_by_issuer": "2026-11-26T14:39:48Z",
-  "whales_by_week": "2026-11-26T14:39:48Z"
+  "etf_by_issuer": "2026-11-26T23:17:47Z",
+  "stables_by_issuer": "2026-11-26T23:17:47Z",
+  "whales_by_week": "2026-11-26T23:17:47Z"
  },
- "fetched_at": "2026-11-26T14:39:48Z",
+ "fetched_at": "2026-11-26T23:17:47Z",
  "tables": {
   "etf_by_issuer": {
    "days": [
@@ -262,80 +262,80 @@
   "stables_by_issuer": {
    "rows": [
     {
-     "chg_7d_pct": -0.8307081863505039,
-     "circulating_usd": 173542658959,
+     "chg_7d_pct": -0.8227180207983409,
+     "circulating_usd": 173549690504,
      "name": "Tether",
      "peg": "peggedUSD",
-     "share_pct": 61.25,
+     "share_pct": 61.27,
      "symbol": "USDT"
     },
     {
-     "chg_7d_pct": 1.0484840816480379,
-     "circulating_usd": 69296555546,
+     "chg_7d_pct": 0.9263865274268701,
+     "circulating_usd": 69214544938,
      "name": "USD Coin",
      "peg": "peggedUSD",
-     "share_pct": 24.46,
+     "share_pct": 24.43,
      "symbol": "USDC"
     },
     {
-     "chg_7d_pct": 0.6507442084586534,
-     "circulating_usd": 4911811536,
+     "chg_7d_pct": 0.7428456935987038,
+     "circulating_usd": 4916704132,
      "name": "Ethena USDe",
      "peg": "peggedUSD",
-     "share_pct": 1.73,
+     "share_pct": 1.74,
      "symbol": "USDe"
     },
     {
-     "chg_7d_pct": -1.4140876170408045,
-     "circulating_usd": 4525470331,
+     "chg_7d_pct": -1.494341833977808,
+     "circulating_usd": 4522035195,
      "name": "Dai",
      "peg": "peggedUSD",
      "share_pct": 1.6,
      "symbol": "DAI"
     },
     {
-     "chg_7d_pct": -40.486403290202276,
-     "circulating_usd": 3117712061,
+     "chg_7d_pct": -40.37457689516537,
+     "circulating_usd": 3124391196,
      "name": "Sky Dollar",
      "peg": "peggedUSD",
      "share_pct": 1.1,
      "symbol": "USDS"
     },
     {
-     "chg_7d_pct": -2.2168804789496677,
-     "circulating_usd": 2849185318,
+     "chg_7d_pct": -2.2168804789496788,
+     "circulating_usd": 2849000004,
      "name": "World Liberty Financial USD",
      "peg": "peggedUSD",
      "share_pct": 1.01,
      "symbol": "USD1"
     },
     {
-     "chg_7d_pct": -0.1766256745482142,
-     "circulating_usd": 2799210869,
+     "chg_7d_pct": -0.1443806190357222,
+     "circulating_usd": 2800548293,
      "name": "Ripple USD",
      "peg": "peggedUSD",
      "share_pct": 0.99,
      "symbol": "RLUSD"
     },
     {
-     "chg_7d_pct": -1.5939792940744546,
-     "circulating_usd": 2573392470,
+     "chg_7d_pct": -1.59397929407461,
+     "circulating_usd": 2574014344,
      "name": "Global Dollar",
      "peg": "peggedUSD",
      "share_pct": 0.91,
      "symbol": "USDG"
     },
     {
-     "chg_7d_pct": -1.6274577146420444,
-     "circulating_usd": 2354331357,
+     "chg_7d_pct": -0.9311872229592955,
+     "circulating_usd": 2371006682,
      "name": "PayPal USD",
      "peg": "peggedUSD",
-     "share_pct": 0.83,
+     "share_pct": 0.84,
      "symbol": "PYUSD"
     },
     {
-     "chg_7d_pct": -2.1073272364321327,
-     "circulating_usd": 1600989518,
+     "chg_7d_pct": -2.1073272364321216,
+     "circulating_usd": 1601255056,
      "name": "United Stables",
      "peg": "peggedUSD",
      "share_pct": 0.57,
@@ -343,31 +343,31 @@
     },
     {
      "chg_7d_pct": 2.001326884493926,
-     "circulating_usd": 1548355809,
+     "circulating_usd": 1548430065,
      "name": "Falcon USD",
      "peg": "peggedUSD",
      "share_pct": 0.55,
      "symbol": "USDf"
     },
     {
-     "chg_7d_pct": 4.184214351747739,
-     "circulating_usd": 1485796975,
+     "chg_7d_pct": 4.2914143770620194,
+     "circulating_usd": 1487518537,
      "name": "USDD",
      "peg": "peggedUSD",
-     "share_pct": 0.52,
+     "share_pct": 0.53,
      "symbol": "USDD"
     },
     {
-     "chg_7d_pct": 3.259600224791126,
-     "circulating_usd": 1007366172,
+     "chg_7d_pct": 3.3780205737826474,
+     "circulating_usd": 1008440279,
      "name": "Open USD",
      "peg": "peggedUSD",
      "share_pct": 0.36,
      "symbol": "OUSD"
     },
     {
-     "chg_7d_pct": -9.627981211401938,
-     "circulating_usd": 940547530,
+     "chg_7d_pct": -9.627981211401949,
+     "circulating_usd": 940678998,
      "name": "USDGO",
      "peg": "peggedUSD",
      "share_pct": 0.33,
@@ -383,7 +383,7 @@
     }
    ],
    "source": "DefiLlama stablecoin circulating supply",
-   "total_usd": 283325952054
+   "total_usd": 283270343463
   },
   "whales_by_week": {
    "source": "Whale Alert public feed, transfers of $50M and up",

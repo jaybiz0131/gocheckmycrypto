@@ -1,31 +1,31 @@
 {
- "line": "Bitcoin drifted higher on oversold technicals and extreme fear, but intraday strength masks persistent weekly outflows and fresh whale deposits onto exchanges.",
- "by": "edition",
- "written_utc": "2026-11-26T14:37:30Z",
- "written_et": "9:37 AM ET on Nov 26",
+ "line": "Bitcoin is drifting higher while spot ETFs saw outflows; the news is mostly the courts.",
+ "by": "table",
+ "written_utc": "2026-11-26T23:15:30Z",
+ "written_et": "6:15 PM ET on Nov 26",
  "readings": {
-  "stamp_utc": "2026-11-26T14:32:55Z",
-  "btc_24h_pct": 4.74,
+  "stamp_utc": "2026-11-26T23:12:56Z",
+  "btc_24h_pct": 0.52,
   "etf_net_usd_m": -453.0,
   "etf_date": "25 Nov 2026",
   "fear_greed": 11,
   "fear_greed_band": "Extreme fear",
-  "funding_8h_pct": 0.0047,
+  "funding_8h_pct": -0.0003,
   "funding_band": "calm"
  },
- "small_line": "Written from Bitcoin +4.74% on the day, spot ETF net -453.0M USD (Nov 25, 2026), Fear & Greed 11 (extreme fear), funding +0.0047% per 8h (calm)",
+ "small_line": "Written from Bitcoin +0.52% on the day, spot ETF net -453.0M USD (Nov 25, 2026), Fear & Greed 11 (extreme fear), funding -0.0003% per 8h (calm)",
  "wire_top3": [
   {
-   "id": "c068",
-   "line": "Switzerland approved 57 countries and territories for automatic crypto tax information sharing starting 2028."
+   "id": "c009",
+   "line": "New York AG won $1.37B judgment against NovaTech founders for defrauding hundreds of thousands including 11,000 state residents."
   },
   {
-   "id": "c049",
-   "line": "Ukraine parliament passed crypto regulation and tax bill establishing 18% plus 5% military levy, effective July 2027."
+   "id": "c003",
+   "line": "Spain's Sepblac financial intelligence unit gains power to freeze crypto accounts for up to five days without prior court approval, effective Jan. 25."
   },
   {
-   "id": "c019",
-   "line": "Sens. Warren and Van Hollen sent letters to SEC Chair demanding rescission of the innovation exemption and Regulation Crypto."
+   "id": "c004",
+   "line": "Standard Chartered's Zodia Custody disclosed breach detected Nov. 23 exposed client and staff names and emails; no unauthorized transactions found."
   }
  ],
  "crossed": []

@@ -2,14 +2,59 @@
   "date": "2026-11-26",
   "generated_by": "chartmaster.py (auto, from the live boards)",
   "mode": "live",
-  "path": "cut",
-  "headline": "Bounce on the day masks month-long decay; leverage long and expensive while spot ETF pulls out for seven straight sessions.",
-  "paragraphs": [
-    "The tape shows a market deep in a downtrend that paused for a single day. All seven majors sit below their 200-day simple moving averages: Bitcoin trades 15.6 percent below the line at 60,720, Ethereum 19.4 percent below at 1,700, and Solana 18.9 percent below at 71.29. Bitcoin closed with a golden cross (50-day above 200-day), as did Ethereum, Solana, and BNB, but those crosses offer no comfort when the price itself remains submerged. The month-long wound is real and consistent: Bitcoin down 24.6 percent over thirty days, Ethereum down 27.1 percent, Solana down 30.1 percent, and Cardano down 29.4 percent. On the week, every major is red. On the day, every major is green, with Cardano and Doge leading at plus 8.9 and plus 8.4 percent respectively. This disagreement across windows is the market's story right now: a one-day bounce fighting a one-month collapse.",
-    "Momentum is in breakdown without confirmation. Bitcoin's RSI-14 sits at 28.8, Ethereum at 30.5, and BNB at 28.6, all in deep oversold territory. Yet Bitcoin's MACD remains below its signal line, the only major showing that posture; Ethereum, Solana, XRP, Doge, and Cardano all trade with MACD above signal, suggesting a small bid beneath the surface. This creates a tension: RSI and MACD point in different directions. The RSI screams exhaustion; the MACD says the pressure is not entirely relentless. Realized volatility across the board is elevated, with Cardano at 74.1 percent over thirty days and Ethereum at 66.5 percent, typical of a market in free fall seeking a floor.",
-    "Leverage positioning is crowded and expensive. These are elevated rates in absolute terms: traders are paying real money to hold long bias. Bitcoin's long-to-short ratio on OKX stands at 2.36, Ethereum at 2.78, Solana at 2.85, and Doge at 3.24, all heavily skewed toward longs. Liquidations over the last four to nineteen hours show a consistent bias toward short closures, particularly in Doge where shorts liquidated for 301 million dollars versus 2.7 million for longs over nineteen hours.",
-    "Spot flows tell a different story than leverage. Bitcoin ETF outflows measure 453 million dollars on the day of November 25th and 2.51 billion dollars net outflow over the last five sessions, with outflows in the same direction for seven consecutive days. Ethereum ETF outflows track the same rhythm: 68.5 million on the latest day and 446 million net over five sessions, with eight straight days of redemptions. This is traditional finance stepping back while spot price bounces. Over the last 24 hours, 58.4 million dollars of Bitcoin moved onto exchanges, specifically to Coinbase, a classic liquidation tell. Yet the weekly context contradicts the daily despair: the week ending November 21st saw 1.615 billion dollars of Bitcoin move off exchanges, and the week ending November 7th saw 4.125 billion dollars depart, the pattern of holders accumulating into weakness. Stablecoin supply contracted 5.75 percent over thirty days to 282.2 billion dollars, leaving less dry powder on the sidelines.",
-    "The Fear and Greed Index reads 11, labeled Extreme Fear, the lowest point in a thirty-day range that peaked at 51. This is capitulation sentiment. The disconnect between this gauge and the data is sharp: leverage is expensive and crowded, spot ETF flows are relentless outflows, yet whales moved coins off exchanges for three consecutive weeks and only began trickling back onto venues over the last 24 hours. The bounce on the day occurs into the worst fear sentiment recorded in the window, suggesting panic sellers and weak hands capitulating into a micro bid rather than a regime change.",
-    "Watch three conditions. First, whether Bitcoin reclaims and closes above its 200-day line; that cross, confirmed by price, would be the first structural signal of a turn. Third, whether the multi-day pattern of spot ETF outflows reverses; seven days of redemptions is a persistent hemorrhage, and a flip to inflows would signal traditional finance returning to bid."
+  "path": "data-only",
+  "headline": "Chart data card: levels, 50-day and 200-day lines, RSI",
+  "paragraphs": [],
+  "data_only": true,
+  "levels": [
+    {
+      "symbol": "BTC",
+      "price": 60411,
+      "sma50": 74702.86,
+      "sma200": 71928.7,
+      "rsi14": 27.5
+    },
+    {
+      "symbol": "ETH",
+      "price": 1687.74,
+      "sma50": 2167.74,
+      "sma200": 2109.85,
+      "rsi14": 29.3
+    },
+    {
+      "symbol": "SOL",
+      "price": 70.93,
+      "sma50": 91.29,
+      "sma200": 87.89,
+      "rsi14": 32.4
+    },
+    {
+      "symbol": "XRP",
+      "price": 0.942773,
+      "sma50": 1.18,
+      "sma200": 1.23,
+      "rsi14": 33.9
+    },
+    {
+      "symbol": "BNB",
+      "price": 552.85,
+      "sma50": 677.88,
+      "sma200": 654.22,
+      "rsi14": 28.7
+    },
+    {
+      "symbol": "DOGE",
+      "price": 0.056296,
+      "sma50": 0.07,
+      "sma200": 0.08,
+      "rsi14": 31.5
+    },
+    {
+      "symbol": "ADA",
+      "price": 0.148019,
+      "sma50": 0.19,
+      "sma200": 0.2,
+      "rsi14": 33.7
+    }
   ]
 }

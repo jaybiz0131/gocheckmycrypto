@@ -1,0 +1,4005 @@
+{
+ "what": "Big movers, checked: the gate on the Board's top 100 (AUDIT.md 3.1 and 3.2), and for each coin past it the evidence by 9.2's rules with the coin's own candidates. Measured by code.",
+ "window": {
+  "start_utc": "2026-11-25T23:12:56Z",
+  "end_utc": "2026-11-26T23:12:56Z",
+  "hours": 24
+ },
+ "made_utc": "2026-11-26T23:17:03Z",
+ "gate": {
+  "rule": {
+   "version": "2026-10-19",
+   "source": "AUDIT.md section 3.1, the row 'Any top-100 coin', and section 3.2",
+   "move_min_pct": 10.0,
+   "vol_multiple_min": 2.5,
+   "excess_min_pts": 6.0,
+   "history_days": 30,
+   "per_slot": 8,
+   "per_day": 10
+  },
+  "board_utc": "2026-11-26T23:12:56Z",
+  "before_day": "2026-11-25",
+  "btc_24h_pct": 0.52,
+  "passed": [
+   {
+    "sym": "SKY",
+    "name": "Sky",
+    "gecko_id": "sky",
+    "rank": 66,
+    "pos": 54,
+    "move_pct": 11.73,
+    "vol_pct": 3.43,
+    "multiple": 3.42,
+    "beta": 0.72,
+    "btc_pct": 0.52,
+    "predicted_pct": 0.37,
+    "excess_pts": 11.36,
+    "legs": {
+     "move": true,
+     "multiple": true,
+     "excess": true
+    },
+    "pass": true,
+    "history": {
+     "from": "2026-10-25",
+     "through": "2026-11-24"
+    }
+   },
+   {
+    "sym": "XMR",
+    "name": "Monero",
+    "gecko_id": "monero",
+    "rank": 13,
+    "pos": 12,
+    "move_pct": -12.62,
+    "vol_pct": 3.94,
+    "multiple": 3.2,
+    "beta": 1.095,
+    "btc_pct": 0.52,
+    "predicted_pct": 0.57,
+    "excess_pts": -13.19,
+    "legs": {
+     "move": true,
+     "multiple": true,
+     "excess": true
+    },
+    "pass": true,
+    "history": {
+     "from": "2026-10-25",
+     "through": "2026-11-24"
+    }
+   }
+  ],
+  "over_cap": [],
+  "failed": [
+   {
+    "sym": "FET",
+    "name": "Artificial Superintelligence Alliance",
+    "gecko_id": "fetch-ai",
+    "rank": 128,
+    "pos": 97,
+    "move_pct": 10.91,
+    "vol_pct": 4.78,
+    "multiple": 2.28,
+    "beta": 1.445,
+    "btc_pct": 0.52,
+    "predicted_pct": 0.75,
+    "excess_pts": 10.16,
+    "legs": {
+     "move": true,
+     "multiple": false,
+     "excess": true
+    },
+    "pass": false,
+    "history": {
+     "from": "2026-10-25",
+     "through": "2026-11-24"
+    }
+   },
+   {
+    "sym": "ZRO",
+    "name": "LayerZero",
+    "gecko_id": "layerzero",
+    "rank": 105,
+    "pos": 82,
+    "move_pct": 10.39,
+    "vol_pct": 5.99,
+    "multiple": 1.74,
+    "beta": 1.224,
+    "btc_pct": 0.52,
+    "predicted_pct": 0.64,
+    "excess_pts": 9.75,
+    "legs": {
+     "move": true,
+     "multiple": false,
+     "excess": true
+    },
+    "pass": false,
+    "history": {
+     "from": "2026-10-24",
+     "through": "2026-11-23"
+    }
+   },
+   {
+    "sym": "VVV",
+    "name": "Venice Token",
+    "gecko_id": "venice-token",
+    "rank": 60,
+    "pos": 48,
+    "move_pct": -10.08,
+    "vol_pct": 7.03,
+    "multiple": 1.43,
+    "beta": 1.472,
+    "btc_pct": 0.52,
+    "predicted_pct": 0.77,
+    "excess_pts": -10.85,
+    "legs": {
+     "move": true,
+     "multiple": false,
+     "excess": true
+    },
+    "pass": false,
+    "history": {
+     "from": "2026-10-25",
+     "through": "2026-11-24"
+    }
+   },
+   {
+    "sym": "ZEC",
+    "name": "Zcash",
+    "gecko_id": "zcash",
+    "rank": 11,
+    "pos": 10,
+    "move_pct": -9.99,
+    "vol_pct": 5.51,
+    "multiple": 1.81,
+    "beta": 1.432,
+    "btc_pct": 0.52,
+    "predicted_pct": 0.74,
+    "excess_pts": -10.73,
+    "legs": {
+     "move": false,
+     "multiple": false,
+     "excess": true
+    },
+    "pass": false,
+    "history": {
+     "from": "2026-10-24",
+     "through": "2026-11-23"
+    }
+   },
+   {
+    "sym": "PIEVERSE",
+    "name": "Pieverse",
+    "gecko_id": "pieverse",
+    "rank": 68,
+    "pos": 56,
+    "move_pct": 8.91,
+    "vol_pct": 15.96,
+    "multiple": 0.56,
+    "beta": 0.022,
+    "btc_pct": 0.52,
+    "predicted_pct": 0.01,
+    "excess_pts": 8.9,
+    "legs": {
+     "move": false,
+     "multiple": false,
+     "excess": true
+    },
+    "pass": false,
+    "history": {
+     "from": "2026-10-25",
+     "through": "2026-11-24"
+    }
+   }
+  ],
+  "left_out": [],
+  "own_card": [],
+  "log": [
+   "movers: gate PASS SKY +11.73%, 3.42x its 30-day daily volatility of 3.43%, +11.36 points beyond its Bitcoin beta of 0.72 (Bitcoin +0.52%)",
+   "movers: gate PASS XMR -12.62%, 3.20x its 30-day daily volatility of 3.94%, -13.19 points beyond its Bitcoin beta of 1.095 (Bitcoin +0.52%)",
+   "movers: 5 coin(s) passed one leg and failed another (the per-coin log ran through 2026-11-02)"
+  ],
+  "crash": {
+   "day": false,
+   "why": [],
+   "btc_pct": 0.52,
+   "market_pct": 0.32,
+   "past_move": 5,
+   "measured_past_move": 5,
+   "with_market": 0
+  },
+  "used_today": 3
+ },
+ "coins": {
+  "SKY": {
+   "gate": {
+    "sym": "SKY",
+    "name": "Sky",
+    "gecko_id": "sky",
+    "rank": 66,
+    "pos": 54,
+    "move_pct": 11.73,
+    "vol_pct": 3.43,
+    "multiple": 3.42,
+    "beta": 0.72,
+    "btc_pct": 0.52,
+    "predicted_pct": 0.37,
+    "excess_pts": 11.36,
+    "legs": {
+     "move": true,
+     "multiple": true,
+     "excess": true
+    },
+    "pass": true,
+    "history": {
+     "from": "2026-10-25",
+     "through": "2026-11-24"
+    }
+   },
+   "gecko_id": "sky",
+   "name": "Sky",
+   "rank": 66,
+   "pos": 54,
+   "slug": "sky",
+   "volume_vs_7d": {
+    "ratio": 0.88,
+    "avg_usd": 38709424
+   },
+   "evidence": {
+    "what": "The evidence for a Big mover, by 9.2's rules (why_evidence.py): the coin's series, its own candidates (the wire items, listing and delisting notices, unlocks and hacks that name it), the timing test and the onset hour's readings. Measured by code; no model call; no grade.",
+    "window": {
+     "start_utc": "2026-11-25T23:12:56Z",
+     "end_utc": "2026-11-26T23:12:56Z",
+     "hours": 24
+    },
+    "made_utc": "2026-11-26T23:17:03Z",
+    "candidates": [],
+    "source_cuts": [],
+    "coins": {
+     "SKY": {
+      "series": {
+       "source": "CoinGecko 5-minute prices",
+       "url": "https://api.coingecko.com/api/v3/coins/sky/market_chart?vs_currency=usd&days=1",
+       "bar_min": 5,
+       "points": [
+        [
+         1795648800,
+         0.0417854
+        ],
+        [
+         1795649100,
+         0.04183303
+        ],
+        [
+         1795649400,
+         0.041782
+        ],
+        [
+         1795649700,
+         0.04189812
+        ],
+        [
+         1795650000,
+         0.04186544
+        ],
+        [
+         1795650300,
+         0.04192598
+        ],
+        [
+         1795650600,
+         0.04194903
+        ],
+        [
+         1795650900,
+         0.04195267
+        ],
+        [
+         1795651200,
+         0.04187982
+        ],
+        [
+         1795651500,
+         0.04198178
+        ],
+        [
+         1795651800,
+         0.0420288
+        ],
+        [
+         1795652100,
+         0.04211753
+        ],
+        [
+         1795652400,
+         0.04262057
+        ],
+        [
+         1795652700,
+         0.04245985
+        ],
+        [
+         1795653000,
+         0.04233655
+        ],
+        [
+         1795653300,
+         0.04230674
+        ],
+        [
+         1795653600,
+         0.04228598
+        ],
+        [
+         1795653900,
+         0.04230801
+        ],
+        [
+         1795654200,
+         0.04236455
+        ],
+        [
+         1795654500,
+         0.04226783
+        ],
+        [
+         1795654800,
+         0.04234381
+        ],
+        [
+         1795655100,
+         0.04238207
+        ],
+        [
+         1795655400,
+         0.04234086
+        ],
+        [
+         1795655700,
+         0.04250148
+        ],
+        [
+         1795656000,
+         0.04259332
+        ],
+        [
+         1795656300,
+         0.04273553
+        ],
+        [
+         1795656600,
+         0.04271189
+        ],
+        [
+         1795656900,
+         0.04258962
+        ],
+        [
+         1795657200,
+         0.04261897
+        ],
+        [
+         1795657500,
+         0.04283741
+        ],
+        [
+         1795657800,
+         0.04280495
+        ],
+        [
+         1795658100,
+         0.0427481
+        ],
+        [
+         1795658400,
+         0.04287288
+        ],
+        [
+         1795658700,
+         0.04287531
+        ],
+        [
+         1795659000,
+         0.04300591
+        ],
+        [
+         1795659300,
+         0.0431208
+        ],
+        [
+         1795659600,
+         0.0433127
+        ],
+        [
+         1795659900,
+         0.04336499
+        ],
+        [
+         1795660200,
+         0.04319167
+        ],
+        [
+         1795660500,
+         0.04312364
+        ],
+        [
+         1795660800,
+         0.04304711
+        ],
+        [
+         1795661100,
+         0.04301361
+        ],
+        [
+         1795661400,
+         0.04316153
+        ],
+        [
+         1795661700,
+         0.04305999
+        ],
+        [
+         1795662000,
+         0.04312898
+        ],
+        [
+         1795662300,
+         0.04311723
+        ],
+        [
+         1795662600,
+         0.04312395
+        ],
+        [
+         1795662900,
+         0.04313681
+        ],
+        [
+         1795663200,
+         0.04308934
+        ],
+        [
+         1795663500,
+         0.04315127
+        ],
+        [
+         1795663800,
+         0.04309822
+        ],
+        [
+         1795664100,
+         0.04279791
+        ],
+        [
+         1795664400,
+         0.04286121
+        ],
+        [
+         1795664700,
+         0.04298976
+        ],
+        [
+         1795665000,
+         0.04301372
+        ],
+        [
+         1795665300,
+         0.04298378
+        ],
+        [
+         1795665600,
+         0.04296116
+        ],
+        [
+         1795665900,
+         0.04303245
+        ],
+        [
+         1795666200,
+         0.04293867
+        ],
+        [
+         1795666500,
+         0.04292475
+        ],
+        [
+         1795666800,
+         0.042921
+        ],
+        [
+         1795667100,
+         0.04288874
+        ],
+        [
+         1795667400,
+         0.04295434
+        ],
+        [
+         1795667700,
+         0.04298187
+        ],
+        [
+         1795668000,
+         0.04287582
+        ],
+        [
+         1795668300,
+         0.04257162
+        ],
+        [
+         1795668600,
+         0.04263951
+        ],
+        [
+         1795668900,
+         0.04269316
+        ],
+        [
+         1795669200,
+         0.04280051
+        ],
+        [
+         1795669500,
+         0.04290601
+        ],
+        [
+         1795669800,
+         0.04302521
+        ],
+        [
+         1795670100,
+         0.04301459
+        ],
+        [
+         1795670400,
+         0.0430376
+        ],
+        [
+         1795670700,
+         0.04321076
+        ],
+        [
+         1795671000,
+         0.0432368
+        ],
+        [
+         1795671300,
+         0.04338185
+        ],
+        [
+         1795671600,
+         0.04354413
+        ],
+        [
+         1795671900,
+         0.04348978
+        ],
+        [
+         1795672200,
+         0.04356392
+        ],
+        [
+         1795672500,
+         0.04367055
+        ],
+        [
+         1795672800,
+         0.04377558
+        ],
+        [
+         1795673100,
+         0.04354621
+        ],
+        [
+         1795673400,
+         0.04373063
+        ],
+        [
+         1795673700,
+         0.04380135
+        ],
+        [
+         1795674000,
+         0.04385442
+        ],
+        [
+         1795674300,
+         0.04394647
+        ],
+        [
+         1795674600,
+         0.04377841
+        ],
+        [
+         1795674900,
+         0.04390785
+        ],
+        [
+         1795675200,
+         0.0437305
+        ],
+        [
+         1795675500,
+         0.04382152
+        ],
+        [
+         1795675800,
+         0.04390028
+        ],
+        [
+         1795676100,
+         0.04365885
+        ],
+        [
+         1795676400,
+         0.04358384
+        ],
+        [
+         1795676700,
+         0.04350832
+        ],
+        [
+         1795677000,
+         0.04369607
+        ],
+        [
+         1795677900,
+         0.04375376
+        ],
+        [
+         1795678200,
+         0.04380987
+        ],
+        [
+         1795678500,
+         0.04386988
+        ],
+        [
+         1795678800,
+         0.0439183
+        ],
+        [
+         1795679100,
+         0.04398937
+        ],
+        [
+         1795679400,
+         0.0440293
+        ],
+        [
+         1795679700,
+         0.04316143
+        ],
+        [
+         1795680000,
+         0.04319796
+        ],
+        [
+         1795680300,
+         0.04339811
+        ],
+        [
+         1795680600,
+         0.04355285
+        ],
+        [
+         1795680900,
+         0.04361285
+        ],
+        [
+         1795681200,
+         0.04366734
+        ],
+        [
+         1795681500,
+         0.04359237
+        ],
+        [
+         1795681800,
+         0.0435957
+        ],
+        [
+         1795682100,
+         0.04365998
+        ],
+        [
+         1795682400,
+         0.04359552
+        ],
+        [
+         1795682700,
+         0.04361164
+        ],
+        [
+         1795683000,
+         0.04364173
+        ],
+        [
+         1795683300,
+         0.04365776
+        ],
+        [
+         1795683600,
+         0.0438787
+        ],
+        [
+         1795683900,
+         0.044019
+        ],
+        [
+         1795684200,
+         0.04390107
+        ],
+        [
+         1795684500,
+         0.0438905
+        ],
+        [
+         1795684800,
+         0.04389245
+        ],
+        [
+         1795685100,
+         0.04389522
+        ],
+        [
+         1795685400,
+         0.04381346
+        ],
+        [
+         1795685700,
+         0.04397161
+        ],
+        [
+         1795686000,
+         0.0439423
+        ],
+        [
+         1795686300,
+         0.04394227
+        ],
+        [
+         1795686600,
+         0.04389098
+        ],
+        [
+         1795686900,
+         0.04396242
+        ],
+        [
+         1795687200,
+         0.04393344
+        ],
+        [
+         1795687500,
+         0.04391041
+        ],
+        [
+         1795687800,
+         0.04390109
+        ],
+        [
+         1795688100,
+         0.04380816
+        ],
+        [
+         1795688400,
+         0.0438326
+        ],
+        [
+         1795688700,
+         0.04393151
+        ],
+        [
+         1795689000,
+         0.04411798
+        ],
+        [
+         1795689300,
+         0.04413745
+        ],
+        [
+         1795689600,
+         0.04423558
+        ],
+        [
+         1795689900,
+         0.04427303
+        ],
+        [
+         1795690200,
+         0.04426019
+        ],
+        [
+         1795690500,
+         0.04427535
+        ],
+        [
+         1795690800,
+         0.04429677
+        ],
+        [
+         1795691100,
+         0.0444071
+        ],
+        [
+         1795691400,
+         0.04443444
+        ],
+        [
+         1795691700,
+         0.04443127
+        ],
+        [
+         1795692000,
+         0.04458464
+        ],
+        [
+         1795692300,
+         0.04454887
+        ],
+        [
+         1795692600,
+         0.04456217
+        ],
+        [
+         1795692900,
+         0.04472192
+        ],
+        [
+         1795693200,
+         0.04478062
+        ],
+        [
+         1795693500,
+         0.04490307
+        ],
+        [
+         1795693800,
+         0.04498313
+        ],
+        [
+         1795694100,
+         0.04512553
+        ],
+        [
+         1795694400,
+         0.04540278
+        ],
+        [
+         1795694700,
+         0.04586714
+        ],
+        [
+         1795695000,
+         0.0461527
+        ],
+        [
+         1795695300,
+         0.04637392
+        ],
+        [
+         1795695600,
+         0.04663375
+        ],
+        [
+         1795695900,
+         0.0468085
+        ],
+        [
+         1795696200,
+         0.04661993
+        ],
+        [
+         1795696500,
+         0.04715146
+        ],
+        [
+         1795696800,
+         0.04719829
+        ],
+        [
+         1795697100,
+         0.04715325
+        ],
+        [
+         1795697400,
+         0.04745002
+        ],
+        [
+         1795697700,
+         0.04725976
+        ],
+        [
+         1795698000,
+         0.04746706
+        ],
+        [
+         1795698300,
+         0.04767016
+        ],
+        [
+         1795698600,
+         0.04723291
+        ],
+        [
+         1795698900,
+         0.04703923
+        ],
+        [
+         1795699200,
+         0.04694736
+        ],
+        [
+         1795699500,
+         0.04737264
+        ],
+        [
+         1795699800,
+         0.04717269
+        ],
+        [
+         1795700100,
+         0.04744446
+        ],
+        [
+         1795700400,
+         0.04729617
+        ],
+        [
+         1795700700,
+         0.04722741
+        ],
+        [
+         1795701000,
+         0.04751394
+        ],
+        [
+         1795701300,
+         0.04724227
+        ],
+        [
+         1795701600,
+         0.04710448
+        ],
+        [
+         1795701900,
+         0.04654573
+        ],
+        [
+         1795702200,
+         0.04663963
+        ],
+        [
+         1795702500,
+         0.04681373
+        ],
+        [
+         1795702800,
+         0.04697613
+        ],
+        [
+         1795703100,
+         0.04712148
+        ],
+        [
+         1795703400,
+         0.04713116
+        ],
+        [
+         1795703700,
+         0.0474687
+        ],
+        [
+         1795704000,
+         0.04734049
+        ],
+        [
+         1795704300,
+         0.04748789
+        ],
+        [
+         1795704600,
+         0.04734723
+        ],
+        [
+         1795704900,
+         0.0461735
+        ],
+        [
+         1795705200,
+         0.04626631
+        ],
+        [
+         1795705500,
+         0.04622974
+        ],
+        [
+         1795705800,
+         0.04573864
+        ],
+        [
+         1795706100,
+         0.04603812
+        ],
+        [
+         1795706400,
+         0.04608028
+        ],
+        [
+         1795706700,
+         0.04593077
+        ],
+        [
+         1795707000,
+         0.04620778
+        ],
+        [
+         1795707300,
+         0.04577321
+        ],
+        [
+         1795707600,
+         0.04540381
+        ],
+        [
+         1795707900,
+         0.04543892
+        ],
+        [
+         1795708200,
+         0.0454197
+        ],
+        [
+         1795708500,
+         0.04555739
+        ],
+        [
+         1795708800,
+         0.04546557
+        ],
+        [
+         1795709100,
+         0.04586457
+        ],
+        [
+         1795709400,
+         0.04582463
+        ],
+        [
+         1795709700,
+         0.04616394
+        ],
+        [
+         1795710000,
+         0.04632283
+        ],
+        [
+         1795710300,
+         0.04654496
+        ],
+        [
+         1795710600,
+         0.04626774
+        ],
+        [
+         1795710900,
+         0.04612848
+        ],
+        [
+         1795711200,
+         0.04602959
+        ],
+        [
+         1795711500,
+         0.04572759
+        ],
+        [
+         1795711800,
+         0.04541877
+        ],
+        [
+         1795712100,
+         0.04564834
+        ],
+        [
+         1795712400,
+         0.04561282
+        ],
+        [
+         1795712700,
+         0.04580903
+        ],
+        [
+         1795713000,
+         0.04578481
+        ],
+        [
+         1795713300,
+         0.04591515
+        ],
+        [
+         1795713600,
+         0.04623222
+        ],
+        [
+         1795713900,
+         0.04643443
+        ],
+        [
+         1795714200,
+         0.04595631
+        ],
+        [
+         1795714500,
+         0.04618196
+        ],
+        [
+         1795714800,
+         0.04584157
+        ],
+        [
+         1795715100,
+         0.0456157
+        ],
+        [
+         1795715400,
+         0.04579908
+        ],
+        [
+         1795715700,
+         0.04586268
+        ],
+        [
+         1795716000,
+         0.04574655
+        ],
+        [
+         1795716300,
+         0.04562368
+        ],
+        [
+         1795716600,
+         0.04565429
+        ],
+        [
+         1795716900,
+         0.04563641
+        ],
+        [
+         1795717200,
+         0.04568155
+        ],
+        [
+         1795717500,
+         0.04579346
+        ],
+        [
+         1795717800,
+         0.04583846
+        ],
+        [
+         1795718100,
+         0.04578334
+        ],
+        [
+         1795718400,
+         0.04575472
+        ],
+        [
+         1795718700,
+         0.04571424
+        ],
+        [
+         1795719000,
+         0.04578222
+        ],
+        [
+         1795719300,
+         0.04585427
+        ],
+        [
+         1795719600,
+         0.04573703
+        ],
+        [
+         1795719900,
+         0.04571071
+        ],
+        [
+         1795720200,
+         0.04548394
+        ],
+        [
+         1795720500,
+         0.04524233
+        ],
+        [
+         1795720800,
+         0.04531705
+        ],
+        [
+         1795721100,
+         0.04545476
+        ],
+        [
+         1795721400,
+         0.04551789
+        ],
+        [
+         1795721700,
+         0.04559678
+        ],
+        [
+         1795722000,
+         0.0455318
+        ],
+        [
+         1795722300,
+         0.04551637
+        ],
+        [
+         1795722600,
+         0.04554056
+        ],
+        [
+         1795722900,
+         0.04558743
+        ],
+        [
+         1795723200,
+         0.04562843
+        ],
+        [
+         1795723500,
+         0.04569805
+        ],
+        [
+         1795723800,
+         0.04584223
+        ],
+        [
+         1795724100,
+         0.04604705
+        ],
+        [
+         1795724400,
+         0.04615405
+        ],
+        [
+         1795724700,
+         0.04609693
+        ],
+        [
+         1795725000,
+         0.04604438
+        ],
+        [
+         1795725300,
+         0.04602126
+        ],
+        [
+         1795725600,
+         0.04609743
+        ],
+        [
+         1795725900,
+         0.04595035
+        ],
+        [
+         1795726200,
+         0.04588896
+        ],
+        [
+         1795726500,
+         0.04575636
+        ],
+        [
+         1795726800,
+         0.04577333
+        ],
+        [
+         1795727100,
+         0.0457196
+        ],
+        [
+         1795727400,
+         0.04585245
+        ],
+        [
+         1795727700,
+         0.04602585
+        ],
+        [
+         1795728000,
+         0.04615259
+        ],
+        [
+         1795728300,
+         0.04615003
+        ],
+        [
+         1795728600,
+         0.04625118
+        ],
+        [
+         1795728900,
+         0.04645672
+        ],
+        [
+         1795729200,
+         0.04646612
+        ],
+        [
+         1795729500,
+         0.04650529
+        ],
+        [
+         1795729800,
+         0.04649023
+        ],
+        [
+         1795730100,
+         0.04647819
+        ],
+        [
+         1795730400,
+         0.04649623
+        ],
+        [
+         1795730700,
+         0.04648731
+        ],
+        [
+         1795731000,
+         0.04647839
+        ],
+        [
+         1795731300,
+         0.04640356
+        ],
+        [
+         1795731600,
+         0.04646582
+        ],
+        [
+         1795731900,
+         0.04655574
+        ],
+        [
+         1795732200,
+         0.04652461
+        ],
+        [
+         1795732500,
+         0.04651824
+        ],
+        [
+         1795732800,
+         0.04657708
+        ],
+        [
+         1795733100,
+         0.04665353
+        ],
+        [
+         1795733400,
+         0.04657989
+        ],
+        [
+         1795733700,
+         0.04661678
+        ],
+        [
+         1795734000,
+         0.04661595
+        ],
+        [
+         1795734300,
+         0.04658544
+        ],
+        [
+         1795734600,
+         0.04656238
+        ]
+       ]
+      },
+      "second": {
+       "source": "Coinbase 5-minute candles",
+       "url": "https://api.exchange.coinbase.com/products/SKY-USD/candles?granularity=300&start=2026-11-25T23:12:56Z&end=2026-11-26T23:12:56Z",
+       "gap_pts": 0.08
+      },
+      "seconds": [
+       {
+        "source": "Coinbase 5-minute candles",
+        "url": "https://api.exchange.coinbase.com/products/SKY-USD/candles?granularity=300&start=2026-11-25T23:12:56Z&end=2026-11-26T23:12:56Z",
+        "gap_pts": 0.08
+       },
+       {
+        "source": "OKX 5-minute candles",
+        "url": "https://www.okx.com/api/v5/market/history-candles?instId=SKY-USDT&bar=5m&after=1795734776000&limit=300",
+        "gap_pts": 0.05
+       },
+       {
+        "source": "Binance 5-minute klines (data-api.binance.vision)",
+        "url": "https://data-api.binance.vision/api/v3/klines?symbol=SKYUSDT&interval=5m&startTime=1795648076000&endTime=1795734776000&limit=300",
+        "gap_pts": 0.12
+       },
+       {
+        "source": "Kraken 5-minute candles",
+        "url": "https://api.kraken.com/0/public/OHLC?pair=SKYUSD&interval=5&since=1795648076",
+        "gap_pts": 0.38
+       }
+      ],
+      "run": {
+       "dir": "up",
+       "start_t": 1795649400,
+       "start_p": 0.041782,
+       "end_t": 1795698300,
+       "end_p": 0.04767016,
+       "pct": 14.093
+      },
+      "tests": [],
+      "mechanics": {
+       "hour_start_utc": "2026-11-25T23:30:00Z",
+       "hour_end_utc": "2026-11-26T00:30:00Z",
+       "rows": [
+        {
+         "key": "SKY",
+         "label": "Sky",
+         "value": 1.33,
+         "unit": "pct"
+        },
+        {
+         "key": "BTC",
+         "label": "Bitcoin",
+         "value": 1.1,
+         "unit": "pct"
+        },
+        {
+         "key": "ES=F",
+         "label": "S&P 500 futures",
+         "value": 0.42,
+         "unit": "pct"
+        },
+        {
+         "key": "NQ=F",
+         "label": "Nasdaq 100 futures",
+         "value": 0.66,
+         "unit": "pct"
+        },
+        {
+         "key": "DX-Y.NYB",
+         "label": "Dollar index",
+         "value": null,
+         "unit": "pct"
+        },
+        {
+         "key": "^TNX",
+         "label": "10-year Treasury yield",
+         "value": null,
+         "unit": "bp"
+        },
+        {
+         "key": "ZT=F",
+         "label": "2-year Treasury note futures",
+         "value": -0.03,
+         "unit": "pct"
+        },
+        {
+         "key": "GC=F",
+         "label": "Gold futures",
+         "value": 0.02,
+         "unit": "pct"
+        },
+        {
+         "key": "CL=F",
+         "label": "Oil futures (WTI)",
+         "value": -0.02,
+         "unit": "pct"
+        },
+        {
+         "key": "^VIX",
+         "label": "VIX",
+         "value": null,
+         "unit": "pct"
+        },
+        {
+         "key": "IBIT",
+         "label": "IBIT volume (iShares Bitcoin Trust)",
+         "value": null,
+         "unit": "shares"
+        },
+        {
+         "key": "FBTC",
+         "label": "FBTC volume (Fidelity Wise Origin Bitcoin Fund)",
+         "value": null,
+         "unit": "shares"
+        },
+        {
+         "key": "oi",
+         "label": "Open interest, OKX",
+         "value": -0.5,
+         "unit": "pct"
+        },
+        {
+         "key": "liq",
+         "label": "Liquidations, OKX",
+         "unread": true,
+         "why": "OKX keeps its latest 100 orders, back to Nov 25, 7:14 PM ET"
+        },
+        {
+         "key": "taker",
+         "label": "Taker flow, OKX SKY-USDT-SWAP (the hour from 6:00 PM ET, in USDT)",
+         "hour_utc": "2026-11-25T23:00:00Z",
+         "sell_usd": 18118,
+         "buy_usd": 23544
+        },
+        {
+         "key": "liq-gate",
+         "label": "Liquidations, Gate",
+         "longs_usd": 0,
+         "shorts_usd": 0,
+         "orders": 0,
+         "capped": false
+        },
+        {
+         "key": "funding",
+         "label": "Funding, OKX (the 8-hour period that settled 7:00 PM ET)",
+         "value": -0.0019,
+         "unit": "rate"
+        }
+       ],
+       "beta": 0.72,
+       "excess_pts": 0.54,
+       "patterns": [
+        {
+         "label": "risk-on across assets",
+         "rule": "crypto moved 0.3% or more and stock futures 0.2% or more the same way in the onset hour"
+        }
+       ]
+      },
+      "event_hours": {}
+     }
+    },
+    "subject": {
+     "sym": "SKY",
+     "name": "Sky",
+     "gecko_id": "sky"
+    },
+    "day": {
+     "stablecoins": null,
+     "etf_btc": null
+    },
+    "read": [
+     {
+      "name": "Bitcoin prices: CoinGecko 5-minute prices",
+      "url": "https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=1",
+      "note": ""
+     },
+     {
+      "name": "Bitcoin prices: Coinbase 5-minute candles",
+      "url": "https://api.exchange.coinbase.com/products/BTC-USD/candles?granularity=300&start=2026-11-25T23:12:56Z&end=2026-11-26T23:12:56Z",
+      "note": ""
+     },
+     {
+      "name": "Bitcoin prices: OKX 5-minute candles",
+      "url": "https://www.okx.com/api/v5/market/history-candles?instId=BTC-USDT&bar=5m&after=1795734776000&limit=300",
+      "note": ""
+     },
+     {
+      "name": "Bitcoin prices: Binance 5-minute klines (data-api.binance.vision)",
+      "url": "https://data-api.binance.vision/api/v3/klines?symbol=BTCUSDT&interval=5m&startTime=1795648076000&endTime=1795734776000&limit=300",
+      "note": ""
+     },
+     {
+      "name": "Bitcoin prices: Kraken 5-minute candles",
+      "url": "https://api.kraken.com/0/public/OHLC?pair=XBTUSD&interval=5&since=1795648076",
+      "note": ""
+     },
+     {
+      "name": "Binance new listings",
+      "url": "https://www.binance.com/bapi/composite/v1/public/cms/article/list/query?type=1&catalogId=48&pageNo=1&pageSize=20",
+      "note": "20 notice(s) in its answer"
+     },
+     {
+      "name": "Binance delistings",
+      "url": "https://www.binance.com/bapi/composite/v1/public/cms/article/list/query?type=1&catalogId=161&pageNo=1&pageSize=20",
+      "note": "20 notice(s) in its answer"
+     },
+     {
+      "name": "OKX new listings",
+      "url": "https://www.okx.com/api/v5/support/announcements?annType=announcements-new-listings",
+      "note": "20 notice(s) in its answer"
+     },
+     {
+      "name": "OKX delistings",
+      "url": "https://www.okx.com/api/v5/support/announcements?annType=announcements-delistings",
+      "note": "18 notice(s) in its answer"
+     },
+     {
+      "name": "KuCoin new listings",
+      "url": "https://api.kucoin.com/api/v3/announcements?annType=new-listings&pageSize=50",
+      "note": "22 notice(s) in its answer"
+     },
+     {
+      "name": "KuCoin delistings",
+      "url": "https://api.kucoin.com/api/v3/announcements?annType=delistings&pageSize=50",
+      "note": "6 notice(s) in its answer"
+     },
+     {
+      "name": "Bitget listings",
+      "url": "https://api.bitget.com/api/v2/public/annoucements?language=en_US&annType=coin_listings",
+      "note": "10 notice(s) in its answer"
+     },
+     {
+      "name": "Kraken blog (listings)",
+      "url": "https://blog.kraken.com/feed",
+      "note": "4 notice(s) in its answer"
+     },
+     {
+      "name": "Coinbase status notices",
+      "url": "https://status.exchange.coinbase.com/history.rss",
+      "note": "5 notice(s) in its answer"
+     },
+     {
+      "name": "DefiLlama hacks",
+      "url": "https://api.llama.fi/hacks",
+      "note": ""
+     },
+     {
+      "name": "Yahoo 5-minute bars, S&P 500 futures",
+      "url": "https://query1.finance.yahoo.com/v8/finance/chart/ES=F?interval=5m&period1=1795648376&period2=1795734776",
+      "note": ""
+     },
+     {
+      "name": "Yahoo 5-minute bars, Nasdaq 100 futures",
+      "url": "https://query1.finance.yahoo.com/v8/finance/chart/NQ=F?interval=5m&period1=1795648376&period2=1795734776",
+      "note": ""
+     },
+     {
+      "name": "Yahoo 5-minute bars, Dollar index",
+      "url": "https://query1.finance.yahoo.com/v8/finance/chart/DX-Y.NYB?interval=5m&period1=1795648376&period2=1795734776",
+      "note": ""
+     },
+     {
+      "name": "Yahoo 5-minute bars, 10-year Treasury yield",
+      "url": "https://query1.finance.yahoo.com/v8/finance/chart/%5ETNX?interval=5m&period1=1795648376&period2=1795734776",
+      "note": ""
+     },
+     {
+      "name": "Yahoo 5-minute bars, 2-year Treasury note futures",
+      "url": "https://query1.finance.yahoo.com/v8/finance/chart/ZT=F?interval=5m&period1=1795648376&period2=1795734776",
+      "note": ""
+     },
+     {
+      "name": "Yahoo 5-minute bars, Gold futures",
+      "url": "https://query1.finance.yahoo.com/v8/finance/chart/GC=F?interval=5m&period1=1795648376&period2=1795734776",
+      "note": ""
+     },
+     {
+      "name": "Yahoo 5-minute bars, Oil futures (WTI)",
+      "url": "https://query1.finance.yahoo.com/v8/finance/chart/CL=F?interval=5m&period1=1795648376&period2=1795734776",
+      "note": ""
+     },
+     {
+      "name": "Yahoo 5-minute bars, VIX",
+      "url": "https://query1.finance.yahoo.com/v8/finance/chart/%5EVIX?interval=5m&period1=1795648376&period2=1795734776",
+      "note": ""
+     },
+     {
+      "name": "Yahoo 5-minute bars, IBIT volume (iShares Bitcoin Trust)",
+      "url": "https://query1.finance.yahoo.com/v8/finance/chart/IBIT?interval=5m&period1=1795648376&period2=1795734776",
+      "note": ""
+     },
+     {
+      "name": "Yahoo 5-minute bars, FBTC volume (Fidelity Wise Origin Bitcoin Fund)",
+      "url": "https://query1.finance.yahoo.com/v8/finance/chart/FBTC?interval=5m&period1=1795648376&period2=1795734776",
+      "note": ""
+     },
+     {
+      "name": "Sky prices: CoinGecko 5-minute prices",
+      "url": "https://api.coingecko.com/api/v3/coins/sky/market_chart?vs_currency=usd&days=1",
+      "note": ""
+     },
+     {
+      "name": "Sky prices: Coinbase 5-minute candles",
+      "url": "https://api.exchange.coinbase.com/products/SKY-USD/candles?granularity=300&start=2026-11-25T23:12:56Z&end=2026-11-26T23:12:56Z",
+      "note": ""
+     },
+     {
+      "name": "Sky prices: OKX 5-minute candles",
+      "url": "https://www.okx.com/api/v5/market/history-candles?instId=SKY-USDT&bar=5m&after=1795734776000&limit=300",
+      "note": ""
+     },
+     {
+      "name": "Sky prices: Binance 5-minute klines (data-api.binance.vision)",
+      "url": "https://data-api.binance.vision/api/v3/klines?symbol=SKYUSDT&interval=5m&startTime=1795648076000&endTime=1795734776000&limit=300",
+      "note": ""
+     },
+     {
+      "name": "Sky prices: Kraken 5-minute candles",
+      "url": "https://api.kraken.com/0/public/OHLC?pair=SKYUSD&interval=5&since=1795648076",
+      "note": ""
+     },
+     {
+      "name": "CoinMarketCap token unlocks, Sky",
+      "url": "https://api.coinmarketcap.com/data-api/v3/token-unlock/event?cryptoId=33038&type=past",
+      "note": ""
+     },
+     {
+      "name": "OKX open interest, Sky (5-minute)",
+      "url": "https://www.okx.com/api/v5/rubik/stat/contracts/open-interest-volume?ccy=SKY&period=5m",
+      "note": ""
+     },
+     {
+      "name": "OKX liquidations, Sky",
+      "url": "https://www.okx.com/api/v5/public/liquidation-orders?instType=SWAP&state=filled&uly=SKY-USDT&limit=100",
+      "note": ""
+     },
+     {
+      "name": "OKX funding, Sky",
+      "url": "https://www.okx.com/api/v5/public/funding-rate-history?instId=SKY-USDT-SWAP&limit=100",
+      "note": ""
+     },
+     {
+      "name": "OKX taker flow, Sky (hourly)",
+      "url": "https://www.okx.com/api/v5/rubik/stat/taker-volume-contract?instId=SKY-USDT-SWAP&period=1H&unit=2&begin=1795644000000&end=1795651200000",
+      "note": ""
+     },
+     {
+      "name": "Gate liquidations, Sky",
+      "url": "https://api.gateio.ws/api/v4/futures/usdt/liq_orders?contract=SKY_USDT&from=1795649400&to=1795653000&limit=1000",
+      "note": ""
+     },
+     {
+      "name": "CoinGecko daily volumes",
+      "url": "https://api.coingecko.com/api/v3/coins/sky/market_chart?vs_currency=usd&days=8&interval=daily",
+      "note": ""
+     }
+    ],
+    "unread": [
+     {
+      "name": "Upbit listing notices",
+      "why": "not read: its announcements API answered 403 to the desk on October 19, 2026",
+      "url": ""
+     },
+     {
+      "name": "Bybit listing notices",
+      "why": "not read: its announcements API answered 403 (blocked by country) to the desk on October 19, 2026",
+      "url": ""
+     },
+     {
+      "name": "Protocol upgrades and governance votes",
+      "why": "not read: not wired in this step; Snapshot's public hub (hub.snapshot.org) answered the desk on October 19, 2026 with off-chain votes and is not read yet, and the desk has found no free feed for on-chain votes; a wire item that names the coin is read",
+      "url": ""
+     }
+    ]
+   },
+   "verdict": {
+    "what": "The verdict under 'Why it moved': the grade computed by code from the evidence record (why_evidence.py) on the page's window, the graded line built from phrases, and the model's two checked sentences when they passed every check.",
+    "date_et": "2026-11-26",
+    "slot": "evening",
+    "window": {
+     "start_utc": "2026-11-25T23:12:56Z",
+     "end_utc": "2026-11-26T23:12:56Z",
+     "hours": 24
+    },
+    "evidence_made_utc": "2026-11-26T23:17:03Z",
+    "made_utc": "2026-11-26T23:17:03Z",
+    "timing_rule": {
+     "version": "2026-10-20",
+     "source": "AUDIT.md section 3.1; strategist's rulings of October 19, 2026 and October 20, 2026 (J-8)",
+     "lead_min": 60,
+     "done_max_pct": 25.0,
+     "share_min_pct": 40.0
+    },
+    "day": {
+     "basis": "rolling_24h",
+     "BTC": 0.52,
+     "SKY": 11.73
+    },
+    "coins": {
+     "SKY": {
+      "sym": "SKY",
+      "name": "Sky",
+      "kind": "graded",
+      "grade": "Unclear",
+      "cand": null,
+      "refs": [],
+      "dir": "up",
+      "reasons": [
+       "no candidate passes the timing test"
+      ],
+      "phrases": [
+       "No reported event lines up with this move.",
+       "In the hour the run began, the market readings show risk-on across assets."
+      ],
+      "phrases_sec": [
+       "No reported event lines up with this move.",
+       ""
+      ],
+      "line": [
+       "No reported event lines up with this move.",
+       "In the hour the run began, the market readings show risk-on across assets."
+      ],
+      "required": [
+       0
+      ],
+      "readings": {
+       "hour": "onset",
+       "start_utc": "2026-11-25T23:30:00Z",
+       "end_utc": "2026-11-26T00:30:00Z",
+       "rows": [
+        {
+         "key": "BTC",
+         "label": "Bitcoin",
+         "value": 1.1,
+         "unit": "pct"
+        },
+        {
+         "key": "ES=F",
+         "label": "S&P 500 futures",
+         "value": 0.42,
+         "unit": "pct"
+        },
+        {
+         "key": "NQ=F",
+         "label": "Nasdaq 100 futures",
+         "value": 0.66,
+         "unit": "pct"
+        },
+        {
+         "key": "DX-Y.NYB",
+         "label": "Dollar index",
+         "value": null,
+         "unit": "pct"
+        },
+        {
+         "key": "^TNX",
+         "label": "10-year Treasury yield",
+         "value": null,
+         "unit": "bp"
+        },
+        {
+         "key": "ZT=F",
+         "label": "2-year Treasury note futures",
+         "value": -0.03,
+         "unit": "pct"
+        },
+        {
+         "key": "GC=F",
+         "label": "Gold futures",
+         "value": 0.02,
+         "unit": "pct"
+        },
+        {
+         "key": "CL=F",
+         "label": "Oil futures (WTI)",
+         "value": -0.02,
+         "unit": "pct"
+        },
+        {
+         "key": "^VIX",
+         "label": "VIX",
+         "value": null,
+         "unit": "pct"
+        }
+       ],
+       "patterns": [
+        "risk-on across assets"
+       ],
+       "shut": false,
+       "onset_rows": [
+        [
+         "SKY",
+         1.33
+        ],
+        [
+         "BTC",
+         1.1
+        ],
+        [
+         "ES=F",
+         0.42
+        ],
+        [
+         "NQ=F",
+         0.66
+        ],
+        [
+         "DX-Y.NYB",
+         null
+        ],
+        [
+         "^TNX",
+         null
+        ],
+        [
+         "ZT=F",
+         -0.03
+        ],
+        [
+         "GC=F",
+         0.02
+        ],
+        [
+         "CL=F",
+         -0.02
+        ],
+        [
+         "^VIX",
+         null
+        ],
+        [
+         "IBIT",
+         null
+        ],
+        [
+         "FBTC",
+         null
+        ],
+        [
+         "oi",
+         -0.5
+        ],
+        [
+         "liq",
+         null
+        ],
+        [
+         "taker",
+         null
+        ],
+        [
+         "liq-gate",
+         null
+        ],
+        [
+         "funding",
+         -0.0019
+        ]
+       ],
+       "onset_patterns": [
+        "risk-on across assets"
+       ],
+       "onset_shut": false
+      },
+      "basis": "rolling_24h",
+      "window_words": "over the last 24 hours",
+      "move_pct": 11.73,
+      "text": [
+       "No reported event lines up with this move.",
+       "In the hour the run began, the market readings show risk-on across assets."
+      ],
+      "by": "phrases",
+      "fail_reason": "the check failed (verdict_check: model refused the request (whole fallback chain, if any) -> failing closed)",
+      "corrections": [],
+      "url": "/why/2026-11-26-sky"
+     }
+    },
+    "spend": {
+     "kind": "run",
+     "date": "2026-11-26",
+     "slot": "evening",
+     "t": "2026-11-26T23:17:03Z",
+     "calls": 2,
+     "tokens": 926,
+     "usd": 0.000854,
+     "by_stage": {
+      "verdict_draft": 0.000138,
+      "verdict_check": 0.000716
+     },
+     "models": {
+      "verdict_draft": "claude-haiku-5-5",
+      "verdict_check": "claude-sonnet-5-5"
+     },
+     "day_usd": 0.002712,
+     "cap_usd": 1.5,
+     "coins": {
+      "SKY": "Unclear (phrases)"
+     }
+    }
+   }
+  },
+  "XMR": {
+   "gate": {
+    "sym": "XMR",
+    "name": "Monero",
+    "gecko_id": "monero",
+    "rank": 13,
+    "pos": 12,
+    "move_pct": -12.62,
+    "vol_pct": 3.94,
+    "multiple": 3.2,
+    "beta": 1.095,
+    "btc_pct": 0.52,
+    "predicted_pct": 0.57,
+    "excess_pts": -13.19,
+    "legs": {
+     "move": true,
+     "multiple": true,
+     "excess": true
+    },
+    "pass": true,
+    "history": {
+     "from": "2026-10-25",
+     "through": "2026-11-24"
+    }
+   },
+   "gecko_id": "monero",
+   "name": "Monero",
+   "rank": 13,
+   "pos": 12,
+   "slug": "monero",
+   "volume_vs_7d": null,
+   "evidence": {
+    "what": "The evidence for a Big mover, by 9.2's rules (why_evidence.py): the coin's series, its own candidates (the wire items, listing and delisting notices, unlocks and hacks that name it), the timing test and the onset hour's readings. Measured by code; no model call; no grade.",
+    "window": {
+     "start_utc": "2026-11-25T23:12:56Z",
+     "end_utc": "2026-11-26T23:12:56Z",
+     "hours": 24
+    },
+    "made_utc": "2026-11-26T23:17:03Z",
+    "candidates": [
+     {
+      "id": "delisting-kucoin-1795685580-kucoin-will-delist-monero-xmr-on-2026-11-30",
+      "kind": "delisting",
+      "line": "KuCoin Will Delist Monero (XMR) on 2026-11-30",
+      "event_utc": "2026-11-26T09:33:00Z",
+      "event_basis": "KuCoin's announcement time",
+      "scheduled": false,
+      "report_utc": null,
+      "source_count": 1,
+      "primary": true,
+      "links": [
+       {
+        "outlet": "KuCoin",
+        "url": "https://www.kucoin.com/announcement/en-kucoin-will-delist-xmr-on-2026-11-30?lang=en_US"
+       }
+      ],
+      "secondary": false,
+      "secondary_why": ""
+     }
+    ],
+    "source_cuts": [],
+    "coins": {
+     "XMR": {
+      "series": {
+       "source": "CoinGecko 5-minute prices",
+       "url": "https://api.coingecko.com/api/v3/coins/monero/market_chart?vs_currency=usd&days=1",
+       "bar_min": 5,
+       "points": [
+        [
+         1795648800,
+         520.25218158
+        ],
+        [
+         1795649100,
+         520.36534613
+        ],
+        [
+         1795649400,
+         520.29743445
+        ],
+        [
+         1795649700,
+         521.13567248
+        ],
+        [
+         1795650000,
+         522.44637231
+        ],
+        [
+         1795650300,
+         522.19388839
+        ],
+        [
+         1795650600,
+         519.75631348
+        ],
+        [
+         1795650900,
+         518.32100343
+        ],
+        [
+         1795651200,
+         517.41834779
+        ],
+        [
+         1795651500,
+         514.63233349
+        ],
+        [
+         1795651800,
+         512.06116237
+        ],
+        [
+         1795652100,
+         513.55647515
+        ],
+        [
+         1795652400,
+         514.86790509
+        ],
+        [
+         1795652700,
+         512.86023288
+        ],
+        [
+         1795653000,
+         514.2038408
+        ],
+        [
+         1795653300,
+         514.33111682
+        ],
+        [
+         1795653600,
+         513.65100938
+        ],
+        [
+         1795653900,
+         514.49492532
+        ],
+        [
+         1795654200,
+         514.01295897
+        ],
+        [
+         1795654500,
+         513.94418192
+        ],
+        [
+         1795654800,
+         514.32888648
+        ],
+        [
+         1795655100,
+         515.01059396
+        ],
+        [
+         1795655400,
+         514.90860481
+        ],
+        [
+         1795655700,
+         515.44015044
+        ],
+        [
+         1795656000,
+         515.92516243
+        ],
+        [
+         1795656300,
+         517.06568951
+        ],
+        [
+         1795656600,
+         517.09939957
+        ],
+        [
+         1795656900,
+         517.89659959
+        ],
+        [
+         1795657200,
+         518.39089372
+        ],
+        [
+         1795657500,
+         519.29068483
+        ],
+        [
+         1795657800,
+         520.00985017
+        ],
+        [
+         1795658100,
+         518.6678995
+        ],
+        [
+         1795658400,
+         519.33760109
+        ],
+        [
+         1795658700,
+         518.24685787
+        ],
+        [
+         1795659000,
+         519.01374672
+        ],
+        [
+         1795659300,
+         518.93013895
+        ],
+        [
+         1795659600,
+         518.85281148
+        ],
+        [
+         1795659900,
+         518.18275961
+        ],
+        [
+         1795660200,
+         518.32853619
+        ],
+        [
+         1795660500,
+         518.99556306
+        ],
+        [
+         1795660800,
+         519.18309912
+        ],
+        [
+         1795661100,
+         518.97548932
+        ],
+        [
+         1795661400,
+         518.42141765
+        ],
+        [
+         1795661700,
+         518.61457936
+        ],
+        [
+         1795662000,
+         518.60207354
+        ],
+        [
+         1795662300,
+         518.22707139
+        ],
+        [
+         1795662600,
+         519.20544492
+        ],
+        [
+         1795662900,
+         519.55954129
+        ],
+        [
+         1795663200,
+         519.48164663
+        ],
+        [
+         1795663500,
+         518.92404008
+        ],
+        [
+         1795663800,
+         519.1864516
+        ],
+        [
+         1795664100,
+         518.45895782
+        ],
+        [
+         1795664400,
+         519.41837956
+        ],
+        [
+         1795664700,
+         519.69751666
+        ],
+        [
+         1795665000,
+         519.53514659
+        ],
+        [
+         1795665300,
+         519.39888306
+        ],
+        [
+         1795665600,
+         519.25945284
+        ],
+        [
+         1795665900,
+         519.84927305
+        ],
+        [
+         1795666200,
+         519.31286904
+        ],
+        [
+         1795666500,
+         519.47017098
+        ],
+        [
+         1795666800,
+         519.23126242
+        ],
+        [
+         1795667100,
+         519.00981872
+        ],
+        [
+         1795667400,
+         518.96989692
+        ],
+        [
+         1795667700,
+         519.53100595
+        ],
+        [
+         1795668000,
+         519.65519263
+        ],
+        [
+         1795668300,
+         519.38760902
+        ],
+        [
+         1795668600,
+         519.30378241
+        ],
+        [
+         1795668900,
+         519.41538915
+        ],
+        [
+         1795669200,
+         519.82160384
+        ],
+        [
+         1795669500,
+         518.95597401
+        ],
+        [
+         1795669800,
+         519.33036128
+        ],
+        [
+         1795670100,
+         519.58786678
+        ],
+        [
+         1795670400,
+         519.60295713
+        ],
+        [
+         1795670700,
+         519.08512001
+        ],
+        [
+         1795671000,
+         519.31754021
+        ],
+        [
+         1795671300,
+         519.6641434
+        ],
+        [
+         1795671600,
+         520.14242016
+        ],
+        [
+         1795671900,
+         520.56486997
+        ],
+        [
+         1795672200,
+         521.78812057
+        ],
+        [
+         1795672500,
+         522.09082061
+        ],
+        [
+         1795672800,
+         523.12886506
+        ],
+        [
+         1795673100,
+         521.88413209
+        ],
+        [
+         1795673400,
+         522.57984225
+        ],
+        [
+         1795673700,
+         523.29690373
+        ],
+        [
+         1795674000,
+         521.67663197
+        ],
+        [
+         1795674300,
+         523.20824727
+        ],
+        [
+         1795674600,
+         524.56130577
+        ],
+        [
+         1795674900,
+         526.83999512
+        ],
+        [
+         1795675200,
+         527.24317671
+        ],
+        [
+         1795675500,
+         526.20072166
+        ],
+        [
+         1795675800,
+         523.61767752
+        ],
+        [
+         1795676100,
+         523.1172476
+        ],
+        [
+         1795676400,
+         522.82210442
+        ],
+        [
+         1795676700,
+         526.39062977
+        ],
+        [
+         1795677000,
+         527.91110489
+        ],
+        [
+         1795677900,
+         523.19322115
+        ],
+        [
+         1795678200,
+         521.17885097
+        ],
+        [
+         1795678500,
+         521.91908456
+        ],
+        [
+         1795678800,
+         522.72193895
+        ],
+        [
+         1795679100,
+         522.83113946
+        ],
+        [
+         1795679400,
+         522.47669859
+        ],
+        [
+         1795679700,
+         522.49067546
+        ],
+        [
+         1795680000,
+         520.98039236
+        ],
+        [
+         1795680300,
+         519.86920783
+        ],
+        [
+         1795680600,
+         520.17432134
+        ],
+        [
+         1795680900,
+         519.99405626
+        ],
+        [
+         1795681200,
+         519.89657005
+        ],
+        [
+         1795681500,
+         518.68866031
+        ],
+        [
+         1795681800,
+         518.21178437
+        ],
+        [
+         1795682100,
+         518.50961308
+        ],
+        [
+         1795682400,
+         518.4873803
+        ],
+        [
+         1795682700,
+         519.0743109
+        ],
+        [
+         1795683000,
+         520.04642803
+        ],
+        [
+         1795683300,
+         521.24785665
+        ],
+        [
+         1795683600,
+         521.37283305
+        ],
+        [
+         1795683900,
+         521.33414081
+        ],
+        [
+         1795684200,
+         522.384599
+        ],
+        [
+         1795684500,
+         522.74509085
+        ],
+        [
+         1795684800,
+         522.92640355
+        ],
+        [
+         1795685100,
+         522.21794024
+        ],
+        [
+         1795685400,
+         522.06909853
+        ],
+        [
+         1795685700,
+         522.47728805
+        ],
+        [
+         1795686000,
+         522.31666858
+        ],
+        [
+         1795686300,
+         522.57811349
+        ],
+        [
+         1795686600,
+         523.66004633
+        ],
+        [
+         1795686900,
+         523.7312709
+        ],
+        [
+         1795687200,
+         524.35587814
+        ],
+        [
+         1795687500,
+         524.83688731
+        ],
+        [
+         1795687800,
+         525.14049761
+        ],
+        [
+         1795688100,
+         525.01259607
+        ],
+        [
+         1795688400,
+         525.1153492
+        ],
+        [
+         1795688700,
+         525.34949795
+        ],
+        [
+         1795689000,
+         525.99617922
+        ],
+        [
+         1795689300,
+         524.39888758
+        ],
+        [
+         1795689600,
+         524.15698173
+        ],
+        [
+         1795689900,
+         521.157953
+        ],
+        [
+         1795690200,
+         519.52781711
+        ],
+        [
+         1795690500,
+         519.07357221
+        ],
+        [
+         1795690800,
+         519.79847163
+        ],
+        [
+         1795691100,
+         518.44154203
+        ],
+        [
+         1795691400,
+         518.30810928
+        ],
+        [
+         1795691700,
+         518.61207616
+        ],
+        [
+         1795692000,
+         513.69966891
+        ],
+        [
+         1795692300,
+         511.9280488
+        ],
+        [
+         1795692600,
+         504.21679471
+        ],
+        [
+         1795692900,
+         507.07322536
+        ],
+        [
+         1795693200,
+         507.83074373
+        ],
+        [
+         1795693500,
+         509.90043164
+        ],
+        [
+         1795693800,
+         510.98779345
+        ],
+        [
+         1795694100,
+         510.76401055
+        ],
+        [
+         1795694400,
+         511.49107687
+        ],
+        [
+         1795694700,
+         509.82642164
+        ],
+        [
+         1795695000,
+         507.79717857
+        ],
+        [
+         1795695300,
+         506.08187416
+        ],
+        [
+         1795695600,
+         500.91848183
+        ],
+        [
+         1795695900,
+         491.74442014
+        ],
+        [
+         1795696200,
+         491.51779553
+        ],
+        [
+         1795696500,
+         493.64009475
+        ],
+        [
+         1795696800,
+         497.95327762
+        ],
+        [
+         1795697100,
+         497.81310906
+        ],
+        [
+         1795697400,
+         496.71724843
+        ],
+        [
+         1795697700,
+         495.8513114
+        ],
+        [
+         1795698000,
+         492.28049347
+        ],
+        [
+         1795698300,
+         491.85402558
+        ],
+        [
+         1795698600,
+         490.84661348
+        ],
+        [
+         1795698900,
+         492.25959643
+        ],
+        [
+         1795699200,
+         492.17570962
+        ],
+        [
+         1795699500,
+         493.27005605
+        ],
+        [
+         1795699800,
+         492.53270019
+        ],
+        [
+         1795700100,
+         492.79963119
+        ],
+        [
+         1795700400,
+         494.02810044
+        ],
+        [
+         1795700700,
+         493.38457088
+        ],
+        [
+         1795701000,
+         490.81202936
+        ],
+        [
+         1795701300,
+         486.08145812
+        ],
+        [
+         1795701600,
+         480.43435796
+        ],
+        [
+         1795701900,
+         478.37917575
+        ],
+        [
+         1795702200,
+         476.77096058
+        ],
+        [
+         1795702500,
+         467.64929991
+        ],
+        [
+         1795702800,
+         468.48369317
+        ],
+        [
+         1795703100,
+         466.24111004
+        ],
+        [
+         1795703400,
+         464.6157584
+        ],
+        [
+         1795703700,
+         463.82260985
+        ],
+        [
+         1795704000,
+         458.73904068
+        ],
+        [
+         1795704300,
+         451.54610039
+        ],
+        [
+         1795704600,
+         438.40052528
+        ],
+        [
+         1795704900,
+         438.93203094
+        ],
+        [
+         1795705200,
+         445.16667484
+        ],
+        [
+         1795705500,
+         441.01293975
+        ],
+        [
+         1795705800,
+         445.14640448
+        ],
+        [
+         1795706100,
+         453.60033153
+        ],
+        [
+         1795706400,
+         448.56853559
+        ],
+        [
+         1795706700,
+         447.74726554
+        ],
+        [
+         1795707000,
+         449.75164079
+        ],
+        [
+         1795707300,
+         444.53823909
+        ],
+        [
+         1795707600,
+         449.01857566
+        ],
+        [
+         1795707900,
+         449.41876408
+        ],
+        [
+         1795708200,
+         449.31684906
+        ],
+        [
+         1795708500,
+         453.72636489
+        ],
+        [
+         1795708800,
+         453.67380446
+        ],
+        [
+         1795709100,
+         452.23179448
+        ],
+        [
+         1795709400,
+         449.42421936
+        ],
+        [
+         1795709700,
+         450.3445258
+        ],
+        [
+         1795710000,
+         451.30255553
+        ],
+        [
+         1795710300,
+         450.2427725
+        ],
+        [
+         1795710600,
+         448.66442825
+        ],
+        [
+         1795710900,
+         445.94999399
+        ],
+        [
+         1795711200,
+         445.1458485
+        ],
+        [
+         1795711500,
+         445.8359988
+        ],
+        [
+         1795711800,
+         443.55019117
+        ],
+        [
+         1795712100,
+         449.30007871
+        ],
+        [
+         1795712400,
+         449.03380407
+        ],
+        [
+         1795712700,
+         450.99337256
+        ],
+        [
+         1795713000,
+         448.35556234
+        ],
+        [
+         1795713300,
+         447.51000758
+        ],
+        [
+         1795713600,
+         444.99093388
+        ],
+        [
+         1795713900,
+         443.26499517
+        ],
+        [
+         1795714200,
+         442.12904941
+        ],
+        [
+         1795714500,
+         442.55507242
+        ],
+        [
+         1795714800,
+         443.61341099
+        ],
+        [
+         1795715100,
+         443.14779686
+        ],
+        [
+         1795715400,
+         443.47987478
+        ],
+        [
+         1795715700,
+         442.94424001
+        ],
+        [
+         1795716000,
+         443.60890573
+        ],
+        [
+         1795716300,
+         443.16853983
+        ],
+        [
+         1795716600,
+         444.46193739
+        ],
+        [
+         1795716900,
+         441.80647018
+        ],
+        [
+         1795717200,
+         441.18859077
+        ],
+        [
+         1795717500,
+         441.10291011
+        ],
+        [
+         1795717800,
+         442.7082961
+        ],
+        [
+         1795718100,
+         442.22825806
+        ],
+        [
+         1795718400,
+         438.74854224
+        ],
+        [
+         1795718700,
+         437.27479859
+        ],
+        [
+         1795719000,
+         438.22881588
+        ],
+        [
+         1795719300,
+         439.14785616
+        ],
+        [
+         1795719600,
+         437.74531393
+        ],
+        [
+         1795719900,
+         437.46996006
+        ],
+        [
+         1795720200,
+         432.80665012
+        ],
+        [
+         1795720500,
+         432.24462341
+        ],
+        [
+         1795720800,
+         441.88284877
+        ],
+        [
+         1795721100,
+         439.48014357
+        ],
+        [
+         1795721400,
+         438.3697833
+        ],
+        [
+         1795721700,
+         438.6585911
+        ],
+        [
+         1795722000,
+         441.72801951
+        ],
+        [
+         1795722300,
+         440.70895389
+        ],
+        [
+         1795722600,
+         438.81190474
+        ],
+        [
+         1795722900,
+         435.99811166
+        ],
+        [
+         1795723200,
+         434.79036474
+        ],
+        [
+         1795723500,
+         439.61120563
+        ],
+        [
+         1795723800,
+         446.49817445
+        ],
+        [
+         1795724100,
+         451.21152282
+        ],
+        [
+         1795724400,
+         448.06783213
+        ],
+        [
+         1795724700,
+         447.85260757
+        ],
+        [
+         1795725000,
+         449.46710246
+        ],
+        [
+         1795725300,
+         450.79487336
+        ],
+        [
+         1795725600,
+         444.79416628
+        ],
+        [
+         1795725900,
+         442.65668513
+        ],
+        [
+         1795726200,
+         448.35491207
+        ],
+        [
+         1795726500,
+         447.58148004
+        ],
+        [
+         1795726800,
+         445.67138458
+        ],
+        [
+         1795727100,
+         448.37800424
+        ],
+        [
+         1795727400,
+         447.69815868
+        ],
+        [
+         1795727700,
+         449.6583065
+        ],
+        [
+         1795728000,
+         450.93740156
+        ],
+        [
+         1795728300,
+         452.00569669
+        ],
+        [
+         1795728600,
+         451.06883571
+        ],
+        [
+         1795728900,
+         449.70332575
+        ],
+        [
+         1795729200,
+         447.31566107
+        ],
+        [
+         1795729500,
+         449.87194573
+        ],
+        [
+         1795729800,
+         451.0109452
+        ],
+        [
+         1795730100,
+         450.94524777
+        ],
+        [
+         1795730400,
+         452.03263919
+        ],
+        [
+         1795730700,
+         453.77939595
+        ],
+        [
+         1795731000,
+         457.78169204
+        ],
+        [
+         1795731300,
+         459.48959935
+        ],
+        [
+         1795731600,
+         463.3060553
+        ],
+        [
+         1795731900,
+         464.34965182
+        ],
+        [
+         1795732200,
+         459.02646799
+        ],
+        [
+         1795732500,
+         458.37196252
+        ],
+        [
+         1795732800,
+         456.51343283
+        ],
+        [
+         1795733100,
+         456.99288665
+        ],
+        [
+         1795733400,
+         457.11320286
+        ],
+        [
+         1795733700,
+         455.14005441
+        ],
+        [
+         1795734000,
+         453.24691943
+        ],
+        [
+         1795734300,
+         454.8714037
+        ],
+        [
+         1795734600,
+         453.09535202
+        ]
+       ]
+      },
+      "second": {
+       "source": "Kraken 5-minute candles",
+       "url": "https://api.kraken.com/0/public/OHLC?pair=XMRUSD&interval=5&since=1795648076",
+       "gap_pts": 0.08
+      },
+      "seconds": [
+       {
+        "source": "Kraken 5-minute candles",
+        "url": "https://api.kraken.com/0/public/OHLC?pair=XMRUSD&interval=5&since=1795648076",
+        "gap_pts": 0.08
+       }
+      ],
+      "run": {
+       "dir": "down",
+       "start_t": 1795677000,
+       "start_p": 527.91110489,
+       "end_t": 1795720500,
+       "end_p": 432.24462341,
+       "pct": -18.122
+      },
+      "tests": [
+       {
+        "id": "delisting-kucoin-1795685580-kucoin-will-delist-monero-xmr-on-2026-11-30",
+        "t_utc": "2026-11-26T09:33:00Z",
+        "basis": "event",
+        "result": {
+         "lead_min": -143.0,
+         "before_onset": false,
+         "after_pct": 0.75,
+         "share_pct": -5.8,
+         "share_partial": false,
+         "in_window": true,
+         "done_pct": 6.1,
+         "moved_first": false
+        }
+       }
+      ],
+      "mechanics": {
+       "hour_start_utc": "2026-11-26T07:10:00Z",
+       "hour_end_utc": "2026-11-26T08:10:00Z",
+       "rows": [
+        {
+         "key": "XMR",
+         "label": "Monero",
+         "value": -1.47,
+         "unit": "pct"
+        },
+        {
+         "key": "BTC",
+         "label": "Bitcoin",
+         "value": 0.39,
+         "unit": "pct"
+        },
+        {
+         "key": "ES=F",
+         "label": "S&P 500 futures",
+         "value": null,
+         "unit": "pct"
+        },
+        {
+         "key": "NQ=F",
+         "label": "Nasdaq 100 futures",
+         "value": null,
+         "unit": "pct"
+        },
+        {
+         "key": "DX-Y.NYB",
+         "label": "Dollar index",
+         "value": null,
+         "unit": "pct"
+        },
+        {
+         "key": "^TNX",
+         "label": "10-year Treasury yield",
+         "value": null,
+         "unit": "bp"
+        },
+        {
+         "key": "ZT=F",
+         "label": "2-year Treasury note futures",
+         "value": null,
+         "unit": "pct"
+        },
+        {
+         "key": "GC=F",
+         "label": "Gold futures",
+         "value": null,
+         "unit": "pct"
+        },
+        {
+         "key": "CL=F",
+         "label": "Oil futures (WTI)",
+         "value": null,
+         "unit": "pct"
+        },
+        {
+         "key": "^VIX",
+         "label": "VIX",
+         "value": null,
+         "unit": "pct"
+        },
+        {
+         "key": "IBIT",
+         "label": "IBIT volume (iShares Bitcoin Trust)",
+         "value": null,
+         "unit": "shares"
+        },
+        {
+         "key": "FBTC",
+         "label": "FBTC volume (Fidelity Wise Origin Bitcoin Fund)",
+         "value": null,
+         "unit": "shares"
+        },
+        {
+         "key": "liq-gate",
+         "label": "Liquidations, Gate",
+         "longs_usd": 0,
+         "shorts_usd": 0,
+         "orders": 0,
+         "capped": false
+        }
+       ],
+       "beta": 1.095,
+       "excess_pts": -1.9,
+       "patterns": [
+        {
+         "label": "coin-specific",
+         "rule": "Monero moved 1.0 point or more beyond what its 30-day Bitcoin beta (1.095) gives, and that is over half its move"
+        }
+       ]
+      },
+      "event_hours": {
+       "delisting-kucoin-1795685580-kucoin-will-delist-monero-xmr-on-2026-11-30": {
+        "hour_start_utc": "2026-11-26T09:33:00Z",
+        "hour_end_utc": "2026-11-26T10:33:00Z",
+        "rows": [
+         {
+          "key": "XMR",
+          "label": "Monero",
+          "value": 0.75,
+          "unit": "pct"
+         },
+         {
+          "key": "BTC",
+          "label": "Bitcoin",
+          "value": 0.11,
+          "unit": "pct"
+         },
+         {
+          "key": "ES=F",
+          "label": "S&P 500 futures",
+          "value": null,
+          "unit": "pct"
+         },
+         {
+          "key": "NQ=F",
+          "label": "Nasdaq 100 futures",
+          "value": null,
+          "unit": "pct"
+         },
+         {
+          "key": "DX-Y.NYB",
+          "label": "Dollar index",
+          "value": null,
+          "unit": "pct"
+         },
+         {
+          "key": "^TNX",
+          "label": "10-year Treasury yield",
+          "value": null,
+          "unit": "bp"
+         },
+         {
+          "key": "ZT=F",
+          "label": "2-year Treasury note futures",
+          "value": null,
+          "unit": "pct"
+         },
+         {
+          "key": "GC=F",
+          "label": "Gold futures",
+          "value": null,
+          "unit": "pct"
+         },
+         {
+          "key": "CL=F",
+          "label": "Oil futures (WTI)",
+          "value": null,
+          "unit": "pct"
+         },
+         {
+          "key": "^VIX",
+          "label": "VIX",
+          "value": -0.37,
+          "unit": "pct"
+         },
+         {
+          "key": "IBIT",
+          "label": "IBIT volume (iShares Bitcoin Trust)",
+          "value": null,
+          "unit": "shares"
+         },
+         {
+          "key": "FBTC",
+          "label": "FBTC volume (Fidelity Wise Origin Bitcoin Fund)",
+          "value": null,
+          "unit": "shares"
+         }
+        ],
+        "patterns": []
+       }
+      }
+     }
+    },
+    "subject": {
+     "sym": "XMR",
+     "name": "Monero",
+     "gecko_id": "monero"
+    },
+    "day": {
+     "stablecoins": null,
+     "etf_btc": null
+    },
+    "read": [
+     {
+      "name": "Bitcoin prices: CoinGecko 5-minute prices",
+      "url": "https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=1",
+      "note": ""
+     },
+     {
+      "name": "Bitcoin prices: Coinbase 5-minute candles",
+      "url": "https://api.exchange.coinbase.com/products/BTC-USD/candles?granularity=300&start=2026-11-25T23:12:56Z&end=2026-11-26T23:12:56Z",
+      "note": ""
+     },
+     {
+      "name": "Bitcoin prices: OKX 5-minute candles",
+      "url": "https://www.okx.com/api/v5/market/history-candles?instId=BTC-USDT&bar=5m&after=1795734776000&limit=300",
+      "note": ""
+     },
+     {
+      "name": "Bitcoin prices: Binance 5-minute klines (data-api.binance.vision)",
+      "url": "https://data-api.binance.vision/api/v3/klines?symbol=BTCUSDT&interval=5m&startTime=1795648076000&endTime=1795734776000&limit=300",
+      "note": ""
+     },
+     {
+      "name": "Bitcoin prices: Kraken 5-minute candles",
+      "url": "https://api.kraken.com/0/public/OHLC?pair=XBTUSD&interval=5&since=1795648076",
+      "note": ""
+     },
+     {
+      "name": "Binance new listings",
+      "url": "https://www.binance.com/bapi/composite/v1/public/cms/article/list/query?type=1&catalogId=48&pageNo=1&pageSize=20",
+      "note": "20 notice(s) in its answer"
+     },
+     {
+      "name": "Binance delistings",
+      "url": "https://www.binance.com/bapi/composite/v1/public/cms/article/list/query?type=1&catalogId=161&pageNo=1&pageSize=20",
+      "note": "20 notice(s) in its answer"
+     },
+     {
+      "name": "OKX new listings",
+      "url": "https://www.okx.com/api/v5/support/announcements?annType=announcements-new-listings",
+      "note": "20 notice(s) in its answer"
+     },
+     {
+      "name": "OKX delistings",
+      "url": "https://www.okx.com/api/v5/support/announcements?annType=announcements-delistings",
+      "note": "18 notice(s) in its answer"
+     },
+     {
+      "name": "KuCoin new listings",
+      "url": "https://api.kucoin.com/api/v3/announcements?annType=new-listings&pageSize=50",
+      "note": "22 notice(s) in its answer"
+     },
+     {
+      "name": "KuCoin delistings",
+      "url": "https://api.kucoin.com/api/v3/announcements?annType=delistings&pageSize=50",
+      "note": "6 notice(s) in its answer"
+     },
+     {
+      "name": "Bitget listings",
+      "url": "https://api.bitget.com/api/v2/public/annoucements?language=en_US&annType=coin_listings",
+      "note": "10 notice(s) in its answer"
+     },
+     {
+      "name": "Kraken blog (listings)",
+      "url": "https://blog.kraken.com/feed",
+      "note": "4 notice(s) in its answer"
+     },
+     {
+      "name": "Coinbase status notices",
+      "url": "https://status.exchange.coinbase.com/history.rss",
+      "note": "5 notice(s) in its answer"
+     },
+     {
+      "name": "DefiLlama hacks",
+      "url": "https://api.llama.fi/hacks",
+      "note": ""
+     },
+     {
+      "name": "Yahoo 5-minute bars, S&P 500 futures",
+      "url": "https://query1.finance.yahoo.com/v8/finance/chart/ES=F?interval=5m&period1=1795648376&period2=1795734776",
+      "note": ""
+     },
+     {
+      "name": "Yahoo 5-minute bars, Nasdaq 100 futures",
+      "url": "https://query1.finance.yahoo.com/v8/finance/chart/NQ=F?interval=5m&period1=1795648376&period2=1795734776",
+      "note": ""
+     },
+     {
+      "name": "Yahoo 5-minute bars, Dollar index",
+      "url": "https://query1.finance.yahoo.com/v8/finance/chart/DX-Y.NYB?interval=5m&period1=1795648376&period2=1795734776",
+      "note": ""
+     },
+     {
+      "name": "Yahoo 5-minute bars, 10-year Treasury yield",
+      "url": "https://query1.finance.yahoo.com/v8/finance/chart/%5ETNX?interval=5m&period1=1795648376&period2=1795734776",
+      "note": ""
+     },
+     {
+      "name": "Yahoo 5-minute bars, 2-year Treasury note futures",
+      "url": "https://query1.finance.yahoo.com/v8/finance/chart/ZT=F?interval=5m&period1=1795648376&period2=1795734776",
+      "note": ""
+     },
+     {
+      "name": "Yahoo 5-minute bars, Gold futures",
+      "url": "https://query1.finance.yahoo.com/v8/finance/chart/GC=F?interval=5m&period1=1795648376&period2=1795734776",
+      "note": ""
+     },
+     {
+      "name": "Yahoo 5-minute bars, Oil futures (WTI)",
+      "url": "https://query1.finance.yahoo.com/v8/finance/chart/CL=F?interval=5m&period1=1795648376&period2=1795734776",
+      "note": ""
+     },
+     {
+      "name": "Yahoo 5-minute bars, VIX",
+      "url": "https://query1.finance.yahoo.com/v8/finance/chart/%5EVIX?interval=5m&period1=1795648376&period2=1795734776",
+      "note": ""
+     },
+     {
+      "name": "Yahoo 5-minute bars, IBIT volume (iShares Bitcoin Trust)",
+      "url": "https://query1.finance.yahoo.com/v8/finance/chart/IBIT?interval=5m&period1=1795648376&period2=1795734776",
+      "note": ""
+     },
+     {
+      "name": "Yahoo 5-minute bars, FBTC volume (Fidelity Wise Origin Bitcoin Fund)",
+      "url": "https://query1.finance.yahoo.com/v8/finance/chart/FBTC?interval=5m&period1=1795648376&period2=1795734776",
+      "note": ""
+     },
+     {
+      "name": "Monero prices: CoinGecko 5-minute prices",
+      "url": "https://api.coingecko.com/api/v3/coins/monero/market_chart?vs_currency=usd&days=1",
+      "note": ""
+     },
+     {
+      "name": "Monero prices: Kraken 5-minute candles",
+      "url": "https://api.kraken.com/0/public/OHLC?pair=XMRUSD&interval=5&since=1795648076",
+      "note": ""
+     },
+     {
+      "name": "CoinMarketCap token unlocks, Monero",
+      "url": "https://api.coinmarketcap.com/data-api/v3/token-unlock/event?cryptoId=328&type=past",
+      "note": ""
+     },
+     {
+      "name": "OKX funding, Monero",
+      "url": "https://www.okx.com/api/v5/public/funding-rate-history?instId=XMR-USDT-SWAP&limit=100",
+      "note": ""
+     },
+     {
+      "name": "Gate liquidations, Monero",
+      "url": "https://api.gateio.ws/api/v4/futures/usdt/liq_orders?contract=XMR_USDT&from=1795677000&to=1795680600&limit=1000",
+      "note": ""
+     }
+    ],
+    "unread": [
+     {
+      "name": "Upbit listing notices",
+      "why": "not read: its announcements API answered 403 to the desk on October 19, 2026",
+      "url": ""
+     },
+     {
+      "name": "Bybit listing notices",
+      "why": "not read: its announcements API answered 403 (blocked by country) to the desk on October 19, 2026",
+      "url": ""
+     },
+     {
+      "name": "Protocol upgrades and governance votes",
+      "why": "not read: not wired in this step; Snapshot's public hub (hub.snapshot.org) answered the desk on October 19, 2026 with off-chain votes and is not read yet, and the desk has found no free feed for on-chain votes; a wire item that names the coin is read",
+      "url": ""
+     },
+     {
+      "name": "Monero prices: Coinbase 5-minute candles",
+      "why": "HTTP 404",
+      "url": "https://api.exchange.coinbase.com/products/XMR-USD/candles?granularity=300&start=2026-11-25T23:12:56Z&end=2026-11-26T23:12:56Z"
+     },
+     {
+      "name": "Monero prices: OKX 5-minute candles",
+      "why": "0 points for a window of 288 five-minute bars",
+      "url": "https://www.okx.com/api/v5/market/history-candles?instId=XMR-USDT&bar=5m&after=1795734776000&limit=300"
+     },
+     {
+      "name": "Monero prices: Binance 5-minute klines (data-api.binance.vision)",
+      "why": "0 points for a window of 288 five-minute bars",
+      "url": "https://data-api.binance.vision/api/v3/klines?symbol=XMRUSDT&interval=5m&startTime=1795648076000&endTime=1795734776000&limit=300"
+     },
+     {
+      "name": "OKX open interest, Monero",
+      "why": "no readings in this window",
+      "url": "https://www.okx.com/api/v5/rubik/stat/contracts/open-interest-volume?ccy=XMR&period=5m"
+     },
+     {
+      "name": "OKX liquidations, Monero",
+      "why": "no orders or no contract size",
+      "url": "https://www.okx.com/api/v5/public/liquidation-orders?instType=SWAP&state=filled&uly=XMR-USDT&limit=100"
+     },
+     {
+      "name": "OKX taker flow, Monero",
+      "why": "no reading for the hour from Nov 26, 2:00 AM ET",
+      "url": "https://www.okx.com/api/v5/rubik/stat/taker-volume-contract?instId=XMR-USDT-SWAP&period=1H&unit=2&begin=1795672800000&end=1795680000000"
+     },
+     {
+      "name": "CoinGecko daily volumes",
+      "why": "HTTP 429",
+      "url": "https://api.coingecko.com/api/v3/coins/monero/market_chart?vs_currency=usd&days=8&interval=daily"
+     }
+    ]
+   },
+   "verdict": {
+    "what": "The verdict under 'Why it moved': the grade computed by code from the evidence record (why_evidence.py) on the page's window, the graded line built from phrases, and the model's two checked sentences when they passed every check.",
+    "date_et": "2026-11-26",
+    "slot": "evening",
+    "window": {
+     "start_utc": "2026-11-25T23:12:56Z",
+     "end_utc": "2026-11-26T23:12:56Z",
+     "hours": 24
+    },
+    "evidence_made_utc": "2026-11-26T23:17:03Z",
+    "made_utc": "2026-11-26T23:17:03Z",
+    "timing_rule": {
+     "version": "2026-10-20",
+     "source": "AUDIT.md section 3.1; strategist's rulings of October 19, 2026 and October 20, 2026 (J-8)",
+     "lead_min": 60,
+     "done_max_pct": 25.0,
+     "share_min_pct": 40.0
+    },
+    "day": {
+     "basis": "rolling_24h",
+     "BTC": 0.52,
+     "XMR": -12.62
+    },
+    "coins": {
+     "XMR": {
+      "sym": "XMR",
+      "name": "Monero",
+      "kind": "graded",
+      "grade": "Unclear",
+      "cand": null,
+      "refs": [],
+      "dir": "down",
+      "reasons": [
+       "no candidate passes the timing test"
+      ],
+      "phrases": [
+       "No reported event lines up with this move.",
+       "In the hour the run began, the market readings show coin-specific."
+      ],
+      "phrases_sec": [
+       "No reported event lines up with this move.",
+       ""
+      ],
+      "line": [
+       "No reported event lines up with this move.",
+       "In the hour the run began, the market readings show coin-specific."
+      ],
+      "required": [
+       0
+      ],
+      "readings": {
+       "hour": "onset",
+       "start_utc": "2026-11-26T07:10:00Z",
+       "end_utc": "2026-11-26T08:10:00Z",
+       "rows": [
+        {
+         "key": "BTC",
+         "label": "Bitcoin",
+         "value": 0.39,
+         "unit": "pct"
+        },
+        {
+         "key": "ES=F",
+         "label": "S&P 500 futures",
+         "value": null,
+         "unit": "pct"
+        },
+        {
+         "key": "NQ=F",
+         "label": "Nasdaq 100 futures",
+         "value": null,
+         "unit": "pct"
+        },
+        {
+         "key": "DX-Y.NYB",
+         "label": "Dollar index",
+         "value": null,
+         "unit": "pct"
+        },
+        {
+         "key": "^TNX",
+         "label": "10-year Treasury yield",
+         "value": null,
+         "unit": "bp"
+        },
+        {
+         "key": "ZT=F",
+         "label": "2-year Treasury note futures",
+         "value": null,
+         "unit": "pct"
+        },
+        {
+         "key": "GC=F",
+         "label": "Gold futures",
+         "value": null,
+         "unit": "pct"
+        },
+        {
+         "key": "CL=F",
+         "label": "Oil futures (WTI)",
+         "value": null,
+         "unit": "pct"
+        },
+        {
+         "key": "^VIX",
+         "label": "VIX",
+         "value": null,
+         "unit": "pct"
+        }
+       ],
+       "patterns": [
+        "coin-specific"
+       ],
+       "shut": false,
+       "onset_rows": [
+        [
+         "XMR",
+         -1.47
+        ],
+        [
+         "BTC",
+         0.39
+        ],
+        [
+         "ES=F",
+         null
+        ],
+        [
+         "NQ=F",
+         null
+        ],
+        [
+         "DX-Y.NYB",
+         null
+        ],
+        [
+         "^TNX",
+         null
+        ],
+        [
+         "ZT=F",
+         null
+        ],
+        [
+         "GC=F",
+         null
+        ],
+        [
+         "CL=F",
+         null
+        ],
+        [
+         "^VIX",
+         null
+        ],
+        [
+         "IBIT",
+         null
+        ],
+        [
+         "FBTC",
+         null
+        ],
+        [
+         "liq-gate",
+         null
+        ]
+       ],
+       "onset_patterns": [
+        "coin-specific"
+       ],
+       "onset_shut": false
+      },
+      "basis": "rolling_24h",
+      "window_words": "over the last 24 hours",
+      "move_pct": -12.62,
+      "text": [
+       "No reported event lines up with this move.",
+       "In the hour the run began, the market readings show coin-specific."
+      ],
+      "by": "phrases",
+      "fail_reason": "the check failed (verdict_check: model refused the request (whole fallback chain, if any) -> failing closed)",
+      "corrections": [],
+      "url": "/why/2026-11-26-monero"
+     }
+    },
+    "spend": {
+     "kind": "run",
+     "date": "2026-11-26",
+     "slot": "evening",
+     "t": "2026-11-26T23:17:03Z",
+     "calls": 2,
+     "tokens": 1128,
+     "usd": 0.00095,
+     "by_stage": {
+      "verdict_draft": 0.000242,
+      "verdict_check": 0.000708
+     },
+     "models": {
+      "verdict_draft": "claude-haiku-5-5",
+      "verdict_check": "claude-sonnet-5-5"
+     },
+     "day_usd": 0.003662,
+     "cap_usd": 1.5,
+     "coins": {
+      "XMR": "Unclear (phrases)"
+     }
+    }
+   }
+  }
+ },
+ "shared": {
+  "read": [
+   {
+    "name": "Bitcoin prices: CoinGecko 5-minute prices",
+    "url": "https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=1",
+    "note": ""
+   },
+   {
+    "name": "Bitcoin prices: Coinbase 5-minute candles",
+    "url": "https://api.exchange.coinbase.com/products/BTC-USD/candles?granularity=300&start=2026-11-25T23:12:56Z&end=2026-11-26T23:12:56Z",
+    "note": ""
+   },
+   {
+    "name": "Bitcoin prices: OKX 5-minute candles",
+    "url": "https://www.okx.com/api/v5/market/history-candles?instId=BTC-USDT&bar=5m&after=1795734776000&limit=300",
+    "note": ""
+   },
+   {
+    "name": "Bitcoin prices: Binance 5-minute klines (data-api.binance.vision)",
+    "url": "https://data-api.binance.vision/api/v3/klines?symbol=BTCUSDT&interval=5m&startTime=1795648076000&endTime=1795734776000&limit=300",
+    "note": ""
+   },
+   {
+    "name": "Bitcoin prices: Kraken 5-minute candles",
+    "url": "https://api.kraken.com/0/public/OHLC?pair=XBTUSD&interval=5&since=1795648076",
+    "note": ""
+   },
+   {
+    "name": "Binance new listings",
+    "url": "https://www.binance.com/bapi/composite/v1/public/cms/article/list/query?type=1&catalogId=48&pageNo=1&pageSize=20",
+    "note": "20 notice(s) in its answer"
+   },
+   {
+    "name": "Binance delistings",
+    "url": "https://www.binance.com/bapi/composite/v1/public/cms/article/list/query?type=1&catalogId=161&pageNo=1&pageSize=20",
+    "note": "20 notice(s) in its answer"
+   },
+   {
+    "name": "OKX new listings",
+    "url": "https://www.okx.com/api/v5/support/announcements?annType=announcements-new-listings",
+    "note": "20 notice(s) in its answer"
+   },
+   {
+    "name": "OKX delistings",
+    "url": "https://www.okx.com/api/v5/support/announcements?annType=announcements-delistings",
+    "note": "18 notice(s) in its answer"
+   },
+   {
+    "name": "KuCoin new listings",
+    "url": "https://api.kucoin.com/api/v3/announcements?annType=new-listings&pageSize=50",
+    "note": "22 notice(s) in its answer"
+   },
+   {
+    "name": "KuCoin delistings",
+    "url": "https://api.kucoin.com/api/v3/announcements?annType=delistings&pageSize=50",
+    "note": "6 notice(s) in its answer"
+   },
+   {
+    "name": "Bitget listings",
+    "url": "https://api.bitget.com/api/v2/public/annoucements?language=en_US&annType=coin_listings",
+    "note": "10 notice(s) in its answer"
+   },
+   {
+    "name": "Kraken blog (listings)",
+    "url": "https://blog.kraken.com/feed",
+    "note": "4 notice(s) in its answer"
+   },
+   {
+    "name": "Coinbase status notices",
+    "url": "https://status.exchange.coinbase.com/history.rss",
+    "note": "5 notice(s) in its answer"
+   },
+   {
+    "name": "DefiLlama hacks",
+    "url": "https://api.llama.fi/hacks",
+    "note": ""
+   },
+   {
+    "name": "Yahoo 5-minute bars, S&P 500 futures",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/ES=F?interval=5m&period1=1795648376&period2=1795734776",
+    "note": ""
+   },
+   {
+    "name": "Yahoo 5-minute bars, Nasdaq 100 futures",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/NQ=F?interval=5m&period1=1795648376&period2=1795734776",
+    "note": ""
+   },
+   {
+    "name": "Yahoo 5-minute bars, Dollar index",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/DX-Y.NYB?interval=5m&period1=1795648376&period2=1795734776",
+    "note": ""
+   },
+   {
+    "name": "Yahoo 5-minute bars, 10-year Treasury yield",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/%5ETNX?interval=5m&period1=1795648376&period2=1795734776",
+    "note": ""
+   },
+   {
+    "name": "Yahoo 5-minute bars, 2-year Treasury note futures",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/ZT=F?interval=5m&period1=1795648376&period2=1795734776",
+    "note": ""
+   },
+   {
+    "name": "Yahoo 5-minute bars, Gold futures",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/GC=F?interval=5m&period1=1795648376&period2=1795734776",
+    "note": ""
+   },
+   {
+    "name": "Yahoo 5-minute bars, Oil futures (WTI)",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/CL=F?interval=5m&period1=1795648376&period2=1795734776",
+    "note": ""
+   },
+   {
+    "name": "Yahoo 5-minute bars, VIX",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/%5EVIX?interval=5m&period1=1795648376&period2=1795734776",
+    "note": ""
+   },
+   {
+    "name": "Yahoo 5-minute bars, IBIT volume (iShares Bitcoin Trust)",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/IBIT?interval=5m&period1=1795648376&period2=1795734776",
+    "note": ""
+   },
+   {
+    "name": "Yahoo 5-minute bars, FBTC volume (Fidelity Wise Origin Bitcoin Fund)",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/FBTC?interval=5m&period1=1795648376&period2=1795734776",
+    "note": ""
+   }
+  ],
+  "unread": [
+   {
+    "name": "Upbit listing notices",
+    "why": "not read: its announcements API answered 403 to the desk on October 19, 2026",
+    "url": ""
+   },
+   {
+    "name": "Bybit listing notices",
+    "why": "not read: its announcements API answered 403 (blocked by country) to the desk on October 19, 2026",
+    "url": ""
+   },
+   {
+    "name": "Protocol upgrades and governance votes",
+    "why": "not read: not wired in this step; Snapshot's public hub (hub.snapshot.org) answered the desk on October 19, 2026 with off-chain votes and is not read yet, and the desk has found no free feed for on-chain votes; a wire item that names the coin is read",
+    "url": ""
+   }
+  ],
+  "notices": 3,
+  "hacks": 0
+ },
+ "date_et": "2026-11-26",
+ "slot": "evening"
+}

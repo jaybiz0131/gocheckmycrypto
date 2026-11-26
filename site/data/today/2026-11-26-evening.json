@@ -1,0 +1,199 @@
+{
+ "date_et": "2026-11-26",
+ "slot": "evening",
+ "published_utc": "2026-11-26T23:15:30Z",
+ "first_utc": "2026-11-26T23:15:30Z",
+ "direction": "flat",
+ "direction_basis": "et_day",
+ "title": "Crypto today: flat. Thursday, November 26, 2026",
+ "h1": "Crypto today: flat. Thursday, November 26, 2026",
+ "stamp_label": "Evening Brief, 6:15 PM ET",
+ "composed_utc": "2026-11-26T23:16:18Z",
+ "board_stamp_et": "6:12 PM ET on Nov 26",
+ "answer": [
+  "On Thursday, November 26, Bitcoin was flat since midnight ET, at $60,411, a change of -0.40%.",
+  "Over the last 24 hours it was up 0.52%.",
+  "Ether was up 0.16% over the same 24 hours.",
+  "Among the Top 100, SKY gained 11.73% and XMR lost 12.62% over 24 hours."
+ ],
+ "answer_by": "template",
+ "fallback": false,
+ "btc": {
+  "price": 60411,
+  "chg": 0.52,
+  "chg_day": -0.4
+ },
+ "eth": {
+  "price": 1687.74,
+  "chg": 0.16
+ },
+ "cap": null,
+ "gainers": [
+  {
+   "symbol": "SKY",
+   "name": "Sky",
+   "chg": 11.73,
+   "slug": "sky"
+  },
+  {
+   "symbol": "PIEVERSE",
+   "name": "Pieverse",
+   "chg": 8.91,
+   "slug": "pieverse"
+  },
+  {
+   "symbol": "JUP",
+   "name": "Jupiter",
+   "chg": 5.27,
+   "slug": "jup"
+  }
+ ],
+ "losers": [
+  {
+   "symbol": "XMR",
+   "name": "Monero",
+   "chg": -12.62,
+   "slug": "xmr"
+  },
+  {
+   "symbol": "VVV",
+   "name": "Venice Token",
+   "chg": -10.08,
+   "slug": "vvv"
+  },
+  {
+   "symbol": "ZEC",
+   "name": "Zcash",
+   "chg": -9.99,
+   "slug": "zec"
+  }
+ ],
+ "reported": [
+  {
+   "line": "New York AG won $1.37B judgment against NovaTech founders for defrauding hundreds of thousands including 11,000 state residents.",
+   "time": "5:40 AM ET",
+   "source_count": 2,
+   "primary": false,
+   "links": [
+    {
+     "outlet": "CoinDesk",
+     "url": "https://www.coindesk.com/policy/2026/11/26/new-york-attorney-general-wins-usd1-4-billion-ruling-against-founders-of-crypto-trading-firm-novatech"
+    },
+    {
+     "outlet": "Decrypt",
+     "url": "https://decrypt.co/384025/new-york-wins-1-37b-judgment-against-novatech-founders-who-fled-the-us"
+    }
+   ]
+  },
+  {
+   "line": "Spain's Sepblac financial intelligence unit gains power to freeze crypto accounts for up to five days without prior court approval, effective Jan. 25.",
+   "time": "9:05 AM ET",
+   "source_count": 2,
+   "primary": false,
+   "links": [
+    {
+     "outlet": "CoinDesk",
+     "url": "https://www.coindesk.com/business/2026/11/26/spain-gives-anti-laundering-unit-power-to-freeze-crypto-accounts-without-a-judge"
+    },
+    {
+     "outlet": "decrypt.co",
+     "url": "https://decrypt.co/384063/spain-lets-its-financial-intelligence-unit-freeze-crypto-accounts-without-a-court-order"
+    }
+   ]
+  },
+  {
+   "line": "Standard Chartered's Zodia Custody disclosed breach detected Nov. 23 exposed client and staff names and emails; no unauthorized transactions found.",
+   "time": "6:12 AM ET",
+   "source_count": 3,
+   "primary": false,
+   "links": [
+    {
+     "outlet": "The Defiant",
+     "url": "https://thedefiant.io/converge/security/zodia-custody-confirms-client-and-staff-data-breach"
+    },
+    {
+     "outlet": "CoinDesk",
+     "url": "https://www.coindesk.com/tech/2026/11/26/standard-chartered-s-zodia-custody-suffers-data-breach-exposing-client-information"
+    },
+    {
+     "outlet": "Cointelegraph",
+     "url": "https://cointelegraph.com/news/standard-chartered-zodia-suffers-data-breach?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound"
+    }
+   ]
+  },
+  {
+   "line": "Attackers hijacked 1.9 EH/s of Bitcoin mining hashrate using fake internet routes (BGP attacks), steering miners to impostor pools in November.",
+   "time": "1:19 AM ET",
+   "source_count": 2,
+   "primary": false,
+   "links": [
+    {
+     "outlet": "CoinDesk",
+     "url": "https://www.coindesk.com/markets/2026/11/26/hackers-hijacked-1-000-plus-bitcoin-mines-in-one-second-by-faking-internet-routes"
+    },
+    {
+     "outlet": "decrypt.co",
+     "url": "https://decrypt.co/383999/another-bitcoin-mining-firm-hashrate-hijacking-attacks"
+    }
+   ]
+  },
+  {
+   "line": "Swiss Federal Council approved 57 jurisdictions for automatic cryptoasset tax-information exchanges beginning 2028, extending banking data-sharing rules.",
+   "time": "4:40 AM ET",
+   "source_count": 2,
+   "primary": false,
+   "links": [
+    {
+     "outlet": "The Block",
+     "url": "https://www.theblock.co/news/regulation/2026-11-26-switzerland-approves-57-jurisdictions-for-crypto-data-exchange-from-2028-446821"
+    },
+    {
+     "outlet": "bitcoinmagazine.com",
+     "url": "https://bitcoinmagazine.com/news/switzerland-57-countries-crypto-tax"
+    }
+   ]
+  }
+ ],
+ "board": [
+  {
+   "key": "etf",
+   "label": "Bitcoin ETF flows",
+   "value": -453.0,
+   "window": "one trading day, 25 Nov 2026",
+   "source": "Farside Investors",
+   "stamp": "6:12 PM ET on Nov 26",
+   "directional": true
+  },
+  {
+   "key": "liq",
+   "label": "Bitcoin liquidations",
+   "longs": 157886,
+   "shorts": 380361,
+   "window": "last 2 hours",
+   "source": "OKX",
+   "stamp": "6:12 PM ET on Nov 26",
+   "directional": false
+  },
+  {
+   "key": "funding",
+   "label": "Bitcoin funding",
+   "value": -0.0003,
+   "window": "current 8-hour period",
+   "source": "OKX",
+   "stamp": "6:12 PM ET on Nov 26",
+   "directional": false
+  },
+  {
+   "key": "fng",
+   "label": "Fear & Greed",
+   "value": 11,
+   "word": "Extreme Fear",
+   "window": "today",
+   "source": "alternative.me",
+   "stamp": "6:12 PM ET on Nov 26",
+   "directional": false
+  }
+ ],
+ "next": "Next update: Morning Brief, tomorrow at 8:15 AM ET",
+ "corrections": []
+}
