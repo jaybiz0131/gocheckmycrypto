@@ -1,31 +1,31 @@
 {
- "line": "Bitcoin rises despite ETF outflows and extreme fear readings, as regulators across jurisdictions tighten crypto rules and settlements infrastructure.",
+ "line": "Bitcoin drifted higher on oversold technicals and extreme fear, but intraday strength masks persistent weekly outflows and fresh whale deposits onto exchanges.",
  "by": "edition",
- "written_utc": "2026-11-26T13:18:31Z",
- "written_et": "8:18 AM ET on Nov 26",
+ "written_utc": "2026-11-26T14:37:30Z",
+ "written_et": "9:37 AM ET on Nov 26",
  "readings": {
-  "stamp_utc": "2026-11-26T13:16:52Z",
-  "btc_24h_pct": 3.53,
+  "stamp_utc": "2026-11-26T14:32:55Z",
+  "btc_24h_pct": 4.74,
   "etf_net_usd_m": -453.0,
   "etf_date": "25 Nov 2026",
   "fear_greed": 11,
   "fear_greed_band": "Extreme fear",
-  "funding_8h_pct": 0.0055,
+  "funding_8h_pct": 0.0047,
   "funding_band": "calm"
  },
- "small_line": "Written from Bitcoin +3.53% on the day, spot ETF net -453.0M USD (Nov 25, 2026), Fear & Greed 11 (extreme fear), funding +0.0055% per 8h (calm)",
+ "small_line": "Written from Bitcoin +4.74% on the day, spot ETF net -453.0M USD (Nov 25, 2026), Fear & Greed 11 (extreme fear), funding +0.0047% per 8h (calm)",
  "wire_top3": [
   {
    "id": "c068",
    "line": "Switzerland approved 57 countries and territories for automatic crypto tax information sharing starting 2028."
   },
   {
-   "id": "c019",
-   "line": "Sens. Warren and Van Hollen sent letters to SEC Chair demanding rescission of the innovation exemption and Regulation Crypto."
+   "id": "c049",
+   "line": "Ukraine parliament passed crypto regulation and tax bill establishing 18% plus 5% military levy, effective July 2027."
   },
   {
-   "id": "c033",
-   "line": "Hong Kong Monetary Authority launched tokenized debt securities platform with 10 banks; 24-hour settlement vs. traditional rails."
+   "id": "c019",
+   "line": "Sens. Warren and Van Hollen sent letters to SEC Chair demanding rescission of the innovation exemption and Regulation Crypto."
   }
  ],
  "crossed": []

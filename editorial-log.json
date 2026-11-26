@@ -1,21 +1,5 @@
 [
  {
-  "date": "2026-08-21",
-  "approved": 4,
-  "rejected": [
-   {
-    "id": "c018",
-    "headline": "CFTC Chair Signals Unilateral Rulemaking if Clarity Act Stalls in Congress",
-    "category": "accuracy",
-    "reasons": [
-     "No brief exists for this story. The instruction is explicit: 'every draft fact must then trace to the draft's own cited sources or be rejected.' The draft cites only one source (CoinDesk), but no research brief was provided to validate facts against.",
-     "Without a brief, the approver cannot verify that facts in the draft are actually in the CoinDesk source or whether the writer added unreported details. The protocol requires the approver to assume all facts outside the brief are smuggled and reject them.",
-     "The story makes several specific claims about CFTC rulemaking intent, contingency plans, and statutory authority that cannot be verified against a research brief because none exists."
-    ]
-   }
-  ]
- },
- {
   "date": "2026-08-22",
   "approved": 1,
   "rejected": [
@@ -5081,6 +5065,22 @@
     "reasons": [
      "The bottom_line contains 'Unresolved:' followed by open questions, which violates the rule against narrating absence in the desk's own voice. Similar to c005, this construction presents the brief's open_questions as gaps the desk has investigated rather than simply not covered.",
      "The currency of the AUM is stated as '$100 million' in the body but the brief specifies the fund holds assets without currency denomination. The data_point says 'The fund has 100 million in assets under management' without specifying USD. The draft presents this as '$100 million USD' (implied by the $ symbol), which may not match the source."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-11-26",
+  "approved": 2,
+  "rejected": [
+   {
+    "id": "c010",
+    "headline": "Bitcoin miners hijacked via fake internet routes; 1.9 EH/s redirected to attacker",
+    "category": "accuracy",
+    "reasons": [
+     "The draft opens with a claim that is not supported by the brief's data_points: 'Attackers used BGP hijacking to redirect approximately 1.9 exahash per second of Bitcoin mining hashrate to a fake mining pool, affecting over 1,000 mining sites, according to CoinDesk and Decrypt reporting.' The brief's data_points attribute this claim only to CoinDesk (data_point 3), not to Decrypt. Data_point 1 from Decrypt is narrower: 'For the second time in weeks, a major Bitcoin mining firm warned attackers are siphoning mining rewards by hijacking connections.' The draft conflates two separate claims and misattributes scope to Decrypt.",
+     "The draft describes the attack mechanism in detail ('When a miner connects over unencrypted Stratum V1, an attacker who controls the network route can intercept the connection and redirect the mining power to their own pool') but the brief explicitly flags this as an open_question: 'What is the technical mechanism by which BGP hijacking redirects mining hashrate, and how does it interact with Stratum V1?' The draft provides mechanistic explanation that the brief's sources do not carry. This is smuggled information: the writer has inferred or supplied technical detail not in the research.",
+     "The draft claims 'The scale of the November attack, reaching 1.9 EH/s across more than 1,000 sites in what sources describe as one second, demonstrates the speed at which routing-layer attacks can redirect significant hashrate.' The brief's data_point 3 attributes '1.9 EH/s' and 'over 1,000 mining sites' to CoinDesk, but does not contain the phrase 'in one second' as a direct reported finding. The draft adds temporal precision ('in one second') that is not in the brief and appears to be editorial interpolation rather than sourced fact."
     ]
    }
   ]
