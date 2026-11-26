@@ -1,31 +1,31 @@
 {
- "line": "Markets shows extreme fear and outflows from Bitcoin ETFs as regulators globally tighten frameworks and security.",
+ "line": "Bitcoin drifting higher on extreme fear and oversold technicals, while ETF outflows collide with whale accumulation and short liquidations in a divided market.",
  "by": "edition",
- "written_utc": "2026-11-25T13:18:42Z",
- "written_et": "8:18 AM ET on Nov 25",
+ "written_utc": "2026-11-25T23:16:07Z",
+ "written_et": "6:16 PM ET on Nov 25",
  "readings": {
-  "stamp_utc": "2026-11-25T13:17:03Z",
-  "btc_24h_pct": -2.0,
+  "stamp_utc": "2026-11-25T23:12:56Z",
+  "btc_24h_pct": 0.31,
   "etf_net_usd_m": -231.4,
   "etf_date": "24 Nov 2026",
   "fear_greed": 13,
   "fear_greed_band": "Extreme fear",
-  "funding_8h_pct": 0.0069,
-  "funding_band": "calm"
+  "funding_8h_pct": 0.01,
+  "funding_band": "warm"
  },
- "small_line": "Written from Bitcoin -2.00% on the day, spot ETF net -231.4M USD (Nov 24, 2026), Fear & Greed 13 (extreme fear), funding +0.0069% per 8h (calm)",
+ "small_line": "Written from Bitcoin +0.31% on the day, spot ETF net -231.4M USD (Nov 24, 2026), Fear & Greed 13 (extreme fear), funding +0.0100% per 8h (warm)",
  "wire_top3": [
   {
-   "id": "c005",
-   "line": "South Korea proposes lifting 2017 ICO ban with new disclosure requirements, and backing bank-controlled stablecoins."
+   "id": "c019",
+   "line": "Sens. Warren and Van Hollen sent letters to SEC Chair demanding rescission of the innovation exemption and Regulation Crypto."
   },
   {
-   "id": "c034",
-   "line": "Ethereum Foundation doubles protocol security team as AI advances pose more urgent threat than quantum computing to cryptographic systems."
+   "id": "c068",
+   "line": "Switzerland approved 57 countries and territories for automatic crypto tax information sharing starting 2028."
   },
   {
-   "id": "c012",
-   "line": "US Justice Department files to forfeit $1.1 billion in USDC stolen by North Korea in Binance hack; authorities have helped freeze."
+   "id": "c049",
+   "line": "Ukraine parliament passed crypto regulation and tax bill establishing 18% plus 5% military levy, effective July 2027."
   }
  ],
  "crossed": []

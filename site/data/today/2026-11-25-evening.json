@@ -1,0 +1,191 @@
+{
+ "date_et": "2026-11-25",
+ "slot": "evening",
+ "published_utc": "2026-11-25T23:16:07Z",
+ "first_utc": "2026-11-25T23:16:07Z",
+ "direction": "up",
+ "direction_basis": "et_day",
+ "title": "Why is crypto up today? Wednesday, November 25, 2026",
+ "h1": "Why is crypto up today? Wednesday, November 25, 2026",
+ "stamp_label": "Evening Brief, 6:16 PM ET",
+ "composed_utc": "2026-11-25T23:16:51Z",
+ "board_stamp_et": "6:12 PM ET on Nov 25",
+ "answer": [
+  "On Wednesday, November 25, Bitcoin was up 1.53% since midnight ET, to $60,072.",
+  "Over the last 24 hours it was up 0.31%.",
+  "Ether was up 0.25% over the same 24 hours.",
+  "Among the Top 100, VVV gained 17.23% and QNT lost 2.12% over 24 hours."
+ ],
+ "answer_by": "template",
+ "fallback": false,
+ "btc": {
+  "price": 60072,
+  "chg": 0.31,
+  "chg_day": 1.53
+ },
+ "eth": {
+  "price": 1683.85,
+  "chg": 0.25
+ },
+ "cap": null,
+ "gainers": [
+  {
+   "symbol": "VVV",
+   "name": "Venice Token",
+   "chg": 17.23,
+   "slug": "vvv"
+  },
+  {
+   "symbol": "PIEVERSE",
+   "name": "Pieverse",
+   "chg": 14.33,
+   "slug": "pieverse"
+  },
+  {
+   "symbol": "WLFI",
+   "name": "World Liberty Financial",
+   "chg": 6.46,
+   "slug": "wlfi"
+  }
+ ],
+ "losers": [
+  {
+   "symbol": "QNT",
+   "name": "Quant",
+   "chg": -2.12,
+   "slug": "qnt"
+  },
+  {
+   "symbol": "TRX",
+   "name": "TRON",
+   "chg": -1.63,
+   "slug": "trx"
+  },
+  {
+   "symbol": "ATOM",
+   "name": "Cosmos Hub",
+   "chg": -1.25,
+   "slug": "atom"
+  }
+ ],
+ "reported": [
+  {
+   "line": "Sens. Warren and Van Hollen sent letters to SEC Chair demanding rescission of the innovation exemption and Regulation Crypto.",
+   "time": "5:20 PM ET",
+   "source_count": 1,
+   "primary": false,
+   "links": [
+    {
+     "outlet": "The Block",
+     "url": "https://www.theblock.co/news/regulation/2026-11-25-warren-van-hollen-lead-push-scrap-sec-regulation-crypto-innovation-exemption-446756"
+    }
+   ]
+  },
+  {
+   "line": "Switzerland approved 57 countries and territories for automatic crypto tax information sharing starting 2028.",
+   "time": "1:40 PM ET",
+   "source_count": 2,
+   "primary": false,
+   "links": [
+    {
+     "outlet": "Bitcoin Magazine",
+     "url": "https://bitcoinmagazine.com/news/switzerland-57-countries-crypto-tax"
+    },
+    {
+     "outlet": "cointelegraph.com",
+     "url": "https://cointelegraph.com/news/switzerland-clears-57-jurisdictions-crypto-tax-data-sharing"
+    },
+    {
+     "outlet": "Cointelegraph",
+     "url": "https://cointelegraph.com/news/switzerland-clears-57-jurisdictions-crypto-tax-data-sharing?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound"
+    }
+   ]
+  },
+  {
+   "line": "Ukraine parliament passed crypto regulation and tax bill establishing 18% plus 5% military levy, effective July 2027.",
+   "time": "11:07 AM ET",
+   "source_count": 2,
+   "primary": false,
+   "links": [
+    {
+     "outlet": "Decrypt",
+     "url": "https://decrypt.co/383962/ukraine-passes-law-to-legalize-and-tax-its-crypto-market-from-july-2027"
+    },
+    {
+     "outlet": "cointelegraph.com",
+     "url": "https://cointelegraph.com/news/ukraine-passes-bill-crypto-regulation-tax"
+    },
+    {
+     "outlet": "Cointelegraph",
+     "url": "https://cointelegraph.com/news/ukraine-passes-bill-crypto-regulation-tax?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound"
+    }
+   ]
+  },
+  {
+   "line": "Braiins warned of active hashrate hijacking attacks across 1,000+ mining sites exploiting unencrypted protocol connections.",
+   "time": "2:37 PM ET",
+   "source_count": 1,
+   "primary": false,
+   "links": [
+    {
+     "outlet": "The Block",
+     "url": "https://www.theblock.co/news/ecosystems/2026-11-25-bitcoin-miners-hit-hashrate-hijacking-attack-exploiting-unencrypted-connections-446723"
+    }
+   ]
+  },
+  {
+   "line": "US October PCE inflation reached 3.8% with core at 3.3%, exceeding forecasts ahead of December Fed meeting.",
+   "time": "8:47 AM ET",
+   "source_count": 1,
+   "primary": false,
+   "links": [
+    {
+     "outlet": "The Defiant",
+     "url": "https://thedefiant.io/news/markets/us-pce-inflation-hits-3-8-core-exceeds-forecast"
+    }
+   ]
+  }
+ ],
+ "board": [
+  {
+   "key": "etf",
+   "label": "Bitcoin ETF flows",
+   "value": -231.4,
+   "window": "one trading day, 24 Nov 2026",
+   "source": "Farside Investors",
+   "stamp": "6:12 PM ET on Nov 25",
+   "directional": true
+  },
+  {
+   "key": "liq",
+   "label": "Bitcoin liquidations",
+   "longs": 124739,
+   "shorts": 358089,
+   "window": "last 2 hours",
+   "source": "OKX",
+   "stamp": "6:12 PM ET on Nov 25",
+   "directional": false
+  },
+  {
+   "key": "funding",
+   "label": "Bitcoin funding",
+   "value": 0.01,
+   "window": "current 8-hour period",
+   "source": "OKX",
+   "stamp": "6:12 PM ET on Nov 25",
+   "directional": false
+  },
+  {
+   "key": "fng",
+   "label": "Fear & Greed",
+   "value": 13,
+   "word": "Extreme Fear",
+   "window": "today",
+   "source": "alternative.me",
+   "stamp": "6:12 PM ET on Nov 25",
+   "directional": false
+  }
+ ],
+ "next": "Next update: Morning Brief, tomorrow at 8:15 AM ET",
+ "corrections": []
+}
