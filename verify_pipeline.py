@@ -2774,8 +2774,17 @@ def _home_canary(index_html=None):
     want = [str(c["rank"]) for c in _mvr]
     _check(rows == want, fails, f"home canary: the movers show ranks {rows}, the snapshot "
                                 f"{want}")
-    _check(all(_hx(c["symbol"]) in mb for c in mv["standouts"]), fails,
-           "home canary: a top-100 standout is missing from the standouts line")
+    # C-DONE (26 November 2026): the home names the six biggest standouts and counts the rest with a link to the Big
+    # movers page, which lists every one. This check held every standout on the home; on a day with 34 of them that was
+    # eleven lines on a phone. A coin already in the rows above is not named twice (merge 11).
+    _std = [c for c in mv["standouts"] if _hx(c["symbol"]) not in _re.findall(r'<a href="/coins/[a-z0-9]+">([^<]+)</a>', mb)]
+    _std.sort(key=lambda c: (-abs(c.get("chg_24h_pct") or 0), c.get("rank") or 0))
+    _sline = _re.search(r'<p class="h-stand">(.*?)</p>', mb, _re.S)
+    _sline = _sline.group(1) if _sline else ""
+    _rest = len(_std) - _h.HOME_STANDOUTS
+    _check(all(_hx(c["symbol"]) + " <span" in _sline for c in _std[:_h.HOME_STANDOUTS])
+           and (f'<a href="/pulse/movers">{_rest} more</a>' in _sline if _rest > 0 else "more</a>" not in _sline), fails,
+           "home canary: the standouts line does not name the six biggest standouts and count the rest")
     _sn = _cp.deepcopy(snap)
     _sn["fields"]["movers"]["value"].update(standouts=[], standouts_line="none today")
     _check("beyond 5% either way: none today" in blk(page(snap=_sn), "movers"), fails,

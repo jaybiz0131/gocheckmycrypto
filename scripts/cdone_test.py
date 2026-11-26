@@ -56,6 +56,10 @@
       title, and the list made one from the link's address: lowercased, punctuation gone, cut at 80 characters with
       three dots ("CoinDesk: u s sec maps out crypto custody in new proposal that furthers its digital..."). The link
       is the outlet's name; a second link to the same outlet is numbered. A real title is kept.
+  16. The standouts on a big day (production stamp 3a30285, November 26). Bitcoin was up 3.69% and the home's
+      "Top 100 beyond 5% either way" line listed 34 coins in rank order, eleven lines on a phone. The home names the
+      six biggest by the size of the move, largest first, and says how many more there are with a link to the Big
+      movers page, which lists every one. Six or fewer print as they did, largest first.
 
 Stdlib only.
   python3 scripts/cdone_test.py      # exit 1 on any failure, every failing case named
@@ -729,8 +733,10 @@ def polish_cases(fails):
     stand = re.search(r'<p class="h-stand">(.*?)</p>', blk, re.S).group(1)
     guarded(fails, "the fixture's top 20 rows are NEAR, ZEC and LINK, and its standouts hold ZEC and NEAR too",
             lambda: set(rows) == {"NEAR", "ZEC", "LINK"} and {"ZEC", "NEAR"} <= {c["symbol"] for c in snapshot.value(snap, "movers")["standouts"]})
+    # C-DONE, 26 November: the line names the six biggest now, so "the others" are the fixture's biggest (TIA, INJ); a row
+    # coin that would have led the line is tried in group 16.
     guarded(fails, "a coin printed in the top 20 rows is not printed again in the standouts line; the others are",
-            lambda: not re.search(r"\b(ZEC|NEAR|LINK)\b", stand) and "BCH" in stand and "UNI" in stand)
+            lambda: not re.search(r"\b(ZEC|NEAR|LINK)\b", stand) and "TIA" in stand and "INJ" in stand)
     js = home.HOME_JS
     guarded(fails, "a live price under a dollar prints four decimals like the build's, two from a dollar, six under a cent",
             lambda: "n>=1?2:(n>=0.01?4:6)" in js and js.count("n>=1?2:(n>=0.01?4:6)") == 2 and "n>=1?2:6" not in js)
@@ -912,6 +918,45 @@ def sources_cases(fails):
             and sb.source_label({"url": "https://cryptoslate.com/some-story/"}) == "CryptoSlate")
 
 
+def standouts_cases(fails):
+    print("16. the standouts on a big day: the six biggest by size, then how many more, with the link")
+    import copy
+    import home
+    import snapshot
+    base = snapshot.build(_fx("pulse_2026-10-16T1216Z.json"), _fx("flows_2026-10-16T1216Z.json"))
+
+    def line(moves):
+        """The home's standouts line for a snapshot whose standouts are `moves` [(symbol, pct)], in the order given."""
+        snap = copy.deepcopy(base)
+        mv = snap["fields"]["movers"]["value"]
+        mv["standouts"] = [{"symbol": s, "name": s.title(), "rank": 30 + i, "chg_24h_pct": pct} for i, (s, pct) in enumerate(moves)]
+        return re.search(r'<p class="h-stand">(.*?)</p>', home.movers(snap), re.S).group(1)
+
+    def syms(html):
+        return re.findall(r"\b([A-Z]{3,5}[0-9]?)\b(?= <span)", html)
+
+    big = [("AAA", 5.9), ("BBB", 6.5), ("CCC", 10.1), ("DDD", -12.4), ("EEE", 5.7), ("FFF", 5.2), ("GGG", 31.1), ("HHH", 17.8),
+           ("III", 8.6), ("JJJ", -9.9), ("KKK", 7.7), ("LLL", 5.1)]
+    many = line(big)
+    guarded(fails, "twelve standouts: the home names six, the biggest by the size of the move, largest first, a fall among them",
+            lambda: syms(many) == ["GGG", "HHH", "DDD", "CCC", "JJJ", "III"])
+    guarded(fails, "and then says how many more there are, linked to the Big movers page",
+            lambda: many.rstrip().endswith('and <a href="/pulse/movers">6 more</a>') and many.count("more</a>") == 1)
+    seven = line(big[:7])
+    guarded(fails, "seven standouts: six and '1 more'",
+            lambda: len(syms(seven)) == 6 and seven.rstrip().endswith('and <a href="/pulse/movers">1 more</a>'))
+    six = line(big[:6])
+    guarded(fails, "six standouts: all six, largest first, and no 'more'",
+            lambda: syms(six) == ["DDD", "CCC", "BBB", "AAA", "EEE", "FFF"] and "more" not in six)
+    guarded(fails, "each standout still carries its own figure in its own color",
+            lambda: 'GGG <span class="h-mc up">' in many and 'DDD <span class="h-mc down">' in many)
+    twice = line([("NEAR", 40.0)] + big)
+    guarded(fails, "a coin in the top 20 rows above is not named again, even when its move would lead the line",
+            lambda: "NEAR" not in twice and syms(twice)[0] == "GGG" and twice.rstrip().endswith('">6 more</a>'))
+    none = line([])
+    guarded(fails, "no standouts still reads 'none today'", lambda: none.strip() == "Top 100 beyond 5% either way: none today")
+
+
 def unit():
     fails = []
     print("C-DONE")
@@ -931,6 +976,7 @@ def unit():
         live_data_cases(fails)
         morning_card_cases(fails)
         sources_cases(fails)
+        standouts_cases(fails)
     finally:
         for m in ("sprint95b_test", "sprint95b_fixture", "sprint95_test", "sprint94_test", "sprint93_test", "sprint92_test",
                   "canary_gate", "ops_ledger", "health_gate", "deadlinks", "sprint97_test", "sprint96_test"):

@@ -1036,6 +1036,9 @@ def mood(snap, pulse, deltas):
 
 # ---- moving today, today, mine ------------------------------------------------------------
 
+HOME_STANDOUTS = 6      # the home names this many of the top 100's standouts, the biggest moves first
+
+
 def movers(snap):
     import snapshot
     mv = snapshot.value(snap, "movers") or {}
@@ -1063,8 +1066,13 @@ def movers(snap):
     _rows = {c.get("symbol") for c in shown}
     stand = [c for c in mv.get("standouts") or [] if c.get("symbol") not in taped and c.get("symbol") not in _rows]
     if stand:
+        # C-DONE (26 November 2026): THE SIX BIGGEST, THEN HOW MANY MORE. On a day Bitcoin rose 3.69% this line listed 34
+        # coins in rank order, eleven lines on a phone. The home names the standouts; the Big movers page lists them all.
+        stand.sort(key=lambda c: (-abs(c.get("chg_24h_pct") or 0), c.get("rank") or 0))
+        more = len(stand) - HOME_STANDOUTS
         sl = ", ".join(f'{_e(c["symbol"])} <span class="h-mc {_dir(c["chg_24h_pct"])}">'
-                       f'{_pctx(c["chg_24h_pct"])}</span>' for c in stand)
+                       f'{_pctx(c["chg_24h_pct"])}</span>' for c in stand[:HOME_STANDOUTS])
+        sl += f' and <a href="/pulse/movers">{more} more</a>' if more > 0 else ""
     else:
         sl = _e(mv.get("standouts_line") or "none today")
     return _block("movers", f'<ol class="h-movers">{lis}</ol>'
