@@ -1,31 +1,31 @@
 {
- "line": "Bitcoin drifting higher on extreme fear and oversold technicals, while ETF outflows collide with whale accumulation and short liquidations in a divided market.",
+ "line": "Bitcoin rises despite ETF outflows and extreme fear readings, as regulators across jurisdictions tighten crypto rules and settlements infrastructure.",
  "by": "edition",
- "written_utc": "2026-11-25T23:16:07Z",
- "written_et": "6:16 PM ET on Nov 25",
+ "written_utc": "2026-11-26T13:18:31Z",
+ "written_et": "8:18 AM ET on Nov 26",
  "readings": {
-  "stamp_utc": "2026-11-25T23:12:56Z",
-  "btc_24h_pct": 0.31,
-  "etf_net_usd_m": -231.4,
-  "etf_date": "24 Nov 2026",
-  "fear_greed": 13,
+  "stamp_utc": "2026-11-26T13:16:52Z",
+  "btc_24h_pct": 3.53,
+  "etf_net_usd_m": -453.0,
+  "etf_date": "25 Nov 2026",
+  "fear_greed": 11,
   "fear_greed_band": "Extreme fear",
-  "funding_8h_pct": 0.01,
-  "funding_band": "warm"
+  "funding_8h_pct": 0.0055,
+  "funding_band": "calm"
  },
- "small_line": "Written from Bitcoin +0.31% on the day, spot ETF net -231.4M USD (Nov 24, 2026), Fear & Greed 13 (extreme fear), funding +0.0100% per 8h (warm)",
+ "small_line": "Written from Bitcoin +3.53% on the day, spot ETF net -453.0M USD (Nov 25, 2026), Fear & Greed 11 (extreme fear), funding +0.0055% per 8h (calm)",
  "wire_top3": [
-  {
-   "id": "c019",
-   "line": "Sens. Warren and Van Hollen sent letters to SEC Chair demanding rescission of the innovation exemption and Regulation Crypto."
-  },
   {
    "id": "c068",
    "line": "Switzerland approved 57 countries and territories for automatic crypto tax information sharing starting 2028."
   },
   {
-   "id": "c049",
-   "line": "Ukraine parliament passed crypto regulation and tax bill establishing 18% plus 5% military levy, effective July 2027."
+   "id": "c019",
+   "line": "Sens. Warren and Van Hollen sent letters to SEC Chair demanding rescission of the innovation exemption and Regulation Crypto."
+  },
+  {
+   "id": "c033",
+   "line": "Hong Kong Monetary Authority launched tokenized debt securities platform with 10 banks; 24-hour settlement vs. traditional rails."
   }
  ],
  "crossed": []

@@ -1,42 +1,30 @@
 {
   "example": false,
-  "generated": "2026-11-25",
-  "generated_utc": "2026-11-25T23:12:56Z",
+  "generated": "2026-11-26",
+  "generated_utc": "2026-11-26T13:16:52Z",
   "window_hours": 24,
-  "txn_count": 4,
+  "txn_count": 1,
   "volatile": {
     "inflow_usd": 58394762,
-    "outflow_usd": 102462518,
-    "net_usd": 44067756,
-    "direction": "off exchanges"
+    "outflow_usd": 0,
+    "net_usd": -58394762,
+    "direction": "onto exchanges"
   },
   "stablecoins": {
-    "inflow_usd": 148784397,
+    "inflow_usd": 0,
     "outflow_usd": 0,
-    "net_buying_power_usd": 148784397,
-    "net_usd": -148784397
+    "net_buying_power_usd": 0,
+    "net_usd": 0
   },
   "by_asset": [
     {
       "symbol": "BTC",
       "inflow_usd": 58394762,
-      "outflow_usd": 102462518,
-      "net_usd": 44067756
+      "outflow_usd": 0,
+      "net_usd": -58394762
     }
   ],
   "by_exchange": [
-    {
-      "exchange": "Bitfinex",
-      "inflow_usd": 148784397,
-      "outflow_usd": 0,
-      "net_usd": -148784397
-    },
-    {
-      "exchange": "Coinbase Institutional",
-      "inflow_usd": 0,
-      "outflow_usd": 102462518,
-      "net_usd": 102462518
-    },
     {
       "exchange": "Coinbase",
       "inflow_usd": 58394762,
@@ -46,20 +34,6 @@
   ],
   "by_exchange_kind": [
     {
-      "exchange": "Bitfinex",
-      "kind": "stablecoins",
-      "inflow_usd": 148784397,
-      "outflow_usd": 0,
-      "net_usd": -148784397
-    },
-    {
-      "exchange": "Coinbase Institutional",
-      "kind": "volatile",
-      "inflow_usd": 0,
-      "outflow_usd": 102462518,
-      "net_usd": 102462518
-    },
-    {
       "exchange": "Coinbase",
       "kind": "volatile",
       "inflow_usd": 58394762,
@@ -68,18 +42,6 @@
     }
   ],
   "top_inflows": [
-    {
-      "symbol": "USDT",
-      "amount": 149000000.0,
-      "usd": 148784397.0,
-      "to": "Bitfinex",
-      "from": "Unknown wallet",
-      "blockchain": "ethereum",
-      "hash": "0xf12bafa69688399708b8ee9f41cfc571156dd0dcb56c45fb31e3d3c6733c7b59",
-      "url": "",
-      "ts": 1795608563.0,
-      "stable": true
-    },
     {
       "symbol": "BTC",
       "amount": 1000.0,
@@ -93,32 +55,7 @@
       "stable": false
     }
   ],
-  "top_outflows": [
-    {
-      "symbol": "BTC",
-      "amount": 872.0,
-      "usd": 51231259.0,
-      "to": "Unknown wallet",
-      "from": "Coinbase Institutional",
-      "blockchain": "bitcoin",
-      "hash": "a24a8bdf46c776a3c8393b44d806503a5b4aeb6ba81b982967e74d433d07277d",
-      "url": "",
-      "ts": 1795610359.0,
-      "stable": false
-    },
-    {
-      "symbol": "BTC",
-      "amount": 872.0,
-      "usd": 51231259.0,
-      "to": "Unknown wallet",
-      "from": "Coinbase Institutional",
-      "blockchain": "bitcoin",
-      "hash": "b190807c0a28bf36329b13328662e4bc534c104c5ec0d2319c804ee90ba4802a",
-      "url": "",
-      "ts": 1795610359.0,
-      "stable": false
-    }
-  ],
+  "top_outflows": [],
   "note": "Data: Whale Alert public alert archive; exchanges identified by name, and only the very large transfers Whale Alert posts (roughly $50M+) appear. For volatile assets, coins moving onto exchanges can precede selling and coins moving off suggests accumulation or self-custody. Stablecoins are the opposite: onto an exchange is money staged to buy, so they are scored separately. Market data, not news, not advice.",
   "history": [
     {

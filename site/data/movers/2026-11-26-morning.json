@@ -1,0 +1,185 @@
+{
+ "what": "Big movers, checked: the gate on the Board's top 100 (AUDIT.md 3.1 and 3.2), and for each coin past it the evidence by 9.2's rules with the coin's own candidates. Measured by code.",
+ "window": {
+  "start_utc": "2026-11-25T13:16:52Z",
+  "end_utc": "2026-11-26T13:16:52Z",
+  "hours": 24
+ },
+ "made_utc": "2026-11-26T13:19:09Z",
+ "gate": {
+  "rule": {
+   "version": "2026-10-19",
+   "source": "AUDIT.md section 3.1, the row 'Any top-100 coin', and section 3.2",
+   "move_min_pct": 10.0,
+   "vol_multiple_min": 2.5,
+   "excess_min_pts": 6.0,
+   "history_days": 30,
+   "per_slot": 8,
+   "per_day": 10
+  },
+  "board_utc": "2026-11-26T13:16:52Z",
+  "before_day": "2026-11-25",
+  "btc_24h_pct": 3.53,
+  "passed": [],
+  "over_cap": [],
+  "failed": [
+   {
+    "sym": "PIEVERSE",
+    "name": "Pieverse",
+    "gecko_id": "pieverse",
+    "rank": 65,
+    "pos": 53,
+    "move_pct": 32.95,
+    "vol_pct": 15.96,
+    "multiple": 2.06,
+    "beta": 0.022,
+    "btc_pct": 3.53,
+    "predicted_pct": 0.08,
+    "excess_pts": 32.87,
+    "legs": {
+     "move": true,
+     "multiple": false,
+     "excess": true
+    },
+    "pass": false,
+    "history": {
+     "from": "2026-10-25",
+     "through": "2026-11-24"
+    }
+   },
+   {
+    "sym": "ZRO",
+    "name": "LayerZero",
+    "gecko_id": "layerzero",
+    "rank": 104,
+    "pos": 81,
+    "move_pct": 12.65,
+    "vol_pct": 5.99,
+    "multiple": 2.11,
+    "beta": 1.224,
+    "btc_pct": 3.53,
+    "predicted_pct": 4.32,
+    "excess_pts": 8.33,
+    "legs": {
+     "move": true,
+     "multiple": false,
+     "excess": true
+    },
+    "pass": false,
+    "history": {
+     "from": "2026-10-24",
+     "through": "2026-11-23"
+    }
+   },
+   {
+    "sym": "NEAR",
+    "name": "NEAR Protocol",
+    "gecko_id": "near",
+    "rank": 23,
+    "pos": 20,
+    "move_pct": 10.18,
+    "vol_pct": 5.47,
+    "multiple": 1.86,
+    "beta": 1.714,
+    "btc_pct": 3.53,
+    "predicted_pct": 6.05,
+    "excess_pts": 4.13,
+    "legs": {
+     "move": true,
+     "multiple": false,
+     "excess": false
+    },
+    "pass": false,
+    "history": {
+     "from": "2026-10-25",
+     "through": "2026-11-24"
+    }
+   },
+   {
+    "sym": "ETHFI",
+    "name": "Ether.fi",
+    "gecko_id": "ether-fi",
+    "rank": 106,
+    "pos": 83,
+    "move_pct": -2.51,
+    "vol_pct": 5.83,
+    "multiple": 0.43,
+    "beta": 1.837,
+    "btc_pct": 3.53,
+    "predicted_pct": 6.48,
+    "excess_pts": -8.99,
+    "legs": {
+     "move": false,
+     "multiple": false,
+     "excess": true
+    },
+    "pass": false,
+    "history": {
+     "from": "2026-10-24",
+     "through": "2026-11-23"
+    }
+   }
+  ],
+  "left_out": [
+   {
+    "sym": "M",
+    "name": "MemeCore",
+    "gecko_id": "memecore",
+    "rank": 43,
+    "pos": 37,
+    "move_pct": 12.11,
+    "why": "the stored closes end 2026-11-21, more than two days before 2026-11-25"
+   },
+   {
+    "sym": "SKY",
+    "name": "Sky",
+    "gecko_id": "sky",
+    "rank": 67,
+    "pos": 55,
+    "move_pct": 18.26,
+    "why": "the desk holds no stored daily closes for it"
+   },
+   {
+    "sym": "PUMP",
+    "name": "Pump.fun",
+    "gecko_id": "pump-fun",
+    "rank": 71,
+    "pos": 58,
+    "move_pct": 12.32,
+    "why": "the desk holds no stored daily closes for it"
+   },
+   {
+    "sym": "FET",
+    "name": "Artificial Superintelligence Alliance",
+    "gecko_id": "fetch-ai",
+    "rank": 133,
+    "pos": 100,
+    "move_pct": 12.26,
+    "why": "the desk holds no stored daily closes for it"
+   }
+  ],
+  "own_card": [],
+  "log": [
+   "movers: left out M +12.11%: the stored closes end 2026-11-21, more than two days before 2026-11-25; never estimated",
+   "movers: left out SKY +18.26%: the desk holds no stored daily closes for it; never estimated",
+   "movers: left out PUMP +12.32%: the desk holds no stored daily closes for it; never estimated",
+   "movers: left out FET +12.26%: the desk holds no stored daily closes for it; never estimated",
+   "movers: 4 coin(s) passed one leg and failed another (the per-coin log ran through 2026-11-02)",
+   "movers: no top-100 coin passed the gate (12 measured, 4 left out for history)"
+  ],
+  "crash": {
+   "day": false,
+   "why": [],
+   "btc_pct": 3.53,
+   "market_pct": 3.11,
+   "past_move": 7,
+   "measured_past_move": 3,
+   "with_market": 1
+  },
+  "used_today": 0
+ },
+ "coins": {},
+ "shared": {},
+ "date_et": "2026-11-26",
+ "slot": "morning"
+}
