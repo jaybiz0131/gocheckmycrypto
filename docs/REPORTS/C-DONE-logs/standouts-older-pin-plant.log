@@ -1,0 +1,9 @@
+plant: the count of the rest is off by one (home.py), restored from the saved copy
+canary exit 1
+::error::canary: home canary: the standouts line does not name the six biggest standouts and count the rest
+::error::canary: c-done: and then says how many more there are, linked to the Big movers page
+::error::canary: c-done: seven standouts: six and '1 more'
+::error::canary: c-done: six standouts: all six, largest first, and no 'more'
+::error::canary: c-done: a coin in the top 20 rows above is not named again, even when its move would lead the line
+::error::canary: home canary: the standouts line does not name the six biggest standouts and count the rest
+LAYER 1 CANARY: FAIL (6 problem(s)) -> promotion BLOCKED (exit 1)
