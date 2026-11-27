@@ -1,0 +1,68 @@
+{
+  "id": "c127",
+  "slug": "binance-plans-tokenized-ipo-program-awaits-regulatory-approval",
+  "kind": "brief",
+  "title": "Binance Plans Tokenized IPO Program, Awaits Regulatory Approval",
+  "dek": "Binance co-CEO Yi He announced a tokenized IPO program allowing companies to issue shares directly on blockchain, contingent on regulatory approval. The exchange is actively hiring equity capital markets staff. No approval has been granted and no timeline has been disclosed.",
+  "date": "2026-11-27",
+  "published_utc": "2026-11-27T15:04:19Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 6,
+  "author": "GoCheckMyCrypto",
+  "key_fact": "Binance is planning to move from secondary trading (existing shares) into primary issuance and underwriting, work traditionally reserved for licensed investment banks, pending regulatory approval the exchange does not yet have.",
+  "bottom_line": "Regulatory approval is the story's entire premise. No agency has announced approval, no timeline exists, and no formal discussion has been disclosed. The first marker of movement is a regulators' statement on the program or Binance's public claim of formal engagement with a specific jurisdiction.",
+  "human_take": "",
+  "body": [
+    "Binance is preparing to move into primary equity issuance, announcing a tokenized IPO program that would allow companies to issue shares directly on blockchain. The program does not exist yet. Approval from regulators remains the gating requirement, and Binance has not received it.",
+    "Binance co-CEO Yi He made the announcement at BNB Demo Night in Bangkok on November 27, describing the tokenized IPO as a professional process far more involved than adding a new ticker to the trading screen. The scope matters because it signals an attempt to move the exchange from secondary trading (existing shares changing hands) into primary markets and underwriting, work traditionally reserved for regulated investment banks and brokerages.",
+    "According to Crypto Briefing's reporting, Binance is actively recruiting for the program. The exchange is hiring for equity capital markets roles including business development and research analyst positions. One open position targets an analyst tasked with building tokenized equity products and assessing prospective issuers. The hiring focus is on candidates with traditional capital markets experience, suggesting Binance expects to operate under conventional underwriting standards if approval arrives.",
+    "Binance already operates in tokenized equities through bStocks, which offers 24/7 trading of tokenized versions of U.S.-listed shares on the BNB Smart Chain, with entry points as low as $5. The exchange also offers pre-IPO perpetual contracts, derivatives that let traders take positions on a company's value before it officially lists. A tokenized IPO program would represent a qualitative shift: instead of letting users trade existing shares or speculate on future listings, Binance would participate in the creation and sale of new shares for the first time.",
+    "The program is part of Binance's broader strategy to expand into real-world assets, according to Crypto Briefing. No timeline for regulatory approval has been disclosed, and no jurisdiction has signaled approval or formal discussions with Binance.",
+    "The bear case is structural. Primary issuance and underwriting invade a heavily regulated domain with licensing and compliance requirements that crypto-native playbooks do not address. Crypto Briefing notes that companies rarely build this function without material certainty, and the implicit claim from Binance's hiring is that approval will come. But regulators have never approved a crypto exchange to conduct primary equity underwriting, and the gap between the two industries remains wide.",
+    "This is not financial advice."
+  ],
+  "sources": [
+    {
+      "title": "https://cryptobriefing.com/binance-tokenized-ipo-program-regulatory-approval/",
+      "url": "https://cryptobriefing.com/binance-tokenized-ipo-program-regulatory-approval/"
+    },
+    {
+      "title": "https://cointelegraph.com/news/binance-ipo-program-regulatory-approval-yi-he",
+      "url": "https://cointelegraph.com/news/binance-ipo-program-regulatory-approval-yi-he"
+    }
+  ],
+  "board_snapshot": {
+    "as_of": "2026-11-27T15:03:59Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 58940,
+        "chg_24h_pct": -2.32
+      },
+      {
+        "symbol": "ETH",
+        "price": 1642.89,
+        "chg_24h_pct": -2.62
+      }
+    ],
+    "fng": {
+      "value": 12,
+      "label": "Extreme Fear"
+    },
+    "leverage": {
+      "funding_annual_pct": 3.8,
+      "open_interest_usd": 1903693800
+    },
+    "flows": {
+      "window_hours": 24,
+      "net_usd": -11784944,
+      "direction": "onto exchanges"
+    }
+  },
+  "also_reported_by": [
+    "Crypto Briefing"
+  ],
+  "developing": false,
+  "breaking": true
+}

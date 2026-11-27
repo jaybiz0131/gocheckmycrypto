@@ -4,39 +4,6 @@
   "approved": 1,
   "rejected": [
    {
-    "id": "c036",
-    "headline": "Trump Urges Clarity Act Passage at Crypto Exec Meeting; CFTC, SEC Move on Parallel Rules",
-    "category": "accuracy",
-    "reasons": [
-     "No research brief was provided for this story. The draft cites a single Decrypt URL as its only source, but the approval protocol requires that every fact in the draft trace to a data_point in a research brief. Without a brief, facts cannot be verified against independent research. The draft makes multiple specific claims (Trump's private appeal, CFTC warning, SEC advancing a crypto fundraising framework, lack of agency coordination) that have no documented source chain in the submission.",
-     "The protocol explicitly states: 'the writer's hard rule was: no fact exists outside the brief.' This story has no brief, making verification impossible."
-    ]
-   },
-   {
-    "id": "c030",
-    "headline": "Shinhan Bank Launches Proof-of-Concept for Tokenized Won Fund on Solana",
-    "category": "accuracy",
-    "reasons": [
-     "No research brief was provided for this story. The draft cites a single Block URL as its only source, but the approval protocol requires that every fact in the draft trace to a data_point in a research brief. Without a brief, facts cannot be verified against independent research. The draft makes multiple specific claims (Shinhan Bank partnership with Solana Foundation, Etherfuse, and Orca; tokenized Korean won fund; positioning Solana as infrastructure) that have no documented source chain in the submission.",
-     "The protocol explicitly states: 'the writer's hard rule was: no fact exists outside the brief.' This story has no brief, making verification impossible."
-    ]
-   },
-   {
-    "id": "c093",
-    "headline": "Solana Activates 350-Millisecond Slots on Mainnet",
-    "category": "accuracy",
-    "reasons": [
-     "No research brief was provided for this story. Per the protocol, every fact in the draft must trace to either a data_point in a research brief OR be directly verifiable from the cited sources. The draft cites only The Defiant article as a source, but the approver cannot verify whether the facts in the draft (350ms activation, previous 400ms slot time, 200ms target, epoch-by-epoch adjustment process, the framing of trade-offs) are actually present in that article without access to it. The protocol rule is absolute: no fact exists outside the brief. Without a brief, the draft cannot be approved because verification is impossible.",
-     "The draft makes specific technical claims (slot time reduction from 400ms to 350ms, incremental epoch-by-epoch adjustments toward 200ms, the relationship between slot time and validator load) that require confirmation against a research brief or direct source text. A single URL citation is not sufficient proof of fact when the brief itself is missing."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-22",
-  "approved": 1,
-  "rejected": [
-   {
     "id": "c028",
     "headline": "Shinhan Bank runs proof-of-concept with Solana Foundation for Korean won tokenized fund",
     "category": "accuracy",
@@ -5081,6 +5048,43 @@
      "The draft opens with a claim that is not supported by the brief's data_points: 'Attackers used BGP hijacking to redirect approximately 1.9 exahash per second of Bitcoin mining hashrate to a fake mining pool, affecting over 1,000 mining sites, according to CoinDesk and Decrypt reporting.' The brief's data_points attribute this claim only to CoinDesk (data_point 3), not to Decrypt. Data_point 1 from Decrypt is narrower: 'For the second time in weeks, a major Bitcoin mining firm warned attackers are siphoning mining rewards by hijacking connections.' The draft conflates two separate claims and misattributes scope to Decrypt.",
      "The draft describes the attack mechanism in detail ('When a miner connects over unencrypted Stratum V1, an attacker who controls the network route can intercept the connection and redirect the mining power to their own pool') but the brief explicitly flags this as an open_question: 'What is the technical mechanism by which BGP hijacking redirects mining hashrate, and how does it interact with Stratum V1?' The draft provides mechanistic explanation that the brief's sources do not carry. This is smuggled information: the writer has inferred or supplied technical detail not in the research.",
      "The draft claims 'The scale of the November attack, reaching 1.9 EH/s across more than 1,000 sites in what sources describe as one second, demonstrates the speed at which routing-layer attacks can redirect significant hashrate.' The brief's data_point 3 attributes '1.9 EH/s' and 'over 1,000 mining sites' to CoinDesk, but does not contain the phrase 'in one second' as a direct reported finding. The draft adds temporal precision ('in one second') that is not in the brief and appears to be editorial interpolation rather than sourced fact."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-11-27",
+  "approved": 2,
+  "rejected": [
+   {
+    "id": "c022",
+    "headline": "New York Wins $1.37 Billion Judgment Against NovaTech Founders",
+    "category": "accuracy",
+    "reasons": [
+     "The draft opens with 'secured a default judgment' in present tense, but the brief states the judgment was 'entered in 2025 as a default ruling.' A judgment 'secured in 2025' is a past event; the draft must clarify this is not a current ruling but a 2025 judgment being reported on now.",
+     "The draft states the scheme 'defrauded 11,000 New Yorkers and hundreds of thousands more across other jurisdictions' but the brief distinguishes 'Victims in New York: 11,000' from 'Total victims defrauded: hundreds of thousands of people' as a separate data_point. The draft's phrasing 'defrauded 11,000 New Yorkers and hundreds of thousands more' is grammatically awkward and could be misread as 11,000+hundreds of thousands in New York alone.",
+     "The brief bears reporting a 2025 judgment as news today (November 27, 2026) without explanation of timing. This requires care: either the desk is reporting a ruling that is newly disclosed/enforced today, or it is reporting an old judgment receiving fresh coverage. The draft does not clarify why a 2025 judgment is running now.",
+     "No date stamp on the judgment announcement makes it unclear whether this is a recent development or archive coverage being recycled."
+    ]
+   },
+   {
+    "id": "c006",
+    "headline": "Brazil's B3 Stock Exchange and Six Banks to Launch Real-Pegged Stablecoin in Q1 2027",
+    "category": "accuracy",
+    "reasons": [
+     "Data point 3 (currency backing: real-backed, one-to-one) sources to a Decrypt URL about a Novatech judgment entirely unrelated to Brazil's B3 stablecoin. This is a source attribution error in the brief itself, but the draft has no way to validate it and the desk cannot publish a fact sourced to the wrong article.",
+     "Data point 4 (Issuer: Banco B3) also sources to the same unrelated Decrypt Novatech URL, making this claim unsourced to any relevant reporting.",
+     "Data point 7 (Other financial institutions can join from launch) sources to the same incorrect Decrypt URL, leaving this claim without valid sourcing."
+    ]
+   },
+   {
+    "id": "c012",
+    "headline": "Ethereum Developers Approve Glamsterdam Storage-Pricing Changes for December 15 Testnet Launch",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'clearing a seven-week delay that began in October when the Hoodi fork was halted' but the brief's data point 4 says 'Security concerns halted the Hoodi fork in October' \u2014 no source confirms this was in October specifically. The brief itself does not establish an October date, only that there was a delay. The draft has smuggled a specific month into the timeline.",
+     "The draft claims developers 'resolved the impasse by keeping those changes unchanged, despite concerns raised' but the bear_case explicitly notes 'The sources do not explain what changed in developer sentiment or technical analysis to override the prior safety concerns.' The draft presents resolution as fact when the brief documents this as unexplained and open.",
+     "The phrasing 'Developers resolved the impasse by keeping those changes unchanged' presents a decision as already completed and deployed, but the event (Dec 15 testnet launch) is scheduled for the future. The resolution has been approved in principle, not yet tested. The draft's language reads as if the problem is solved; the brief and bottom_line both make clear the testnet will reveal whether it actually is."
     ]
    }
   ]

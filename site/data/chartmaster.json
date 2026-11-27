@@ -1,60 +1,15 @@
 {
-  "date": "2026-11-26",
+  "date": "2026-11-27",
   "generated_by": "chartmaster.py (auto, from the live boards)",
   "mode": "live",
-  "path": "data-only",
-  "headline": "Chart data card: levels, 50-day and 200-day lines, RSI",
-  "paragraphs": [],
-  "data_only": true,
-  "levels": [
-    {
-      "symbol": "BTC",
-      "price": 60411,
-      "sma50": 74702.86,
-      "sma200": 71928.7,
-      "rsi14": 27.5
-    },
-    {
-      "symbol": "ETH",
-      "price": 1687.74,
-      "sma50": 2167.74,
-      "sma200": 2109.85,
-      "rsi14": 29.3
-    },
-    {
-      "symbol": "SOL",
-      "price": 70.93,
-      "sma50": 91.29,
-      "sma200": 87.89,
-      "rsi14": 32.4
-    },
-    {
-      "symbol": "XRP",
-      "price": 0.942773,
-      "sma50": 1.18,
-      "sma200": 1.23,
-      "rsi14": 33.9
-    },
-    {
-      "symbol": "BNB",
-      "price": 552.85,
-      "sma50": 677.88,
-      "sma200": 654.22,
-      "rsi14": 28.7
-    },
-    {
-      "symbol": "DOGE",
-      "price": 0.056296,
-      "sma50": 0.07,
-      "sma200": 0.08,
-      "rsi14": 31.5
-    },
-    {
-      "symbol": "ADA",
-      "price": 0.148019,
-      "sma50": 0.19,
-      "sma200": 0.2,
-      "rsi14": 33.7
-    }
+  "path": "cut",
+  "headline": "Majors sit below their 200-day lines",
+  "paragraphs": [
+    "The regime is fully corrective. Every major asset except DOGE sits below its 200-day moving average: Bitcoin is 17.9% underwater, Ethereum 22.0%, Solana 19.7%, XRP 24.0%, BNB 16.7%, and ADA 26.9% below trend. The divergence is clean: four of seven assets carry a golden cross (BTC, ETH, SOL, BNB), which means their 50-day has crossed above the 200-day, yet price remains depressed relative to that slower average. This is a repair pattern, not acceleration. XRP and ADA never crossed, and DOGE's trend structure is broken entirely. Over the month, all seven assets are down between 25.1% and 29.9%, a synchronized drawdown that leaves no pockets of relative strength. Volatility is elevated across the board, with 30-day realized volatility ranging from 47.7% in Bitcoin to 73.8% in ADA, confirming that this move carried risk and energy, not a quiet fade.",
+    "Momentum tells a mixed story against the downtrend. Bitcoin and BNB both show MACD below signal, reinforcing weakness; five of seven assets carry RSI-14 readings in the 25-34 range, deeply oversold territory that typically foreshadows stabilization bounces, yet neither MACD nor price has confirmed such a move yet. Ethereum, SOL, XRP, ADA, and DOGE all carry MACD above signal line despite oversold RSI readings. This divergence between MACD's upward lean and RSI's deeply depressed state suggests oversold conditions are present and momentum may be building, but the price tape itself has not rolled over yet, keeping the ambiguity intact. The contradiction is real: oversold indicators in a downtrend often precede relief, but relief requires a catalyst, and the positioning data shows no sign of capitulation bids waiting.",
+    "Derivatives positioning is crowded on the long side and expensive to hold. Instead, the market structure reflects continued optimism among leveraged participants, yet price is declining, creating a tension: traders are paying to stay long into a selloff. Liquidations over the last hour show overwhelming long-side pain, with BTC longs taking $1.58 million in forced closes against minimal short liquidations. Ethereum, SOL, XRP, and DOGE all show the same pattern, far heavier long liquidations than short, suggesting the crowded long positioning is fragile.",
+    "Spot flows and stablecoin supply paint a bifurcated picture. Bitcoin ETF outflows totaled $453 million on November 25 and have persisted for seven consecutive days with a five-session net outflow of $2,505.6 million. Ethereum shows eight consecutive days of outflows, with $68.5 million on the latest print and $446 million over five sessions. These are the largest net-of-custody flows the traditional finance channel can track, and they align with the recent price decline, suggesting institutional confidence has eroded. Stablecoin supply remains elevated at $281.9 billion, down only 5.86% over the month, keeping dry powder in reserve. Over the last 24 hours, whales moved $11.78 million onto exchanges in net terms, driven by $72.3 million of HYPE flowing to Binance, while Bitcoin itself saw $60.5 million move off Kraken to cold storage. This split is significant: one asset class moving toward exchange supply (selling pressure) while Bitcoin accumulates offline (holding intent). The weekly trend offers context: each of the last four weeks, whales moved value off exchanges, with the most recent week (Nov 28) showing $615 million net moved away from exchange custody, a slowdown from prior weeks but no reversal.",
+    "Sentiment stands at Extreme Fear with a value of 12, near the low end of its 30-day range of 10-51. This is a crowd capitulation signal, yet the positioning tape does not echo it. The mismatch suggests the crowd's fear is real but the structural money has not yet voted the same way. Bitcoin is 52.7% off its 12-month high of $124,739, Ethereum 65% off its peak of $4,690, and ADA 83.3% off $0.8744. These are deep drawdowns that naturally breed fear. The day's top movers show STABLE up 8.91%, LIT up 7.18%, and ZEC up 5.97%, while PIEVERSE, WLFI, and PI led declines, a bifurcation that suggests consolidation into quality or flight to stables rather than broad recovery.",
+    "Watch for three conditions that would signal regime shift. First, a move by Bitcoin above its 200-day moving average (currently $71.6, implying a price rise to $71,600+) would confirm the golden cross is gaining traction and repair is becoming real rather than technical. Any one of these alone would not change the frame; all three together would."
   ]
 }
