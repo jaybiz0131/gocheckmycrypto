@@ -1,20 +1,24 @@
 {
- "line": "Bitcoin is drifting higher while spot ETFs saw outflows; the news is mostly the courts.",
- "by": "table",
- "written_utc": "2026-11-26T23:15:30Z",
- "written_et": "6:15 PM ET on Nov 26",
+ "line": "Price strength encounters institutional caution and regulatory headwinds as security disclosures and enforcement actions add to market strain.",
+ "by": "edition",
+ "written_utc": "2026-11-27T13:19:27Z",
+ "written_et": "8:19 AM ET on Nov 27",
  "readings": {
-  "stamp_utc": "2026-11-26T23:12:56Z",
-  "btc_24h_pct": 0.52,
+  "stamp_utc": "2026-11-27T13:16:55Z",
+  "btc_24h_pct": 1.16,
   "etf_net_usd_m": -453.0,
   "etf_date": "25 Nov 2026",
-  "fear_greed": 11,
+  "fear_greed": 12,
   "fear_greed_band": "Extreme fear",
-  "funding_8h_pct": -0.0003,
+  "funding_8h_pct": 0.0002,
   "funding_band": "calm"
  },
- "small_line": "Written from Bitcoin +0.52% on the day, spot ETF net -453.0M USD (Nov 25, 2026), Fear & Greed 11 (extreme fear), funding -0.0003% per 8h (calm)",
+ "small_line": "Written from Bitcoin +1.16% on the day, spot ETF net -453.0M USD (Nov 25, 2026), Fear & Greed 12 (extreme fear), funding +0.0002% per 8h (calm)",
  "wire_top3": [
+  {
+   "id": "c004",
+   "line": "Standard Chartered's Zodia Custody disclosed breach detected Nov. 23 exposed client and staff names and emails; no unauthorized transactions found."
+  },
   {
    "id": "c009",
    "line": "New York AG won $1.37B judgment against NovaTech founders for defrauding hundreds of thousands including 11,000 state residents."
@@ -22,10 +26,6 @@
   {
    "id": "c003",
    "line": "Spain's Sepblac financial intelligence unit gains power to freeze crypto accounts for up to five days without prior court approval, effective Jan. 25."
-  },
-  {
-   "id": "c004",
-   "line": "Standard Chartered's Zodia Custody disclosed breach detected Nov. 23 exposed client and staff names and emails; no unauthorized transactions found."
   }
  ],
  "crossed": []

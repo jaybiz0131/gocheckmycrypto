@@ -1,18 +1,18 @@
 {
- "date_et": "2026-11-26",
+ "date_et": "2026-11-27",
  "slot": "morning",
- "published_utc": "2026-11-26T13:18:31Z",
- "published_et": "8:18 AM ET on Nov 26",
- "headline": "Bitcoin higher as ETFs see outflows; Switzerland broadens crypto tax sharing",
+ "published_utc": "2026-11-27T13:19:27Z",
+ "published_et": "8:19 AM ET on Nov 27",
+ "headline": "Bitcoin higher as ETFs post outflows; custody breach, fraud ruling weigh",
  "headline_by": "model",
  "sentences": [
-  "Bitcoin higher over the past 24 hours, though spot Bitcoin ETFs saw net outflows of $453.0M on the day, November 25.",
-  "The wire's top line: Switzerland approved 57 countries and territories for automatic crypto tax information sharing starting 2028, while Hong Kong Monetary Authority launched a tokenized debt securities platform with 10 banks offering 24-hour settlement.",
-  "Markets shows the Fear & Greed index reads 11, extreme fear, as funding on Bitcoin perpetual futures is calm."
+  "Bitcoin higher over the past 24 hours, though spot Bitcoin ETFs saw net outflows of $453.0M on the day, November 25, the wire's top line reports.",
+  "Standard Chartered's Zodia Custody disclosed a breach detected Nov. 23 that exposed client and staff names and emails with no unauthorized transactions found, while New York AG won $1.37B judgment against NovaTech founders for defrauding hundreds of thousands including 11,000 state residents.",
+  "Markets reads the Fear & Greed index at 12, extreme fear, as funding on Bitcoin perpetual futures remains calm."
  ],
- "line": "Bitcoin rises despite ETF outflows and extreme fear readings, as regulators across jurisdictions tighten crypto rules and settlements infrastructure.",
+ "line": "Price strength encounters institutional caution and regulatory headwinds as security disclosures and enforcement actions add to market strain.",
  "line_by": "edition",
- "tokens": 977,
- "usd": 0.0018,
+ "tokens": 1085,
+ "usd": 0.0019,
  "generated_by": "morning.py (one model call; copy law and twins gate)"
 }

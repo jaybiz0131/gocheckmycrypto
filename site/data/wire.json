@@ -3,11 +3,55 @@
  "what_a_wire_line_is": "Each line is the desk's own one-line summary of a story it ranked, with its sources counted and linked. It is not a story the desk wrote or checked; only the item with a badge was checked.",
  "ranked_utc": "2026-11-26T23:13:16Z",
  "ranked_et": "6:13 PM ET on Nov 26",
- "refreshed_utc": "2026-11-26T23:13:16Z",
- "refreshed_et": "6:13 PM ET on Nov 26",
- "refreshes": 0,
+ "refreshed_utc": "2026-11-27T13:19:27Z",
+ "refreshed_et": "8:19 AM ET on Nov 27",
+ "refreshes": 1,
  "snapshot_stamp_utc": "2026-11-26T23:12:56Z",
  "items": [
+  {
+   "rank": 4,
+   "id": "c004",
+   "line": "Standard Chartered's Zodia Custody disclosed breach detected Nov. 23 exposed client and staff names and emails; no unauthorized transactions found.",
+   "titles": [
+    "Zodia Custody Confirms Client and Staff Data Breach",
+    "Standard Chartered's Zodia Custody suffers data breach, exposing client information",
+    "Standard Chartered\u2019s Zodia Custody suffers data breach"
+   ],
+   "board_reading": "",
+   "source_count": 6,
+   "primary": false,
+   "standing": "corroborated",
+   "links": [
+    {
+     "url": "https://thedefiant.io/converge/security/zodia-custody-confirms-client-and-staff-data-breach",
+     "outlet": "The Defiant",
+     "primary": false
+    },
+    {
+     "url": "https://www.coindesk.com/tech/2026/11/26/standard-chartered-s-zodia-custody-suffers-data-breach-exposing-client-information",
+     "outlet": "CoinDesk",
+     "primary": false
+    },
+    {
+     "url": "https://cointelegraph.com/news/standard-chartered-zodia-suffers-data-breach?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+     "outlet": "Cointelegraph",
+     "primary": false
+    },
+    {
+     "url": "https://decrypt.co/384033/standard-chartereds-zodia-custody-says-hackers-accessed-client-contact-details",
+     "outlet": "Decrypt",
+     "primary": false
+    },
+    {
+     "url": "https://dailyhodl.com/2026/11/26/fifa-confirms-cyberattack-after-hackers-impersonate-staff-to-access-personal-and-business-data/",
+     "outlet": "The Daily Hodl",
+     "primary": false
+    }
+   ],
+   "reported_utc": "2026-11-26T11:12:02Z",
+   "verdict": "VERIFIED",
+   "mark": "wire"
+  },
   {
    "rank": 1,
    "id": "c009",
@@ -17,7 +61,7 @@
     "New York Wins $1.37B Judgment Against NovaTech Founders Who Fled the US"
    ],
    "board_reading": "Bitcoin price",
-   "source_count": 2,
+   "source_count": 3,
    "primary": false,
    "standing": "corroborated",
    "links": [
@@ -29,6 +73,11 @@
     {
      "url": "https://decrypt.co/384025/new-york-wins-1-37b-judgment-against-novatech-founders-who-fled-the-us",
      "outlet": "Decrypt",
+     "primary": false
+    },
+    {
+     "url": "https://cointelegraph.com/news/new-york-ag-137b-court-judgment-novatech?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+     "outlet": "Cointelegraph",
      "primary": false
     }
    ],
@@ -60,40 +109,6 @@
     }
    ],
    "reported_utc": "2026-11-26T14:05:58Z",
-   "verdict": "VERIFIED",
-   "mark": "wire"
-  },
-  {
-   "rank": 4,
-   "id": "c004",
-   "line": "Standard Chartered's Zodia Custody disclosed breach detected Nov. 23 exposed client and staff names and emails; no unauthorized transactions found.",
-   "titles": [
-    "Zodia Custody Confirms Client and Staff Data Breach",
-    "Standard Chartered's Zodia Custody suffers data breach, exposing client information",
-    "Standard Chartered\u2019s Zodia Custody suffers data breach"
-   ],
-   "board_reading": "",
-   "source_count": 3,
-   "primary": false,
-   "standing": "corroborated",
-   "links": [
-    {
-     "url": "https://thedefiant.io/converge/security/zodia-custody-confirms-client-and-staff-data-breach",
-     "outlet": "The Defiant",
-     "primary": false
-    },
-    {
-     "url": "https://www.coindesk.com/tech/2026/11/26/standard-chartered-s-zodia-custody-suffers-data-breach-exposing-client-information",
-     "outlet": "CoinDesk",
-     "primary": false
-    },
-    {
-     "url": "https://cointelegraph.com/news/standard-chartered-zodia-suffers-data-breach?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
-     "outlet": "Cointelegraph",
-     "primary": false
-    }
-   ],
-   "reported_utc": "2026-11-26T11:12:02Z",
    "verdict": "VERIFIED",
    "mark": "wire"
   },
