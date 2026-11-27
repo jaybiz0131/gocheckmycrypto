@@ -1,0 +1,175 @@
+{
+ "date_et": "2026-11-27",
+ "slot": "evening",
+ "published_utc": "2026-11-27T23:15:09Z",
+ "first_utc": "2026-11-27T23:15:09Z",
+ "direction": "down",
+ "direction_basis": "et_day",
+ "title": "Why is crypto down today? Friday, November 27, 2026",
+ "h1": "Why is crypto down today? Friday, November 27, 2026",
+ "stamp_label": "Evening Brief, 6:15 PM ET",
+ "composed_utc": "2026-11-27T23:15:43Z",
+ "board_stamp_et": "6:12 PM ET on Nov 27",
+ "answer": [
+  "On Friday, November 27, Bitcoin was down 2.41% since midnight ET, to $59,789.",
+  "Over the last 24 hours it was down 1.03%.",
+  "Ether was down 1.72% over the same 24 hours.",
+  "Among the Top 100, SKY gained 11.45% and WLFI lost 13.67% over 24 hours."
+ ],
+ "answer_by": "template",
+ "fallback": false,
+ "btc": {
+  "price": 59789,
+  "chg": -1.03,
+  "chg_day": -2.41
+ },
+ "eth": {
+  "price": 1658.0,
+  "chg": -1.72
+ },
+ "cap": null,
+ "gainers": [
+  {
+   "symbol": "SKY",
+   "name": "Sky",
+   "chg": 11.45,
+   "slug": "sky"
+  },
+  {
+   "symbol": "LIT",
+   "name": "Lighter",
+   "chg": 7.96,
+   "slug": "lit"
+  },
+  {
+   "symbol": "ZEC",
+   "name": "Zcash",
+   "chg": 7.09,
+   "slug": "zec"
+  }
+ ],
+ "losers": [
+  {
+   "symbol": "WLFI",
+   "name": "World Liberty Financial",
+   "chg": -13.67,
+   "slug": "wlfi"
+  },
+  {
+   "symbol": "XMR",
+   "name": "Monero",
+   "chg": -10.51,
+   "slug": "xmr"
+  },
+  {
+   "symbol": "MNT",
+   "name": "Mantle",
+   "chg": -3.29,
+   "slug": "mnt"
+  }
+ ],
+ "reported": [
+  {
+   "line": "Russia's VTB bank begins retail Bitcoin trading after Bank of Russia approves mandatory knowledge test for crypto buyers.",
+   "time": "12:06 PM ET",
+   "source_count": 2,
+   "primary": false,
+   "links": [
+    {
+     "outlet": "Bitcoin Magazine",
+     "url": "https://bitcoinmagazine.com/news/russia-vtb-bitcoin-trading-crypto-test"
+    },
+    {
+     "outlet": "The Defiant",
+     "url": "https://thedefiant.io/converge/tradfi-and-fintech/russia-s-vtb-opens-crypto-trading-for-qualified-investors"
+    }
+   ]
+  },
+  {
+   "line": "Spain empowers AML financial intelligence unit to freeze crypto accounts without court approval for suspected money laundering or terrorist financing.",
+   "time": "10:00 AM ET",
+   "source_count": 1,
+   "primary": false,
+   "links": [
+    {
+     "outlet": "Bitcoin Magazine",
+     "url": "https://bitcoinmagazine.com/news/spain-sepblac-freeze-crypto-accounts"
+    }
+   ]
+  },
+  {
+   "line": "Brazil's B3 stock exchange and major banks plan real-backed stablecoin (Open BRL) for Q1 2027, one-to-one reais collateral.",
+   "time": "5:51 AM ET",
+   "source_count": 3,
+   "primary": false,
+   "links": [
+    {
+     "outlet": "CoinDesk",
+     "url": "https://www.coindesk.com/business/2026/11/27/brazil-s-stock-exchange-teams-up-with-major-banks-to-launch-real-pegged-stablecoin"
+    },
+    {
+     "outlet": "thedefiant.io",
+     "url": "https://thedefiant.io/converge/tradfi-and-fintech/brazil-s-b3-and-six-firms-plan-real-backed-stablecoin"
+    },
+    {
+     "outlet": "Cointelegraph",
+     "url": "https://cointelegraph.com/news/brazil-b3-stablecoin-tokenization-launch-2027?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound"
+    }
+   ]
+  },
+  {
+   "line": "Incoming ECB chief favors blockchain-based tokenized bank deposits over stablecoins and Bitcoin, warning against private digital currencies.",
+   "time": "6:22 AM ET",
+   "source_count": 1,
+   "primary": false,
+   "links": [
+    {
+     "outlet": "CoinDesk",
+     "url": "https://www.coindesk.com/policy/2026/11/27/next-ecb-chief-favors-tokenized-bank-deposits-over-stablecoins-and-bitcoin"
+    }
+   ]
+  }
+ ],
+ "board": [
+  {
+   "key": "etf",
+   "label": "Bitcoin ETF flows",
+   "value": -453.0,
+   "window": "one trading day, 25 Nov 2026",
+   "source": "Farside Investors",
+   "stamp": "6:12 PM ET on Nov 27",
+   "directional": true
+  },
+  {
+   "key": "liq",
+   "label": "Bitcoin liquidations",
+   "longs": 736759,
+   "shorts": 156709,
+   "window": "last 6 hours",
+   "source": "OKX",
+   "stamp": "6:12 PM ET on Nov 27",
+   "directional": false
+  },
+  {
+   "key": "funding",
+   "label": "Bitcoin funding",
+   "value": 0.0047,
+   "window": "current 8-hour period",
+   "source": "OKX",
+   "stamp": "6:12 PM ET on Nov 27",
+   "directional": false
+  },
+  {
+   "key": "fng",
+   "label": "Fear & Greed",
+   "value": 12,
+   "word": "Extreme Fear",
+   "window": "today",
+   "source": "alternative.me",
+   "stamp": "6:12 PM ET on Nov 27",
+   "directional": false
+  }
+ ],
+ "next": "Next update: Morning Brief, tomorrow at 8:15 AM ET",
+ "corrections": []
+}

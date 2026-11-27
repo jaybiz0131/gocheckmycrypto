@@ -1,31 +1,31 @@
 {
- "line": "Bitcoin drifting lower on extreme fear sentiment and heavy long liquidations, while Binance lays regulatory groundwork for primary equity markets but approval remains unsigned.",
+ "line": "Bitcoin drifting lower on the desk's tape while Extreme Fear grips sentiment; the news is a mix of institutional expansion plans and retail capitulation signals.",
  "by": "edition",
- "written_utc": "2026-11-27T15:12:06Z",
- "written_et": "10:12 AM ET on Nov 27",
+ "written_utc": "2026-11-27T23:15:09Z",
+ "written_et": "6:15 PM ET on Nov 27",
  "readings": {
-  "stamp_utc": "2026-11-27T15:03:59Z",
-  "btc_24h_pct": -2.32,
+  "stamp_utc": "2026-11-27T23:12:54Z",
+  "btc_24h_pct": -1.03,
   "etf_net_usd_m": -453.0,
   "etf_date": "25 Nov 2026",
   "fear_greed": 12,
   "fear_greed_band": "Extreme fear",
-  "funding_8h_pct": 0.0035,
+  "funding_8h_pct": 0.0047,
   "funding_band": "calm"
  },
- "small_line": "Written from Bitcoin -2.32% on the day, spot ETF net -453.0M USD (Nov 25, 2026), Fear & Greed 12 (extreme fear), funding +0.0035% per 8h (calm)",
+ "small_line": "Written from Bitcoin -1.03% on the day, spot ETF net -453.0M USD (Nov 25, 2026), Fear & Greed 12 (extreme fear), funding +0.0047% per 8h (calm)",
  "wire_top3": [
   {
-   "id": "c004",
-   "line": "Standard Chartered's Zodia Custody disclosed breach detected Nov. 23 exposed client and staff names and emails; no unauthorized transactions found."
+   "id": "c011",
+   "line": "Binance lifts withdrawal suspension four weeks after $6.3 billion hack, restoring access across all networks."
   },
   {
-   "id": "c009",
-   "line": "New York AG won $1.37B judgment against NovaTech founders for defrauding hundreds of thousands including 11,000 state residents."
+   "id": "c036",
+   "line": "Russia's VTB bank begins retail Bitcoin trading after Bank of Russia approves mandatory knowledge test for crypto buyers."
   },
   {
-   "id": "c003",
-   "line": "Spain's Sepblac financial intelligence unit gains power to freeze crypto accounts for up to five days without prior court approval, effective Jan. 25."
+   "id": "c038",
+   "line": "Spain empowers AML financial intelligence unit to freeze crypto accounts without court approval for suspected money laundering or terrorist financing."
   }
  ],
  "crossed": []

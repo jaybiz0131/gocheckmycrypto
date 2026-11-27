@@ -323,5 +323,15 @@
   ],
   "detail": "dropped 6 sentence(s): Bitcoin open interest sits at $1.9 billion with a long-to-short ratio of 2.74, E | Funding rates remain positive across all five tracked assets, ranging from 1.5%  | This is not",
   "t": "2026-11-27T15:12:05Z"
+ },
+ {
+  "date": "2026-11-27",
+  "path": "data-only",
+  "tripped": [
+   "belt: chartmaster: 0.47% per eight hours annualizes to about 514.6%, and the sentence says 5.2%. One of th",
+   "belt: chartmaster: funding is stated without naming the venue (OKX); one exchange's funding is not the mar"
+  ],
+  "detail": "the rest still fails whole: chartmaster: missing/oversized headline",
+  "t": "2026-11-27T23:15:09Z"
  }
 ]

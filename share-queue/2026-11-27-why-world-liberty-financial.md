@@ -1,0 +1,22 @@
+# Share draft: Why World Liberty Financial moved, Friday, November 27, 2026
+
+Story: https://gocheckmycrypto.com/why/2026-11-27-world-liberty-financial
+
+Image: https://gocheckmycrypto.com/og/why/2026-11-27-world-liberty-financial.png
+Image path: /og/why/2026-11-27-world-liberty-financial.png
+(The square card is drawn by the build; save it from the Image address once the build that carries this verdict has deployed.)
+
+YOUR FRAMING (add 1-2 lines of your own take above the draft before posting):
+
+> _______________________________________________
+
+---- READY-TO-PASTE DRAFT (passed all 23 gates) ----
+
+Why World Liberty Financial moved
+Friday, November 27, 2026
+Checked: Unclear
+No reported event lines up with this move.
+
+https://gocheckmycrypto.com/why/2026-11-27-world-liberty-financial
+
+Not financial advice.
