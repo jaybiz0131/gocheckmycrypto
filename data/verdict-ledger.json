@@ -2104,5 +2104,144 @@
   "coins": {
    "XMR": "Unclear (phrases)"
   }
+ },
+ {
+  "kind": "call",
+  "date": "2026-11-28",
+  "slot": "morning",
+  "t": "2026-11-28T13:18:52Z",
+  "stage": "verdict_draft",
+  "model": "claude-haiku-5-5",
+  "est_usd": 0.001534,
+  "usd": 0.000127,
+  "tokens": 552,
+  "status": "settled"
+ },
+ {
+  "kind": "call",
+  "date": "2026-11-28",
+  "slot": "morning",
+  "t": "2026-11-28T13:18:53Z",
+  "stage": "verdict_check",
+  "model": "claude-sonnet-5-5",
+  "est_usd": 0.060707,
+  "usd": 0.000732,
+  "tokens": 366,
+  "status": "settled"
+ },
+ {
+  "kind": "run",
+  "date": "2026-11-28",
+  "slot": "morning",
+  "t": "2026-11-28T13:18:52Z",
+  "calls": 2,
+  "tokens": 918,
+  "usd": 0.000859,
+  "by_stage": {
+   "verdict_draft": 0.000127,
+   "verdict_check": 0.000732
+  },
+  "models": {
+   "verdict_draft": "claude-haiku-5-5",
+   "verdict_check": "claude-sonnet-5-5"
+  },
+  "day_usd": 0.000859,
+  "cap_usd": 1.5,
+  "coins": {
+   "BTC": "Unclear (phrases)",
+   "ETH": "with_btc"
+  }
+ },
+ {
+  "kind": "call",
+  "date": "2026-11-28",
+  "slot": "morning",
+  "t": "2026-11-28T13:19:34Z",
+  "stage": "verdict_draft",
+  "model": "claude-haiku-5-5",
+  "est_usd": 0.001534,
+  "usd": 0.000174,
+  "tokens": 643,
+  "status": "settled"
+ },
+ {
+  "kind": "call",
+  "date": "2026-11-28",
+  "slot": "morning",
+  "t": "2026-11-28T13:19:35Z",
+  "stage": "verdict_check",
+  "model": "claude-sonnet-5-5",
+  "est_usd": 0.060671,
+  "usd": 0.000708,
+  "tokens": 354,
+  "status": "settled"
+ },
+ {
+  "kind": "run",
+  "date": "2026-11-28",
+  "slot": "morning",
+  "t": "2026-11-28T13:18:54Z",
+  "calls": 2,
+  "tokens": 997,
+  "usd": 0.000882,
+  "by_stage": {
+   "verdict_draft": 0.000174,
+   "verdict_check": 0.000708
+  },
+  "models": {
+   "verdict_draft": "claude-haiku-5-5",
+   "verdict_check": "claude-sonnet-5-5"
+  },
+  "day_usd": 0.001741,
+  "cap_usd": 1.5,
+  "coins": {
+   "WLFI": "Unclear (phrases)"
+  }
+ },
+ {
+  "kind": "call",
+  "date": "2026-11-28",
+  "slot": "morning",
+  "t": "2026-11-28T13:19:36Z",
+  "stage": "verdict_draft",
+  "model": "claude-haiku-5-5",
+  "est_usd": 0.001534,
+  "usd": 0.000246,
+  "tokens": 789,
+  "status": "settled"
+ },
+ {
+  "kind": "call",
+  "date": "2026-11-28",
+  "slot": "morning",
+  "t": "2026-11-28T13:19:38Z",
+  "stage": "verdict_check",
+  "model": "claude-sonnet-5-5",
+  "est_usd": 0.060705,
+  "usd": 0.00074,
+  "tokens": 370,
+  "status": "settled"
+ },
+ {
+  "kind": "run",
+  "date": "2026-11-28",
+  "slot": "morning",
+  "t": "2026-11-28T13:18:54Z",
+  "calls": 2,
+  "tokens": 1159,
+  "usd": 0.000986,
+  "by_stage": {
+   "verdict_draft": 0.000246,
+   "verdict_check": 0.00074
+  },
+  "models": {
+   "verdict_draft": "claude-haiku-5-5",
+   "verdict_check": "claude-sonnet-5-5"
+  },
+  "day_usd": 0.002727,
+  "cap_usd": 1.5,
+  "coins": {
+   "SKY": "Unclear (phrases)"
+  }
  }
 ]

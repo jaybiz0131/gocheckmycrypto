@@ -1,19 +1,19 @@
 {
- "line": "Bitcoin drifting lower on the desk's tape while Extreme Fear grips sentiment; the news is a mix of institutional expansion plans and retail capitulation signals.",
+ "line": "Markets show extreme fear and ETF selling pressure as Binance resumes withdrawals and Russia clears retail Bitcoin trading.",
  "by": "edition",
- "written_utc": "2026-11-27T23:15:09Z",
- "written_et": "6:15 PM ET on Nov 27",
+ "written_utc": "2026-11-28T13:18:14Z",
+ "written_et": "8:18 AM ET on Nov 28",
  "readings": {
-  "stamp_utc": "2026-11-27T23:12:54Z",
-  "btc_24h_pct": -1.03,
-  "etf_net_usd_m": -453.0,
-  "etf_date": "25 Nov 2026",
-  "fear_greed": 12,
+  "stamp_utc": "2026-11-28T13:16:35Z",
+  "btc_24h_pct": -3.63,
+  "etf_net_usd_m": -389.0,
+  "etf_date": "27 Nov 2026",
+  "fear_greed": 10,
   "fear_greed_band": "Extreme fear",
-  "funding_8h_pct": 0.0047,
+  "funding_8h_pct": 0.0065,
   "funding_band": "calm"
  },
- "small_line": "Written from Bitcoin -1.03% on the day, spot ETF net -453.0M USD (Nov 25, 2026), Fear & Greed 12 (extreme fear), funding +0.0047% per 8h (calm)",
+ "small_line": "Written from Bitcoin -3.63% on the day, spot ETF net -389.0M USD (Nov 27, 2026), Fear & Greed 10 (extreme fear), funding +0.0065% per 8h (calm)",
  "wire_top3": [
   {
    "id": "c011",
@@ -24,8 +24,8 @@
    "line": "Russia's VTB bank begins retail Bitcoin trading after Bank of Russia approves mandatory knowledge test for crypto buyers."
   },
   {
-   "id": "c038",
-   "line": "Spain empowers AML financial intelligence unit to freeze crypto accounts without court approval for suspected money laundering or terrorist financing."
+   "id": "c006",
+   "line": "Brazil's B3 stock exchange and major banks plan real-backed stablecoin (Open BRL) for Q1 2027, one-to-one reais collateral."
   }
  ],
  "crossed": []

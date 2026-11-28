@@ -1,90 +1,345 @@
 {
   "example": false,
-  "generated": "2026-11-27",
-  "generated_utc": "2026-11-27T23:12:54Z",
+  "generated": "2026-11-28",
+  "generated_utc": "2026-11-28T13:16:35Z",
   "window_hours": 24,
-  "txn_count": 2,
+  "txn_count": 20,
   "volatile": {
-    "inflow_usd": 72277066,
-    "outflow_usd": 60492122,
-    "net_usd": -11784944,
-    "direction": "onto exchanges"
+    "inflow_usd": 611355651,
+    "outflow_usd": 1174717983,
+    "net_usd": 563362332,
+    "direction": "off exchanges"
   },
   "stablecoins": {
-    "inflow_usd": 0,
-    "outflow_usd": 0,
-    "net_buying_power_usd": 0,
-    "net_usd": 0
+    "inflow_usd": 399771666,
+    "outflow_usd": 389935506,
+    "net_buying_power_usd": 9836160,
+    "net_usd": -9836160
   },
   "by_asset": [
     {
-      "symbol": "HYPE",
-      "inflow_usd": 72277066,
-      "outflow_usd": 0,
-      "net_usd": -72277066
+      "symbol": "BTC",
+      "inflow_usd": 611355651,
+      "outflow_usd": 1154977786,
+      "net_usd": 543622135
     },
     {
-      "symbol": "BTC",
+      "symbol": "ETH",
       "inflow_usd": 0,
-      "outflow_usd": 60492122,
-      "net_usd": 60492122
+      "outflow_usd": 19740197,
+      "net_usd": 19740197
     }
   ],
   "by_exchange": [
     {
-      "exchange": "Binance",
-      "inflow_usd": 72277066,
-      "outflow_usd": 0,
-      "net_usd": -72277066
+      "exchange": "Coinbase Institutional",
+      "inflow_usd": 526154506,
+      "outflow_usd": 707842756,
+      "net_usd": 181688250
     },
     {
-      "exchange": "Kraken",
+      "exchange": "Binance",
+      "inflow_usd": 399771666,
+      "outflow_usd": 389935506,
+      "net_usd": -9836160
+    },
+    {
+      "exchange": "binance safu",
       "inflow_usd": 0,
-      "outflow_usd": 60492122,
-      "net_usd": 60492122
+      "outflow_usd": 447135030,
+      "net_usd": 447135030
+    },
+    {
+      "exchange": "Coinbase",
+      "inflow_usd": 85201145,
+      "outflow_usd": 0,
+      "net_usd": -85201145
+    },
+    {
+      "exchange": "binance hack 2026",
+      "inflow_usd": 0,
+      "outflow_usd": 19740197,
+      "net_usd": 19740197
     }
   ],
   "by_exchange_kind": [
     {
-      "exchange": "Binance",
+      "exchange": "Coinbase Institutional",
       "kind": "volatile",
-      "inflow_usd": 72277066,
-      "outflow_usd": 0,
-      "net_usd": -72277066
+      "inflow_usd": 526154506,
+      "outflow_usd": 707842756,
+      "net_usd": 181688250
     },
     {
-      "exchange": "Kraken",
+      "exchange": "Binance",
+      "kind": "stablecoins",
+      "inflow_usd": 399771666,
+      "outflow_usd": 389935506,
+      "net_usd": -9836160
+    },
+    {
+      "exchange": "binance safu",
       "kind": "volatile",
       "inflow_usd": 0,
-      "outflow_usd": 60492122,
-      "net_usd": 60492122
+      "outflow_usd": 447135030,
+      "net_usd": 447135030
+    },
+    {
+      "exchange": "Coinbase",
+      "kind": "volatile",
+      "inflow_usd": 85201145,
+      "outflow_usd": 0,
+      "net_usd": -85201145
+    },
+    {
+      "exchange": "binance hack 2026",
+      "kind": "volatile",
+      "inflow_usd": 0,
+      "outflow_usd": 19740197,
+      "net_usd": 19740197
     }
   ],
   "top_inflows": [
     {
-      "symbol": "HYPE",
-      "amount": 1090291.0,
-      "usd": 72277066.0,
+      "symbol": "USDT",
+      "amount": 200000000.0,
+      "usd": 199892733.0,
       "to": "Binance",
-      "from": "Unknown wallet",
-      "blockchain": "hyperliquid",
-      "hash": "0xf2421b2d0e552e80efb0c764a5c2f24a584d5d35dd7266b8b8eaefd2209b7a56",
+      "from": "Tether Treasury",
+      "blockchain": "solana",
+      "hash": "2BttDtM8VWcFWaJ1Mp7w5yw2vpM2G9pt8h3Geui4WoKhax2TJQopUh3N9ZUoQFc1XBYDqvKKeHjg2YBZwTkYQ62u",
       "url": "",
-      "ts": 1795764380.0,
+      "ts": 1795807071.0,
+      "stable": true
+    },
+    {
+      "symbol": "USDT",
+      "amount": 200000000.0,
+      "usd": 199878933.0,
+      "to": "Binance",
+      "from": "Tether Treasury",
+      "blockchain": "solana",
+      "hash": "4uT5MMhJ5BymCPWqMuBF9vP6sY3ViDC5iFaHemjdf5c1MahoStU593Dvq3PGnVtuu6ZkLe4xM3fBN8Vn1WaK4gPX",
+      "url": "",
+      "ts": 1795823911.0,
+      "stable": true
+    },
+    {
+      "symbol": "BTC",
+      "amount": 2818.0,
+      "usd": 166756151.0,
+      "to": "Coinbase Institutional",
+      "from": "Unknown wallet",
+      "blockchain": "bitcoin",
+      "hash": "5c905ce013d63e651bc81adf632d36894c406176a3145526fc7dacaa46aad760",
+      "url": "",
+      "ts": 1795792140.0,
+      "stable": false
+    },
+    {
+      "symbol": "BTC",
+      "amount": 1881.0,
+      "usd": 112415746.0,
+      "to": "Coinbase Institutional",
+      "from": "Unknown wallet",
+      "blockchain": "bitcoin",
+      "hash": "bf21a78ac71e7f065e844c70aed8914e6b9353e1d8789d19862d493f891db9c7",
+      "url": "",
+      "ts": 1795810875.0,
+      "stable": false
+    },
+    {
+      "symbol": "BTC",
+      "amount": 1628.0,
+      "usd": 97755319.0,
+      "to": "Coinbase Institutional",
+      "from": "Unknown wallet",
+      "blockchain": "bitcoin",
+      "hash": "b9487ff8a5cb8f61c8d1e73cca12b6736ba53597faf3472701e4f4633642e53c",
+      "url": "",
+      "ts": 1795808657.0,
+      "stable": false
+    },
+    {
+      "symbol": "BTC",
+      "amount": 1476.0,
+      "usd": 88486860.0,
+      "to": "Coinbase Institutional",
+      "from": "Unknown wallet",
+      "blockchain": "bitcoin",
+      "hash": "154090e511b53b06ce9b5ad1fdb6ebd264c1a91a50304788013ff930a8c31362",
+      "url": "",
+      "ts": 1795799249.0,
+      "stable": false
+    },
+    {
+      "symbol": "BTC",
+      "amount": 1425.0,
+      "usd": 85201145.0,
+      "to": "Coinbase",
+      "from": "Unknown wallet",
+      "blockchain": "bitcoin",
+      "hash": "304a37a1e504925af97dc4617b3b7e31e54f2091e846959deed2958ce869e748",
+      "url": "",
+      "ts": 1795810875.0,
+      "stable": false
+    },
+    {
+      "symbol": "BTC",
+      "amount": 1013.0,
+      "usd": 60740430.0,
+      "to": "Coinbase Institutional",
+      "from": "Unknown wallet",
+      "blockchain": "bitcoin",
+      "hash": "fe7b627e68d5b3703e75c7dbc1c89c987753f9c82f81b5c1803f2c272fd42c03",
+      "url": "",
+      "ts": 1795798883.0,
       "stable": false
     }
   ],
   "top_outflows": [
     {
       "symbol": "BTC",
-      "amount": 1000.0,
-      "usd": 60492122.0,
-      "to": "abraxas capital",
-      "from": "Kraken",
+      "amount": 7500.0,
+      "usd": 447135030.0,
+      "to": "Unknown wallet",
+      "from": "binance safu",
       "blockchain": "bitcoin",
-      "hash": "9574faa5539eee8dad7c5d370e0abfd52798b6f5d5b5a5050ebde6ea8c04b4b9",
+      "hash": "bb88f23e8eeab3c5fefe8a2b069ef54628a979baffd65a2ae2d0006418bafb08",
       "url": "",
-      "ts": 1795738209.0,
+      "ts": 1795858391.0,
+      "stable": false
+    },
+    {
+      "symbol": "USDT",
+      "amount": 210236229.0,
+      "usd": 210079437.0,
+      "to": "Unknown wallet",
+      "from": "Binance",
+      "blockchain": "solana",
+      "hash": "Kh52MPVNDDGjMaUroJSWbHdee6uwzffL1KoEDdhD37BKywRfYsvZuGdeGQvnXQ1sgsSBkvQqFQrnPcudebprx1q",
+      "url": "",
+      "ts": 1795824824.0,
+      "stable": true
+    },
+    {
+      "symbol": "BTC",
+      "amount": 3269.0,
+      "usd": 196567826.0,
+      "to": "Unknown wallet",
+      "from": "Coinbase Institutional",
+      "blockchain": "bitcoin",
+      "hash": "d526b5da477a2e9c040a11ee6581d7fe9a211c298b5a7120923c42c9d7975dea",
+      "url": "",
+      "ts": 1795793793.0,
+      "stable": false
+    },
+    {
+      "symbol": "USDT",
+      "amount": 179955885.0,
+      "usd": 179856069.0,
+      "to": "Unknown wallet",
+      "from": "Binance",
+      "blockchain": "solana",
+      "hash": "664PJ1oE7X6VkT3HdmEBUTw6taytH4cnPsjjsNiyBbmvnhXYsYwAM5PJki4vgfPoZ4NarwdjcjeAE182U3wJy4v6",
+      "url": "",
+      "ts": 1795807426.0,
+      "stable": true
+    },
+    {
+      "symbol": "BTC",
+      "amount": 2624.0,
+      "usd": 156542396.0,
+      "to": "Unknown wallet",
+      "from": "Coinbase Institutional",
+      "blockchain": "bitcoin",
+      "hash": "5f8c268b3d9c629c493249d9d2ae8a41494b05c8ce7540d301128f4e7c6f40ea",
+      "url": "",
+      "ts": 1795800970.0,
+      "stable": false
+    },
+    {
+      "symbol": "BTC",
+      "amount": 1500.0,
+      "usd": 89921627.0,
+      "to": "Unknown wallet",
+      "from": "Coinbase Institutional",
+      "blockchain": "bitcoin",
+      "hash": "98c4a7e8e109971ed6269a795d32af31b5d4760eff0c0334c2262a354684e28f",
+      "url": "",
+      "ts": 1795799249.0,
+      "stable": false
+    },
+    {
+      "symbol": "BTC",
+      "amount": 998.0,
+      "usd": 59880981.0,
+      "to": "Unknown wallet",
+      "from": "Coinbase Institutional",
+      "blockchain": "bitcoin",
+      "hash": "dc164854701899108af203585200daa1bc9dfceefbb92c05e0629e772a60d313",
+      "url": "",
+      "ts": 1795808931.0,
+      "stable": false
+    },
+    {
+      "symbol": "BTC",
+      "amount": 845.0,
+      "usd": 51843160.0,
+      "to": "Unknown wallet",
+      "from": "Coinbase Institutional",
+      "blockchain": "bitcoin",
+      "hash": "0ecb9038a85b69426e682339a31740606cb1b4c1b7b938cf5435a19bd00948e1",
+      "url": "",
+      "ts": 1795789376.0,
+      "stable": false
+    },
+    {
+      "symbol": "BTC",
+      "amount": 853.0,
+      "usd": 51032044.0,
+      "to": "Unknown wallet",
+      "from": "Coinbase Institutional",
+      "blockchain": "bitcoin",
+      "hash": "07be63999e3e79e20e24906d90f95a0036cb326c31a1d8a5b7a93245587989d5",
+      "url": "",
+      "ts": 1795811507.0,
+      "stable": false
+    },
+    {
+      "symbol": "BTC",
+      "amount": 853.0,
+      "usd": 51032044.0,
+      "to": "Unknown wallet",
+      "from": "Coinbase Institutional",
+      "blockchain": "bitcoin",
+      "hash": "1c3d8e06cd598bf2ae98a90312a9d4608d0363d61d02017603c20e77730b6a5c",
+      "url": "",
+      "ts": 1795811507.0,
+      "stable": false
+    },
+    {
+      "symbol": "BTC",
+      "amount": 854.0,
+      "usd": 51022678.0,
+      "to": "Unknown wallet",
+      "from": "Coinbase Institutional",
+      "blockchain": "bitcoin",
+      "hash": "e00d38a64fdefb4ec6e48fa7e9d8353c29047b42329270aee2545089ea6ce874",
+      "url": "",
+      "ts": 1795812086.0,
+      "stable": false
+    },
+    {
+      "symbol": "ETH",
+      "amount": 11989.0,
+      "usd": 19740197.0,
+      "to": "Unknown wallet",
+      "from": "binance hack 2026",
+      "blockchain": "ethereum",
+      "hash": "0xdcd043da3ea71c69def927e66f9ff2de0f3f2868f264175fbfca3f78b7e9b328",
+      "url": "",
+      "ts": 1795791671.0,
       "stable": false
     }
   ],
@@ -152,8 +407,8 @@
     },
     {
       "week_ending": "Nov 28",
-      "net_usd": 614992621,
-      "moves": 92
+      "net_usd": 1334318439,
+      "moves": 116
     }
   ],
   "weekly_median_abs_usd": 1125484144

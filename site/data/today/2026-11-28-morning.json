@@ -1,0 +1,114 @@
+{
+ "date_et": "2026-11-28",
+ "slot": "morning",
+ "published_utc": "2026-11-28T13:18:14Z",
+ "first_utc": "2026-11-28T13:18:14Z",
+ "direction": "down",
+ "direction_basis": "et_day",
+ "title": "Why is crypto down today? Saturday, November 28, 2026",
+ "h1": "Why is crypto down today? Saturday, November 28, 2026",
+ "stamp_label": "Morning Brief, 8:18 AM ET",
+ "composed_utc": "2026-11-28T13:18:16Z",
+ "board_stamp_et": "8:16 AM ET on Nov 28",
+ "answer": [
+  "On Saturday, November 28, Bitcoin was down 1.21% since midnight ET, to $59,192.",
+  "Over the last 24 hours it was down 3.63%.",
+  "Ether was down 4.23% over the same 24 hours.",
+  "Among the Top 100, NIGHT gained 11.37% and WLFI lost 50.96% over 24 hours."
+ ],
+ "answer_by": "template",
+ "fallback": false,
+ "btc": {
+  "price": 59192,
+  "chg": -3.63,
+  "chg_day": -1.21
+ },
+ "eth": {
+  "price": 1646.99,
+  "chg": -4.23
+ },
+ "cap": null,
+ "gainers": [
+  {
+   "symbol": "NIGHT",
+   "name": "Midnight",
+   "chg": 11.37,
+   "slug": "night"
+  },
+  {
+   "symbol": "SKY",
+   "name": "Sky",
+   "chg": 11.04,
+   "slug": "sky"
+  },
+  {
+   "symbol": "PIEVERSE",
+   "name": "Pieverse",
+   "chg": 8.51,
+   "slug": "pieverse"
+  }
+ ],
+ "losers": [
+  {
+   "symbol": "WLFI",
+   "name": "World Liberty Financial",
+   "chg": -50.96,
+   "slug": "wlfi"
+  },
+  {
+   "symbol": "M",
+   "name": "MemeCore",
+   "chg": -8.82,
+   "slug": "m"
+  },
+  {
+   "symbol": "ICP",
+   "name": "Internet Computer",
+   "chg": -6.07,
+   "slug": "icp"
+  }
+ ],
+ "reported": [],
+ "board": [
+  {
+   "key": "etf",
+   "label": "Bitcoin ETF flows",
+   "value": -389.0,
+   "window": "one trading day, 27 Nov 2026",
+   "source": "Farside Investors",
+   "stamp": "8:16 AM ET on Nov 28",
+   "directional": true
+  },
+  {
+   "key": "liq",
+   "label": "Bitcoin liquidations",
+   "longs": 610235,
+   "shorts": 0,
+   "window": "last 3 hours",
+   "source": "OKX",
+   "stamp": "8:16 AM ET on Nov 28",
+   "directional": false
+  },
+  {
+   "key": "funding",
+   "label": "Bitcoin funding",
+   "value": 0.0065,
+   "window": "current 8-hour period",
+   "source": "OKX",
+   "stamp": "8:16 AM ET on Nov 28",
+   "directional": false
+  },
+  {
+   "key": "fng",
+   "label": "Fear & Greed",
+   "value": 10,
+   "word": "Extreme Fear",
+   "window": "today",
+   "source": "alternative.me",
+   "stamp": "8:16 AM ET on Nov 28",
+   "directional": false
+  }
+ ],
+ "next": "Next update: Evening Brief, tonight at 6:08 PM ET",
+ "corrections": []
+}
